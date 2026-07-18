@@ -1,17 +1,16 @@
-const CACHE_NAME = 'opnchat-v1';
-const PRECACHE_URLS = [
-  '/',
-  '/es/',
-  '/pt/',
-  '/icon-192.svg',
-  '/icon-512.svg',
-  '/manifest.json',
-];
+const CACHE_NAME = 'opnchat-cache-v1';
 
 // Install — precache key resources
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE_URLS))
+    caches.open(CACHE_NAME).then((cache) => cache.addAll([
+      '/',
+      '/es/',
+      '/pt/',
+      '/icon-192.svg',
+      '/icon-512.svg',
+      '/manifest.json',
+    ]))
   );
   self.skipWaiting();
 });
@@ -19,8 +18,15 @@ self.addEventListener('install', (event) => {
 // Activate — clean old caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
+    caches.keys().then((cacheNames) =>
+      Promise.all(
+        cacheNames.map((cache) => {
+          if (cache !== CACHE_NAME) {
+            console.log('Clearing old cache:', cache);
+            return caches.delete(cache);
+          }
+        })
+      )
     )
   );
   self.clients.claim();
