@@ -1,4 +1,4 @@
-const CACHE_NAME = 'opnchat-cache-v2';
+const CACHE_NAME = 'opnchat-cache-v3';
 
 // Install — precache key resources
 self.addEventListener('install', (event) => {
@@ -11,6 +11,10 @@ self.addEventListener('install', (event) => {
       '/icon-192.svg',
       '/icon-512.svg',
       '/manifest.json',
+      '/fonts/Inter-Regular.woff2',
+      '/fonts/Inter-Medium.woff2',
+      '/fonts/Inter-SemiBold.woff2',
+      '/fonts/Inter-Bold.woff2',
     ]))
   );
   self.skipWaiting();
