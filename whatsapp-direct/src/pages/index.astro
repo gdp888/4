@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="opnchat — Open Chat. No Contact Needed.">
+<Layout title="opnchat — Open WhatsApp Chat Without Saving Number">
   <main class="container">
     <!-- Header -->
     <div class="header">
@@ -14,16 +14,18 @@ import Layout from '../layouts/Layout.astro';
       </div>
       <h1 class="title">opnchat</h1>
       <p class="subtitle">Open Chat. No Contact Needed.</p>
-      <p class="tagline">Пиши в WhatsApp без сохранения номера</p>
     </div>
 
     <!-- Form -->
     <form id="whatsapp-form" class="form">
       <div class="input-group">
-        <label for="phone" class="label">Номер телефона</label>
+        <label for="phone" class="label">Phone Number</label>
         <div class="phone-wrapper">
-          <select id="country-code" class="country-select" aria-label="Код страны">
+          <select id="country-code" class="country-select" aria-label="Country code">
+            <option value="+1" data-flag="🇺🇸">+1 🇺🇸</option>
+            <option value="+44" data-flag="🇬🇧">+44 🇬🇧</option>
             <option value="+7" data-flag="🇷🇺">+7 🇷🇺</option>
+            <option value="+7" data-flag="🇰🇿">+7 🇰🇿</option>
             <option value="+375" data-flag="🇧🇾">+375 🇧🇾</option>
             <option value="+380" data-flag="🇺🇦">+380 🇺🇦</option>
             <option value="+996" data-flag="🇰🇬">+996 🇰🇬</option>
@@ -35,8 +37,9 @@ import Layout from '../layouts/Layout.astro';
             <option value="+374" data-flag="🇦🇲">+374 🇦🇲</option>
             <option value="+90" data-flag="🇹🇷">+90 🇹🇷</option>
             <option value="+49" data-flag="🇩🇪">+49 🇩🇪</option>
-            <option value="+1" data-flag="🇺🇸">+1 🇺🇸</option>
-            <option value="+44" data-flag="🇬🇧">+44 🇬🇧</option>
+            <option value="+33" data-flag="🇫🇷">+33 🇫🇷</option>
+            <option value="+34" data-flag="🇪🇸">+34 🇪🇸</option>
+            <option value="+39" data-flag="🇮🇹">+39 🇮🇹</option>
             <option value="+971" data-flag="🇦🇪">+971 🇦🇪</option>
             <option value="+966" data-flag="🇸🇦">+966 🇸🇦</option>
             <option value="+91" data-flag="🇮🇳">+91 🇮🇳</option>
@@ -44,30 +47,26 @@ import Layout from '../layouts/Layout.astro';
             <option value="+81" data-flag="🇯🇵">+81 🇯🇵</option>
             <option value="+82" data-flag="🇰🇷">+82 🇰🇷</option>
             <option value="+55" data-flag="🇧🇷">+55 🇧🇷</option>
-            <option value="+33" data-flag="🇫🇷">+33 🇫🇷</option>
-            <option value="+34" data-flag="🇪🇸">+34 🇪🇸</option>
-            <option value="+39" data-flag="🇮🇹">+39 🇮🇹</option>
-            <option value="+7" data-flag="🇰🇿">+7 🇰🇿</option>
           </select>
           <input
             type="tel"
             id="phone"
             class="phone-input"
-            placeholder="900 123 45 67"
+            placeholder="555 123 4567"
             autocomplete="tel-national"
             required
           />
         </div>
-        <span class="hint">Введите номер без кода страны — он подставится автоматически</span>
+        <span class="hint">Enter number without country code — it will be added automatically</span>
         <span id="error-msg" class="error-msg" role="alert"></span>
       </div>
 
       <div class="input-group">
-        <label for="message" class="label">Сообщение <span class="optional">(необязательно)</span></label>
+        <label for="message" class="label">Message <span class="optional">(optional)</span></label>
         <textarea
           id="message"
           class="message-input"
-          placeholder="Привет! Пишу по поводу..."
+          placeholder="Hi! I'm writing about..."
           rows="3"
         ></textarea>
       </div>
@@ -76,19 +75,102 @@ import Layout from '../layouts/Layout.astro';
         <svg viewBox="0 0 24 24" fill="currentColor" class="btn-icon">
           <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
         </svg>
-        Открыть чат в WhatsApp
+        Open Chat in WhatsApp
       </button>
     </form>
 
     <!-- History -->
     <div id="history-section" class="history-section" style="display:none;">
-      <h3 class="history-title">Последние номера</h3>
+      <h3 class="history-title">Recent Numbers</h3>
       <ul id="history-list" class="history-list"></ul>
     </div>
 
+    <!-- SEO Content Section -->
+    <section class="seo-section" aria-label="About opnchat">
+      <article class="seo-block">
+        <h2 class="seo-heading">WhatsApp Without Saving Number</h2>
+        <p class="seo-text">opnchat lets you start a WhatsApp conversation with any phone number instantly — no need to save the contact first. Whether you're reaching out to a delivery driver, a business, or someone from a marketplace, simply enter their phone number and open a chat directly in WhatsApp. It's the fastest way to message someone on WhatsApp without cluttering your contacts list.</p>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">How It Works</h2>
+        <p class="seo-text">Using opnchat is simple and takes just a few seconds. Select the country code from the dropdown menu, type in the local phone number, and optionally write a message that will be pre-filled in the chat. Click "Open Chat in WhatsApp" and you'll be redirected straight to the conversation. No sign-up, no app install, no data stored on any server — everything runs right in your browser.</p>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">Why Use opnchat?</h2>
+        <div class="seo-features">
+          <div class="feature-item">
+            <span class="feature-icon">&#9889;</span>
+            <div>
+              <h3 class="feature-title">Instant Access</h3>
+              <p class="feature-desc">Open a WhatsApp chat in seconds. No contact saving, no app downloads, no accounts to create.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">&#128274;</span>
+            <div>
+              <h3 class="feature-title">100% Private</h3>
+              <p class="feature-desc">No data is stored on our servers. Your phone numbers and messages stay in your browser only.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">&#127760;</span>
+            <div>
+              <h3 class="feature-title">Works Everywhere</h3>
+              <p class="feature-desc">Supports 25+ country codes. Use it on any device — phone, tablet, or desktop. No install needed.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">&#9993;</span>
+            <div>
+              <h3 class="feature-title">Pre-filled Messages</h3>
+              <p class="feature-desc">Write a message before opening the chat. Perfect for business inquiries, quick introductions, or follow-ups.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">Common Use Cases</h2>
+        <p class="seo-text">opnchat is useful in dozens of everyday situations. Contact a courier or delivery driver without adding them to your phone. Reach out to a seller on a marketplace like Craigslist, OLX, or Avito. Message a business or service provider without saving their number. Send a quick message to someone you just met at an event. Communicate with landlords, taxi drivers, or hotel staff while traveling — all without polluting your contacts.</p>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">WhatsApp Direct Message — The Smart Way</h2>
+        <p class="seo-text">Also known as "WhatsApp Direct" or "Click to Chat," opnchat uses the official WhatsApp wa.me link protocol to open a chat with any phone number. This means your message is sent through WhatsApp's own secure infrastructure. opnchat simply provides a convenient interface — we never intercept, read, or store your messages. It's the same as typing a wa.me link manually, but faster and easier.</p>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">Frequently Asked Questions</h2>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary class="faq-question">Do I need to install anything?</summary>
+            <p class="faq-answer">No. opnchat works in any web browser on any device. You just need WhatsApp installed on your phone or computer to receive the chat.</p>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question">Is my phone number visible to the other person?</summary>
+            <p class="faq-answer">Yes — if you send a message, the recipient sees your WhatsApp number just like a normal conversation. opnchat simply opens the chat; it doesn't anonymize your number.</p>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question">Does the other person need to have my number saved?</summary>
+            <p class="faq-answer">No. Your message will be delivered regardless. However, if they have privacy settings that restrict messages from unknown contacts, they may need to add your number first.</p>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question">Is opnchat free?</summary>
+            <p class="faq-answer">Yes, opnchat is completely free to use. No hidden fees, no premium tiers, no ads. We believe in making communication easier for everyone.</p>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question">What happens to the numbers I enter?</summary>
+            <p class="faq-answer">Nothing is sent to our servers. Your recent numbers are stored locally in your browser's localStorage for convenience only. You can clear them anytime by clearing your browser data.</p>
+          </details>
+        </div>
+      </article>
+    </section>
+
     <!-- Footer -->
     <footer class="footer">
-      <p>opnchat.net — никакие данные не сохраняются на сервере. Всё работает только в вашем браузере.</p>
+      <p>opnchat.net — No data stored on servers. Everything runs in your browser.</p>
     </footer>
   </main>
 </Layout>
@@ -134,12 +216,6 @@ import Layout from '../layouts/Layout.astro';
     color: var(--whatsapp-green);
     line-height: 1.5;
     font-weight: 500;
-  }
-
-  .tagline {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    line-height: 1.5;
   }
 
   .form {
@@ -194,7 +270,7 @@ import Layout from '../layouts/Layout.astro';
     outline: none;
     appearance: none;
     -webkit-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%2386966a0'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%238696a0'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 8px center;
     padding-right: 24px;
@@ -350,6 +426,119 @@ import Layout from '../layouts/Layout.astro';
     color: var(--text-secondary);
   }
 
+  /* SEO Section */
+  .seo-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-top: 1.5rem;
+  }
+
+  .seo-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .seo-heading {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  .seo-text {
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: var(--text-secondary);
+  }
+
+  .seo-features {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .feature-item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .feature-icon {
+    font-size: 1.4rem;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+
+  .feature-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.2rem;
+  }
+
+  .feature-desc {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  /* FAQ */
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .faq-item {
+    background: var(--bg-input);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+  }
+
+  .faq-question {
+    display: block;
+    padding: 0.85rem 1rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    list-style: none;
+    transition: background 0.15s;
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question::after {
+    content: '+';
+    float: right;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+    transition: transform 0.2s;
+  }
+
+  .faq-item[open] .faq-question::after {
+    content: '\2212';
+  }
+
+  .faq-question:hover {
+    background: var(--border-color);
+  }
+
+  .faq-answer {
+    padding: 0 1rem 0.85rem 1rem;
+    font-size: 0.85rem;
+    line-height: 1.65;
+    color: var(--text-secondary);
+  }
+
   .footer {
     text-align: center;
     padding: 0.5rem;
@@ -371,6 +560,12 @@ import Layout from '../layouts/Layout.astro';
     }
     .form {
       padding: 1.25rem;
+    }
+    .seo-heading {
+      font-size: 1.1rem;
+    }
+    .seo-text {
+      font-size: 0.85rem;
     }
   }
 </style>
@@ -426,7 +621,7 @@ import Layout from '../layouts/Layout.astro';
       const li = document.createElement('li');
       li.className = 'history-item';
       const time = new Date(item.timestamp);
-      const timeStr = time.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+      const timeStr = time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
       li.innerHTML = `
         <span class="history-number">${item.number}</span>
         <span class="history-time">${timeStr}</span>
@@ -452,13 +647,13 @@ import Layout from '../layouts/Layout.astro';
     const message = messageInput.value.trim();
 
     if (rawPhone.length < 7) {
-      errorMsg.textContent = 'Введите корректный номер телефона';
+      errorMsg.textContent = 'Please enter a valid phone number';
       phoneInput.focus();
       return;
     }
 
     if (fullNumber.length < 10) {
-      errorMsg.textContent = 'Номер слишком короткий';
+      errorMsg.textContent = 'Phone number is too short';
       phoneInput.focus();
       return;
     }
