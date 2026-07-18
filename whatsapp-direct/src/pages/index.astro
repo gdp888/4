@@ -1,0 +1,475 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="WhatsApp Direct — Пиши без сохранения номера">
+  <main class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">
+        <svg viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-icon">
+          <circle cx="19.5" cy="19.5" r="19.5" fill="#25D366"/>
+          <path d="M19.5 6C12.044 6 6 12.044 6 19.5c0 2.62.7 5.07 1.92 7.17L6 33l6.63-1.88A13.43 13.43 0 0019.5 33C26.956 33 33 26.956 33 19.5S26.956 6 19.5 6zm7.1 20.12c-.3.84-1.74 1.6-2.42 1.7-.62.09-1.4.13-2.26-.14a20.5 20.5 0 01-2.05-.76c-3.61-1.56-5.97-5.22-6.15-5.46-.18-.24-1.47-1.96-1.47-3.74 0-1.78.93-2.66 1.26-3.02.33-.37.72-.46.96-.46.24 0 .48 0 .69.01.22.01.52-.08.81.62.3.72 1.02 2.48 1.11 2.66.09.18.15.39.03.63-.12.24-.18.39-.36.6-.18.21-.38.47-.54.63-.18.18-.37.37-.16.73.21.36.93 1.54 2 2.49 1.37 1.22 2.52 1.6 2.88 1.78.36.18.57.15.78-.09.21-.24.9-1.05 1.14-1.41.24-.36.48-.3.81-.18.33.12 2.1.99 2.46 1.17.36.18.6.27.69.42.09.15.09.87-.21 1.71z" fill="white"/>
+        </svg>
+      </div>
+      <h1 class="title">WhatsApp Direct</h1>
+      <p class="subtitle">Отправляй сообщения без сохранения номера</p>
+    </div>
+
+    <!-- Form -->
+    <form id="whatsapp-form" class="form">
+      <div class="input-group">
+        <label for="phone" class="label">Номер телефона</label>
+        <div class="phone-wrapper">
+          <select id="country-code" class="country-select" aria-label="Код страны">
+            <option value="+7" data-flag="🇷🇺">+7 🇷🇺</option>
+            <option value="+375" data-flag="🇧🇾">+375 🇧🇾</option>
+            <option value="+380" data-flag="🇺🇦">+380 🇺🇦</option>
+            <option value="+996" data-flag="🇰🇬">+996 🇰🇬</option>
+            <option value="+998" data-flag="🇺🇿">+998 🇺🇿</option>
+            <option value="+993" data-flag="🇹🇲">+993 🇹🇲</option>
+            <option value="+992" data-flag="🇹🇯">+992 🇹🇯</option>
+            <option value="+994" data-flag="🇦🇿">+994 🇦🇿</option>
+            <option value="+995" data-flag="🇬🇪">+995 🇬🇪</option>
+            <option value="+374" data-flag="🇦🇲">+374 🇦🇲</option>
+            <option value="+90" data-flag="🇹🇷">+90 🇹🇷</option>
+            <option value="+49" data-flag="🇩🇪">+49 🇩🇪</option>
+            <option value="+1" data-flag="🇺🇸">+1 🇺🇸</option>
+            <option value="+44" data-flag="🇬🇧">+44 🇬🇧</option>
+            <option value="+971" data-flag="🇦🇪">+971 🇦🇪</option>
+            <option value="+966" data-flag="🇸🇦">+966 🇸🇦</option>
+            <option value="+91" data-flag="🇮🇳">+91 🇮🇳</option>
+            <option value="+86" data-flag="🇨🇳">+86 🇨🇳</option>
+            <option value="+81" data-flag="🇯🇵">+81 🇯🇵</option>
+            <option value="+82" data-flag="🇰🇷">+82 🇰🇷</option>
+            <option value="+55" data-flag="🇧🇷">+55 🇧🇷</option>
+            <option value="+33" data-flag="🇫🇷">+33 🇫🇷</option>
+            <option value="+34" data-flag="🇪🇸">+34 🇪🇸</option>
+            <option value="+39" data-flag="🇮🇹">+39 🇮🇹</option>
+            <option value="+7" data-flag="🇰🇿">+7 🇰🇿</option>
+          </select>
+          <input
+            type="tel"
+            id="phone"
+            class="phone-input"
+            placeholder="900 123 45 67"
+            autocomplete="tel-national"
+            required
+          />
+        </div>
+        <span class="hint">Введите номер без кода страны — он подставится автоматически</span>
+        <span id="error-msg" class="error-msg" role="alert"></span>
+      </div>
+
+      <div class="input-group">
+        <label for="message" class="label">Сообщение <span class="optional">(необязательно)</span></label>
+        <textarea
+          id="message"
+          class="message-input"
+          placeholder="Привет! Пишу по поводу..."
+          rows="3"
+        ></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submit-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor" class="btn-icon">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        Открыть чат в WhatsApp
+      </button>
+    </form>
+
+    <!-- History -->
+    <div id="history-section" class="history-section" style="display:none;">
+      <h3 class="history-title">Последние номера</h3>
+      <ul id="history-list" class="history-list"></ul>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Никакие данные не сохраняются на сервере. Всё работает только в вашем браузере.</p>
+    </footer>
+  </main>
+</Layout>
+
+<style>
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 480px;
+    padding: 2rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .logo-icon {
+    width: 64px;
+    height: 64px;
+    filter: drop-shadow(0 4px 12px rgba(37, 211, 102, 0.3));
+  }
+
+  .title {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--whatsapp-green), var(--whatsapp-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .form {
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--border-color);
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .optional {
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.8rem;
+    opacity: 0.7;
+  }
+
+  .phone-wrapper {
+    display: flex;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+
+  .country-select {
+    background: var(--bg-input);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-primary);
+    padding: 0.75rem 0.5rem;
+    font-size: 0.95rem;
+    min-width: 100px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%2386966a0'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 24px;
+  }
+
+  .country-select:focus {
+    border-color: var(--whatsapp-green);
+  }
+
+  .phone-input {
+    flex: 1;
+    background: var(--bg-input);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-primary);
+    padding: 0.75rem 1rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+
+  .phone-input:focus {
+    border-color: var(--whatsapp-green);
+  }
+
+  .phone-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.5;
+  }
+
+  .hint {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    opacity: 0.7;
+  }
+
+  .error-msg {
+    font-size: 0.8rem;
+    color: #ff6b6b;
+    min-height: 1.2em;
+    transition: opacity 0.2s;
+  }
+
+  .message-input {
+    background: var(--bg-input);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-primary);
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 80px;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+
+  .message-input:focus {
+    border-color: var(--whatsapp-green);
+  }
+
+  .message-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.5;
+  }
+
+  .submit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: var(--whatsapp-green);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: none;
+    letter-spacing: 0.01em;
+  }
+
+  .submit-btn:hover {
+    background: var(--whatsapp-teal);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+  }
+
+  .submit-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+
+  .submit-btn:focus-visible {
+    outline: 2px solid var(--whatsapp-green);
+    outline-offset: 2px;
+  }
+
+  .btn-icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .history-section {
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    padding: 1.25rem;
+    border: 1px solid var(--border-color);
+  }
+
+  .history-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+  }
+
+  .history-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  :global(.history-item) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 0.75rem;
+    border-radius: 10px;
+    background: var(--bg-input);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  :global(.history-item:hover) {
+    background: var(--border-color);
+  }
+
+  :global(.history-number) {
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+
+  :global(.history-time) {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+
+  .footer {
+    text-align: center;
+    padding: 0.5rem;
+  }
+
+  .footer p {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    opacity: 0.6;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 520px) {
+    .container {
+      padding: 1.25rem 1rem;
+    }
+    .title {
+      font-size: 1.6rem;
+    }
+    .form {
+      padding: 1.25rem;
+    }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('whatsapp-form') as HTMLFormElement;
+  const phoneInput = document.getElementById('phone') as HTMLInputElement;
+  const messageInput = document.getElementById('message') as HTMLTextAreaElement;
+  const countryCode = document.getElementById('country-code') as HTMLSelectElement;
+  const errorMsg = document.getElementById('error-msg') as HTMLSpanElement;
+  const historySection = document.getElementById('history-section') as HTMLDivElement;
+  const historyList = document.getElementById('history-list') as HTMLUListElement;
+
+  const STORAGE_KEY = 'wa-direct-history';
+  const MAX_HISTORY = 5;
+
+  // Phone mask — auto-format as user types
+  phoneInput.addEventListener('input', () => {
+    let val = phoneInput.value.replace(/\D/g, '');
+    // Limit to 15 digits (max international phone length)
+    if (val.length > 15) val = val.slice(0, 15);
+    phoneInput.value = val;
+    errorMsg.textContent = '';
+  });
+
+  // Load history from localStorage
+  function loadHistory(): Array<{ number: string; timestamp: number }> {
+    try {
+      const data = localStorage.getItem(STORAGE_KEY);
+      return data ? JSON.parse(data) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveHistory(number: string) {
+    const history = loadHistory().filter(h => h.number !== number);
+    history.unshift({ number, timestamp: Date.now() });
+    if (history.length > MAX_HISTORY) history.pop();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+    renderHistory();
+  }
+
+  function renderHistory() {
+    const history = loadHistory();
+    if (history.length === 0) {
+      historySection.style.display = 'none';
+      return;
+    }
+    historySection.style.display = 'block';
+    historyList.innerHTML = '';
+    history.forEach(item => {
+      const li = document.createElement('li');
+      li.className = 'history-item';
+      const time = new Date(item.timestamp);
+      const timeStr = time.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+      li.innerHTML = `
+        <span class="history-number">${item.number}</span>
+        <span class="history-time">${timeStr}</span>
+      `;
+      li.addEventListener('click', () => {
+        window.open(`https://wa.me/${item.number.replace(/\D/g, '')}`, '_blank');
+      });
+      historyList.appendChild(li);
+    });
+  }
+
+  // Initial render
+  renderHistory();
+
+  // Form submit
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    errorMsg.textContent = '';
+
+    const rawPhone = phoneInput.value.replace(/\D/g, '');
+    const code = countryCode.value.replace(/\D/g, '');
+    const fullNumber = code + rawPhone;
+    const message = messageInput.value.trim();
+
+    if (rawPhone.length < 7) {
+      errorMsg.textContent = 'Введите корректный номер телефона';
+      phoneInput.focus();
+      return;
+    }
+
+    if (fullNumber.length < 10) {
+      errorMsg.textContent = 'Номер слишком короткий';
+      phoneInput.focus();
+      return;
+    }
+
+    const formattedNumber = '+' + fullNumber;
+    let url = `https://wa.me/${fullNumber}`;
+    if (message) {
+      url += `?text=${encodeURIComponent(message)}`;
+    }
+
+    saveHistory(formattedNumber);
+    window.open(url, '_blank');
+  });
+
+  // Keyboard shortcut — Enter to submit when phone is focused
+  phoneInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      form.dispatchEvent(new Event('submit', { cancelable: true }));
+    }
+  });
+</script>
