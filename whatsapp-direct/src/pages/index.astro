@@ -170,7 +170,8 @@ import Layout from '../layouts/Layout.astro';
 
     <!-- Footer -->
     <footer class="footer">
-      <p>opnchat.net — OPN Chat. No data stored on servers. Everything runs in your browser.</p>
+      <p class="footer-tagline">opnchat.net — OPN Chat. No data stored on servers. Everything runs in your browser.</p>
+      <p class="disclaimer"><strong>Legal Disclaimer:</strong> OPN Chat (opnchat.net) is an independent web application and is not affiliated, associated, authorized, endorsed by, or in any way officially connected with Meta Platforms, Inc., WhatsApp LLC, OpenChat DAO, OpenAI, or any of their subsidiaries or affiliates. The official WhatsApp website can be found at <a href="https://whatsapp.com" target="_blank" rel="noopener">whatsapp.com</a>. The names "WhatsApp", "OpenChat", "Open Chat", as well as related names, marks, emblems, and images are registered trademarks of their respective owners. This utility is provided "as is" without warranties of any kind, solely leveraging public URL protocols for user convenience.</p>
     </footer>
   </main>
 </Layout>
@@ -544,11 +545,31 @@ import Layout from '../layouts/Layout.astro';
     padding: 0.5rem;
   }
 
-  .footer p {
+  .footer-tagline {
     font-size: 0.75rem;
     color: var(--text-secondary);
     opacity: 0.6;
     line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+
+  .disclaimer {
+    font-size: 0.68rem;
+    color: var(--text-secondary);
+    opacity: 0.45;
+    line-height: 1.45;
+    text-align: left;
+    max-width: 100%;
+  }
+
+  .disclaimer a {
+    color: var(--text-secondary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .disclaimer a:hover {
+    opacity: 0.8;
   }
 
   @media (max-width: 520px) {
