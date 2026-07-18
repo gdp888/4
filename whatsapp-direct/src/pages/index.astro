@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="WhatsApp Direct — Пиши без сохранения номера">
+<Layout title="opnchat — Open Chat. No Contact Needed.">
   <main class="container">
     <!-- Header -->
     <div class="header">
@@ -12,8 +12,9 @@ import Layout from '../layouts/Layout.astro';
           <path d="M19.5 6C12.044 6 6 12.044 6 19.5c0 2.62.7 5.07 1.92 7.17L6 33l6.63-1.88A13.43 13.43 0 0019.5 33C26.956 33 33 26.956 33 19.5S26.956 6 19.5 6zm7.1 20.12c-.3.84-1.74 1.6-2.42 1.7-.62.09-1.4.13-2.26-.14a20.5 20.5 0 01-2.05-.76c-3.61-1.56-5.97-5.22-6.15-5.46-.18-.24-1.47-1.96-1.47-3.74 0-1.78.93-2.66 1.26-3.02.33-.37.72-.46.96-.46.24 0 .48 0 .69.01.22.01.52-.08.81.62.3.72 1.02 2.48 1.11 2.66.09.18.15.39.03.63-.12.24-.18.39-.36.6-.18.21-.38.47-.54.63-.18.18-.37.37-.16.73.21.36.93 1.54 2 2.49 1.37 1.22 2.52 1.6 2.88 1.78.36.18.57.15.78-.09.21-.24.9-1.05 1.14-1.41.24-.36.48-.3.81-.18.33.12 2.1.99 2.46 1.17.36.18.6.27.69.42.09.15.09.87-.21 1.71z" fill="white"/>
         </svg>
       </div>
-      <h1 class="title">WhatsApp Direct</h1>
-      <p class="subtitle">Отправляй сообщения без сохранения номера</p>
+      <h1 class="title">opnchat</h1>
+      <p class="subtitle">Open Chat. No Contact Needed.</p>
+      <p class="tagline">Пиши в WhatsApp без сохранения номера</p>
     </div>
 
     <!-- Form -->
@@ -87,7 +88,7 @@ import Layout from '../layouts/Layout.astro';
 
     <!-- Footer -->
     <footer class="footer">
-      <p>Никакие данные не сохраняются на сервере. Всё работает только в вашем браузере.</p>
+      <p>opnchat.net — никакие данные не сохраняются на сервере. Всё работает только в вашем браузере.</p>
     </footer>
   </main>
 </Layout>
@@ -129,7 +130,14 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .subtitle {
-    font-size: 1rem;
+    font-size: 1.15rem;
+    color: var(--whatsapp-green);
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  .tagline {
+    font-size: 0.9rem;
     color: var(--text-secondary);
     line-height: 1.5;
   }
@@ -376,7 +384,7 @@ import Layout from '../layouts/Layout.astro';
   const historySection = document.getElementById('history-section') as HTMLDivElement;
   const historyList = document.getElementById('history-list') as HTMLUListElement;
 
-  const STORAGE_KEY = 'wa-direct-history';
+  const STORAGE_KEY = 'opnchat-history';
   const MAX_HISTORY = 5;
 
   // Phone mask — auto-format as user types
