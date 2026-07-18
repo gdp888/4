@@ -1,2 +1,21 @@
-skills/
+# build output
+dist/
+
+# dependencies
 node_modules/
+
+# logs
+npm-debug.log*
+
+# environment variables
+.env
+.env.production
+
+# macOS
+.DS_Store
+
+# Astro
+.astro/
+
+# Internal
+skills/
