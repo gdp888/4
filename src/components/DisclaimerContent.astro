@@ -11,7 +11,7 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 const otherLangs = (Object.keys(languages) as Lang[]).filter(l => l !== lang);
 
-const localeMap: Record<Lang, string> = { en: 'en_US', es: 'es_ES', pt: 'pt_BR' };
+const localeMap: Record<Lang, string> = { en: 'en_US', es: 'es_ES', pt: 'pt_BR', id: 'id_ID' };
 const alternateLocales = otherLangs.map(l => localeMap[l]);
 ---
 

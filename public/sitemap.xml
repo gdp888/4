@@ -7,6 +7,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/"/>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -17,6 +18,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/"/>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -27,6 +29,18 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://opnchat.net/id/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/"/>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -37,6 +51,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/disclaimer"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/disclaimer"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/disclaimer"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/disclaimer"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/disclaimer"/>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
@@ -47,6 +62,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/disclaimer"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/disclaimer"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/disclaimer"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/disclaimer"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/disclaimer"/>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
@@ -57,6 +73,18 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/disclaimer"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/disclaimer"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/disclaimer"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/disclaimer"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/disclaimer"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://opnchat.net/id/disclaimer</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/disclaimer"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/disclaimer"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/disclaimer"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/disclaimer"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/disclaimer"/>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>

@@ -11,7 +11,7 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 const otherLangs = (Object.keys(languages) as Lang[]).filter(l => l !== lang);
 
-const localeMap: Record<Lang, string> = { en: 'en_US', es: 'es_ES', pt: 'pt_BR' };
+const localeMap: Record<Lang, string> = { en: 'en_US', es: 'es_ES', pt: 'pt_BR', id: 'id_ID' };
 const alternateLocales = otherLangs.map(l => localeMap[l]);
 ---
 
@@ -770,7 +770,7 @@ const alternateLocales = otherLangs.map(l => localeMap[l]);
   const STORAGE_KEY = 'opnchat-history';
   const MAX_HISTORY = 5;
 
-  const localeMap = { en: 'en-US', es: 'es-ES', pt: 'pt-BR' };
+  const localeMap = { en: 'en-US', es: 'es-ES', pt: 'pt-BR', id: 'id-ID' };
   const locale = localeMap[lang] || 'en-US';
 
   const chatLabel = lang === 'es' ? 'Chat' : lang === 'pt' ? 'Chat' : 'Chat';
