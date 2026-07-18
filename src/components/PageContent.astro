@@ -201,7 +201,8 @@ const alternateLocales = otherLangs.map(l => localeMap[l]);
     <!-- Footer -->
     <footer class="footer">
       <p class="footer-tagline">{t('footer.tagline')}</p>
-      <p class="disclaimer" set:html={t('footer.disclaimer')} />
+      <a href={getLocalizedPath(lang, 'disclaimer')} class="disclaimer-link">{t('footer.disclaimer.link')}</a>
+      <p class="disclaimer-brief">{t('footer.disclaimer.brief')}</p>
     </footer>
   </main>
 </Layout>
@@ -712,23 +713,25 @@ const alternateLocales = otherLangs.map(l => localeMap[l]);
     margin-bottom: 1rem;
   }
 
-  .disclaimer {
-    font-size: 0.68rem;
-    color: var(--text-secondary);
-    opacity: 0.45;
-    line-height: 1.45;
-    text-align: left;
-    max-width: 100%;
+  .disclaimer-link {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--opn-primary-light);
+    text-decoration: none;
+    transition: opacity 0.2s;
+    margin-bottom: 0.25rem;
   }
 
-  .disclaimer :global(a) {
-    color: var(--text-secondary);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-
-  .disclaimer :global(a:hover) {
+  .disclaimer-link:hover {
     opacity: 0.8;
+    text-decoration: underline;
+  }
+
+  .disclaimer-brief {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    opacity: 0.5;
+    line-height: 1.45;
   }
 
   @media (max-width: 520px) {

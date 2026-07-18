@@ -85,7 +85,37 @@ export const ui = {
 
     // Footer
     'footer.tagline': 'opnchat.net — OPN Chat. No data stored on servers. Everything runs in your browser.',
-    'footer.disclaimer': '<strong>Legal Disclaimer:</strong> OPN Chat (opnchat.net) is an independent web application and is not affiliated, associated, authorized, endorsed by, or in any way officially connected with Meta Platforms, Inc., WhatsApp LLC, OpenChat DAO, OpenAI, or any of their subsidiaries or affiliates. The official WhatsApp website can be found at <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer">whatsapp.com</a>. The names "WhatsApp", "OpenChat", "Open Chat", as well as related names, marks, emblems, and images are registered trademarks of their respective owners. This utility is provided "as is" without warranties of any kind, solely leveraging public URL protocols for user convenience.',
+    'footer.disclaimer.link': 'Legal Disclaimer',
+    'footer.disclaimer.brief': 'OPN Chat is not affiliated with Meta, WhatsApp, or OpenChat DAO.',
+
+    // Disclaimer page
+    'disclaimer.meta.title': 'Legal Disclaimer — OPN Chat',
+    'disclaimer.meta.description': 'Legal disclaimer and terms of use for OPN Chat (opnchat.net). Independent tool, not affiliated with Meta or WhatsApp.',
+    'disclaimer.heading': 'Legal Disclaimer',
+    'disclaimer.lastUpdated': 'Last updated: July 2026',
+
+    'disclaimer.independence.heading': 'Independent Application',
+    'disclaimer.independence.text': 'OPN Chat (opnchat.net) is an independent web application and is not affiliated, associated, authorized, endorsed by, or in any way officially connected with Meta Platforms, Inc., WhatsApp LLC, OpenChat DAO, OpenAI, or any of their subsidiaries or affiliates. The official WhatsApp website can be found at <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer">whatsapp.com</a>. The names "WhatsApp", "OpenChat", "Open Chat", as well as related names, marks, emblems, and images are registered trademarks of their respective owners.',
+
+    'disclaimer.purpose.heading': 'Purpose of the Service',
+    'disclaimer.purpose.text': 'OPN Chat provides a convenient interface for opening WhatsApp conversations using the official wa.me link protocol. This is the same as manually typing a wa.me URL into your browser address bar — we simply make it faster and easier. OPN Chat does not intercept, read, store, or modify any messages sent through WhatsApp. All communication happens directly between your device and WhatsApp\'s servers.',
+
+    'disclaimer.privacy.heading': 'Privacy & Data',
+    'disclaimer.privacy.text': 'OPN Chat does not collect, store, or transmit any personal data to external servers. Phone numbers you enter are used solely to generate a wa.me link and are optionally saved in your browser\'s localStorage for your convenience (recent numbers feature). No data is ever sent to our servers or any third party. You can clear your history at any time using the "Clear" button in the app or by clearing your browser data.',
+
+    'disclaimer.warranty.heading': 'No Warranty',
+    'disclaimer.warranty.text': 'This utility is provided "as is" without warranties of any kind, either express or implied, including but not limited to the implied warranties of merchantability, fitness for a particular purpose, or non-infringement. We make no guarantee that the service will be uninterrupted, timely, secure, or error-free. Use of the service is at your sole risk.',
+
+    'disclaimer.limitation.heading': 'Limitation of Liability',
+    'disclaimer.limitation.text': 'In no event shall the creators of OPN Chat be liable for any direct, indirect, incidental, special, consequential, or exemplary damages arising out of or in connection with the use of the service. This includes, but is not limited to, damages for loss of profits, goodwill, data, or other intangible losses resulting from the use or inability to use the service.',
+
+    'disclaimer.trademarks.heading': 'Trademarks',
+    'disclaimer.trademarks.text': 'All product names, logos, brands, and other trademarks featured or referred to within OPN Chat are the property of their respective trademark holders. These trademark holders are not affiliated with OPN Chat, our products, or our website. They do not sponsor or endorse our service.',
+
+    'disclaimer.changes.heading': 'Changes to This Disclaimer',
+    'disclaimer.changes.text': 'We reserve the right to update or modify this disclaimer at any time without prior notice. Changes become effective immediately upon being posted on this page. Your continued use of the service after any changes constitutes your acceptance of the updated disclaimer.',
+
+    'disclaimer.back': 'Back to OPN Chat',
 
     // Language switcher
     'lang.switch': 'Español',
@@ -167,7 +197,37 @@ export const ui = {
 
     // Footer
     'footer.tagline': 'opnchat.net — OPN Chat. Sin datos en servidores. Todo funciona en tu navegador.',
-    'footer.disclaimer': '<strong>Aviso Legal:</strong> OPN Chat (opnchat.net) es una aplicación web independiente y no está afiliada, asociada, autorizada, respaldada ni conectada de ninguna manera oficial con Meta Platforms, Inc., WhatsApp LLC, OpenChat DAO, OpenAI, ni con ninguna de sus filiales. El sitio web oficial de WhatsApp se encuentra en <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer">whatsapp.com</a>. Los nombres "WhatsApp", "OpenChat", "Open Chat", así como los nombres, marcas, emblemas e imágenes relacionados son marcas registradas de sus respectivos propietarios. Esta herramienta se proporciona "tal cual" sin garantías de ningún tipo, utilizando únicamente protocolos URL públicos para la comodidad del usuario.',
+    'footer.disclaimer.link': 'Aviso Legal',
+    'footer.disclaimer.brief': 'OPN Chat no está afiliado con Meta, WhatsApp ni OpenChat DAO.',
+
+    // Disclaimer page
+    'disclaimer.meta.title': 'Aviso Legal — OPN Chat',
+    'disclaimer.meta.description': 'Aviso legal y condiciones de uso de OPN Chat (opnchat.net). Herramienta independiente, no afiliada con Meta ni WhatsApp.',
+    'disclaimer.heading': 'Aviso Legal',
+    'disclaimer.lastUpdated': 'Última actualización: Julio 2026',
+
+    'disclaimer.independence.heading': 'Aplicación Independiente',
+    'disclaimer.independence.text': 'OPN Chat (opnchat.net) es una aplicación web independiente y no está afiliada, asociada, autorizada, respaldada ni conectada de ninguna manera oficial con Meta Platforms, Inc., WhatsApp LLC, OpenChat DAO, OpenAI, ni con ninguna de sus filiales. El sitio web oficial de WhatsApp se encuentra en <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer">whatsapp.com</a>. Los nombres "WhatsApp", "OpenChat", "Open Chat", así como los nombres, marcas, emblemas e imágenes relacionados son marcas registradas de sus respectivos propietarios.',
+
+    'disclaimer.purpose.heading': 'Propósito del Servicio',
+    'disclaimer.purpose.text': 'OPN Chat proporciona una interfaz conveniente para abrir conversaciones de WhatsApp utilizando el protocolo oficial de enlaces wa.me. Esto es lo mismo que escribir manualmente una URL wa.me en la barra de direcciones de tu navegador — simplemente lo hacemos más rápido y fácil. OPN Chat no intercepta, lee, almacena ni modifica ningún mensaje enviado a través de WhatsApp. Toda la comunicación ocurre directamente entre tu dispositivo y los servidores de WhatsApp.',
+
+    'disclaimer.privacy.heading': 'Privacidad y Datos',
+    'disclaimer.privacy.text': 'OPN Chat no recopila, almacena ni transmite ningún dato personal a servidores externos. Los números de teléfono que ingresas se utilizan únicamente para generar un enlace wa.me y, opcionalmente, se guardan en el localStorage de tu navegador para tu conveniencia (función de números recientes). Nunca se envían datos a nuestros servidores ni a terceros. Puedes limpiar tu historial en cualquier momento usando el botón "Borrar" en la aplicación o limpiando los datos de tu navegador.',
+
+    'disclaimer.warranty.heading': 'Sin Garantía',
+    'disclaimer.warranty.text': 'Esta herramienta se proporciona "tal cual" sin garantías de ningún tipo, ya sean expresas o implícitas, incluyendo pero no limitándose a las garantías implícitas de comercialización, idoneidad para un propósito particular o no infracción. No garantizamos que el servicio sea ininterrumpido, oportuno, seguro o libre de errores. El uso del servicio es bajo tu propio riesgo.',
+
+    'disclaimer.limitation.heading': 'Limitación de Responsabilidad',
+    'disclaimer.limitation.text': 'En ningún caso los creadores de OPN Chat serán responsables de ningún daño directo, indirecto, incidental, especial, consecuencial o ejemplar que surja de o en conexión con el uso del servicio. Esto incluye, pero no se limita a, daños por pérdida de beneficios, buena voluntad, datos u otras pérdidas intangibles resultantes del uso o la imposibilidad de uso del servicio.',
+
+    'disclaimer.trademarks.heading': 'Marcas Registradas',
+    'disclaimer.trademarks.text': 'Todos los nombres de productos, logotipos, marcas y otras marcas comerciales que aparecen o se mencionan en OPN Chat son propiedad de sus respectivos titulares. Estos titulares de marcas no están afiliados con OPN Chat, nuestros productos o nuestro sitio web. No patrocinan ni respaldan nuestro servicio.',
+
+    'disclaimer.changes.heading': 'Cambios en Este Aviso',
+    'disclaimer.changes.text': 'Nos reservamos el derecho de actualizar o modificar este aviso legal en cualquier momento sin previo aviso. Los cambios entran en vigor inmediatamente después de su publicación en esta página. Tu uso continuado del servicio después de cualquier cambio constituye tu aceptación del aviso actualizado.',
+
+    'disclaimer.back': 'Volver a OPN Chat',
 
     // Language switcher
     'lang.switch': 'English',
@@ -249,7 +309,37 @@ export const ui = {
 
     // Footer
     'footer.tagline': 'opnchat.net — OPN Chat. Sem dados em servidores. Tudo roda no seu navegador.',
-    'footer.disclaimer': '<strong>Aviso Legal:</strong> OPN Chat (opnchat.net) é um aplicativo web independente e não é afiliado, associado, autorizado, endossado ou de qualquer forma conectado oficialmente com a Meta Platforms, Inc., WhatsApp LLC, OpenChat DAO, OpenAI ou qualquer uma de suas subsidiárias ou afiliadas. O site oficial do WhatsApp pode ser encontrado em <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer">whatsapp.com</a>. Os nomes "WhatsApp", "OpenChat", "Open Chat", bem como nomes, marcas, emblemas e imagens relacionados são marcas registradas de seus respectivos proprietários. Esta ferramenta é fornecida "no estado em que se encontra", sem garantias de qualquer tipo, utilizando exclusivamente protocolos de URL públicos para a conveniência do usuário.',
+    'footer.disclaimer.link': 'Aviso Legal',
+    'footer.disclaimer.brief': 'OPN Chat não é afiliado à Meta, WhatsApp ou OpenChat DAO.',
+
+    // Disclaimer page
+    'disclaimer.meta.title': 'Aviso Legal — OPN Chat',
+    'disclaimer.meta.description': 'Aviso legal e condições de uso do OPN Chat (opnchat.net). Ferramenta independente, não afiliada à Meta ou WhatsApp.',
+    'disclaimer.heading': 'Aviso Legal',
+    'disclaimer.lastUpdated': 'Última atualização: Julho 2026',
+
+    'disclaimer.independence.heading': 'Aplicativo Independente',
+    'disclaimer.independence.text': 'OPN Chat (opnchat.net) é um aplicativo web independente e não é afiliado, associado, autorizado, endossado ou de qualquer forma conectado oficialmente com a Meta Platforms, Inc., WhatsApp LLC, OpenChat DAO, OpenAI ou qualquer uma de suas subsidiárias ou afiliadas. O site oficial do WhatsApp pode ser encontrado em <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer">whatsapp.com</a>. Os nomes "WhatsApp", "OpenChat", "Open Chat", bem como nomes, marcas, emblemas e imagens relacionados são marcas registradas de seus respectivos proprietários.',
+
+    'disclaimer.purpose.heading': 'Propósito do Serviço',
+    'disclaimer.purpose.text': 'O OPN Chat fornece uma interface conveniente para abrir conversas no WhatsApp usando o protocolo oficial de links wa.me. Isso é o mesmo que digitar manualmente uma URL wa.me na barra de endereços do seu navegador — nós apenas tornamos mais rápido e fácil. O OPN Chat não intercepta, lê, armazena ou modifica nenhuma mensagem enviada pelo WhatsApp. Toda a comunicação acontece diretamente entre seu dispositivo e os servidores do WhatsApp.',
+
+    'disclaimer.privacy.heading': 'Privacidade e Dados',
+    'disclaimer.privacy.text': 'O OPN Chat não coleta, armazena ou transmite nenhum dado pessoal para servidores externos. Os números de telefone que você digita são usados exclusivamente para gerar um link wa.me e, opcionalmente, são salvos no localStorage do seu navegador para sua conveniência (recurso de números recentes). Nenhum dado é enviado aos nossos servidores ou a terceiros. Você pode limpar seu histórico a qualquer momento usando o botão "Limpar" no aplicativo ou limpando os dados do navegador.',
+
+    'disclaimer.warranty.heading': 'Sem Garantia',
+    'disclaimer.warranty.text': 'Esta ferramenta é fornecida "no estado em que se encontra", sem garantias de qualquer tipo, sejam expressas ou implícitas, incluindo, mas não se limitando às garantias implícitas de comercialização, adequação a uma finalidade específica ou não violação. Não garantimos que o serviço será ininterrupto, oportuno, seguro ou livre de erros. O uso do serviço é por sua conta e risco.',
+
+    'disclaimer.limitation.heading': 'Limitação de Responsabilidade',
+    'disclaimer.limitation.text': 'Em nenhuma circunstância os criadores do OPN Chat serão responsáveis por quaisquer danos diretos, indiretos, incidentais, especiais, consequenciais ou exemplares decorrentes ou em conexão com o uso do serviço. Isso inclui, mas não se limita a, danos por perda de lucros, boa vontade, dados ou outras perdas intangíveis resultantes do uso ou da incapacidade de usar o serviço.',
+
+    'disclaimer.trademarks.heading': 'Marcas Registradas',
+    'disclaimer.trademarks.text': 'Todos os nomes de produtos, logotipos, marcas e outras marcas comerciais apresentados ou referidos no OPN Chat são propriedade de seus respectivos titulares. Esses titulares de marcas não são afiliados ao OPN Chat, aos nossos produtos ou ao nosso site. Eles não patrocinam ou endossam nosso serviço.',
+
+    'disclaimer.changes.heading': 'Alterações Neste Aviso',
+    'disclaimer.changes.text': 'Reservamo-nos o direito de atualizar ou modificar este aviso legal a qualquer momento sem aviso prévio. As alterações entram em vigor imediatamente após serem publicadas nesta página. Seu uso continuado do serviço após quaisquer alterações constitui sua aceitação do aviso atualizado.',
+
+    'disclaimer.back': 'Voltar ao OPN Chat',
 
     // Language switcher
     'lang.switch': 'English',
