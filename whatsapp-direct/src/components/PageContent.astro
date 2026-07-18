@@ -9,8 +9,10 @@ export interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-const otherLang: Lang = lang === 'en' ? 'es' : 'en';
-const otherLangPath = getLocalizedPath(otherLang);
+const otherLangs = (Object.keys(languages) as Lang[]).filter(l => l !== lang);
+
+const localeMap: Record<Lang, string> = { en: 'en_US', es: 'es_ES', pt: 'pt_BR' };
+const alternateLocales = otherLangs.map(l => localeMap[l]);
 ---
 
 <Layout title={t('meta.title')} lang={lang}>
@@ -23,8 +25,10 @@ const otherLangPath = getLocalizedPath(otherLang);
     <meta property="og:url" content={getAlternateUrl(lang)} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="OPN Chat" />
-    <meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_US'} />
-    <meta property="og:locale:alternate" content={lang === 'es' ? 'en_US' : 'es_ES'} />
+    <meta property="og:locale" content={localeMap[lang]} />
+    {alternateLocales.map(loc => (
+      <meta property="og:locale:alternate" content={loc} />
+    ))}
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={t('meta.twitter.title')} />
     <meta name="twitter:description" content={t('meta.twitter.description')} />
@@ -33,14 +37,21 @@ const otherLangPath = getLocalizedPath(otherLang);
   <main class="container">
     <!-- Language Switcher -->
     <div class="lang-switcher">
-      <a href={otherLangPath} class="lang-link" title={t('lang.switch')}>
+      <span class="lang-current">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lang-icon">
           <circle cx="12" cy="12" r="10"/>
           <path d="M2 12h20"/>
           <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
         </svg>
-        {t('lang.switch')}
-      </a>
+        {languages[lang]}
+      </span>
+      <div class="lang-options">
+        {otherLangs.map((l) => (
+          <a href={getLocalizedPath(l)} class="lang-link" title={languages[l]}>
+            {languages[l]}
+          </a>
+        ))}
+      </div>
     </div>
 
     <!-- Header -->
@@ -239,18 +250,38 @@ const otherLangPath = getLocalizedPath(otherLang);
     top: 0.75rem;
     right: 1rem;
     z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .lang-current {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 20px;
+    background: var(--opn-primary);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .lang-options {
+    display: flex;
+    gap: 0.25rem;
   }
 
   .lang-link {
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
-    padding: 0.4rem 0.75rem;
+    padding: 0.4rem 0.6rem;
     border-radius: 20px;
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
     color: var(--text-secondary);
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 500;
     text-decoration: none;
     transition: all 0.2s;
@@ -672,11 +703,12 @@ const otherLangPath = getLocalizedPath(otherLang);
     }
     .lang-switcher {
       top: 0.5rem;
-      right: 0.75rem;
+      right: 0.5rem;
     }
+    .lang-current,
     .lang-link {
-      font-size: 0.75rem;
-      padding: 0.35rem 0.6rem;
+      font-size: 0.7rem;
+      padding: 0.3rem 0.5rem;
     }
   }
 </style>
@@ -694,11 +726,15 @@ const otherLangPath = getLocalizedPath(otherLang);
   const MAX_HISTORY = 5;
 
   const isSpanish = lang === 'es';
+  const isPortuguese = lang === 'pt';
 
-  // Auto-select Spain country code for Spanish locale
+  // Auto-select country code based on locale
   if (isSpanish) {
     const esOption = countryCode.querySelector('option[value="+34"]');
     if (esOption) esOption.selected = true;
+  } else if (isPortuguese) {
+    const ptOption = countryCode.querySelector('option[value="+55"]');
+    if (ptOption) ptOption.selected = true;
   }
 
   // Phone mask — auto-format as user types
@@ -739,7 +775,7 @@ const otherLangPath = getLocalizedPath(otherLang);
       const li = document.createElement('li');
       li.className = 'history-item';
       const time = new Date(item.timestamp);
-      const locale = isSpanish ? 'es-ES' : 'en-US';
+      const locale = isSpanish ? 'es-ES' : isPortuguese ? 'pt-BR' : 'en-US';
       const timeStr = time.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
       li.innerHTML = `
         <span class="history-number">${item.number}</span>
@@ -765,14 +801,19 @@ const otherLangPath = getLocalizedPath(otherLang);
     const fullNumber = code + rawPhone;
     const message = messageInput.value.trim();
 
+    const errorMessages = {
+      valid: isSpanish ? 'Ingresa un número de teléfono válido' : isPortuguese ? 'Insira um número de telefone válido' : 'Please enter a valid phone number',
+      short: isSpanish ? 'El número de teléfono es demasiado corto' : isPortuguese ? 'O número de telefone é muito curto' : 'Phone number is too short',
+    };
+
     if (rawPhone.length < 7) {
-      errorMsg.textContent = isSpanish ? 'Ingresa un número de teléfono válido' : 'Please enter a valid phone number';
+      errorMsg.textContent = errorMessages.valid;
       phoneInput.focus();
       return;
     }
 
     if (fullNumber.length < 10) {
-      errorMsg.textContent = isSpanish ? 'El número de teléfono es demasiado corto' : 'Phone number is too short';
+      errorMsg.textContent = errorMessages.short;
       phoneInput.focus();
       return;
     }
