@@ -1,30 +1,30 @@
 ---
+import { languages, type Lang } from '../i18n/ui';
+import { getAlternateUrl } from '../i18n/utils';
+
 export interface Props {
   title: string;
+  lang: Lang;
 }
 
-const { title } = Astro.props;
+const { title, lang } = Astro.props;
+
+const otherLang = lang === 'en' ? 'es' : 'en';
+const alternateUrl = getAlternateUrl(otherLang as Lang);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="OPN Chat — Message WhatsApp without saving the number. Free, private, no sign-up. Enter any phone number and start chatting instantly on opnchat.net." />
-    <meta name="keywords" content="OPN Chat, whatsapp without saving number, whatsapp direct, message whatsapp without contact, click to chat, wa.me, opnchat, direct message whatsapp, open chat no contact" />
-    <link rel="canonical" href="https://opnchat.net" />
-    <meta property="og:title" content="OPN Chat — Message WhatsApp Without Saving Number" />
-    <meta property="og:description" content="Start a WhatsApp conversation with any number instantly. No contact saving, no sign-up, 100% private." />
-    <meta property="og:url" content="https://opnchat.net" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="OPN Chat" />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="OPN Chat — Message WhatsApp Without Saving Number" />
-    <meta name="twitter:description" content="Start a WhatsApp conversation with any number instantly. No contact saving, no sign-up, 100% private." />
-    <meta name="robots" content="index, follow" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" hreflang="en" href={getAlternateUrl('en')} />
+    <link rel="alternate" hreflang="es" href={getAlternateUrl('es')} />
+    <link rel="alternate" hreflang="x-default" href={getAlternateUrl('en')} />
+    <slot name="meta" />
+    <meta name="robots" content="index, follow" />
   </head>
   <body>
     <slot />
