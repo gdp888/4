@@ -4,12 +4,12 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="OPN Chat — Message WhatsApp Without Saving Number">
   <main class="container">
-    <!-- Header -->
+    <!-- Header (SAFE: no WhatsApp branding) -->
     <div class="header">
       <div class="logo">
         <svg viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-icon">
-          <circle cx="19.5" cy="19.5" r="19.5" fill="#25D366"/>
-          <path d="M19.5 6C12.044 6 6 12.044 6 19.5c0 2.62.7 5.07 1.92 7.17L6 33l6.63-1.88A13.43 13.43 0 0019.5 33C26.956 33 33 26.956 33 19.5S26.956 6 19.5 6zm7.1 20.12c-.3.84-1.74 1.6-2.42 1.7-.62.09-1.4.13-2.26-.14a20.5 20.5 0 01-2.05-.76c-3.61-1.56-5.97-5.22-6.15-5.46-.18-.24-1.47-1.96-1.47-3.74 0-1.78.93-2.66 1.26-3.02.33-.37.72-.46.96-.46.24 0 .48 0 .69.01.22.01.52-.08.81.62.3.72 1.02 2.48 1.11 2.66.09.18.15.39.03.63-.12.24-.18.39-.36.6-.18.21-.38.47-.54.63-.18.18-.37.37-.16.73.21.36.93 1.54 2 2.49 1.37 1.22 2.52 1.6 2.88 1.78.36.18.57.15.78-.09.21-.24.9-1.05 1.14-1.41.24-.36.48-.3.81-.18.33.12 2.1.99 2.46 1.17.36.18.6.27.69.42.09.15.09.87-.21 1.71z" fill="white"/>
+          <circle cx="19.5" cy="19.5" r="19.5" fill="#0052cc"/>
+          <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="12" font-weight="bold" font-family="sans-serif">OPN</text>
         </svg>
       </div>
       <h1 class="title">OPN Chat</h1>
@@ -73,7 +73,7 @@ import Layout from '../layouts/Layout.astro';
 
       <button type="submit" class="submit-btn" id="submit-btn">
         <svg viewBox="0 0 24 24" fill="currentColor" class="btn-icon">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
         </svg>
         Open Chat in WhatsApp
       </button>
@@ -87,6 +87,13 @@ import Layout from '../layouts/Layout.astro';
 
     <!-- SEO Content Section -->
     <section class="seo-section" aria-label="About OPN Chat">
+
+      <!-- What Does OPN Stand For -->
+      <article class="seo-block">
+        <h2 class="seo-heading">What Does OPN Stand For?</h2>
+        <p class="seo-text">OPN is an acronym for <strong>O</strong>nline <strong>P</strong>rivacy <strong>N</strong>etwork. We chose this name because our tool is built from the ground up with a privacy-first approach. We never store, log, or track any phone numbers or messages you enter. Everything happens securely inside your own web browser, ensuring complete data sovereignty.</p>
+      </article>
+
       <article class="seo-block">
         <h2 class="seo-heading">WhatsApp Without Saving Number</h2>
         <p class="seo-text">OPN Chat lets you start a WhatsApp conversation with any phone number instantly — no need to save the contact first. Whether you're reaching out to a delivery driver, a business, or someone from a marketplace, simply enter their phone number and open a chat directly in WhatsApp. It's the fastest way to message someone on WhatsApp without cluttering your contacts list.</p>
@@ -171,7 +178,7 @@ import Layout from '../layouts/Layout.astro';
     <!-- Footer -->
     <footer class="footer">
       <p class="footer-tagline">opnchat.net — OPN Chat. No data stored on servers. Everything runs in your browser.</p>
-      <p class="disclaimer"><strong>Legal Disclaimer:</strong> OPN Chat (opnchat.net) is an independent web application and is not affiliated, associated, authorized, endorsed by, or in any way officially connected with Meta Platforms, Inc., WhatsApp LLC, OpenChat DAO, OpenAI, or any of their subsidiaries or affiliates. The official WhatsApp website can be found at <a href="https://whatsapp.com" target="_blank" rel="noopener">whatsapp.com</a>. The names "WhatsApp", "OpenChat", "Open Chat", as well as related names, marks, emblems, and images are registered trademarks of their respective owners. This utility is provided "as is" without warranties of any kind, solely leveraging public URL protocols for user convenience.</p>
+      <p class="disclaimer"><strong>Legal Disclaimer:</strong> OPN Chat (opnchat.net) is an independent web application and is not affiliated, associated, authorized, endorsed by, or in any way officially connected with Meta Platforms, Inc., WhatsApp LLC, OpenChat DAO, OpenAI, or any of their subsidiaries or affiliates. The official WhatsApp website can be found at <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer">whatsapp.com</a>. The names "WhatsApp", "OpenChat", "Open Chat", as well as related names, marks, emblems, and images are registered trademarks of their respective owners. This utility is provided "as is" without warranties of any kind, solely leveraging public URL protocols for user convenience.</p>
     </footer>
   </main>
 </Layout>
@@ -199,14 +206,14 @@ import Layout from '../layouts/Layout.astro';
   .logo-icon {
     width: 64px;
     height: 64px;
-    filter: drop-shadow(0 4px 12px rgba(37, 211, 102, 0.3));
+    filter: drop-shadow(0 4px 12px rgba(0, 82, 204, 0.3));
   }
 
   .title {
     font-size: 2rem;
     font-weight: 700;
     letter-spacing: -0.02em;
-    background: linear-gradient(135deg, var(--whatsapp-green), var(--whatsapp-light));
+    background: linear-gradient(135deg, #0052cc, #4dabf7);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -214,7 +221,7 @@ import Layout from '../layouts/Layout.astro';
 
   .subtitle {
     font-size: 1.15rem;
-    color: var(--whatsapp-green);
+    color: var(--opn-primary);
     line-height: 1.5;
     font-weight: 500;
   }
@@ -278,7 +285,7 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .country-select:focus {
-    border-color: var(--whatsapp-green);
+    border-color: var(--opn-primary);
   }
 
   .phone-input {
@@ -296,7 +303,7 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .phone-input:focus {
-    border-color: var(--whatsapp-green);
+    border-color: var(--opn-primary);
   }
 
   .phone-input::placeholder {
@@ -332,7 +339,7 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .message-input:focus {
-    border-color: var(--whatsapp-green);
+    border-color: var(--opn-primary);
   }
 
   .message-input::placeholder {
@@ -345,7 +352,7 @@ import Layout from '../layouts/Layout.astro';
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
-    background: var(--whatsapp-green);
+    background: var(--opn-primary);
     color: #fff;
     border: none;
     border-radius: 12px;
@@ -359,9 +366,9 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .submit-btn:hover {
-    background: var(--whatsapp-teal);
+    background: var(--opn-primary-dark);
     transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+    box-shadow: 0 6px 20px rgba(0, 82, 204, 0.3);
   }
 
   .submit-btn:active {
@@ -370,7 +377,7 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .submit-btn:focus-visible {
-    outline: 2px solid var(--whatsapp-green);
+    outline: 2px solid var(--opn-primary);
     outline-offset: 2px;
   }
 
@@ -606,7 +613,6 @@ import Layout from '../layouts/Layout.astro';
   // Phone mask — auto-format as user types
   phoneInput.addEventListener('input', () => {
     let val = phoneInput.value.replace(/\D/g, '');
-    // Limit to 15 digits (max international phone length)
     if (val.length > 15) val = val.slice(0, 15);
     phoneInput.value = val;
     errorMsg.textContent = '';
