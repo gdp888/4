@@ -94,7 +94,10 @@ const alternateLocales = otherLangs.map(l => localeMap[l]);
 
     <!-- History -->
     <div id="history-section" class="history-section" style="display:none;">
-      <h3 class="history-title">{t('history.title')}</h3>
+      <div class="history-header">
+        <h3 class="history-title">{t('history.title')}</h3>
+        <button type="button" id="clear-history" class="clear-btn" aria-label="Clear history">{t('history.clear')}</button>
+      </div>
       <ul id="history-list" class="history-list"></ul>
     </div>
 
@@ -432,13 +435,36 @@ const alternateLocales = otherLangs.map(l => localeMap[l]);
     border: 1px solid var(--border-color);
   }
 
+  .history-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+
   .history-title {
     font-size: 0.85rem;
     font-weight: 600;
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    margin-bottom: 0.75rem;
+    margin: 0;
+  }
+
+  .clear-btn {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 0.25rem 0.6rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .clear-btn:hover {
+    color: #ff6b6b;
+    border-color: #ff6b6b;
   }
 
   .history-list {
@@ -455,7 +481,6 @@ const alternateLocales = otherLangs.map(l => localeMap[l]);
     padding: 0.6rem 0.75rem;
     border-radius: 10px;
     background: var(--bg-input);
-    cursor: pointer;
     transition: background 0.15s;
   }
 
@@ -466,11 +491,40 @@ const alternateLocales = otherLangs.map(l => localeMap[l]);
   :global(.history-number) {
     font-weight: 500;
     font-size: 0.95rem;
+    cursor: pointer;
+  }
+
+  :global(.history-number:hover) {
+    color: var(--opn-primary);
   }
 
   :global(.history-time) {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: var(--text-secondary);
+    opacity: 0.6;
+  }
+
+  :global(.history-chat-btn) {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.3rem 0.65rem;
+    border-radius: 6px;
+    background: var(--opn-primary);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-transform: none;
+  }
+
+  :global(.history-chat-btn:hover) {
+    background: var(--opn-primary-dark);
+  }
+
+  :global(.history-left) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
   }
 
   /* SEO Section */
@@ -649,12 +703,15 @@ const alternateLocales = otherLangs.map(l => localeMap[l]);
   const errorMsg = document.getElementById('error-msg');
   const historySection = document.getElementById('history-section');
   const historyList = document.getElementById('history-list');
+  const clearBtn = document.getElementById('clear-history');
 
   const STORAGE_KEY = 'opnchat-history';
   const MAX_HISTORY = 5;
 
   const localeMap = { en: 'en-US', es: 'es-ES', pt: 'pt-BR' };
   const locale = localeMap[lang] || 'en-US';
+
+  const chatLabel = lang === 'es' ? 'Chat' : lang === 'pt' ? 'Chat' : 'Chat';
 
   // Phone input — digits only
   phoneInput.addEventListener('input', () => {
@@ -674,9 +731,10 @@ const alternateLocales = otherLangs.map(l => localeMap[l]);
     }
   }
 
-  function saveHistory(number) {
-    const history = loadHistory().filter(h => h.number !== number);
-    history.unshift({ number, timestamp: Date.now() });
+  // Save — store clean digits (no +), display with +
+  function saveHistory(cleanDigits) {
+    const history = loadHistory().filter(h => h.number !== cleanDigits);
+    history.unshift({ number: cleanDigits, timestamp: Date.now() });
     if (history.length > MAX_HISTORY) history.pop();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
     renderHistory();
@@ -690,21 +748,55 @@ const alternateLocales = otherLangs.map(l => localeMap[l]);
     }
     historySection.style.display = 'block';
     historyList.innerHTML = '';
+
     history.forEach(item => {
+      const digits = item.number.replace(/\D/g, '');
       const li = document.createElement('li');
       li.className = 'history-item';
-      const time = new Date(item.timestamp);
-      const timeStr = time.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
-      li.innerHTML = `
-        <span class="history-number">${item.number}</span>
-        <span class="history-time">${timeStr}</span>
-      `;
-      li.addEventListener('click', () => {
-        window.open(`https://wa.me/${item.number.replace(/\D/g, '')}`, '_blank');
+
+      // Left side: number + time
+      const leftDiv = document.createElement('div');
+      leftDiv.className = 'history-left';
+
+      const numSpan = document.createElement('span');
+      numSpan.className = 'history-number';
+      numSpan.textContent = '+' + digits;
+      // Click number → fill input
+      numSpan.addEventListener('click', (e) => {
+        e.stopPropagation();
+        phoneInput.value = digits;
+        phoneInput.focus();
       });
+
+      const timeSpan = document.createElement('span');
+      timeSpan.className = 'history-time';
+      const time = new Date(item.timestamp);
+      timeSpan.textContent = time.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
+
+      leftDiv.appendChild(numSpan);
+      leftDiv.appendChild(timeSpan);
+
+      // Right side: Chat button
+      const chatBtn = document.createElement('button');
+      chatBtn.type = 'button';
+      chatBtn.className = 'history-chat-btn';
+      chatBtn.textContent = chatLabel;
+      chatBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        window.open(`https://wa.me/${digits}`, '_blank', 'noopener,noreferrer');
+      });
+
+      li.appendChild(leftDiv);
+      li.appendChild(chatBtn);
       historyList.appendChild(li);
     });
   }
+
+  // Clear history
+  clearBtn.addEventListener('click', () => {
+    localStorage.removeItem(STORAGE_KEY);
+    renderHistory();
+  });
 
   // Initial render
   renderHistory();
@@ -734,13 +826,13 @@ const alternateLocales = otherLangs.map(l => localeMap[l]);
       return;
     }
 
-    const formattedNumber = '+' + rawPhone;
+    // Save clean digits (without +)
+    saveHistory(rawPhone);
+
     let url = `https://wa.me/${rawPhone}`;
     if (message) {
       url += `?text=${encodeURIComponent(message)}`;
     }
-
-    saveHistory(formattedNumber);
     window.open(url, '_blank');
   });
 

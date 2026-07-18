@@ -36,6 +36,7 @@ export const ui = {
 
     // History
     'history.title': 'Recent Numbers',
+    'history.clear': 'Clear',
 
     // SEO — What Does OPN Stand For
     'seo.opn.heading': 'What Does OPN Stand For?',
@@ -116,6 +117,7 @@ export const ui = {
 
     // History
     'history.title': 'Números Recientes',
+    'history.clear': 'Borrar',
 
     // SEO — What Does OPN Stand For
     'seo.opn.heading': '¿Qué Significa OPN?',
@@ -196,6 +198,7 @@ export const ui = {
 
     // History
     'history.title': 'Números Recentes',
+    'history.clear': 'Limpar',
 
     // SEO — What Does OPN Stand For
     'seo.opn.heading': 'O Que Significa OPN?',
