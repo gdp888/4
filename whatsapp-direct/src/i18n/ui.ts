@@ -26,6 +26,7 @@ export const ui = {
     // Form
     'form.label.phone': 'Enter full phone number without +',
     'form.label.message': 'Message',
+    'form.addMessage': 'Add a message',
     'form.label.optional': '(optional)',
     'form.placeholder.phone': '7 951 899 4988',
     'form.placeholder.message': "Hi! I'm writing about...",
@@ -107,6 +108,7 @@ export const ui = {
     // Form
     'form.label.phone': 'Ingresa el número completo sin +',
     'form.label.message': 'Mensaje',
+    'form.addMessage': 'Agregar un mensaje',
     'form.label.optional': '(opcional)',
     'form.placeholder.phone': '34 612 345 678',
     'form.placeholder.message': '¡Hola! Escribo sobre...',
@@ -188,6 +190,7 @@ export const ui = {
     // Form
     'form.label.phone': 'Digite o número completo sem +',
     'form.label.message': 'Mensagem',
+    'form.addMessage': 'Adicionar uma mensagem',
     'form.label.optional': '(opcional)',
     'form.placeholder.phone': '55 11 99988 7766',
     'form.placeholder.message': 'Olá! Estou escrevendo sobre...',

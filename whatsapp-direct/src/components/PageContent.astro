@@ -74,22 +74,30 @@ const alternateLocales = otherLangs.map(l => localeMap[l]);
         <span id="error-msg" class="error-msg" role="alert"></span>
       </div>
 
-      <div class="input-group">
-        <label for="message" class="label">{t('form.label.message')} <span class="optional">{t('form.label.optional')}</span></label>
-        <textarea
-          id="message"
-          class="message-input"
-          placeholder={t('form.placeholder.message')}
-          rows="3"
-        ></textarea>
-      </div>
-
       <button type="submit" class="submit-btn" id="submit-btn">
         <svg viewBox="0 0 24 24" fill="currentColor" class="btn-icon">
           <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
         </svg>
         {t('form.submit')}
       </button>
+
+      <details class="message-details">
+        <summary class="message-toggle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="toggle-icon">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          {t('form.addMessage')}
+          <span class="optional">{t('form.label.optional')}</span>
+        </summary>
+        <div class="message-body">
+          <textarea
+            id="message"
+            class="message-input"
+            placeholder={t('form.placeholder.message')}
+            rows="3"
+          ></textarea>
+        </div>
+      </details>
     </form>
 
     <!-- History -->
@@ -366,16 +374,67 @@ const alternateLocales = otherLangs.map(l => localeMap[l]);
     transition: opacity 0.2s;
   }
 
+  .message-details {
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .message-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    list-style: none;
+    transition: background 0.15s;
+  }
+
+  .message-toggle::-webkit-details-marker {
+    display: none;
+  }
+
+  .message-toggle::after {
+    content: '\25BC';
+    margin-left: auto;
+    font-size: 0.65rem;
+    transition: transform 0.2s;
+    opacity: 0.5;
+  }
+
+  .message-details[open] .message-toggle::after {
+    transform: rotate(180deg);
+  }
+
+  .message-toggle:hover {
+    background: var(--border-color);
+  }
+
+  .toggle-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
+
+  .message-body {
+    padding: 0 0.75rem 0.75rem 0.75rem;
+  }
+
   .message-input {
     background: var(--bg-input);
     border: 2px solid var(--border-color);
-    border-radius: 12px;
+    border-radius: 10px;
     color: var(--text-primary);
     padding: 0.75rem 1rem;
     font-size: 0.95rem;
     font-family: inherit;
     resize: vertical;
     min-height: 80px;
+    width: 100%;
     transition: border-color 0.2s;
     outline: none;
   }
