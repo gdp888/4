@@ -24,7 +24,7 @@ export const ui = {
     'header.subtitle': 'Message WhatsApp Without Saving Number',
 
     // Form
-    'form.label.phone': 'Phone Number',
+    'form.label.phone': 'Enter full phone number without +',
     'form.label.message': 'Message',
     'form.label.optional': '(optional)',
     'form.placeholder.phone': '7 951 899 4988',
@@ -104,7 +104,7 @@ export const ui = {
     'header.subtitle': 'Mensaje por WhatsApp Sin Guardar el Número',
 
     // Form
-    'form.label.phone': 'Número de Teléfono',
+    'form.label.phone': 'Ingresa el número completo sin +',
     'form.label.message': 'Mensaje',
     'form.label.optional': '(opcional)',
     'form.placeholder.phone': '34 612 345 678',
@@ -184,7 +184,7 @@ export const ui = {
     'header.subtitle': 'Enviar Mensagem no WhatsApp Sem Salvar Contato',
 
     // Form
-    'form.label.phone': 'Número de Telefone',
+    'form.label.phone': 'Digite o número completo sem +',
     'form.label.message': 'Mensagem',
     'form.label.optional': '(opcional)',
     'form.placeholder.phone': '55 11 99988 7766',
