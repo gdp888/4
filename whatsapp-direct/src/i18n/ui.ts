@@ -27,9 +27,9 @@ export const ui = {
     'form.label.phone': 'Phone Number',
     'form.label.message': 'Message',
     'form.label.optional': '(optional)',
-    'form.placeholder.phone': '555 123 4567',
+    'form.placeholder.phone': '7 951 899 4988',
     'form.placeholder.message': "Hi! I'm writing about...",
-    'form.hint': 'Enter number without country code — it will be added automatically',
+    'form.hint': 'Include country code (e.g. 7 for Russia, 55 for Brazil, 1 for USA)',
     'form.error.valid': 'Please enter a valid phone number',
     'form.error.short': 'Phone number is too short',
     'form.submit': 'Open Chat in WhatsApp',
@@ -47,7 +47,7 @@ export const ui = {
 
     // SEO — How It Works
     'seo.how.heading': 'How It Works',
-    'seo.how.text': 'Using OPN Chat is simple and takes just a few seconds. Select the country code from the dropdown menu, type in the local phone number, and optionally write a message that will be pre-filled in the chat. Click "Open Chat in WhatsApp" and you\'ll be redirected straight to the conversation. No sign-up, no app install, no data stored on any server — everything runs right in your browser.',
+    'seo.how.text': 'Using OPN Chat is simple and takes just a few seconds. Enter the phone number with the country code, and optionally write a message that will be pre-filled in the chat. Click "Open Chat in WhatsApp" and you\'ll be redirected straight to the conversation. No sign-up, no app install, no data stored on any server — everything runs right in your browser.',
 
     // SEO — Why Use OPN Chat
     'seo.why.heading': 'Why Use OPN Chat?',
@@ -56,7 +56,7 @@ export const ui = {
     'seo.why.feature2.title': '100% Private',
     'seo.why.feature2.desc': 'No data is stored on our servers. Your phone numbers and messages stay in your browser only.',
     'seo.why.feature3.title': 'Works Everywhere',
-    'seo.why.feature3.desc': 'Supports 25+ country codes. Use it on any device — phone, tablet, or desktop. No install needed.',
+    'seo.why.feature3.desc': 'Works with any phone number worldwide. Use it on any device — phone, tablet, or desktop. No install needed.',
     'seo.why.feature4.title': 'Pre-filled Messages',
     'seo.why.feature4.desc': 'Write a message before opening the chat. Perfect for business inquiries, quick introductions, or follow-ups.',
 
@@ -107,9 +107,9 @@ export const ui = {
     'form.label.phone': 'Número de Teléfono',
     'form.label.message': 'Mensaje',
     'form.label.optional': '(opcional)',
-    'form.placeholder.phone': '555 123 4567',
+    'form.placeholder.phone': '34 612 345 678',
     'form.placeholder.message': '¡Hola! Escribo sobre...',
-    'form.hint': 'Ingresa el número sin el código de país — se añadirá automáticamente',
+    'form.hint': 'Incluye el código de país (ej. 34 para España, 52 para México, 54 para Argentina)',
     'form.error.valid': 'Ingresa un número de teléfono válido',
     'form.error.short': 'El número de teléfono es demasiado corto',
     'form.submit': 'Abrir Chat en WhatsApp',
@@ -127,7 +127,7 @@ export const ui = {
 
     // SEO — How It Works
     'seo.how.heading': 'Cómo Funciona',
-    'seo.how.text': 'Usar OPN Chat es sencillo y toma solo unos segundos. Selecciona el código de país en el menú desplegable, escribe el número de teléfono local y, opcionalmente, redacta un mensaje que aparecerá prellenado en el chat. Haz clic en "Abrir Chat en WhatsApp" y serás redirigido directamente a la conversación. Sin registro, sin instalación de apps, sin datos almacenados en ningún servidor — todo funciona directamente en tu navegador.',
+    'seo.how.text': 'Usar OPN Chat es sencillo y toma solo unos segundos. Ingresa el número de teléfono con el código de país y, opcionalmente, redacta un mensaje que aparecerá prellenado en el chat. Haz clic en "Abrir Chat en WhatsApp" y serás redirigido directamente a la conversación. Sin registro, sin instalación de apps, sin datos almacenados en ningún servidor — todo funciona directamente en tu navegador.',
 
     // SEO — Why Use OPN Chat
     'seo.why.heading': '¿Por Qué Usar OPN Chat?',
@@ -136,7 +136,7 @@ export const ui = {
     'seo.why.feature2.title': '100% Privado',
     'seo.why.feature2.desc': 'No almacenamos datos en nuestros servidores. Tus números y mensajes permanecen solo en tu navegador.',
     'seo.why.feature3.title': 'Funciona en Todas Partes',
-    'seo.why.feature3.desc': 'Compatible con más de 25 códigos de país. Úsalo en cualquier dispositivo — teléfono, tablet o computadora. Sin instalación.',
+    'seo.why.feature3.desc': 'Compatible con cualquier número de teléfono del mundo. Úsalo en cualquier dispositivo — teléfono, tablet o computadora. Sin instalación.',
     'seo.why.feature4.title': 'Mensajes Prellenados',
     'seo.why.feature4.desc': 'Escribe un mensaje antes de abrir el chat. Perfecto para consultas comerciales, presentaciones rápidas o seguimientos.',
 
@@ -187,9 +187,9 @@ export const ui = {
     'form.label.phone': 'Número de Telefone',
     'form.label.message': 'Mensagem',
     'form.label.optional': '(opcional)',
-    'form.placeholder.phone': '1199988 7766',
+    'form.placeholder.phone': '55 11 99988 7766',
     'form.placeholder.message': 'Olá! Estou escrevendo sobre...',
-    'form.hint': 'Insira o número sem o código do país — ele será adicionado automaticamente',
+    'form.hint': 'Inclua o código do país (ex. 55 para Brasil, 351 para Portugal, 1 para EUA)',
     'form.error.valid': 'Insira um número de telefone válido',
     'form.error.short': 'O número de telefone é muito curto',
     'form.submit': 'Abrir Conversa no WhatsApp',
@@ -207,7 +207,7 @@ export const ui = {
 
     // SEO — How It Works
     'seo.how.heading': 'Como Funciona',
-    'seo.how.text': 'Usar o OPN Chat é simples e leva apenas alguns segundos. Selecione o código do país no menu suspenso, digite o número de telefone local e, se quiser, escreva uma mensagem que já aparecerá preenchida no chat. Clique em "Abrir Conversa no WhatsApp" e você será redirecionado direto para a conversa. Sem cadastro, sem instalar aplicativos, sem dados salvos em servidores — tudo roda direto no seu navegador.',
+    'seo.how.text': 'Usar o OPN Chat é simples e leva apenas alguns segundos. Digite o número de telefone com o código do país e, se quiser, escreva uma mensagem que já aparecerá preenchida no chat. Clique em "Abrir Conversa no WhatsApp" e você será redirecionado direto para a conversa. Sem cadastro, sem instalar aplicativos, sem dados salvos em servidores — tudo roda direto no seu navegador.',
 
     // SEO — Why Use OPN Chat
     'seo.why.heading': 'Por Que Usar o OPN Chat?',
@@ -216,7 +216,7 @@ export const ui = {
     'seo.why.feature2.title': '100% Privado',
     'seo.why.feature2.desc': 'Não guardamos dados em nossos servidores. Seus números e mensagens ficam apenas no seu navegador.',
     'seo.why.feature3.title': 'Funciona em Tudo',
-    'seo.why.feature3.desc': 'Suporte a mais de 25 códigos de país. Use em qualquer dispositivo — celular, tablet ou computador. Sem instalação.',
+    'seo.why.feature3.desc': 'Funciona com qualquer número de telefone do mundo. Use em qualquer dispositivo — celular, tablet ou computador. Sem instalação.',
     'seo.why.feature4.title': 'Mensagens Preenchidas',
     'seo.why.feature4.desc': 'Escreva uma mensagem antes de abrir o chat. Perfeito para orçamentos, apresentações rápidas ou retornos.',
 

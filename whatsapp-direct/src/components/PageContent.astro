@@ -59,40 +59,14 @@ const alternateLocales = otherLangs.map(l => localeMap[l]);
     <form id="whatsapp-form" class="form">
       <div class="input-group">
         <label for="phone" class="label">{t('form.label.phone')}</label>
-        <div class="phone-wrapper">
-          <select id="country-code" class="country-select" aria-label="Country code">
-            <option value="+1" data-flag="🇺🇸">+1 🇺🇸</option>
-            <option value="+44" data-flag="🇬🇧">+44 🇬🇧</option>
-            <option value="+7" data-flag="🇷🇺">+7 🇷🇺</option>
-            <option value="+7" data-flag="🇰🇿">+7 🇰🇿</option>
-            <option value="+375" data-flag="🇧🇾">+375 🇧🇾</option>
-            <option value="+380" data-flag="🇺🇦">+380 🇺🇦</option>
-            <option value="+996" data-flag="🇰🇬">+996 🇰🇬</option>
-            <option value="+998" data-flag="🇺🇿">+998 🇺🇿</option>
-            <option value="+993" data-flag="🇹🇲">+993 🇹🇲</option>
-            <option value="+992" data-flag="🇹🇯">+992 🇹🇯</option>
-            <option value="+994" data-flag="🇦🇿">+994 🇦🇿</option>
-            <option value="+995" data-flag="🇬🇪">+995 🇬🇪</option>
-            <option value="+374" data-flag="🇦🇲">+374 🇦🇲</option>
-            <option value="+90" data-flag="🇹🇷">+90 🇹🇷</option>
-            <option value="+49" data-flag="🇩🇪">+49 🇩🇪</option>
-            <option value="+33" data-flag="🇫🇷">+33 🇫🇷</option>
-            <option value="+34" data-flag="🇪🇸">+34 🇪🇸</option>
-            <option value="+39" data-flag="🇮🇹">+39 🇮🇹</option>
-            <option value="+971" data-flag="🇦🇪">+971 🇦🇪</option>
-            <option value="+966" data-flag="🇸🇦">+966 🇸🇦</option>
-            <option value="+91" data-flag="🇮🇳">+91 🇮🇳</option>
-            <option value="+86" data-flag="🇨🇳">+86 🇨🇳</option>
-            <option value="+81" data-flag="🇯🇵">+81 🇯🇵</option>
-            <option value="+82" data-flag="🇰🇷">+82 🇰🇷</option>
-            <option value="+55" data-flag="🇧🇷">+55 🇧🇷</option>
-          </select>
+        <div class="phone-input-group">
+          <span class="phone-prefix">+</span>
           <input
             type="tel"
             id="phone"
             class="phone-input"
             placeholder={t('form.placeholder.phone')}
-            autocomplete="tel-national"
+            autocomplete="tel"
             required
           />
         </div>
@@ -330,51 +304,45 @@ const alternateLocales = otherLangs.map(l => localeMap[l]);
     opacity: 0.7;
   }
 
-  .phone-wrapper {
+  .phone-input-group {
     display: flex;
-    gap: 0.5rem;
     align-items: stretch;
-  }
-
-  .country-select {
-    background: var(--bg-input);
     border: 2px solid var(--border-color);
     border-radius: 12px;
-    color: var(--text-primary);
-    padding: 0.75rem 0.5rem;
-    font-size: 0.95rem;
-    min-width: 100px;
-    cursor: pointer;
+    overflow: hidden;
+    background: var(--bg-input);
     transition: border-color 0.2s;
-    outline: none;
-    appearance: none;
-    -webkit-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%238696a0'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 8px center;
-    padding-right: 24px;
   }
 
-  .country-select:focus {
+  .phone-input-group:focus-within {
     border-color: var(--opn-primary);
+  }
+
+  .phone-prefix {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 0.75rem 0.75rem 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: var(--border-color);
+    border-right: 2px solid var(--border-color);
+    user-select: none;
+    min-width: 42px;
   }
 
   .phone-input {
     flex: 1;
-    background: var(--bg-input);
-    border: 2px solid var(--border-color);
-    border-radius: 12px;
+    background: transparent;
+    border: none;
     color: var(--text-primary);
     padding: 0.75rem 1rem;
     font-size: 1.1rem;
     font-weight: 500;
     letter-spacing: 0.03em;
-    transition: border-color 0.2s;
     outline: none;
-  }
-
-  .phone-input:focus {
-    border-color: var(--opn-primary);
+    width: 100%;
   }
 
   .phone-input::placeholder {
@@ -678,7 +646,6 @@ const alternateLocales = otherLangs.map(l => localeMap[l]);
   const form = document.getElementById('whatsapp-form');
   const phoneInput = document.getElementById('phone');
   const messageInput = document.getElementById('message');
-  const countryCode = document.getElementById('country-code');
   const errorMsg = document.getElementById('error-msg');
   const historySection = document.getElementById('history-section');
   const historyList = document.getElementById('history-list');
@@ -686,19 +653,10 @@ const alternateLocales = otherLangs.map(l => localeMap[l]);
   const STORAGE_KEY = 'opnchat-history';
   const MAX_HISTORY = 5;
 
-  const isSpanish = lang === 'es';
-  const isPortuguese = lang === 'pt';
+  const localeMap = { en: 'en-US', es: 'es-ES', pt: 'pt-BR' };
+  const locale = localeMap[lang] || 'en-US';
 
-  // Auto-select country code based on locale
-  if (isSpanish) {
-    const esOption = countryCode.querySelector('option[value="+34"]');
-    if (esOption) esOption.selected = true;
-  } else if (isPortuguese) {
-    const ptOption = countryCode.querySelector('option[value="+55"]');
-    if (ptOption) ptOption.selected = true;
-  }
-
-  // Phone mask — auto-format as user types
+  // Phone input — digits only
   phoneInput.addEventListener('input', () => {
     let val = phoneInput.value.replace(/\D/g, '');
     if (val.length > 15) val = val.slice(0, 15);
@@ -736,7 +694,6 @@ const alternateLocales = otherLangs.map(l => localeMap[l]);
       const li = document.createElement('li');
       li.className = 'history-item';
       const time = new Date(item.timestamp);
-      const locale = isSpanish ? 'es-ES' : isPortuguese ? 'pt-BR' : 'en-US';
       const timeStr = time.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
       li.innerHTML = `
         <span class="history-number">${item.number}</span>
@@ -758,13 +715,11 @@ const alternateLocales = otherLangs.map(l => localeMap[l]);
     errorMsg.textContent = '';
 
     const rawPhone = phoneInput.value.replace(/\D/g, '');
-    const code = countryCode.value.replace(/\D/g, '');
-    const fullNumber = code + rawPhone;
     const message = messageInput.value.trim();
 
     const errorMessages = {
-      valid: isSpanish ? 'Ingresa un número de teléfono válido' : isPortuguese ? 'Insira um número de telefone válido' : 'Please enter a valid phone number',
-      short: isSpanish ? 'El número de teléfono es demasiado corto' : isPortuguese ? 'O número de telefone é muito curto' : 'Phone number is too short',
+      valid: lang === 'es' ? 'Ingresa un número de teléfono válido' : lang === 'pt' ? 'Insira um número de telefone válido' : 'Please enter a valid phone number',
+      short: lang === 'es' ? 'El número de teléfono es demasiado corto' : lang === 'pt' ? 'O número de telefone é muito curto' : 'Phone number is too short',
     };
 
     if (rawPhone.length < 7) {
@@ -773,14 +728,14 @@ const alternateLocales = otherLangs.map(l => localeMap[l]);
       return;
     }
 
-    if (fullNumber.length < 10) {
+    if (rawPhone.length < 10) {
       errorMsg.textContent = errorMessages.short;
       phoneInput.focus();
       return;
     }
 
-    const formattedNumber = '+' + fullNumber;
-    let url = `https://wa.me/${fullNumber}`;
+    const formattedNumber = '+' + rawPhone;
+    let url = `https://wa.me/${rawPhone}`;
     if (message) {
       url += `?text=${encodeURIComponent(message)}`;
     }
