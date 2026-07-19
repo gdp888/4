@@ -5,6 +5,13 @@ export const languages = {
   id: 'Bahasa Indonesia',
 };
 
+export const langCodes = {
+  en: 'ENG',
+  es: 'ESP',
+  pt: 'POR',
+  id: 'IND',
+};
+
 export const defaultLang = 'en';
 
 export type Lang = keyof typeof languages;
