@@ -30,6 +30,7 @@ export const ui = {
     // Header
     'header.title': 'OPN Chat',
     'header.subtitle': 'Message WhatsApp Without Saving Number',
+    'header.description': 'Message WhatsApp Without Saving Number',
 
     // Form
     'form.label.phone': 'Enter full phone number without +',
@@ -149,6 +150,7 @@ export const ui = {
     // Header
     'header.title': 'OPN Chat',
     'header.subtitle': 'Mensaje por WhatsApp Sin Guardar el Número',
+    'header.description': 'Mensaje por WhatsApp Sin Guardar el Número',
 
     // Form
     'form.label.phone': 'Ingresa el número completo sin +',
@@ -268,6 +270,7 @@ export const ui = {
     // Header
     'header.title': 'OPN Chat',
     'header.subtitle': 'Enviar Mensagem no WhatsApp Sem Salvar Contato',
+    'header.description': 'Enviar Mensagem no WhatsApp Sem Salvar Contato',
 
     // Form
     'form.label.phone': 'Digite o número completo sem +',
@@ -387,6 +390,7 @@ export const ui = {
     // Header
     'header.title': 'OPN Chat',
     'header.subtitle': 'Kirim Pesan WhatsApp Tanpa Simpan Nomor',
+    'header.description': 'Kirim Pesan WhatsApp Tanpa Simpan Nomor',
 
     // Form
     'form.label.phone': 'Masukkan nomor telepon lengkap tanpa +',

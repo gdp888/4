@@ -136,8 +136,11 @@ const pageSchema = {
 
     <!-- Hero -->
     <div class="hero">
-      <h1 class="title">{t('header.title')}</h1>
-      <p class="subtitle">{t('header.subtitle')}</p>
+      <h1 class="title">
+        <span class="title-brand">{t('header.title')}</span>
+        <span class="title-dash"> — </span>
+        <span class="title-desc">{t('header.description')}</span>
+      </h1>
     </div>
 
     <!-- Form -->
@@ -411,17 +414,21 @@ const pageSchema = {
     font-size: 2.25rem;
     font-weight: 800;
     letter-spacing: -0.03em;
-    background: linear-gradient(135deg, #25D366, #6fe89d);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--text-primary);
+    line-height: 1.2;
   }
 
-  .subtitle {
-    font-size: 1.2rem;
-    color: var(--opn-primary);
-    line-height: 1.5;
-    font-weight: 500;
+  .title-brand {
+    font-weight: 800;
+  }
+
+  .title-dash {
+    font-weight: 300;
+    opacity: 0.4;
+  }
+
+  .title-desc {
+    font-weight: 600;
   }
 
   .form {
