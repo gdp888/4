@@ -12,7 +12,15 @@ export function useTranslations(lang: Lang) {
   };
 }
 
+/**
+ * Get the URL path for a given language and service.
+ * Default locale (en) has NO prefix — lives at root.
+ * Other locales are prefixed: /es/whatsapp, /pt/telegram, etc.
+ */
 export function getLocalizedPath(lang: Lang, path: string = 'whatsapp'): string {
+  if (lang === defaultLang) {
+    return `/${path}`.replace(/\/+/g, '/');
+  }
   return `/${lang}/${path}`.replace(/\/+/g, '/');
 }
 

@@ -1,9 +1,10 @@
 ---
 import PageContent from '../../../components/PageContent.astro';
-import { languages, type Lang } from '../../../i18n/ui';
+import { languages, defaultLang, type Lang } from '../../../i18n/ui';
 
+// Only non-default languages — default (en) lives at root: /whatsapp/
 export function getStaticPaths() {
-  return (Object.keys(languages) as Lang[]).map((lang) => ({
+  return (Object.keys(languages) as Lang[]).filter((lang) => lang !== defaultLang).map((lang) => ({
     params: { lang },
     props: { lang },
   }));

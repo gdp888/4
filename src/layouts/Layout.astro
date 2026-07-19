@@ -5,9 +5,10 @@ import { getAlternateUrl } from '../i18n/utils';
 export interface Props {
   title: string;
   lang: Lang;
+  service?: string;
 }
 
-const { title, lang } = Astro.props;
+const { title, lang, service = 'whatsapp' } = Astro.props;
 
 const allLangs = Object.keys(languages) as Lang[];
 
@@ -49,9 +50,9 @@ const websiteSchema = {
     <meta name="apple-mobile-web-app-title" content="OPN Chat" />
     <link rel="apple-touch-icon" href="/icon-192.svg" />
     {allLangs.map((l) => (
-      <link rel="alternate" hreflang={l} href={getAlternateUrl(l)} />
+      <link rel="alternate" hreflang={l} href={getAlternateUrl(l, service)} />
     ))}
-    <link rel="alternate" hreflang="x-default" href={getAlternateUrl('en')} />
+    <link rel="alternate" hreflang="x-default" href={getAlternateUrl('en', service)} />
     <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
     <slot name="meta" />
     <meta name="robots" content="index, follow" />

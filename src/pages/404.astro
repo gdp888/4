@@ -3,12 +3,13 @@ import Layout from '../layouts/Layout.astro';
 import { useTranslations, getLocalizedPath } from '../i18n/utils';
 import { languages, defaultLang, type Lang } from '../i18n/ui';
 
-// Detect language from URL path (3-letter codes: eng, esp, por, ind)
+// Detect language from URL path (2-letter codes: en, es, pt, id)
+// EN is at root (no prefix), others have /es/, /pt/, /id/ prefix
 function getLangFromPath(pathname: string): Lang {
   const segments = pathname.split('/').filter(Boolean);
   const first = segments[0];
   if (first && first in languages) return first as Lang;
-  return defaultLang;
+  return defaultLang; // root paths = English
 }
 
 const lang = getLangFromPath(Astro.url.pathname);

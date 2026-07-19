@@ -1,18 +1,18 @@
-const CACHE_NAME = 'opnchat-cache-v6';
+const CACHE_NAME = 'opnchat-cache-v7';
 
 // Install — precache key resources
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll([
-      '/en/whatsapp/',
+      '/whatsapp/',
       '/es/whatsapp/',
       '/pt/whatsapp/',
       '/id/whatsapp/',
-      '/en/telegram/',
+      '/telegram/',
       '/es/telegram/',
       '/pt/telegram/',
       '/id/telegram/',
-      '/en/blog/',
+      '/blog/',
       '/icon-192.svg',
       '/icon-512.svg',
       '/manifest.json',

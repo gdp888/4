@@ -1,20 +1,30 @@
-# Old URL structure → New /{lang}/{service}/ structure (301 redirects)
-# Only for URLs that actually changed
+# URL redirects — Variant B: EN at root (no prefix), other locales with 2-letter prefix
+# 301 redirects for SEO — old URLs → new structure
 
-# Root WhatsApp pages
-/ /en/whatsapp/ 301
+# Old /en/* URLs → root-level English (prefixDefaultLocale: false)
+/en/whatsapp/ /whatsapp/ 301
+/en/telegram/ /telegram/ 301
+/en/disclaimer/ /disclaimer/ 301
+/en/blog/ /blog/ 301
+/en/blog/whatsapp-direct-message /blog/whatsapp-direct-message 301
+/en/blog/whatsapp-click-to-chat-guide /blog/whatsapp-click-to-chat-guide 301
+/en/blog/whatsapp-without-saving-number /blog/whatsapp-without-saving-number 301
+
+# Root → default WhatsApp page
+/ /whatsapp/ 301
+
+# Old root-level language WhatsApp pages → new /{lang}/whatsapp/
 /es/ /es/whatsapp/ 301
 /pt/ /pt/whatsapp/ 301
 /id/ /id/whatsapp/ 301
 
-# English Telegram (was /telegram/, now /en/telegram/)
-/telegram/ /en/telegram/ 301
+# Old Telegram page (was /telegram/ before i18n restructure — already at root now)
+# /telegram/ → /telegram/ (no redirect needed, already correct)
 
-# English Disclaimer (was /disclaimer, now /en/disclaimer/)
-/disclaimer /en/disclaimer/ 301
+# Old Disclaimer (was /disclaimer — already at root now)
+# /disclaimer → /disclaimer/ (handled by trailing slash)
 
-# Blog pages (were /blog/, now /en/blog/)
-/blog/ /en/blog/ 301
-/blog/whatsapp-direct-message /en/blog/whatsapp-direct-message 301
-/blog/whatsapp-click-to-chat-guide /en/blog/whatsapp-click-to-chat-guide 301
-/blog/whatsapp-without-saving-number /en/blog/whatsapp-without-saving-number 301
+# Old Blog pages → root-level blog
+/blog/whatsapp-direct-message /blog/whatsapp-direct-message 301
+/blog/whatsapp-click-to-chat-guide /blog/whatsapp-click-to-chat-guide 301
+/blog/whatsapp-without-saving-number /blog/whatsapp-without-saving-number 301
