@@ -193,6 +193,25 @@ export const ui = {
     'tg.footer.disclaimer.brief': 'OPN Chat is not affiliated with Telegram or Telegram FZ-LLC.',
     'tg.footer.whatsapp': 'WhatsApp Version',
 
+    // Hub page
+    'hub.meta.title': 'OPN Chat — Free Online Tools. WhatsApp, Telegram & More',
+    'hub.meta.description': 'OPN Chat — Free online tools that run entirely in your browser. Message WhatsApp and Telegram without saving numbers. No sign-up, no data stored on servers. Private and instant.',
+    'hub.meta.keywords': 'OPN Chat, online tools, whatsapp without saving number, telegram without saving number, free online tools, private tools, browser tools',
+    'hub.hero.title': 'Free Online Tools',
+    'hub.hero.subtitle': 'Private. Instant. No sign-up. Everything runs in your browser.',
+    'hub.service.whatsapp.title': 'WhatsApp',
+    'hub.service.whatsapp.desc': 'Message any WhatsApp number without saving it to your contacts. Fast, private, free.',
+    'hub.service.whatsapp.cta': 'Open WhatsApp',
+    'hub.service.telegram.title': 'Telegram',
+    'hub.service.telegram.desc': 'Message any Telegram username or phone number without adding contacts. One smart input field.',
+    'hub.service.telegram.cta': 'Open Telegram',
+    'hub.service.more.title': 'More Tools Coming Soon',
+    'hub.service.more.desc': 'QR codes, timers, password generators and more — all private, all free, all in your browser.',
+    'hub.seo.what.heading': 'What Is OPN Chat?',
+    'hub.seo.what.text': 'OPN Chat is a collection of free online tools built with a privacy-first approach. Every tool runs entirely in your web browser — no data is ever sent to our servers. Whether you need to send a WhatsApp message without saving a number, reach someone on Telegram without adding contacts, or use other everyday utilities, OPN Chat provides a fast, private, and sign-up-free experience. The name OPN stands for Online Privacy Network, reflecting our core principle: your data stays with you.',
+    'hub.seo.why.heading': 'Why People Use OPN Chat',
+    'hub.seo.why.text': 'People use OPN Chat for its simplicity and privacy. There are no accounts to create, no personal data to enter, and no ads to close. Each tool does one thing well — open a chat, generate a code, convert a unit — and gets out of your way. All processing happens locally in your browser using official link protocols (wa.me for WhatsApp, t.me for Telegram), so your messages go directly through the official apps. Nothing is intercepted, stored, or tracked.',
+
     // Language switcher
     'lang.switch': 'Español',
     'lang.current': 'English',
@@ -372,6 +391,25 @@ export const ui = {
     'tg.footer.tagline': 'opnchat.net — OPN Chat Telegram. Sin datos en servidores. Todo funciona en tu navegador.',
     'tg.footer.disclaimer.brief': 'OPN Chat no está afiliado con Telegram ni Telegram FZ-LLC.',
     'tg.footer.whatsapp': 'Versión WhatsApp',
+
+    // Hub page
+    'hub.meta.title': 'OPN Chat — Herramientas Online Gratuitas. WhatsApp, Telegram y Más',
+    'hub.meta.description': 'OPN Chat — Herramientas online gratuitas que funcionan completamente en tu navegador. Envía mensajes por WhatsApp y Telegram sin guardar números. Sin registro, sin datos en servidores. Privado e instantáneo.',
+    'hub.meta.keywords': 'OPN Chat, herramientas online, whatsapp sin guardar numero, telegram sin guardar numero, herramientas gratuitas, herramientas privadas',
+    'hub.hero.title': 'Herramientas Online Gratuitas',
+    'hub.hero.subtitle': 'Privadas. Instantáneas. Sin registro. Todo funciona en tu navegador.',
+    'hub.service.whatsapp.title': 'WhatsApp',
+    'hub.service.whatsapp.desc': 'Envía un mensaje a cualquier número de WhatsApp sin guardarlo en tus contactos. Rápido, privado, gratis.',
+    'hub.service.whatsapp.cta': 'Abrir WhatsApp',
+    'hub.service.telegram.title': 'Telegram',
+    'hub.service.telegram.desc': 'Envía un mensaje a cualquier usuario o número de Telegram sin añadir contactos. Un solo campo inteligente.',
+    'hub.service.telegram.cta': 'Abrir Telegram',
+    'hub.service.more.title': 'Más Herramientas Próximamente',
+    'hub.service.more.desc': 'Códigos QR, temporizadores, generadores de contraseñas y más — todo privado, todo gratis, todo en tu navegador.',
+    'hub.seo.what.heading': '¿Qué Es OPN Chat?',
+    'hub.seo.what.text': 'OPN Chat es una colección de herramientas online gratuitas diseñadas con un enfoque centrado en la privacidad. Cada herramienta funciona completamente en tu navegador web — ningún dato se envía a nuestros servidores. Ya sea que necesites enviar un mensaje por WhatsApp sin guardar un número, contactar a alguien en Telegram sin añadir contactos, o usar otras utilidades cotidianas, OPN Chat ofrece una experiencia rápida, privada y sin registro. El nombre OPN significa Online Privacy Network, reflejando nuestro principio fundamental: tus datos se quedan contigo.',
+    'hub.seo.why.heading': '¿Por Qué la Gente Usa OPN Chat',
+    'hub.seo.why.text': 'La gente usa OPN Chat por su simplicidad y privacidad. No hay cuentas que crear, no hay datos personales que ingresar y no hay anuncios que cerrar. Cada herramienta hace una cosa bien — abrir un chat, generar un código, convertir una unidad — y no te estorba. Todo el procesamiento ocurre localmente en tu navegador usando protocolos de enlaces oficiales (wa.me para WhatsApp, t.me para Telegram), así que tus mensajes van directamente a través de las apps oficiales. Nada es interceptado, almacenado ni rastreado.',
 
     // Language switcher
     'lang.switch': 'English',
@@ -553,6 +591,25 @@ export const ui = {
     'tg.footer.disclaimer.brief': 'OPN Chat não é afiliado ao Telegram ou Telegram FZ-LLC.',
     'tg.footer.whatsapp': 'Versão WhatsApp',
 
+    // Hub page
+    'hub.meta.title': 'OPN Chat — Ferramentas Online Gratuitas. WhatsApp, Telegram e Mais',
+    'hub.meta.description': 'OPN Chat — Ferramentas online gratuitas que funcionam inteiramente no seu navegador. Envie mensagens no WhatsApp e Telegram sem salvar números. Sem cadastro, sem dados em servidores. Privado e instantâneo.',
+    'hub.meta.keywords': 'OPN Chat, ferramentas online, whatsapp sem salvar numero, telegram sem salvar numero, ferramentas gratuitas, ferramentas privadas',
+    'hub.hero.title': 'Ferramentas Online Gratuitas',
+    'hub.hero.subtitle': 'Privadas. Instantâneas. Sem cadastro. Tudo funciona no seu navegador.',
+    'hub.service.whatsapp.title': 'WhatsApp',
+    'hub.service.whatsapp.desc': 'Envie uma mensagem para qualquer número do WhatsApp sem salvar nos seus contatos. Rápido, privado, grátis.',
+    'hub.service.whatsapp.cta': 'Abrir WhatsApp',
+    'hub.service.telegram.title': 'Telegram',
+    'hub.service.telegram.desc': 'Envie uma mensagem para qualquer usuário ou número do Telegram sem adicionar contatos. Um campo inteligente.',
+    'hub.service.telegram.cta': 'Abrir Telegram',
+    'hub.service.more.title': 'Mais Ferramentas em Breve',
+    'hub.service.more.desc': 'Códigos QR, temporizadores, geradores de senhas e mais — tudo privado, tudo grátis, tudo no seu navegador.',
+    'hub.seo.what.heading': 'O Que É o OPN Chat?',
+    'hub.seo.what.text': 'OPN Chat é uma coleção de ferramentas online gratuitas construídas com uma abordagem focada em privacidade. Cada ferramenta funciona inteiramente no seu navegador — nenhum dado é enviado aos nossos servidores. Seja para enviar uma mensagem no WhatsApp sem salvar um número, contatar alguém no Telegram sem adicionar contatos ou usar outras utilidades do dia a dia, o OPN Chat oferece uma experiência rápida, privada e sem cadastro. O nome OPN significa Online Privacy Network, refletindo nosso princípio fundamental: seus dados ficam com você.',
+    'hub.seo.why.heading': 'Por Que as Pessoas Usam o OPN Chat',
+    'hub.seo.why.text': 'As pessoas usam o OPN Chat pela sua simplicidade e privacidade. Não há contas para criar, dados pessoais para inserir ou anúncios para fechar. Cada ferramenta faz uma coisa bem — abrir um chat, gerar um código, converter uma unidade — e sai do seu caminho. Todo o processamento acontece localmente no seu navegador usando protocolos de link oficiais (wa.me para WhatsApp, t.me para Telegram), então suas mensagens vão diretamente pelos apps oficiais. Nada é interceptado, armazenado ou rastreado.',
+
     // Language switcher
     'lang.switch': 'English',
     'lang.current': 'Português',
@@ -732,6 +789,25 @@ export const ui = {
     'tg.footer.tagline': 'opnchat.net — OPN Chat Telegram. Tanpa data di server. Semuanya berjalan di peramban Anda.',
     'tg.footer.disclaimer.brief': 'OPN Chat tidak berafiliasi dengan Telegram atau Telegram FZ-LLC.',
     'tg.footer.whatsapp': 'Versi WhatsApp',
+
+    // Hub page
+    'hub.meta.title': 'OPN Chat — Alat Online Gratis. WhatsApp, Telegram & Lainnya',
+    'hub.meta.description': 'OPN Chat — Alat online gratis yang berjalan sepenuhnya di peramban Anda. Kirim pesan WhatsApp dan Telegram tanpa menyimpan nomor. Tanpa daftar, tanpa data di server. Privat dan instan.',
+    'hub.meta.keywords': 'OPN Chat, alat online, whatsapp tanpa simpan nomor, telegram tanpa simpan nomor, alat gratis, alat privat',
+    'hub.hero.title': 'Alat Online Gratis',
+    'hub.hero.subtitle': 'Privat. Instan. Tanpa daftar. Semuanya berjalan di peramban Anda.',
+    'hub.service.whatsapp.title': 'WhatsApp',
+    'hub.service.whatsapp.desc': 'Kirim pesan ke nomor WhatsApp mana pun tanpa menyimpannya ke kontak Anda. Cepat, privat, gratis.',
+    'hub.service.whatsapp.cta': 'Buka WhatsApp',
+    'hub.service.telegram.title': 'Telegram',
+    'hub.service.telegram.desc': 'Kirim pesan ke nama pengguna atau nomor Telegram mana pun tanpa menambahkan kontak. Satu bidang pintar.',
+    'hub.service.telegram.cta': 'Buka Telegram',
+    'hub.service.more.title': 'Alat Lainnya Segera Hadir',
+    'hub.service.more.desc': 'Kode QR, penghitung waktu, pembuat kata sandi dan lainnya — semuanya privat, semuanya gratis, semuanya di peramban Anda.',
+    'hub.seo.what.heading': 'Apa Itu OPN Chat?',
+    'hub.seo.what.text': 'OPN Chat adalah kumpulan alat online gratis yang dibangun dengan pendekatan mengutamakan privasi. Setiap alat berjalan sepenuhnya di peramban web Anda — tidak ada data yang pernah dikirim ke server kami. Baik Anda perlu mengirim pesan WhatsApp tanpa menyimpan nomor, menghubungi seseorang di Telegram tanpa menambahkan kontak, atau menggunakan utilitas sehari-hari lainnya, OPN Chat memberikan pengalaman yang cepat, privat, dan tanpa daftar. Nama OPN berarti Online Privacy Network, mencerminkan prinsip inti kami: data Anda tetap dengan Anda.',
+    'hub.seo.why.heading': 'Mengapa Orang Menggunakan OPN Chat',
+    'hub.seo.why.text': 'Orang menggunakan OPN Chat karena kesederhanaan dan privasinya. Tidak ada akun untuk dibuat, tidak ada data pribadi untuk dimasukkan, dan tidak ada iklan untuk ditutup. Setiap alat melakukan satu hal dengan baik — membuka obrolan, membuat kode, mengonversi satuan — dan tidak menghalangi Anda. Semua pemrosesan terjadi secara lokal di peramban Anda menggunakan protokol tautan resmi (wa.me untuk WhatsApp, t.me untuk Telegram), jadi pesan Anda langsung melalui aplikasi resmi. Tidak ada yang dicegat, disimpan, atau dilacak.',
 
     // Language switcher
     'lang.switch': 'English',

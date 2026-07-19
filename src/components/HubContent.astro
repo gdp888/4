@@ -1,0 +1,550 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { useTranslations, getLocalizedPath, getAlternateUrl } from '../i18n/utils';
+import { languages, langCodes, type Lang } from '../i18n/ui';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const otherLangs = (Object.keys(languages) as Lang[]).filter(l => l !== lang);
+
+const localeMap: Record<Lang, string> = { en: 'en_US', es: 'es_ES', pt: 'pt_BR', id: 'id_ID' };
+const alternateLocales = otherLangs.map(l => localeMap[l]);
+
+const hubSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "name": "OPN Chat",
+      "url": "https://opnchat.net",
+      "description": t('hub.meta.description'),
+      "inLanguage": Object.keys(languages),
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "OPN Chat",
+          "item": "https://opnchat.net"
+        }
+      ]
+    }
+  ]
+};
+---
+
+<Layout title={t('hub.meta.title')} lang={lang} service="whatsapp">
+  <Fragment slot="meta">
+    <meta name="description" content={t('hub.meta.description')} />
+    <meta name="keywords" content={t('hub.meta.keywords')} />
+    <link rel="canonical" href="https://opnchat.net" />
+    <meta property="og:title" content={t('hub.meta.title')} />
+    <meta property="og:description" content={t('hub.meta.description')} />
+    <meta property="og:url" content="https://opnchat.net" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="OPN Chat" />
+    <meta property="og:locale" content={localeMap[lang]} />
+    {alternateLocales.map(loc => (
+      <meta property="og:locale:alternate" content={loc} />
+    ))}
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={t('hub.meta.title')} />
+    <meta name="twitter:description" content={t('hub.meta.description')} />
+    <script type="application/ld+json" set:html={JSON.stringify(hubSchema)} />
+  </Fragment>
+
+  <main class="container">
+    <!-- Header with nav -->
+    <header class="site-header">
+      <a href="/" class="logo" aria-label="OPN Chat — Home">
+        <span class="logo-text">OPN Chat</span>
+        <svg viewBox="0 0 24 24" fill="currentColor" class="logo-icon" aria-hidden="true">
+          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+        </svg>
+      </a>
+      <div class="header-actions">
+        <nav aria-label="Language switcher">
+          <ul class="lang-switcher">
+            <li class="globe-icon-item" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="globe-icon">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
+            </li>
+            {(Object.keys(languages) as Lang[]).map((l) => (
+              <li>
+                <a
+                  href={l === lang ? '/' : '/'}
+                  class:list={['lang-btn', { active: l === lang }]}
+                  title={languages[l]}
+                  aria-current={l === lang ? 'page' : undefined}
+                >
+                  <span class="full-lang">{languages[l]}</span>
+                  <span class="short-lang">{langCodes[l]}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <button type="button" class="theme-toggle" aria-label="Toggle theme" id="theme-toggle">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1 class="title">
+        <span class="title-brand">OPN Chat</span>
+        <span class="title-dash"> — </span>
+        <span class="title-desc">{t('hub.hero.title')}</span>
+      </h1>
+      <p class="subtitle">{t('hub.hero.subtitle')}</p>
+    </div>
+
+    <!-- Service Cards -->
+    <div class="services-grid">
+      <!-- WhatsApp Card -->
+      <a href={getLocalizedPath(lang, 'whatsapp')} class="service-card whatsapp-card">
+        <div class="card-icon-wrapper wa-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="card-icon" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+        </div>
+        <div class="card-content">
+          <h2 class="card-title">{t('hub.service.whatsapp.title')}</h2>
+          <p class="card-desc">{t('hub.service.whatsapp.desc')}</p>
+        </div>
+        <span class="card-cta">
+          {t('hub.service.whatsapp.cta')}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+
+      <!-- Telegram Card -->
+      <a href={getLocalizedPath(lang, 'telegram')} class="service-card telegram-card">
+        <div class="card-icon-wrapper tg-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="card-icon" aria-hidden="true">
+            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+          </svg>
+        </div>
+        <div class="card-content">
+          <h2 class="card-title">{t('hub.service.telegram.title')}</h2>
+          <p class="card-desc">{t('hub.service.telegram.desc')}</p>
+        </div>
+        <span class="card-cta">
+          {t('hub.service.telegram.cta')}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+
+      <!-- Coming Soon Card -->
+      <div class="service-card coming-soon-card">
+        <div class="card-icon-wrapper cs-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="card-icon" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+        </div>
+        <div class="card-content">
+          <h2 class="card-title">{t('hub.service.more.title')}</h2>
+          <p class="card-desc">{t('hub.service.more.desc')}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Content Section -->
+    <section class="seo-section" aria-label="About OPN Chat">
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('hub.seo.what.heading')}</h2>
+        <p class="seo-text">{t('hub.seo.what.text')}</p>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('hub.seo.why.heading')}</h2>
+        <p class="seo-text">{t('hub.seo.why.text')}</p>
+      </article>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p class="footer-tagline">opnchat.net — OPN Chat. No data stored on servers. Everything runs in your browser.</p>
+      <div class="footer-links">
+        <a href={getLocalizedPath(lang, 'blog')} class="footer-link">{t('footer.blog')}</a>
+        <a href={getLocalizedPath(lang, 'disclaimer')} class="footer-link">{t('footer.disclaimer.link')}</a>
+      </div>
+      <p class="disclaimer-brief">{t('footer.disclaimer.brief')}</p>
+    </footer>
+  </main>
+</Layout>
+
+<style>
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 640px;
+    padding: 2rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* Site Header */
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--text-primary);
+  }
+
+  @media (max-width: 640px) {
+    .logo { display: none; }
+  }
+
+  .logo-icon {
+    width: 24px;
+    height: 24px;
+    color: var(--opn-primary);
+    flex-shrink: 0;
+  }
+
+  .logo-text {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* Language Switcher */
+  .lang-switcher {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    list-style: none;
+  }
+
+  .globe-icon-item {
+    display: flex;
+    align-items: center;
+    padding-right: 0.2rem;
+  }
+
+  .globe-icon {
+    color: var(--text-secondary);
+  }
+
+  .lang-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.3rem 0.55rem;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    gap: 0.2rem;
+  }
+
+  .lang-btn:hover {
+    color: var(--text-primary);
+    background: var(--bg-input);
+    border-color: var(--border-color);
+  }
+
+  .lang-btn.active {
+    color: var(--opn-primary);
+    background: var(--bg-input);
+    border-color: var(--opn-primary);
+  }
+
+  .full-lang { display: none; }
+
+  @media (min-width: 640px) {
+    .full-lang { display: inline; }
+    .short-lang { display: none; }
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    color: var(--text-primary);
+  }
+
+  .title-brand {
+    background: linear-gradient(135deg, #25D366, #6fe89d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .title-dash {
+    color: var(--text-secondary);
+  }
+
+  .title-desc {
+    color: var(--text-secondary);
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+    line-height: 1.5;
+  }
+
+  /* Service Cards Grid */
+  .services-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .service-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.15rem 1.25rem;
+    background: var(--bg-secondary);
+    border: 1.5px solid var(--border-color);
+    border-radius: 14px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    cursor: pointer;
+  }
+
+  .service-card:hover {
+    border-color: var(--opn-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.1);
+  }
+
+  .coming-soon-card {
+    cursor: default;
+    opacity: 0.6;
+    border-style: dashed;
+  }
+
+  .coming-soon-card:hover {
+    border-color: var(--border-color);
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Card Icon */
+  .card-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    flex-shrink: 0;
+  }
+
+  .wa-icon {
+    background: rgba(37, 211, 102, 0.12);
+    color: #25D366;
+  }
+
+  .tg-icon {
+    background: rgba(42, 171, 238, 0.12);
+    color: #2AABEE;
+  }
+
+  .cs-icon {
+    background: rgba(134, 150, 168, 0.12);
+    color: var(--text-secondary);
+  }
+
+  .card-icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  /* Card Content */
+  .card-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .card-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.2rem;
+    line-height: 1.3;
+  }
+
+  .card-desc {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.45;
+  }
+
+  /* Card CTA */
+  .card-cta {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--opn-primary);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .arrow-icon {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.2s;
+  }
+
+  .service-card:hover .arrow-icon {
+    transform: translateX(3px);
+  }
+
+  /* SEO Section */
+  .seo-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-top: 0.5rem;
+  }
+
+  .seo-block {
+    padding: 0;
+  }
+
+  .seo-heading {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .seo-text {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    margin-top: 1rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .footer-tagline {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-link {
+    font-size: 0.82rem;
+    color: var(--opn-primary);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .footer-link:hover {
+    opacity: 0.8;
+  }
+
+  .disclaimer-brief {
+    font-size: 0.68rem;
+    color: var(--text-secondary);
+    opacity: 0.5;
+    line-height: 1.45;
+  }
+
+  /* Responsive */
+  @media (max-width: 520px) {
+    .container {
+      padding: 1.25rem 1rem;
+    }
+    .title {
+      font-size: 1.4rem;
+    }
+    .service-card {
+      padding: 1rem;
+      gap: 0.75rem;
+    }
+    .card-icon-wrapper {
+      width: 42px;
+      height: 42px;
+    }
+    .card-icon {
+      width: 22px;
+      height: 22px;
+    }
+    .card-cta {
+      display: none;
+    }
+    .site-header {
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  // Theme toggle
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('opnchat-theme', next);
+    });
+  }
+</script>
