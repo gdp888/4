@@ -289,7 +289,10 @@ const pageSchema = {
     <!-- Footer -->
     <footer class="footer">
       <p class="footer-tagline">{t('footer.tagline')}</p>
-      <a href={getLocalizedPath(lang, 'disclaimer')} class="disclaimer-link">{t('footer.disclaimer.link')}</a>
+      <div class="footer-links">
+        <a href={getLocalizedPath(lang, 'blog')} class="footer-link">{t('footer.blog')}</a>
+        <a href={getLocalizedPath(lang, 'disclaimer')} class="footer-link">{t('footer.disclaimer.link')}</a>
+      </div>
       <p class="disclaimer-brief">{t('footer.disclaimer.brief')}</p>
     </footer>
   </main>
@@ -861,16 +864,22 @@ const pageSchema = {
     margin-bottom: 1rem;
   }
 
-  .disclaimer-link {
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-link {
     font-size: 0.8rem;
     font-weight: 600;
     color: var(--opn-primary-light);
     text-decoration: none;
     transition: opacity 0.2s;
-    margin-bottom: 0.25rem;
   }
 
-  .disclaimer-link:hover {
+  .footer-link:hover {
     opacity: 0.8;
     text-decoration: underline;
   }

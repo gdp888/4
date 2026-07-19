@@ -96,6 +96,13 @@ export const ui = {
     'footer.tagline': 'opnchat.net — OPN Chat. No data stored on servers. Everything runs in your browser.',
     'footer.disclaimer.link': 'Legal Disclaimer',
     'footer.disclaimer.brief': 'OPN Chat is not affiliated with Meta, WhatsApp, or OpenChat DAO.',
+    'footer.blog': 'Blog',
+
+    // Blog
+    'blog.title': 'Blog',
+    'blog.description': 'Tips, guides, and tutorials about WhatsApp messaging.',
+    'blog.noPosts': 'No articles yet.',
+    'blog.backToBlog': 'Back to Blog',
 
     // Disclaimer page
     'disclaimer.meta.title': 'Legal Disclaimer — OPN Chat',
@@ -216,6 +223,13 @@ export const ui = {
     'footer.tagline': 'opnchat.net — OPN Chat. Sin datos en servidores. Todo funciona en tu navegador.',
     'footer.disclaimer.link': 'Aviso Legal',
     'footer.disclaimer.brief': 'OPN Chat no está afiliado con Meta, WhatsApp ni OpenChat DAO.',
+    'footer.blog': 'Blog',
+
+    // Blog
+    'blog.title': 'Blog',
+    'blog.description': 'Consejos, guías y tutoriales sobre mensajería por WhatsApp.',
+    'blog.noPosts': 'Sin artículos aún.',
+    'blog.backToBlog': 'Volver al Blog',
 
     // Disclaimer page
     'disclaimer.meta.title': 'Aviso Legal — OPN Chat',
@@ -336,6 +350,13 @@ export const ui = {
     'footer.tagline': 'opnchat.net — OPN Chat. Sem dados em servidores. Tudo roda no seu navegador.',
     'footer.disclaimer.link': 'Aviso Legal',
     'footer.disclaimer.brief': 'OPN Chat não é afiliado à Meta, WhatsApp ou OpenChat DAO.',
+    'footer.blog': 'Blog',
+
+    // Blog
+    'blog.title': 'Blog',
+    'blog.description': 'Dicas, guias e tutoriais sobre mensagens no WhatsApp.',
+    'blog.noPosts': 'Nenhum artigo ainda.',
+    'blog.backToBlog': 'Voltar ao Blog',
 
     // Disclaimer page
     'disclaimer.meta.title': 'Aviso Legal — OPN Chat',
@@ -456,6 +477,13 @@ export const ui = {
     'footer.tagline': 'opnchat.net — OPN Chat. Tanpa data di server. Semuanya berjalan di peramban Anda.',
     'footer.disclaimer.link': 'Penafian Hukum',
     'footer.disclaimer.brief': 'OPN Chat tidak berafiliasi dengan Meta, WhatsApp, atau OpenChat DAO.',
+    'footer.blog': 'Blog',
+
+    // Blog
+    'blog.title': 'Blog',
+    'blog.description': 'Tips, panduan, dan tutorial tentang pesan WhatsApp.',
+    'blog.noPosts': 'Belum ada artikel.',
+    'blog.backToBlog': 'Kembali ke Blog',
 
     // Disclaimer page
     'disclaimer.meta.title': 'Penafian Hukum — OPN Chat',
