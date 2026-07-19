@@ -1,0 +1,34 @@
+# OPN Chat
+
+> Free online tools that run entirely in your browser. No sign-up, no data stored on servers. Private and instant.
+
+OPN Chat (Online Privacy Network) is a collection of free privacy-first web tools. Every tool processes data locally in the browser using official link protocols (wa.me for WhatsApp, t.me for Telegram). No data is ever sent to servers, intercepted, stored, or tracked.
+
+## Services
+
+- [WhatsApp](/whatsapp/): Message any WhatsApp number without saving it to your contacts. Enter a phone number with country code, optionally add a pre-filled message, and open a chat directly. Uses the official wa.me link protocol.
+- [Telegram](/telegram/): Message any Telegram username or phone number without adding contacts. Smart input auto-detects @username vs phone number. Uses the official t.me link protocol.
+- [More tools coming soon](/): QR codes, timers, password generators and more — all private, all free, all in your browser.
+
+## Languages
+
+Available in 4 languages: English (default, at root), Español (`/es/`), Português (`/pt/`), Bahasa Indonesia (`/id/`).
+
+## Blog
+
+- [How to Message on WhatsApp Without Saving a Number](/blog/whatsapp-without-saving-number/)
+- [WhatsApp Direct Message Guide](/blog/whatsapp-direct-message/)
+- [WhatsApp Click to Chat Guide](/blog/whatsapp-click-to-chat-guide/)
+
+## Legal
+
+- [Legal Disclaimer](/disclaimer/): OPN Chat is not affiliated with Meta, WhatsApp, Telegram, or OpenChat DAO.
+
+## Key Facts
+
+- **URL**: https://opnchat.net
+- **Privacy**: 100% client-side. No server processing. localStorage only for recent numbers (clearable).
+- **Cost**: Completely free. No ads, no premium tiers, no sign-up.
+- **Protocol**: Uses official wa.me and t.me link protocols. Messages go directly through official apps.
+- **PWA**: Installable as a Progressive Web App with offline support.
+- **Open source**: Available on GitHub.
