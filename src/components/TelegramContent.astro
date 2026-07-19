@@ -153,6 +153,7 @@ const pageSchema = {
     <form id="telegram-form" class="form">
       <div class="input-group">
         <label for="tg-input" class="label">{t('tg.form.label.input')}</label>
+        <span class="hint-plus">{t('tg.form.hint.plus')}</span>
         <div class="tg-input-group">
           <span class="tg-prefix">
             <svg viewBox="0 0 24 24" fill="currentColor" class="prefix-icon" aria-hidden="true">
@@ -538,6 +539,15 @@ const pageSchema = {
     font-size: 0.85rem;
     color: var(--text-secondary);
     opacity: 0.7;
+  }
+
+  .hint-plus {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--accent);
+    opacity: 0.85;
+    margin-bottom: 0.4rem;
+    font-weight: 500;
   }
 
   .error-msg {
