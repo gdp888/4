@@ -19,3 +19,8 @@ npm-debug.log*
 
 # Internal
 skills/
+tool-results/
+scripts/
+
+# Worklog (dev only)
+worklog.md
