@@ -118,6 +118,13 @@ export const ui = {
 
     'disclaimer.back': 'Back to OPN Chat',
 
+    // 404 page
+    '404.title': 'Page Not Found',
+    '404.heading': '404',
+    '404.message': 'Oops! The page you\'re looking for doesn\'t exist.',
+    '404.description': 'It might have been moved or deleted, or the URL might be incorrect.',
+    '404.back': 'Back to OPN Chat',
+
     // Language switcher
     'lang.switch': 'Español',
     'lang.current': 'English',
@@ -229,6 +236,13 @@ export const ui = {
     'disclaimer.changes.text': 'Nos reservamos el derecho de actualizar o modificar este aviso legal en cualquier momento sin previo aviso. Los cambios entran en vigor inmediatamente después de su publicación en esta página. Tu uso continuado del servicio después de cualquier cambio constituye tu aceptación del aviso actualizado.',
 
     'disclaimer.back': 'Volver a OPN Chat',
+
+    // 404 page
+    '404.title': 'Página No Encontrada',
+    '404.heading': '404',
+    '404.message': '¡Ups! La página que buscas no existe.',
+    '404.description': 'Puede que haya sido movida o eliminada, o que la URL sea incorrecta.',
+    '404.back': 'Volver a OPN Chat',
 
     // Language switcher
     'lang.switch': 'English',
@@ -342,6 +356,13 @@ export const ui = {
 
     'disclaimer.back': 'Voltar ao OPN Chat',
 
+    // 404 page
+    '404.title': 'Página Não Encontrada',
+    '404.heading': '404',
+    '404.message': 'Ops! A página que você está procurando não existe.',
+    '404.description': 'Ela pode ter sido movida ou excluída, ou a URL pode estar incorreta.',
+    '404.back': 'Voltar ao OPN Chat',
+
     // Language switcher
     'lang.switch': 'English',
     'lang.current': 'Português',
@@ -453,6 +474,13 @@ export const ui = {
     'disclaimer.changes.text': 'Kami berhak memperbarui atau mengubah penafian hukum ini kapan saja tanpa pemberitahuan sebelumnya. Perubahan berlaku segera setelah dipublikasikan di halaman ini. Penggunaan layanan yang berkelanjutan setelah perubahan apa pun merupakan penerimaan Anda terhadap penafian yang diperbarui.',
 
     'disclaimer.back': 'Kembali ke OPN Chat',
+
+    // 404 page
+    '404.title': 'Halaman Tidak Ditemukan',
+    '404.heading': '404',
+    '404.message': 'Ups! Halaman yang Anda cari tidak ada.',
+    '404.description': 'Mungkin halaman telah dipindahkan atau dihapus, atau URL salah.',
+    '404.back': 'Kembali ke OPN Chat',
 
     // Language switcher
     'lang.switch': 'English',

@@ -1,0 +1,141 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { useTranslations, getLocalizedPath } from '../i18n/utils';
+import { languages, defaultLang, type Lang } from '../i18n/ui';
+
+// Detect language from URL path
+function getLangFromPath(pathname: string): Lang {
+  const segments = pathname.split('/').filter(Boolean);
+  const first = segments[0];
+  if (first && first in languages) return first as Lang;
+  return defaultLang;
+}
+
+const lang = getLangFromPath(Astro.url.pathname);
+const t = useTranslations(lang);
+---
+
+<Layout title={`404 — ${t('404.title')} | OPN Chat`} lang={lang}>
+  <Fragment slot="meta">
+    <meta name="description" content={t('404.message')} />
+    <meta name="robots" content="noindex, follow" />
+  </Fragment>
+
+  <main class="container">
+    <div class="error-content">
+      <div class="error-code">{t('404.heading')}</div>
+      <h1 class="error-title">{t('404.message')}</h1>
+      <p class="error-desc">{t('404.description')}</p>
+
+      <a href={getLocalizedPath(lang)} class="back-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="back-icon">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        {t('404.back')}
+      </a>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 520px;
+    padding: 2rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+  }
+
+  .error-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .error-code {
+    font-size: 8rem;
+    font-weight: 800;
+    line-height: 1;
+    background: linear-gradient(135deg, #0052cc, #4dabf7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.04em;
+    user-select: none;
+    opacity: 0.9;
+  }
+
+  .error-title {
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.4;
+    max-width: 380px;
+  }
+
+  .error-desc {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 340px;
+  }
+
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #fff;
+    background: var(--opn-primary);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.85rem 1.75rem;
+    border-radius: 12px;
+    transition: all 0.2s;
+    margin-top: 0.75rem;
+  }
+
+  .back-btn:hover {
+    background: var(--opn-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0, 82, 204, 0.3);
+  }
+
+  .back-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+
+  .back-btn:focus-visible {
+    outline: 2px solid var(--opn-primary);
+    outline-offset: 2px;
+  }
+
+  .back-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 520px) {
+    .container {
+      padding: 1.25rem 1rem;
+    }
+    .error-code {
+      font-size: 6rem;
+    }
+    .error-title {
+      font-size: 1.15rem;
+    }
+    .error-desc {
+      font-size: 0.85rem;
+    }
+  }
+</style>
