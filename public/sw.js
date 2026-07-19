@@ -1,17 +1,18 @@
-const CACHE_NAME = 'opnchat-cache-v4';
+const CACHE_NAME = 'opnchat-cache-v5';
 
 // Install — precache key resources
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll([
-      '/',
-      '/es/',
-      '/pt/',
-      '/id/',
-      '/telegram/',
-      '/es/telegram/',
-      '/pt/telegram/',
-      '/id/telegram/',
+      '/eng/whatsapp/',
+      '/esp/whatsapp/',
+      '/por/whatsapp/',
+      '/ind/whatsapp/',
+      '/eng/telegram/',
+      '/esp/telegram/',
+      '/por/telegram/',
+      '/ind/telegram/',
+      '/eng/blog/',
       '/icon-192.svg',
       '/icon-512.svg',
       '/manifest.json',
@@ -46,7 +47,7 @@ self.addEventListener('fetch', (event) => {
   // Skip non-GET requests
   if (event.request.method !== 'GET') return;
 
-  // Skip external requests (wa.me, etc.)
+  // Skip external requests (wa.me, t.me, etc.)
   if (!event.request.url.startsWith(self.location.origin)) return;
 
   event.respondWith(

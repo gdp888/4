@@ -12,12 +12,11 @@ export function useTranslations(lang: Lang) {
   };
 }
 
-export function getLocalizedPath(lang: Lang, path: string = ''): string {
-  if (lang === defaultLang) return `/${path}`.replace(/\/+/g, '/');
+export function getLocalizedPath(lang: Lang, path: string = 'whatsapp'): string {
   return `/${lang}/${path}`.replace(/\/+/g, '/');
 }
 
-export function getAlternateUrl(lang: Lang, path: string = ''): string {
+export function getAlternateUrl(lang: Lang, path: string = 'whatsapp'): string {
   const base = 'https://opnchat.net';
   return base + getLocalizedPath(lang, path);
 }

@@ -11,18 +11,21 @@ const { title, lang } = Astro.props;
 
 const allLangs = Object.keys(languages) as Lang[];
 
+// Map 3-letter lang codes to valid hreflang values (ISO 639-1)
+const hreflangMap: Record<Lang, string> = { eng: 'en', esp: 'es', por: 'pt', ind: 'id' };
+
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "OPN Chat",
   "url": "https://opnchat.net",
   "description": "Message WhatsApp without saving the number. Free, private, no sign-up. Enter any phone number and start chatting instantly.",
-  "inLanguage": allLangs,
+  "inLanguage": ['en', 'es', 'pt', 'id'],
 };
 ---
 
 <!doctype html>
-<html lang={lang} data-theme="dark">
+<html lang={hreflangMap[lang]} data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -47,9 +50,9 @@ const websiteSchema = {
     <meta name="apple-mobile-web-app-title" content="OPN Chat" />
     <link rel="apple-touch-icon" href="/icon-192.svg" />
     {allLangs.map((l) => (
-      <link rel="alternate" hreflang={l} href={getAlternateUrl(l)} />
+      <link rel="alternate" hreflang={hreflangMap[l]} href={getAlternateUrl(l)} />
     ))}
-    <link rel="alternate" hreflang="x-default" href={getAlternateUrl('en')} />
+    <link rel="alternate" hreflang="x-default" href={getAlternateUrl('eng')} />
     <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
     <slot name="meta" />
     <meta name="robots" content="index, follow" />

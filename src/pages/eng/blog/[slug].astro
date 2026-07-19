@@ -1,14 +1,14 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import Layout from '../../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
-import { useTranslations, getLocalizedPath, getAlternateUrl } from '../../i18n/utils';
-import { languages, defaultLang, type Lang } from '../../i18n/ui';
+import { useTranslations, getLocalizedPath, getAlternateUrl } from '../../../i18n/utils';
+import { defaultLang, type Lang } from '../../../i18n/ui';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts.map((post) => ({
     params: { slug: post.slug },
-    props: { post, lang: (post.data.lang || 'en') as Lang },
+    props: { post, lang: defaultLang },
   }));
 }
 
@@ -45,7 +45,7 @@ const t = useTranslations(lang);
 
     <article class="post-article">
       <span class="post-date">
-        {post.data.pubDate.toLocaleDateString(lang === 'en' ? 'en-US' : lang === 'es' ? 'es-ES' : lang === 'pt' ? 'pt-BR' : 'id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}
+        {post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
       </span>
       <h1 class="post-title">{post.data.title}</h1>
       <div class="post-content">
