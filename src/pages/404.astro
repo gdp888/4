@@ -22,6 +22,20 @@ const t = useTranslations(lang);
   </Fragment>
 
   <main class="container">
+    <!-- Header with theme toggle -->
+    <header class="site-header">
+      <a href={getLocalizedPath(lang)} class="logo" aria-label="OPN Chat — Home">
+        <svg viewBox="0 0 24 24" fill="currentColor" class="logo-icon" aria-hidden="true">
+          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+        </svg>
+        <span class="logo-text">OPN Chat</span>
+      </a>
+      <button type="button" class="theme-toggle" aria-label="Toggle theme" id="theme-toggle">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </header>
+
     <div class="error-content">
       <div class="error-code">{t('404.heading')}</div>
       <h1 class="error-title">{t('404.message')}</h1>
@@ -38,6 +52,38 @@ const t = useTranslations(lang);
 </Layout>
 
 <style>
+  /* Site Header */
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--text-primary);
+  }
+
+  .logo-icon {
+    width: 24px;
+    height: 24px;
+    color: var(--opn-primary);
+    flex-shrink: 0;
+  }
+
+  .logo-text {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+  }
+
   .container {
     position: relative;
     z-index: 1;
@@ -105,7 +151,7 @@ const t = useTranslations(lang);
   .back-btn:hover {
     background: var(--opn-primary-dark);
     transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(0, 82, 204, 0.3);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
   }
 
   .back-btn:active {
@@ -139,3 +185,16 @@ const t = useTranslations(lang);
     }
   }
 </style>
+
+<script>
+  // Theme toggle
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('opnchat-theme', next);
+    });
+  }
+</script>
