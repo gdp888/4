@@ -43,10 +43,10 @@ const hubSchema = {
   <Fragment slot="meta">
     <meta name="description" content={t('hub.meta.description')} />
     <meta name="keywords" content={t('hub.meta.keywords')} />
-    <link rel="canonical" href="https://opnchat.net" />
+    <link rel="canonical" href={getAlternateUrl(lang, '')} />
     <meta property="og:title" content={t('hub.meta.title')} />
     <meta property="og:description" content={t('hub.meta.description')} />
-    <meta property="og:url" content="https://opnchat.net" />
+    <meta property="og:url" content={getAlternateUrl(lang, '')} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="OPN Chat" />
     <meta property="og:locale" content={localeMap[lang]} />

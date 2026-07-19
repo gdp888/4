@@ -15,13 +15,21 @@ export function useTranslations(lang: Lang) {
 /**
  * Get the URL path for a given language and service.
  * Default locale (en) has NO prefix — lives at root.
- * Other locales are prefixed: /es/whatsapp, /pt/telegram, etc.
+ * Other locales are prefixed: /es/whatsapp/, /pt/telegram/, etc.
+ * All paths end with a trailing slash for consistency.
  */
 export function getLocalizedPath(lang: Lang, path: string = 'whatsapp'): string {
+  let result: string;
   if (lang === defaultLang) {
-    return `/${path}`.replace(/\/+/g, '/');
+    result = `/${path}`.replace(/\/+/g, '/');
+  } else {
+    result = `/${lang}/${path}`.replace(/\/+/g, '/');
   }
-  return `/${lang}/${path}`.replace(/\/+/g, '/');
+  // Ensure trailing slash (root '/' already has it)
+  if (!result.endsWith('/')) {
+    result += '/';
+  }
+  return result;
 }
 
 export function getAlternateUrl(lang: Lang, path: string = 'whatsapp'): string {
