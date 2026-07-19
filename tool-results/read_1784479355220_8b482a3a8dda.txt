@@ -1,0 +1,1139 @@
+     1→     1→---
+     2→     2→import Layout from '../layouts/Layout.astro';
+     3→     3→import { useTranslations, getLocalizedPath, getAlternateUrl } from '../i18n/utils';
+     4→     4→import { languages, langCodes, type Lang } from '../i18n/ui';
+     5→     5→
+     6→     6→export interface Props {
+     7→     7→  lang: Lang;
+     8→     8→}
+     9→     9→
+    10→    10→const { lang } = Astro.props;
+    11→    11→const t = useTranslations(lang);
+    12→    12→const otherLangs = (Object.keys(languages) as Lang[]).filter(l => l !== lang);
+    13→    13→
+    14→    14→const localeMap: Record<Lang, string> = { en: 'en_US', es: 'es_ES', pt: 'pt_BR', id: 'id_ID' };
+    15→    15→const alternateLocales = otherLangs.map(l => localeMap[l]);
+    16→    16→
+    17→    17→// Schema.org — FAQ data
+    18→    18→const faqItems = [
+    19→    19→  { q: t('tg.seo.faq.q1'), a: t('tg.seo.faq.a1') },
+    20→    20→  { q: t('tg.seo.faq.q2'), a: t('tg.seo.faq.a2') },
+    21→    21→  { q: t('tg.seo.faq.q3'), a: t('tg.seo.faq.a3') },
+    22→    22→  { q: t('tg.seo.faq.q4'), a: t('tg.seo.faq.a4') },
+    23→    23→  { q: t('tg.seo.faq.q5'), a: t('tg.seo.faq.a5') },
+    24→    24→];
+    25→    25→
+    26→    26→const pageSchema = {
+    27→    27→  "@context": "https://schema.org",
+    28→    28→  "@graph": [
+    29→    29→    {
+    30→    30→      "@type": "WebApplication",
+    31→    31→      "name": "OPN Chat Telegram",
+    32→    32→      "url": getAlternateUrl(lang, 'telegram'),
+    33→    33→      "description": t('tg.meta.description'),
+    34→    34→      "applicationCategory": "CommunicationApplication",
+    35→    35→      "operatingSystem": "Any",
+    36→    36→      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+    37→    37→      "offers": {
+    38→    38→        "@type": "Offer",
+    39→    39→        "price": "0",
+    40→    40→        "priceCurrency": "USD"
+    41→    41→      },
+    42→    42→      "inLanguage": Object.keys(languages),
+    43→    43→      "featureList": [
+    44→    44→        t('tg.seo.why.feature1.title') + ': ' + t('tg.seo.why.feature1.desc'),
+    45→    45→        t('tg.seo.why.feature2.title') + ': ' + t('tg.seo.why.feature2.desc'),
+    46→    46→        t('tg.seo.why.feature3.title') + ': ' + t('tg.seo.why.feature3.desc'),
+    47→    47→        t('tg.seo.why.feature4.title') + ': ' + t('tg.seo.why.feature4.desc'),
+    48→    48→      ],
+    49→    49→    },
+    50→    50→    {
+    51→    51→      "@type": "FAQPage",
+    52→    52→      "mainEntity": faqItems.map(item => ({
+    53→    53→        "@type": "Question",
+    54→    54→        "name": item.q,
+    55→    55→        "acceptedAnswer": {
+    56→    56→          "@type": "Answer",
+    57→    57→          "text": item.a
+    58→    58→        }
+    59→    59→      }))
+    60→    60→    },
+    61→    61→    {
+    62→    62→      "@type": "BreadcrumbList",
+    63→    63→      "itemListElement": [
+    64→    64→        {
+    65→    65→          "@type": "ListItem",
+    66→    66→          "position": 1,
+    67→    67→          "name": "OPN Chat",
+    68→    68→          "item": getAlternateUrl(lang)
+    69→    69→        },
+    70→    70→        {
+    71→    71→          "@type": "ListItem",
+    72→    72→          "position": 2,
+    73→    73→          "name": "Telegram",
+    74→    74→          "item": getAlternateUrl(lang, 'telegram')
+    75→    75→        }
+    76→    76→      ]
+    77→    77→    }
+    78→    78→  ]
+    79→    79→};
+    80→    80→---
+    81→    81→
+    82→    82→<Layout title={t('tg.meta.title')} lang={lang}>
+    83→    83→  <Fragment slot="meta">
+    84→    84→    <meta name="description" content={t('tg.meta.description')} />
+    85→    85→    <meta name="keywords" content={t('tg.meta.keywords')} />
+    86→    86→    <link rel="canonical" href={getAlternateUrl(lang, 'telegram')} />
+    87→    87→    <meta property="og:title" content={t('tg.meta.og.title')} />
+    88→    88→    <meta property="og:description" content={t('tg.meta.og.description')} />
+    89→    89→    <meta property="og:url" content={getAlternateUrl(lang, 'telegram')} />
+    90→    90→    <meta property="og:type" content="website" />
+    91→    91→    <meta property="og:site_name" content="OPN Chat" />
+    92→    92→    <meta property="og:locale" content={localeMap[lang]} />
+    93→    93→    {alternateLocales.map(loc => (
+    94→    94→      <meta property="og:locale:alternate" content={loc} />
+    95→    95→    ))}
+    96→    96→    <meta name="twitter:card" content="summary" />
+    97→    97→    <meta name="twitter:title" content={t('tg.meta.twitter.title')} />
+    98→    98→    <meta name="twitter:description" content={t('tg.meta.twitter.description')} />
+    99→    99→    <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+   100→   100→  </Fragment>
+   101→   101→
+   102→   102→  <main class="container">
+   103→   103→    <!-- Header with nav -->
+   104→   104→    <header class="site-header">
+   105→   105→      <a href={getLocalizedPath(lang, 'telegram')} class="logo" aria-label="OPN Chat Telegram — Home">
+   106→   106→        <span class="logo-text">OPN Chat</span>
+   107→   107→        <svg viewBox="0 0 24 24" fill="currentColor" class="logo-icon" aria-hidden="true">
+   108→   108→          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+   109→   109→        </svg>
+   110→   110→      </a>
+   111→   111→      <div class="header-actions">
+   112→   112→        <nav aria-label="Language switcher">
+   113→   113→          <ul class="lang-switcher">
+   114→   114→            <li class="globe-icon-item" aria-hidden="true">
+   115→   115→              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="globe-icon">
+   116→   116→                <circle cx="12" cy="12" r="10"></circle>
+   117→   117→                <line x1="2" y1="12" x2="22" y2="12"></line>
+   118→   118→                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+   119→   119→              </svg>
+   120→   120→            </li>
+   121→   121→            {(Object.keys(languages) as Lang[]).map((l) => (
+   122→   122→              <li>
+   123→   123→                <a
+   124→   124→                  href={getLocalizedPath(l, 'telegram')}
+   125→   125→                  class:list={['lang-btn', { active: l === lang }]}
+   126→   126→                  title={languages[l]}
+   127→   127→                  aria-current={l === lang ? 'page' : undefined}
+   128→   128→                >
+   129→   129→                  <span class="full-lang">{languages[l]}</span>
+   130→   130→                  <span class="short-lang">{langCodes[l]}</span>
+   131→   131→                </a>
+   132→   132→              </li>
+   133→   133→            ))}
+   134→   134→          </ul>
+   135→   135→        </nav>
+   136→   136→        <button type="button" class="theme-toggle" aria-label="Toggle theme" id="theme-toggle">
+   137→   137→          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+   138→   138→          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+   139→   139→        </button>
+   140→   140→      </div>
+   141→   141→    </header>
+   142→   142→
+   143→   143→    <!-- Hero -->
+   144→   144→    <div class="hero">
+   145→   145→      <h1 class="title">
+   146→   146→        <span class="title-brand">{t('header.title')}</span>
+   147→   147→        <span class="title-dash"> — </span>
+   148→   148→        <span class="title-desc">{t('tg.header.description')}</span>
+   149→   149→      </h1>
+   150→   150→    </div>
+   151→   151→
+   152→   152→    <!-- Form -->
+   153→   153→    <form id="telegram-form" class="form">
+   154→   154→      <div class="input-group">
+   155→   155→        <label for="tg-input" class="label">{t('tg.form.label.input')}</label>
+   156→   156→        <div class="tg-input-group">
+   157→   157→          <span class="tg-prefix">
+   158→   158→            <svg viewBox="0 0 24 24" fill="currentColor" class="prefix-icon" aria-hidden="true">
+   159→   159→              <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+   160→   160→            </svg>
+   161→   161→          </span>
+   162→   162→          <input
+   163→   163→            type="text"
+   164→   164→            id="tg-input"
+   165→   165→            class="tg-input"
+   166→   166→            placeholder={t('tg.form.placeholder.input')}
+   167→   167→            autocomplete="off"
+   168→   168→            required
+   169→   169→          />
+   170→   170→        </div>
+   171→   171→        <span class="hint">{t('tg.form.hint')}</span>
+   172→   172→        <span id="error-msg" class="error-msg" role="alert"></span>
+   173→   173→      </div>
+   174→   174→
+   175→   175→      <button type="submit" class="submit-btn" id="submit-btn">
+   176→   176→        <svg viewBox="0 0 24 24" fill="currentColor" class="btn-icon">
+   177→   177→          <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+   178→   178→        </svg>
+   179→   179→        {t('tg.form.submit')}
+   180→   180→      </button>
+   181→   181→
+   182→   182→      <details class="message-details">
+   183→   183→        <summary class="message-toggle">
+   184→   184→          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="toggle-icon">
+   185→   185→            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+   186→   186→          </svg>
+   187→   187→          {t('form.addMessage')}
+   188→   188→          <span class="optional">{t('form.label.optional')}</span>
+   189→   189→        </summary>
+   190→   190→        <div class="message-body">
+   191→   191→          <textarea
+   192→   192→            id="message"
+   193→   193→            class="message-input"
+   194→   194→            placeholder={t('form.placeholder.message')}
+   195→   195→            rows="3"
+   196→   196→          ></textarea>
+   197→   197→        </div>
+   198→   198→      </details>
+   199→   199→    </form>
+   200→   200→
+   201→   201→    <!-- History -->
+   202→   202→    <div id="history-section" class="history-section" style="display:none;">
+   203→   203→      <div class="history-header">
+   204→   204→        <h3 class="history-title">{t('tg.history.title')}</h3>
+   205→   205→        <button type="button" id="clear-history" class="clear-btn" aria-label="Clear history">{t('tg.history.clear')}</button>
+   206→   206→      </div>
+   207→   207→      <ul id="history-list" class="history-list"></ul>
+   208→   208→    </div>
+   209→   209→
+   210→   210→    <!-- SEO Content Section -->
+   211→   211→    <section class="seo-section" aria-label="About OPN Chat Telegram">
+   212→   212→
+   213→   213→      <article class="seo-block">
+   214→   214→        <h2 class="seo-heading">{t('tg.seo.opn.heading')}</h2>
+   215→   215→        <p class="seo-text" set:html={t('tg.seo.opn.text')} />
+   216→   216→      </article>
+   217→   217→
+   218→   218→      <article class="seo-block">
+   219→   219→        <h2 class="seo-heading">{t('tg.seo.without.heading')}</h2>
+   220→   220→        <p class="seo-text">{t('tg.seo.without.text')}</p>
+   221→   221→      </article>
+   222→   222→
+   223→   223→      <article class="seo-block">
+   224→   224→        <h2 class="seo-heading">{t('tg.seo.how.heading')}</h2>
+   225→   225→        <p class="seo-text">{t('tg.seo.how.text')}</p>
+   226→   226→      </article>
+   227→   227→
+   228→   228→      <article class="seo-block">
+   229→   229→        <h2 class="seo-heading">{t('tg.seo.why.heading')}</h2>
+   230→   230→        <div class="seo-features">
+   231→   231→          <div class="feature-item">
+   232→   232→            <span class="feature-icon">&#9889;</span>
+   233→   233→            <div>
+   234→   234→              <h3 class="feature-title">{t('tg.seo.why.feature1.title')}</h3>
+   235→   235→              <p class="feature-desc">{t('tg.seo.why.feature1.desc')}</p>
+   236→   236→            </div>
+   237→   237→          </div>
+   238→   238→          <div class="feature-item">
+   239→   239→            <span class="feature-icon">&#128274;</span>
+   240→   240→            <div>
+   241→   241→              <h3 class="feature-title">{t('tg.seo.why.feature2.title')}</h3>
+   242→   242→              <p class="feature-desc">{t('tg.seo.why.feature2.desc')}</p>
+   243→   243→            </div>
+   244→   244→          </div>
+   245→   245→          <div class="feature-item">
+   246→   246→            <span class="feature-icon">&#127760;</span>
+   247→   247→            <div>
+   248→   248→              <h3 class="feature-title">{t('tg.seo.why.feature3.title')}</h3>
+   249→   249→              <p class="feature-desc">{t('tg.seo.why.feature3.desc')}</p>
+   250→   250→            </div>
+   251→   251→          </div>
+   252→   252→          <div class="feature-item">
+   253→   253→            <span class="feature-icon">&#128172;</span>
+   254→   254→            <div>
+   255→   255→              <h3 class="feature-title">{t('tg.seo.why.feature4.title')}</h3>
+   256→   256→              <p class="feature-desc">{t('tg.seo.why.feature4.desc')}</p>
+   257→   257→            </div>
+   258→   258→          </div>
+   259→   259→        </div>
+   260→   260→      </article>
+   261→   261→
+   262→   262→      <article class="seo-block">
+   263→   263→        <h2 class="seo-heading">{t('tg.seo.cases.heading')}</h2>
+   264→   264→        <p class="seo-text">{t('tg.seo.cases.text')}</p>
+   265→   265→      </article>
+   266→   266→
+   267→   267→      <article class="seo-block">
+   268→   268→        <h2 class="seo-heading">{t('tg.seo.direct.heading')}</h2>
+   269→   269→        <p class="seo-text">{t('tg.seo.direct.text')}</p>
+   270→   270→      </article>
+   271→   271→
+   272→   272→      <article class="seo-block">
+   273→   273→        <h2 class="seo-heading">{t('tg.seo.faq.heading')}</h2>
+   274→   274→        <div class="faq-list">
+   275→   275→          <details class="faq-item">
+   276→   276→            <summary class="faq-question">{t('tg.seo.faq.q1')}</summary>
+   277→   277→            <p class="faq-answer">{t('tg.seo.faq.a1')}</p>
+   278→   278→          </details>
+   279→   279→          <details class="faq-item">
+   280→   280→            <summary class="faq-question">{t('tg.seo.faq.q2')}</summary>
+   281→   281→            <p class="faq-answer">{t('tg.seo.faq.a2')}</p>
+   282→   282→          </details>
+   283→   283→          <details class="faq-item">
+   284→   284→            <summary class="faq-question">{t('tg.seo.faq.q3')}</summary>
+   285→   285→            <p class="faq-answer">{t('tg.seo.faq.a3')}</p>
+   286→   286→          </details>
+   287→   287→          <details class="faq-item">
+   288→   288→            <summary class="faq-question">{t('tg.seo.faq.q4')}</summary>
+   289→   289→            <p class="faq-answer">{t('tg.seo.faq.a4')}</p>
+   290→   290→          </details>
+   291→   291→          <details class="faq-item">
+   292→   292→            <summary class="faq-question">{t('tg.seo.faq.q5')}</summary>
+   293→   293→            <p class="faq-answer">{t('tg.seo.faq.a5')}</p>
+   294→   294→          </details>
+   295→   295→        </div>
+   296→   296→      </article>
+   297→   297→    </section>
+   298→   298→
+   299→   299→    <!-- Footer -->
+   300→   300→    <footer class="footer">
+   301→   301→      <p class="footer-tagline">{t('tg.footer.tagline')}</p>
+   302→   302→      <div class="footer-links">
+   303→   303→        <a href={getLocalizedPath(lang)} class="footer-link">{t('tg.footer.whatsapp')}</a>
+   304→   304→        <a href={getLocalizedPath(lang, 'blog')} class="footer-link">{t('footer.blog')}</a>
+   305→   305→        <a href={getLocalizedPath(lang, 'disclaimer')} class="footer-link">{t('footer.disclaimer.link')}</a>
+   306→   306→      </div>
+   307→   307→      <p class="disclaimer-brief">{t('tg.footer.disclaimer.brief')}</p>
+   308→   308→    </footer>
+   309→   309→  </main>
+   310→   310→</Layout>
+   311→   311→
+   312→   312→<style>
+   313→   313→  /* Telegram blue accent */
+   314→   314→  :root {
+   315→   315→    --tg-primary: #2AABEE;
+   316→   316→    --tg-primary-dark: #229ED9;
+   317→   317→    --tg-primary-light: #7EC8F2;
+   318→   318→  }
+   319→   319→
+   320→   320→  .container {
+   321→   321→    position: relative;
+   322→   322→    z-index: 1;
+   323→   323→    width: 100%;
+   324→   324→    max-width: 480px;
+   325→   325→    padding: 2rem 1.25rem;
+   326→   326→    display: flex;
+   327→   327→    flex-direction: column;
+   328→   328→    gap: 1.5rem;
+   329→   329→  }
+   330→   330→
+   331→   331→  /* Site Header */
+   332→   332→  .site-header {
+   333→   333→    display: flex;
+   334→   334→    align-items: center;
+   335→   335→    justify-content: space-between;
+   336→   336→    width: 100%;
+   337→   337→    gap: 1rem;
+   338→   338→  }
+   339→   339→
+   340→   340→  .logo {
+   341→   341→    display: flex;
+   342→   342→    align-items: center;
+   343→   343→    gap: 0.5rem;
+   344→   344→    text-decoration: none;
+   345→   345→    color: var(--text-primary);
+   346→   346→  }
+   347→   347→
+   348→   348→  @media (max-width: 640px) {
+   349→   349→    .logo { display: none; }
+   350→   350→  }
+   351→   351→
+   352→   352→  .logo-icon {
+   353→   353→    width: 24px;
+   354→   354→    height: 24px;
+   355→   355→    color: var(--tg-primary);
+   356→   356→    flex-shrink: 0;
+   357→   357→  }
+   358→   358→
+   359→   359→  .logo-text {
+   360→   360→    font-size: 1.15rem;
+   361→   361→    font-weight: 700;
+   362→   362→    letter-spacing: -0.02em;
+   363→   363→    color: var(--text-primary);
+   364→   364→  }
+   365→   365→
+   366→   366→  .header-actions {
+   367→   367→    display: flex;
+   368→   368→    align-items: center;
+   369→   369→    gap: 0.5rem;
+   370→   370→  }
+   371→   371→
+   372→   372→  /* Language Switcher */
+   373→   373→  .lang-switcher {
+   374→   374→    display: flex;
+   375→   375→    align-items: center;
+   376→   376→    gap: 0.35rem;
+   377→   377→    list-style: none;
+   378→   378→  }
+   379→   379→
+   380→   380→  .globe-icon-item {
+   381→   381→    display: flex;
+   382→   382→    align-items: center;
+   383→   383→    padding-right: 0.2rem;
+   384→   384→  }
+   385→   385→
+   386→   386→  .globe-icon {
+   387→   387→    color: var(--text-secondary);
+   388→   388→    flex-shrink: 0;
+   389→   389→  }
+   390→   390→
+   391→   391→  .lang-btn {
+   392→   392→    display: inline-flex;
+   393→   393→    align-items: center;
+   394→   394→    justify-content: center;
+   395→   395→    min-width: 52px;
+   396→   396→    padding: 0.55rem 1rem;
+   397→   397→    border-radius: 24px;
+   398→   398→    background: var(--bg-secondary);
+   399→   399→    border: 1.5px solid var(--border-color);
+   400→   400→    color: var(--text-secondary);
+   401→   401→    font-size: 0.85rem;
+   402→   402→    font-weight: 600;
+   403→   403→    text-decoration: none;
+   404→   404→    transition: all 0.2s;
+   405→   405→    white-space: nowrap;
+   406→   406→    letter-spacing: 0.04em;
+   407→   407→  }
+   408→   408→
+   409→   409→  .lang-btn:hover {
+   410→   410→    color: var(--tg-primary);
+   411→   411→    border-color: var(--tg-primary);
+   412→   412→    background: var(--bg-input);
+   413→   413→  }
+   414→   414→
+   415→   415→  .lang-btn.active {
+   416→   416→    background: var(--tg-primary);
+   417→   417→    border-color: var(--tg-primary);
+   418→   418→    color: #fff;
+   419→   419→    pointer-events: none;
+   420→   420→  }
+   421→   421→
+   422→   422→  /* Adaptive lang labels: full names on desktop, short codes on mobile */
+   423→   423→  .short-lang { display: none; }
+   424→   424→  .full-lang { display: inline; }
+   425→   425→
+   426→   426→  .hero {
+   427→   427→    text-align: center;
+   428→   428→    display: flex;
+   429→   429→    flex-direction: column;
+   430→   430→    align-items: center;
+   431→   431→    gap: 0.5rem;
+   432→   432→  }
+   433→   433→
+   434→   434→  .title {
+   435→   435→    font-size: 2.25rem;
+   436→   436→    font-weight: 800;
+   437→   437→    letter-spacing: -0.03em;
+   438→   438→    color: var(--text-primary);
+   439→   439→    line-height: 1.2;
+   440→   440→  }
+   441→   441→
+   442→   442→  .title-brand {
+   443→   443→    font-weight: 800;
+   444→   444→  }
+   445→   445→
+   446→   446→  .title-dash {
+   447→   447→    font-weight: 300;
+   448→   448→    opacity: 0.4;
+   449→   449→  }
+   450→   450→
+   451→   451→  .title-desc {
+   452→   452→    font-weight: 600;
+   453→   453→  }
+   454→   454→
+   455→   455→  .form {
+   456→   456→    background: var(--bg-secondary);
+   457→   457→    border-radius: 16px;
+   458→   458→    padding: 1.5rem;
+   459→   459→    display: flex;
+   460→   460→    flex-direction: column;
+   461→   461→    gap: 1.25rem;
+   462→   462→    box-shadow: var(--card-shadow), 0 4px 24px rgba(0, 0, 0, 0.15);
+   463→   463→    border: 1px solid var(--border-color);
+   464→   464→  }
+   465→   465→
+   466→   466→  .input-group {
+   467→   467→    display: flex;
+   468→   468→    flex-direction: column;
+   469→   469→    gap: 0.5rem;
+   470→   470→  }
+   471→   471→
+   472→   472→  .label {
+   473→   473→    font-size: 1rem;
+   474→   474→    font-weight: 600;
+   475→   475→    color: var(--text-secondary);
+   476→   476→    text-transform: none;
+   477→   477→    letter-spacing: 0.01em;
+   478→   478→  }
+   479→   479→
+   480→   480→  .optional {
+   481→   481→    font-weight: 400;
+   482→   482→    text-transform: none;
+   483→   483→    letter-spacing: 0;
+   484→   484→    font-size: 0.8rem;
+   485→   485→    opacity: 0.7;
+   486→   486→  }
+   487→   487→
+   488→   488→  .tg-input-group {
+   489→   489→    display: flex;
+   490→   490→    align-items: stretch;
+   491→   491→    border: 2px solid var(--border-color);
+   492→   492→    border-radius: 12px;
+   493→   493→    overflow: hidden;
+   494→   494→    background: var(--bg-input);
+   495→   495→    transition: border-color 0.2s;
+   496→   496→  }
+   497→   497→
+   498→   498→  .tg-input-group:focus-within {
+   499→   499→    border-color: var(--tg-primary);
+   500→   500→  }
+   501→   501→
+   502→   502→  .tg-prefix {
+   503→   503→    display: flex;
+   504→   504→    align-items: center;
+   505→   505→    justify-content: center;
+   506→   506→    padding: 0.85rem 0.75rem 0.85rem 1rem;
+   507→   507→    background: var(--border-color);
+   508→   508→    border-right: 2px solid var(--border-color);
+   509→   509→    user-select: none;
+   510→   510→    min-width: 44px;
+   511→   511→    color: var(--tg-primary);
+   512→   512→  }
+   513→   513→
+   514→   514→  .prefix-icon {
+   515→   515→    width: 20px;
+   516→   516→    height: 20px;
+   517→   517→  }
+   518→   518→
+   519→   519→  .tg-input {
+   520→   520→    flex: 1;
+   521→   521→    background: transparent;
+   522→   522→    border: none;
+   523→   523→    color: var(--text-primary);
+   524→   524→    padding: 0.85rem 1rem;
+   525→   525→    font-size: 1.25rem;
+   526→   526→    font-weight: 500;
+   527→   527→    letter-spacing: 0.03em;
+   528→   528→    outline: none;
+   529→   529→    width: 100%;
+   530→   530→  }
+   531→   531→
+   532→   532→  .tg-input::placeholder {
+   533→   533→    color: var(--text-secondary);
+   534→   534→    opacity: 0.5;
+   535→   535→  }
+   536→   536→
+   537→   537→  .hint {
+   538→   538→    font-size: 0.85rem;
+   539→   539→    color: var(--text-secondary);
+   540→   540→    opacity: 0.7;
+   541→   541→  }
+   542→   542→
+   543→   543→  .error-msg {
+   544→   544→    font-size: 0.8rem;
+   545→   545→    color: #ff6b6b;
+   546→   546→    min-height: 1.2em;
+   547→   547→    transition: opacity 0.2s;
+   548→   548→  }
+   549→   549→
+   550→   550→  .message-details {
+   551→   551→    border: 1px solid var(--border-color);
+   552→   552→    border-radius: 12px;
+   553→   553→    overflow: hidden;
+   554→   554→  }
+   555→   555→
+   556→   556→  .message-toggle {
+   557→   557→    display: flex;
+   558→   558→    align-items: center;
+   559→   559→    gap: 0.5rem;
+   560→   560→    padding: 0.7rem 1rem;
+   561→   561→    font-size: 0.9rem;
+   562→   562→    font-weight: 500;
+   563→   563→    color: var(--text-secondary);
+   564→   564→    cursor: pointer;
+   565→   565→    list-style: none;
+   566→   566→    transition: background 0.15s;
+   567→   567→  }
+   568→   568→
+   569→   569→  .message-toggle::-webkit-details-marker {
+   570→   570→    display: none;
+   571→   571→  }
+   572→   572→
+   573→   573→  .message-toggle::after {
+   574→   574→    content: '\25BC';
+   575→   575→    margin-left: auto;
+   576→   576→    font-size: 0.65rem;
+   577→   577→    transition: transform 0.2s;
+   578→   578→    opacity: 0.5;
+   579→   579→  }
+   580→   580→
+   581→   581→  .message-details[open] .message-toggle::after {
+   582→   582→    transform: rotate(180deg);
+   583→   583→  }
+   584→   584→
+   585→   585→  .message-toggle:hover {
+   586→   586→    background: var(--border-color);
+   587→   587→  }
+   588→   588→
+   589→   589→  .toggle-icon {
+   590→   590→    width: 18px;
+   591→   591→    height: 18px;
+   592→   592→    flex-shrink: 0;
+   593→   593→    opacity: 0.6;
+   594→   594→  }
+   595→   595→
+   596→   596→  .message-body {
+   597→   597→    padding: 0 0.75rem 0.75rem 0.75rem;
+   598→   598→  }
+   599→   599→
+   600→   600→  .message-input {
+   601→   601→    background: var(--bg-input);
+   602→   602→    border: 2px solid var(--border-color);
+   603→   603→    border-radius: 10px;
+   604→   604→    color: var(--text-primary);
+   605→   605→    padding: 0.75rem 1rem;
+   606→   606→    font-size: 0.95rem;
+   607→   607→    resize: vertical;
+   608→   608→    min-height: 80px;
+   609→   609→    width: 100%;
+   610→   610→    transition: border-color 0.2s;
+   611→   611→    outline: none;
+   612→   612→  }
+   613→   613→
+   614→   614→  .message-input:focus {
+   615→   615→    border-color: var(--tg-primary);
+   616→   616→  }
+   617→   617→
+   618→   618→  .message-input::placeholder {
+   619→   619→    color: var(--text-secondary);
+   620→   620→    opacity: 0.5;
+   621→   621→  }
+   622→   622→
+   623→   623→  .submit-btn {
+   624→   624→    display: flex;
+   625→   625→    align-items: center;
+   626→   626→    justify-content: center;
+   627→   627→    gap: 0.75rem;
+   628→   628→    background: var(--tg-primary);
+   629→   629→    color: #fff;
+   630→   630→    border: none;
+   631→   631→    border-radius: 12px;
+   632→   632→    padding: 1rem 1.5rem;
+   633→   633→    font-size: 1.05rem;
+   634→   634→    font-weight: 700;
+   635→   635→    cursor: pointer;
+   636→   636→    transition: all 0.2s;
+   637→   637→    text-transform: none;
+   638→   638→    letter-spacing: 0.01em;
+   639→   639→  }
+   640→   640→
+   641→   641→  .submit-btn:hover {
+   642→   642→    background: var(--tg-primary-dark);
+   643→   643→    transform: translateY(-1px);
+   644→   644→    box-shadow: 0 6px 20px rgba(42, 171, 238, 0.3);
+   645→   645→  }
+   646→   646→
+   647→   647→  .submit-btn:active {
+   648→   648→    transform: translateY(0);
+   649→   649→    box-shadow: none;
+   650→   650→  }
+   651→   651→
+   652→   652→  .submit-btn:focus-visible {
+   653→   653→    outline: 2px solid var(--tg-primary);
+   654→   654→    outline-offset: 2px;
+   655→   655→  }
+   656→   656→
+   657→   657→  .btn-icon {
+   658→   658→    width: 22px;
+   659→   659→    height: 22px;
+   660→   660→  }
+   661→   661→
+   662→   662→  .history-section {
+   663→   663→    background: var(--bg-secondary);
+   664→   664→    border-radius: 16px;
+   665→   665→    padding: 1.25rem;
+   666→   666→    border: 1px solid var(--border-color);
+   667→   667→    box-shadow: var(--card-shadow);
+   668→   668→  }
+   669→   669→
+   670→   670→  .history-header {
+   671→   671→    display: flex;
+   672→   672→    align-items: center;
+   673→   673→    justify-content: space-between;
+   674→   674→    margin-bottom: 0.75rem;
+   675→   675→  }
+   676→   676→
+   677→   677→  .history-title {
+   678→   678→    font-size: 0.85rem;
+   679→   679→    font-weight: 600;
+   680→   680→    color: var(--text-secondary);
+   681→   681→    text-transform: uppercase;
+   682→   682→    letter-spacing: 0.05em;
+   683→   683→    margin: 0;
+   684→   684→  }
+   685→   685→
+   686→   686→  .clear-btn {
+   687→   687→    font-size: 0.75rem;
+   688→   688→    color: var(--text-secondary);
+   689→   689→    background: none;
+   690→   690→    border: 1px solid var(--border-color);
+   691→   691→    border-radius: 6px;
+   692→   692→    padding: 0.25rem 0.6rem;
+   693→   693→    cursor: pointer;
+   694→   694→    transition: all 0.2s;
+   695→   695→  }
+   696→   696→
+   697→   697→  .clear-btn:hover {
+   698→   698→    color: #ff6b6b;
+   699→   699→    border-color: #ff6b6b;
+   700→   700→  }
+   701→   701→
+   702→   702→  .history-list {
+   703→   703→    list-style: none;
+   704→   704→    display: flex;
+   705→   705→    flex-direction: column;
+   706→   706→    gap: 0.4rem;
+   707→   707→  }
+   708→   708→
+   709→   709→  :global(.history-item) {
+   710→   710→    display: flex;
+   711→   711→    align-items: center;
+   712→   712→    justify-content: space-between;
+   713→   713→    padding: 0.6rem 0.75rem;
+   714→   714→    border-radius: 10px;
+   715→   715→    background: var(--bg-input);
+   716→   716→    transition: background 0.15s;
+   717→   717→  }
+   718→   718→
+   719→   719→  :global(.history-item:hover) {
+   720→   720→    background: var(--border-color);
+   721→   721→  }
+   722→   722→
+   723→   723→  :global(.history-number) {
+   724→   724→    font-weight: 500;
+   725→   725→    font-size: 0.95rem;
+   726→   726→    cursor: pointer;
+   727→   727→  }
+   728→   728→
+   729→   729→  :global(.history-number:hover) {
+   730→   730→    color: var(--tg-primary);
+   731→   731→  }
+   732→   732→
+   733→   733→  :global(.history-time) {
+   734→   734→    font-size: 0.7rem;
+   735→   735→    color: var(--text-secondary);
+   736→   736→    opacity: 0.6;
+   737→   737→  }
+   738→   738→
+   739→   739→  :global(.history-chat-btn) {
+   740→   740→    font-size: 0.7rem;
+   741→   741→    font-weight: 600;
+   742→   742→    padding: 0.3rem 0.65rem;
+   743→   743→    border-radius: 6px;
+   744→   744→    background: var(--tg-primary);
+   745→   745→    color: #fff;
+   746→   746→    border: none;
+   747→   747→    cursor: pointer;
+   748→   748→    transition: background 0.2s;
+   749→   749→    text-transform: none;
+   750→   750→  }
+   751→   751→
+   752→   752→  :global(.history-chat-btn:hover) {
+   753→   753→    background: var(--tg-primary-dark);
+   754→   754→  }
+   755→   755→
+   756→   756→  :global(.history-left) {
+   757→   757→    display: flex;
+   758→   758→    flex-direction: column;
+   759→   759→    gap: 0.15rem;
+   760→   760→  }
+   761→   761→
+   762→   762→  /* SEO Section */
+   763→   763→  .seo-section {
+   764→   764→    display: flex;
+   765→   765→    flex-direction: column;
+   766→   766→    gap: 2rem;
+   767→   767→    padding-top: 1.5rem;
+   768→   768→  }
+   769→   769→
+   770→   770→  .seo-block {
+   771→   771→    display: flex;
+   772→   772→    flex-direction: column;
+   773→   773→    gap: 0.75rem;
+   774→   774→  }
+   775→   775→
+   776→   776→  .seo-heading {
+   777→   777→    font-size: 1.25rem;
+   778→   778→    font-weight: 700;
+   779→   779→    color: var(--text-primary);
+   780→   780→    letter-spacing: -0.01em;
+   781→   781→    line-height: 1.3;
+   782→   782→  }
+   783→   783→
+   784→   784→  .seo-text {
+   785→   785→    font-size: 0.9rem;
+   786→   786→    line-height: 1.75;
+   787→   787→    color: var(--text-secondary);
+   788→   788→  }
+   789→   789→
+   790→   790→  .seo-features {
+   791→   791→    display: flex;
+   792→   792→    flex-direction: column;
+   793→   793→    gap: 1rem;
+   794→   794→  }
+   795→   795→
+   796→   796→  .feature-item {
+   797→   797→    display: flex;
+   798→   798→    gap: 0.75rem;
+   799→   799→    align-items: flex-start;
+   800→   800→  }
+   801→   801→
+   802→   802→  .feature-icon {
+   803→   803→    font-size: 1.4rem;
+   804→   804→    line-height: 1;
+   805→   805→    flex-shrink: 0;
+   806→   806→    margin-top: 0.15rem;
+   807→   807→  }
+   808→   808→
+   809→   809→  .feature-title {
+   810→   810→    font-size: 0.9rem;
+   811→   811→    font-weight: 700;
+   812→   812→    color: var(--text-primary);
+   813→   813→    margin-bottom: 0.2rem;
+   814→   814→  }
+   815→   815→
+   816→   816→  .feature-desc {
+   817→   817→    font-size: 0.85rem;
+   818→   818→    line-height: 1.6;
+   819→   819→    color: var(--text-secondary);
+   820→   820→  }
+   821→   821→
+   822→   822→  /* FAQ */
+   823→   823→  .faq-list {
+   824→   824→    display: flex;
+   825→   825→    flex-direction: column;
+   826→   826→    gap: 0.5rem;
+   827→   827→  }
+   828→   828→
+   829→   829→  .faq-item {
+   830→   830→    background: var(--bg-input);
+   831→   831→    border-radius: 10px;
+   832→   832→    overflow: hidden;
+   833→   833→    border: 1px solid var(--border-color);
+   834→   834→  }
+   835→   835→
+   836→   836→  .faq-question {
+   837→   837→    display: block;
+   838→   838→    padding: 0.85rem 1rem;
+   839→   839→    font-weight: 600;
+   840→   840→    font-size: 0.9rem;
+   841→   841→    color: var(--text-primary);
+   842→   842→    cursor: pointer;
+   843→   843→    list-style: none;
+   844→   844→    transition: background 0.15s;
+   845→   845→  }
+   846→   846→
+   847→   847→  .faq-question::-webkit-details-marker {
+   848→   848→    display: none;
+   849→   849→  }
+   850→   850→
+   851→   851→  .faq-question::after {
+   852→   852→    content: '+';
+   853→   853→    float: right;
+   854→   854→    font-size: 1.1rem;
+   855→   855→    font-weight: 400;
+   856→   856→    color: var(--text-secondary);
+   857→   857→    transition: transform 0.2s;
+   858→   858→  }
+   859→   859→
+   860→   860→  .faq-item[open] .faq-question::after {
+   861→   861→    content: '\2212';
+   862→   862→  }
+   863→   863→
+   864→   864→  .faq-question:hover {
+   865→   865→    background: var(--border-color);
+   866→   866→  }
+   867→   867→
+   868→   868→  .faq-answer {
+   869→   869→    padding: 0 1rem 0.85rem 1rem;
+   870→   870→    font-size: 0.85rem;
+   871→   871→    line-height: 1.65;
+   872→   872→    color: var(--text-secondary);
+   873→   873→  }
+   874→   874→
+   875→   875→  .footer {
+   876→   876→    text-align: center;
+   877→   877→    padding: 0.5rem;
+   878→   878→  }
+   879→   879→
+   880→   880→  .footer-tagline {
+   881→   881→    font-size: 0.75rem;
+   882→   882→    color: var(--text-secondary);
+   883→   883→    opacity: 0.6;
+   884→   884→    line-height: 1.5;
+   885→   885→    margin-bottom: 1rem;
+   886→   886→  }
+   887→   887→
+   888→   888→  .footer-links {
+   889→   889→    display: flex;
+   890→   890→    justify-content: center;
+   891→   891→    gap: 1.5rem;
+   892→   892→    margin-bottom: 0.75rem;
+   893→   893→  }
+   894→   894→
+   895→   895→  .footer-link {
+   896→   896→    font-size: 0.8rem;
+   897→   897→    font-weight: 600;
+   898→   898→    color: var(--tg-primary-light);
+   899→   899→    text-decoration: none;
+   900→   900→    transition: opacity 0.2s;
+   901→   901→  }
+   902→   902→
+   903→   903→  .footer-link:hover {
+   904→   904→    opacity: 0.8;
+   905→   905→    text-decoration: underline;
+   906→   906→  }
+   907→   907→
+   908→   908→  .disclaimer-brief {
+   909→   909→    font-size: 0.7rem;
+   910→   910→    color: var(--text-secondary);
+   911→   911→    opacity: 0.5;
+   912→   912→    line-height: 1.45;
+   913→   913→  }
+   914→   914→
+   915→   915→  @media (max-width: 520px) {
+   916→   916→    .container {
+   917→   917→      padding: 1.25rem 1rem;
+   918→   918→    }
+   919→   919→    .title {
+   920→   920→      font-size: 1.75rem;
+   921→   921→    }
+   922→   922→    .site-header {
+   923→   923→      justify-content: center;
+   924→   924→    }
+   925→   925→    .header-actions {
+   926→   926→      justify-content: center;
+   927→   927→    }
+   928→   928→    .form {
+   929→   929→      padding: 1.25rem;
+   930→   930→    }
+   931→   931→    .seo-heading {
+   932→   932→      font-size: 1.1rem;
+   933→   933→    }
+   934→   934→    .seo-text {
+   935→   935→      font-size: 0.85rem;
+   936→   936→    }
+   937→   937→    .lang-btn {
+   938→   938→      min-width: auto;
+   939→   939→      padding: 0.5rem 0.6rem;
+   940→   940→      font-size: 0.8rem;
+   941→   941→    }
+   942→   942→    .short-lang { display: inline; }
+   943→   943→    .full-lang { display: none; }
+   944→   944→  }
+   945→   945→</style>
+   946→   946→
+   947→   947→<script define:vars={{ lang }}>
+   948→   948→  const form = document.getElementById('telegram-form');
+   949→   949→  const input = document.getElementById('tg-input');
+   950→   950→  const messageInput = document.getElementById('message');
+   951→   951→  const errorMsg = document.getElementById('error-msg');
+   952→   952→  const historySection = document.getElementById('history-section');
+   953→   953→  const historyList = document.getElementById('history-list');
+   954→   954→  const clearBtn = document.getElementById('clear-history');
+   955→   955→
+   956→   956→  const STORAGE_KEY = 'opnchat-telegram-history';
+   957→   957→  const MAX_HISTORY = 5;
+   958→   958→
+   959→   959→  const localeMap = { en: 'en-US', es: 'es-ES', pt: 'pt-BR', id: 'id-ID' };
+   960→   960→  const locale = localeMap[lang] || 'en-US';
+   961→   961→
+   962→   962→  const chatLabel = 'Chat';
+   963→   963→
+   964→   964→  // Detect if input is a username or phone number
+   965→   965→  function isUsername(val) {
+   966→   966→    // Strip leading @, check if remaining is alphanumeric/underscores
+   967→   967→    var cleaned = val.replace(/^@/, '');
+   968→   968→    return /[a-zA-Z]/.test(cleaned);
+   969→   969→  }
+   970→   970→
+   971→   971→  // Clean username: strip @, keep alphanumeric + underscores
+   972→   972→  function cleanUsername(val) {
+   973→   973→    return val.replace(/^@/, '').replace(/[^a-zA-Z0-9_]/g, '');
+   974→   974→  }
+   975→   975→
+   976→   976→  // Clean phone: digits only
+   977→   977→  function cleanPhone(val) {
+   978→   978→    return val.replace(/\D/g, '');
+   979→   979→  }
+   980→   980→
+   981→   981→  // Input handler
+   982→   982→  input.addEventListener('input', () => {
+   983→   983→    errorMsg.textContent = '';
+   984→   984→  });
+   985→   985→
+   986→   986→  // Load history from localStorage
+   987→   987→  function loadHistory() {
+   988→   988→    try {
+   989→   989→      var data = localStorage.getItem(STORAGE_KEY);
+   990→   990→      return data ? JSON.parse(data) : [];
+   991→   991→    } catch {
+   992→   992→      return [];
+   993→   993→    }
+   994→   994→  }
+   995→   995→
+   996→   996→  function saveHistory(entry) {
+   997→   997→    var history = loadHistory().filter(h => h.value !== entry.value);
+   998→   998→    history.unshift(entry);
+   999→   999→    if (history.length > MAX_HISTORY) history.pop();
+  1000→  1000→    localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+  1001→  1001→    renderHistory();
+  1002→  1002→  }
+  1003→  1003→
+  1004→  1004→  function renderHistory() {
+  1005→  1005→    var history = loadHistory();
+  1006→  1006→    if (history.length === 0) {
+  1007→  1007→      historySection.style.display = 'none';
+  1008→  1008→      return;
+  1009→  1009→    }
+  1010→  1010→    historySection.style.display = 'block';
+  1011→  1011→    historyList.innerHTML = '';
+  1012→  1012→
+  1013→  1013→    history.forEach(function(item) {
+  1014→  1014→      var li = document.createElement('li');
+  1015→  1015→      li.className = 'history-item';
+  1016→  1016→
+  1017→  1017→      var leftDiv = document.createElement('div');
+  1018→  1018→      leftDiv.className = 'history-left';
+  1019→  1019→
+  1020→  1020→      var numSpan = document.createElement('span');
+  1021→  1021→      numSpan.className = 'history-number';
+  1022→  1022→      numSpan.textContent = item.type === 'phone' ? '+' + item.value : '@' + item.value;
+  1023→  1023→      numSpan.addEventListener('click', function(e) {
+  1024→  1024→        e.stopPropagation();
+  1025→  1025→        input.value = item.type === 'phone' ? item.value : '@' + item.value;
+  1026→  1026→        input.focus();
+  1027→  1027→      });
+  1028→  1028→
+  1029→  1029→      var timeSpan = document.createElement('span');
+  1030→  1030→      timeSpan.className = 'history-time';
+  1031→  1031→      var time = new Date(item.timestamp);
+  1032→  1032→      timeSpan.textContent = time.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
+  1033→  1033→
+  1034→  1034→      leftDiv.appendChild(numSpan);
+  1035→  1035→      leftDiv.appendChild(timeSpan);
+  1036→  1036→
+  1037→  1037→      var chatBtn = document.createElement('button');
+  1038→  1038→      chatBtn.type = 'button';
+  1039→  1039→      chatBtn.className = 'history-chat-btn';
+  1040→  1040→      chatBtn.textContent = chatLabel;
+  1041→  1041→      chatBtn.addEventListener('click', function(e) {
+  1042→  1042→        e.stopPropagation();
+  1043→  1043→        var url = item.type === 'phone'
+  1044→  1044→          ? 'https://t.me/+' + item.value
+  1045→  1045→          : 'https://t.me/' + item.value;
+  1046→  1046→        window.open(url, '_blank', 'noopener,noreferrer');
+  1047→  1047→      });
+  1048→  1048→
+  1049→  1049→      li.appendChild(leftDiv);
+  1050→  1050→      li.appendChild(chatBtn);
+  1051→  1051→      historyList.appendChild(li);
+  1052→  1052→    });
+  1053→  1053→  }
+  1054→  1054→
+  1055→  1055→  // Clear history
+  1056→  1056→  clearBtn.addEventListener('click', function() {
+  1057→  1057→    localStorage.removeItem(STORAGE_KEY);
+  1058→  1058→    renderHistory();
+  1059→  1059→  });
+  1060→  1060→
+  1061→  1061→  // Initial render
+  1062→  1062→  renderHistory();
+  1063→  1063→
+  1064→  1064→  // Form submit
+  1065→  1065→  form.addEventListener('submit', function(e) {
+  1066→  1066→    e.preventDefault();
+  1067→  1067→    errorMsg.textContent = '';
+  1068→  1068→
+  1069→  1069→    var rawVal = input.value.trim();
+  1070→  1070→    var message = messageInput.value.trim();
+  1071→  1071→
+  1072→  1072→    var errorMessages = {
+  1073→  1073→      username: lang === 'es' ? 'Ingresa un nombre de usuario válido (3+ caracteres)' : lang === 'pt' ? 'Digite um nome de usuário válido (3+ caracteres)' : lang === 'id' ? 'Silakan masukkan username yang valid (3+ karakter)' : 'Please enter a valid username (3+ characters)',
+  1074→  1074→      phone: lang === 'es' ? 'Ingresa un número de teléfono válido' : lang === 'pt' ? 'Digite um número de telefone válido' : lang === 'id' ? 'Silakan masukkan nomor telepon yang valid' : 'Please enter a valid phone number',
+  1075→  1075→      short: lang === 'es' ? 'El número de teléfono es demasiado corto' : lang === 'pt' ? 'O número de telefone é muito curto' : lang === 'id' ? 'Nomor telepon terlalu pendek' : 'Phone number is too short',
+  1076→  1076→    };
+  1077→  1077→
+  1078→  1078→    if (!rawVal) {
+  1079→  1079→      errorMsg.textContent = errorMessages.username;
+  1080→  1080→      input.focus();
+  1081→  1081→      return;
+  1082→  1082→    }
+  1083→  1083→
+  1084→  1084→    if (isUsername(rawVal)) {
+  1085→  1085→      // Username mode
+  1086→  1086→      var username = cleanUsername(rawVal);
+  1087→  1087→      if (username.length < 3) {
+  1088→  1088→        errorMsg.textContent = errorMessages.username;
+  1089→  1089→        input.focus();
+  1090→  1090→        return;
+  1091→  1091→      }
+  1092→  1092→      saveHistory({ value: username, type: 'username', timestamp: Date.now() });
+  1093→  1093→      var url = 'https://t.me/' + username;
+  1094→  1094→      if (message) {
+  1095→  1095→        url += '?text=' + encodeURIComponent(message);
+  1096→  1096→      }
+  1097→  1097→      window.open(url, '_blank');
+  1098→  1098→    } else {
+  1099→  1099→      // Phone mode
+  1100→  1100→      var digits = cleanPhone(rawVal);
+  1101→  1101→      if (digits.length < 7) {
+  1102→  1102→        errorMsg.textContent = errorMessages.phone;
+  1103→  1103→        input.focus();
+  1104→  1104→        return;
+  1105→  1105→      }
+  1106→  1106→      if (digits.length < 10) {
+  1107→  1107→        errorMsg.textContent = errorMessages.short;
+  1108→  1108→        input.focus();
+  1109→  1109→        return;
+  1110→  1110→      }
+  1111→  1111→      saveHistory({ value: digits, type: 'phone', timestamp: Date.now() });
+  1112→  1112→      var url = 'https://t.me/+' + digits;
+  1113→  1113→      if (message) {
+  1114→  1114→        url += '?text=' + encodeURIComponent(message);
+  1115→  1115→      }
+  1116→  1116→      window.open(url, '_blank');
+  1117→  1117→    }
+  1118→  1118→  });
+  1119→  1119→
+  1120→  1120→  // Keyboard shortcut
+  1121→  1121→  input.addEventListener('keydown', function(e) {
+  1122→  1122→    if (e.key === 'Enter') {
+  1123→  1123→      e.preventDefault();
+  1124→  1124→      form.dispatchEvent(new Event('submit', { cancelable: true }));
+  1125→  1125→    }
+  1126→  1126→  });
+  1127→  1127→
+  1128→  1128→  // Theme toggle
+  1129→  1129→  var themeToggle = document.getElementById('theme-toggle');
+  1130→  1130→  if (themeToggle) {
+  1131→  1131→    themeToggle.addEventListener('click', function() {
+  1132→  1132→      var current = document.documentElement.getAttribute('data-theme');
+  1133→  1133→      var next = current === 'dark' ? 'light' : 'dark';
+  1134→  1134→      document.documentElement.setAttribute('data-theme', next);
+  1135→  1135→      localStorage.setItem('opnchat-theme', next);
+  1136→  1136→    });
+  1137→  1137→  }
+  1138→  1138→</script>
+  1139→  1139→

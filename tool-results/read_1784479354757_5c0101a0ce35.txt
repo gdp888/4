@@ -1,0 +1,1086 @@
+     1→     1→---
+     2→     2→import Layout from '../layouts/Layout.astro';
+     3→     3→import { useTranslations, getLocalizedPath, getAlternateUrl } from '../i18n/utils';
+     4→     4→import { languages, langCodes, type Lang } from '../i18n/ui';
+     5→     5→
+     6→     6→export interface Props {
+     7→     7→  lang: Lang;
+     8→     8→}
+     9→     9→
+    10→    10→const { lang } = Astro.props;
+    11→    11→const t = useTranslations(lang);
+    12→    12→const otherLangs = (Object.keys(languages) as Lang[]).filter(l => l !== lang);
+    13→    13→
+    14→    14→const localeMap: Record<Lang, string> = { en: 'en_US', es: 'es_ES', pt: 'pt_BR', id: 'id_ID' };
+    15→    15→const alternateLocales = otherLangs.map(l => localeMap[l]);
+    16→    16→
+    17→    17→// Schema.org — FAQ data
+    18→    18→const faqItems = [
+    19→    19→  { q: t('seo.faq.q1'), a: t('seo.faq.a1') },
+    20→    20→  { q: t('seo.faq.q2'), a: t('seo.faq.a2') },
+    21→    21→  { q: t('seo.faq.q3'), a: t('seo.faq.a3') },
+    22→    22→  { q: t('seo.faq.q4'), a: t('seo.faq.a4') },
+    23→    23→  { q: t('seo.faq.q5'), a: t('seo.faq.a5') },
+    24→    24→];
+    25→    25→
+    26→    26→const pageSchema = {
+    27→    27→  "@context": "https://schema.org",
+    28→    28→  "@graph": [
+    29→    29→    {
+    30→    30→      "@type": "WebApplication",
+    31→    31→      "name": "OPN Chat",
+    32→    32→      "url": getAlternateUrl(lang),
+    33→    33→      "description": t('meta.description'),
+    34→    34→      "applicationCategory": "CommunicationApplication",
+    35→    35→      "operatingSystem": "Any",
+    36→    36→      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+    37→    37→      "offers": {
+    38→    38→        "@type": "Offer",
+    39→    39→        "price": "0",
+    40→    40→        "priceCurrency": "USD"
+    41→    41→      },
+    42→    42→      "inLanguage": Object.keys(languages),
+    43→    43→      "featureList": [
+    44→    44→        t('seo.why.feature1.title') + ': ' + t('seo.why.feature1.desc'),
+    45→    45→        t('seo.why.feature2.title') + ': ' + t('seo.why.feature2.desc'),
+    46→    46→        t('seo.why.feature3.title') + ': ' + t('seo.why.feature3.desc'),
+    47→    47→        t('seo.why.feature4.title') + ': ' + t('seo.why.feature4.desc'),
+    48→    48→      ],
+    49→    49→    },
+    50→    50→    {
+    51→    51→      "@type": "FAQPage",
+    52→    52→      "mainEntity": faqItems.map(item => ({
+    53→    53→        "@type": "Question",
+    54→    54→        "name": item.q,
+    55→    55→        "acceptedAnswer": {
+    56→    56→          "@type": "Answer",
+    57→    57→          "text": item.a
+    58→    58→        }
+    59→    59→      }))
+    60→    60→    },
+    61→    61→    {
+    62→    62→      "@type": "BreadcrumbList",
+    63→    63→      "itemListElement": [
+    64→    64→        {
+    65→    65→          "@type": "ListItem",
+    66→    66→          "position": 1,
+    67→    67→          "name": t('header.title'),
+    68→    68→          "item": getAlternateUrl(lang)
+    69→    69→        }
+    70→    70→      ]
+    71→    71→    }
+    72→    72→  ]
+    73→    73→};
+    74→    74→---
+    75→    75→
+    76→    76→<Layout title={t('meta.title')} lang={lang}>
+    77→    77→  <Fragment slot="meta">
+    78→    78→    <meta name="description" content={t('meta.description')} />
+    79→    79→    <meta name="keywords" content={t('meta.keywords')} />
+    80→    80→    <link rel="canonical" href={getAlternateUrl(lang)} />
+    81→    81→    <meta property="og:title" content={t('meta.og.title')} />
+    82→    82→    <meta property="og:description" content={t('meta.og.description')} />
+    83→    83→    <meta property="og:url" content={getAlternateUrl(lang)} />
+    84→    84→    <meta property="og:type" content="website" />
+    85→    85→    <meta property="og:site_name" content="OPN Chat" />
+    86→    86→    <meta property="og:locale" content={localeMap[lang]} />
+    87→    87→    {alternateLocales.map(loc => (
+    88→    88→      <meta property="og:locale:alternate" content={loc} />
+    89→    89→    ))}
+    90→    90→    <meta name="twitter:card" content="summary" />
+    91→    91→    <meta name="twitter:title" content={t('meta.twitter.title')} />
+    92→    92→    <meta name="twitter:description" content={t('meta.twitter.description')} />
+    93→    93→    <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+    94→    94→  </Fragment>
+    95→    95→
+    96→    96→  <main class="container">
+    97→    97→    <!-- Header with nav -->
+    98→    98→    <header class="site-header">
+    99→    99→      <a href={getLocalizedPath(lang)} class="logo" aria-label="OPN Chat — Home">
+   100→   100→        <span class="logo-text">OPN Chat</span>
+   101→   101→        <svg viewBox="0 0 24 24" fill="currentColor" class="logo-icon" aria-hidden="true">
+   102→   102→          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+   103→   103→        </svg>
+   104→   104→      </a>
+   105→   105→      <div class="header-actions">
+   106→   106→        <nav aria-label="Language switcher">
+   107→   107→          <ul class="lang-switcher">
+   108→   108→            <li class="globe-icon-item" aria-hidden="true">
+   109→   109→              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="globe-icon">
+   110→   110→                <circle cx="12" cy="12" r="10"></circle>
+   111→   111→                <line x1="2" y1="12" x2="22" y2="12"></line>
+   112→   112→                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+   113→   113→              </svg>
+   114→   114→            </li>
+   115→   115→            {(Object.keys(languages) as Lang[]).map((l) => (
+   116→   116→              <li>
+   117→   117→                <a
+   118→   118→                  href={getLocalizedPath(l)}
+   119→   119→                  class:list={['lang-btn', { active: l === lang }]}
+   120→   120→                  title={languages[l]}
+   121→   121→                  aria-current={l === lang ? 'page' : undefined}
+   122→   122→                >
+   123→   123→                  <span class="full-lang">{languages[l]}</span>
+   124→   124→                  <span class="short-lang">{langCodes[l]}</span>
+   125→   125→                </a>
+   126→   126→              </li>
+   127→   127→            ))}
+   128→   128→          </ul>
+   129→   129→        </nav>
+   130→   130→        <button type="button" class="theme-toggle" aria-label="Toggle theme" id="theme-toggle">
+   131→   131→          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+   132→   132→          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+   133→   133→        </button>
+   134→   134→      </div>
+   135→   135→    </header>
+   136→   136→
+   137→   137→    <!-- Hero -->
+   138→   138→    <div class="hero">
+   139→   139→      <h1 class="title">
+   140→   140→        <span class="title-brand">{t('header.title')}</span>
+   141→   141→        <span class="title-dash"> — </span>
+   142→   142→        <span class="title-desc">{t('header.description')}</span>
+   143→   143→      </h1>
+   144→   144→    </div>
+   145→   145→
+   146→   146→    <!-- Form -->
+   147→   147→    <form id="whatsapp-form" class="form">
+   148→   148→      <div class="input-group">
+   149→   149→        <label for="phone" class="label">{t('form.label.phone')}</label>
+   150→   150→        <div class="phone-input-group">
+   151→   151→          <span class="phone-prefix">+</span>
+   152→   152→          <input
+   153→   153→            type="tel"
+   154→   154→            id="phone"
+   155→   155→            class="phone-input"
+   156→   156→            placeholder={t('form.placeholder.phone')}
+   157→   157→            autocomplete="tel"
+   158→   158→            required
+   159→   159→          />
+   160→   160→        </div>
+   161→   161→        <span class="hint">{t('form.hint')}</span>
+   162→   162→        <span id="error-msg" class="error-msg" role="alert"></span>
+   163→   163→      </div>
+   164→   164→
+   165→   165→      <button type="submit" class="submit-btn" id="submit-btn">
+   166→   166→        <svg viewBox="0 0 24 24" fill="currentColor" class="btn-icon">
+   167→   167→          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+   168→   168→        </svg>
+   169→   169→        {t('form.submit')}
+   170→   170→      </button>
+   171→   171→
+   172→   172→      <details class="message-details">
+   173→   173→        <summary class="message-toggle">
+   174→   174→          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="toggle-icon">
+   175→   175→            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+   176→   176→          </svg>
+   177→   177→          {t('form.addMessage')}
+   178→   178→          <span class="optional">{t('form.label.optional')}</span>
+   179→   179→        </summary>
+   180→   180→        <div class="message-body">
+   181→   181→          <textarea
+   182→   182→            id="message"
+   183→   183→            class="message-input"
+   184→   184→            placeholder={t('form.placeholder.message')}
+   185→   185→            rows="3"
+   186→   186→          ></textarea>
+   187→   187→        </div>
+   188→   188→      </details>
+   189→   189→    </form>
+   190→   190→
+   191→   191→    <!-- History -->
+   192→   192→    <div id="history-section" class="history-section" style="display:none;">
+   193→   193→      <div class="history-header">
+   194→   194→        <h3 class="history-title">{t('history.title')}</h3>
+   195→   195→        <button type="button" id="clear-history" class="clear-btn" aria-label="Clear history">{t('history.clear')}</button>
+   196→   196→      </div>
+   197→   197→      <ul id="history-list" class="history-list"></ul>
+   198→   198→    </div>
+   199→   199→
+   200→   200→    <!-- SEO Content Section -->
+   201→   201→    <section class="seo-section" aria-label="About OPN Chat">
+   202→   202→
+   203→   203→      <article class="seo-block">
+   204→   204→        <h2 class="seo-heading">{t('seo.opn.heading')}</h2>
+   205→   205→        <p class="seo-text" set:html={t('seo.opn.text')} />
+   206→   206→      </article>
+   207→   207→
+   208→   208→      <article class="seo-block">
+   209→   209→        <h2 class="seo-heading">{t('seo.without.heading')}</h2>
+   210→   210→        <p class="seo-text">{t('seo.without.text')}</p>
+   211→   211→      </article>
+   212→   212→
+   213→   213→      <article class="seo-block">
+   214→   214→        <h2 class="seo-heading">{t('seo.how.heading')}</h2>
+   215→   215→        <p class="seo-text">{t('seo.how.text')}</p>
+   216→   216→      </article>
+   217→   217→
+   218→   218→      <article class="seo-block">
+   219→   219→        <h2 class="seo-heading">{t('seo.why.heading')}</h2>
+   220→   220→        <div class="seo-features">
+   221→   221→          <div class="feature-item">
+   222→   222→            <span class="feature-icon">&#9889;</span>
+   223→   223→            <div>
+   224→   224→              <h3 class="feature-title">{t('seo.why.feature1.title')}</h3>
+   225→   225→              <p class="feature-desc">{t('seo.why.feature1.desc')}</p>
+   226→   226→            </div>
+   227→   227→          </div>
+   228→   228→          <div class="feature-item">
+   229→   229→            <span class="feature-icon">&#128274;</span>
+   230→   230→            <div>
+   231→   231→              <h3 class="feature-title">{t('seo.why.feature2.title')}</h3>
+   232→   232→              <p class="feature-desc">{t('seo.why.feature2.desc')}</p>
+   233→   233→            </div>
+   234→   234→          </div>
+   235→   235→          <div class="feature-item">
+   236→   236→            <span class="feature-icon">&#127760;</span>
+   237→   237→            <div>
+   238→   238→              <h3 class="feature-title">{t('seo.why.feature3.title')}</h3>
+   239→   239→              <p class="feature-desc">{t('seo.why.feature3.desc')}</p>
+   240→   240→            </div>
+   241→   241→          </div>
+   242→   242→          <div class="feature-item">
+   243→   243→            <span class="feature-icon">&#9993;</span>
+   244→   244→            <div>
+   245→   245→              <h3 class="feature-title">{t('seo.why.feature4.title')}</h3>
+   246→   246→              <p class="feature-desc">{t('seo.why.feature4.desc')}</p>
+   247→   247→            </div>
+   248→   248→          </div>
+   249→   249→        </div>
+   250→   250→      </article>
+   251→   251→
+   252→   252→      <article class="seo-block">
+   253→   253→        <h2 class="seo-heading">{t('seo.cases.heading')}</h2>
+   254→   254→        <p class="seo-text">{t('seo.cases.text')}</p>
+   255→   255→      </article>
+   256→   256→
+   257→   257→      <article class="seo-block">
+   258→   258→        <h2 class="seo-heading">{t('seo.direct.heading')}</h2>
+   259→   259→        <p class="seo-text">{t('seo.direct.text')}</p>
+   260→   260→      </article>
+   261→   261→
+   262→   262→      <article class="seo-block">
+   263→   263→        <h2 class="seo-heading">{t('seo.faq.heading')}</h2>
+   264→   264→        <div class="faq-list">
+   265→   265→          <details class="faq-item">
+   266→   266→            <summary class="faq-question">{t('seo.faq.q1')}</summary>
+   267→   267→            <p class="faq-answer">{t('seo.faq.a1')}</p>
+   268→   268→          </details>
+   269→   269→          <details class="faq-item">
+   270→   270→            <summary class="faq-question">{t('seo.faq.q2')}</summary>
+   271→   271→            <p class="faq-answer">{t('seo.faq.a2')}</p>
+   272→   272→          </details>
+   273→   273→          <details class="faq-item">
+   274→   274→            <summary class="faq-question">{t('seo.faq.q3')}</summary>
+   275→   275→            <p class="faq-answer">{t('seo.faq.a3')}</p>
+   276→   276→          </details>
+   277→   277→          <details class="faq-item">
+   278→   278→            <summary class="faq-question">{t('seo.faq.q4')}</summary>
+   279→   279→            <p class="faq-answer">{t('seo.faq.a4')}</p>
+   280→   280→          </details>
+   281→   281→          <details class="faq-item">
+   282→   282→            <summary class="faq-question">{t('seo.faq.q5')}</summary>
+   283→   283→            <p class="faq-answer">{t('seo.faq.a5')}</p>
+   284→   284→          </details>
+   285→   285→        </div>
+   286→   286→      </article>
+   287→   287→    </section>
+   288→   288→
+   289→   289→    <!-- Footer -->
+   290→   290→    <footer class="footer">
+   291→   291→      <p class="footer-tagline">{t('footer.tagline')}</p>
+   292→   292→      <div class="footer-links">
+   293→   293→        <a href={getLocalizedPath(lang, 'telegram')} class="footer-link">{t('footer.telegram')}</a>
+   294→   294→        <a href={getLocalizedPath(lang, 'blog')} class="footer-link">{t('footer.blog')}</a>
+   295→   295→        <a href={getLocalizedPath(lang, 'disclaimer')} class="footer-link">{t('footer.disclaimer.link')}</a>
+   296→   296→      </div>
+   297→   297→      <p class="disclaimer-brief">{t('footer.disclaimer.brief')}</p>
+   298→   298→    </footer>
+   299→   299→  </main>
+   300→   300→</Layout>
+   301→   301→
+   302→   302→<style>
+   303→   303→  .container {
+   304→   304→    position: relative;
+   305→   305→    z-index: 1;
+   306→   306→    width: 100%;
+   307→   307→    max-width: 480px;
+   308→   308→    padding: 2rem 1.25rem;
+   309→   309→    display: flex;
+   310→   310→    flex-direction: column;
+   311→   311→    gap: 1.5rem;
+   312→   312→  }
+   313→   313→
+   314→   314→  /* Site Header */
+   315→   315→  .site-header {
+   316→   316→    display: flex;
+   317→   317→    align-items: center;
+   318→   318→    justify-content: space-between;
+   319→   319→    width: 100%;
+   320→   320→    gap: 1rem;
+   321→   321→  }
+   322→   322→
+   323→   323→  .logo {
+   324→   324→    display: flex;
+   325→   325→    align-items: center;
+   326→   326→    gap: 0.5rem;
+   327→   327→    text-decoration: none;
+   328→   328→    color: var(--text-primary);
+   329→   329→  }
+   330→   330→
+   331→   331→  @media (max-width: 640px) {
+   332→   332→    .logo { display: none; }
+   333→   333→  }
+   334→   334→
+   335→   335→  .logo-icon {
+   336→   336→    width: 24px;
+   337→   337→    height: 24px;
+   338→   338→    color: var(--opn-primary);
+   339→   339→    flex-shrink: 0;
+   340→   340→  }
+   341→   341→
+   342→   342→  .logo-text {
+   343→   343→    font-size: 1.15rem;
+   344→   344→    font-weight: 700;
+   345→   345→    letter-spacing: -0.02em;
+   346→   346→    color: var(--text-primary);
+   347→   347→  }
+   348→   348→
+   349→   349→  .header-actions {
+   350→   350→    display: flex;
+   351→   351→    align-items: center;
+   352→   352→    gap: 0.5rem;
+   353→   353→  }
+   354→   354→
+   355→   355→  /* Language Switcher */
+   356→   356→  .lang-switcher {
+   357→   357→    display: flex;
+   358→   358→    align-items: center;
+   359→   359→    gap: 0.35rem;
+   360→   360→    list-style: none;
+   361→   361→  }
+   362→   362→
+   363→   363→  .globe-icon-item {
+   364→   364→    display: flex;
+   365→   365→    align-items: center;
+   366→   366→    padding-right: 0.2rem;
+   367→   367→  }
+   368→   368→
+   369→   369→  .globe-icon {
+   370→   370→    color: var(--text-secondary);
+   371→   371→    flex-shrink: 0;
+   372→   372→  }
+   373→   373→
+   374→   374→  .lang-btn {
+   375→   375→    display: inline-flex;
+   376→   376→    align-items: center;
+   377→   377→    justify-content: center;
+   378→   378→    min-width: 52px;
+   379→   379→    padding: 0.55rem 1rem;
+   380→   380→    border-radius: 24px;
+   381→   381→    background: var(--bg-secondary);
+   382→   382→    border: 1.5px solid var(--border-color);
+   383→   383→    color: var(--text-secondary);
+   384→   384→    font-size: 0.85rem;
+   385→   385→    font-weight: 600;
+   386→   386→    text-decoration: none;
+   387→   387→    transition: all 0.2s;
+   388→   388→    white-space: nowrap;
+   389→   389→    letter-spacing: 0.04em;
+   390→   390→  }
+   391→   391→
+   392→   392→  .lang-btn:hover {
+   393→   393→    color: var(--opn-primary);
+   394→   394→    border-color: var(--opn-primary);
+   395→   395→    background: var(--bg-input);
+   396→   396→  }
+   397→   397→
+   398→   398→  .lang-btn.active {
+   399→   399→    background: var(--opn-primary);
+   400→   400→    border-color: var(--opn-primary);
+   401→   401→    color: #fff;
+   402→   402→    pointer-events: none;
+   403→   403→  }
+   404→   404→
+   405→   405→  /* Adaptive lang labels: full names on desktop, short codes on mobile */
+   406→   406→  .short-lang { display: none; }
+   407→   407→  .full-lang { display: inline; }
+   408→   408→
+   409→   409→  .hero {
+   410→   410→    text-align: center;
+   411→   411→    display: flex;
+   412→   412→    flex-direction: column;
+   413→   413→    align-items: center;
+   414→   414→    gap: 0.5rem;
+   415→   415→  }
+   416→   416→
+   417→   417→  .title {
+   418→   418→    font-size: 2.25rem;
+   419→   419→    font-weight: 800;
+   420→   420→    letter-spacing: -0.03em;
+   421→   421→    color: var(--text-primary);
+   422→   422→    line-height: 1.2;
+   423→   423→  }
+   424→   424→
+   425→   425→  .title-brand {
+   426→   426→    font-weight: 800;
+   427→   427→  }
+   428→   428→
+   429→   429→  .title-dash {
+   430→   430→    font-weight: 300;
+   431→   431→    opacity: 0.4;
+   432→   432→  }
+   433→   433→
+   434→   434→  .title-desc {
+   435→   435→    font-weight: 600;
+   436→   436→  }
+   437→   437→
+   438→   438→  .form {
+   439→   439→    background: var(--bg-secondary);
+   440→   440→    border-radius: 16px;
+   441→   441→    padding: 1.5rem;
+   442→   442→    display: flex;
+   443→   443→    flex-direction: column;
+   444→   444→    gap: 1.25rem;
+   445→   445→    box-shadow: var(--card-shadow), 0 4px 24px rgba(0, 0, 0, 0.15);
+   446→   446→    border: 1px solid var(--border-color);
+   447→   447→  }
+   448→   448→
+   449→   449→  .input-group {
+   450→   450→    display: flex;
+   451→   451→    flex-direction: column;
+   452→   452→    gap: 0.5rem;
+   453→   453→  }
+   454→   454→
+   455→   455→  .label {
+   456→   456→    font-size: 1rem;
+   457→   457→    font-weight: 600;
+   458→   458→    color: var(--text-secondary);
+   459→   459→    text-transform: none;
+   460→   460→    letter-spacing: 0.01em;
+   461→   461→  }
+   462→   462→
+   463→   463→  .optional {
+   464→   464→    font-weight: 400;
+   465→   465→    text-transform: none;
+   466→   466→    letter-spacing: 0;
+   467→   467→    font-size: 0.8rem;
+   468→   468→    opacity: 0.7;
+   469→   469→  }
+   470→   470→
+   471→   471→  .phone-input-group {
+   472→   472→    display: flex;
+   473→   473→    align-items: stretch;
+   474→   474→    border: 2px solid var(--border-color);
+   475→   475→    border-radius: 12px;
+   476→   476→    overflow: hidden;
+   477→   477→    background: var(--bg-input);
+   478→   478→    transition: border-color 0.2s;
+   479→   479→  }
+   480→   480→
+   481→   481→  .phone-input-group:focus-within {
+   482→   482→    border-color: var(--opn-primary);
+   483→   483→  }
+   484→   484→
+   485→   485→  .phone-prefix {
+   486→   486→    display: flex;
+   487→   487→    align-items: center;
+   488→   488→    justify-content: center;
+   489→   489→    padding: 0.85rem 0.75rem 0.85rem 1rem;
+   490→   490→    font-size: 1.25rem;
+   491→   491→    font-weight: 600;
+   492→   492→    color: var(--text-secondary);
+   493→   493→    background: var(--border-color);
+   494→   494→    border-right: 2px solid var(--border-color);
+   495→   495→    user-select: none;
+   496→   496→    min-width: 44px;
+   497→   497→  }
+   498→   498→
+   499→   499→  .phone-input {
+   500→   500→    flex: 1;
+   501→   501→    background: transparent;
+   502→   502→    border: none;
+   503→   503→    color: var(--text-primary);
+   504→   504→    padding: 0.85rem 1rem;
+   505→   505→    font-size: 1.25rem;
+   506→   506→    font-weight: 500;
+   507→   507→    letter-spacing: 0.03em;
+   508→   508→    outline: none;
+   509→   509→    width: 100%;
+   510→   510→  }
+   511→   511→
+   512→   512→  .phone-input::placeholder {
+   513→   513→    color: var(--text-secondary);
+   514→   514→    opacity: 0.5;
+   515→   515→  }
+   516→   516→
+   517→   517→  .hint {
+   518→   518→    font-size: 0.85rem;
+   519→   519→    color: var(--text-secondary);
+   520→   520→    opacity: 0.7;
+   521→   521→  }
+   522→   522→
+   523→   523→  .error-msg {
+   524→   524→    font-size: 0.8rem;
+   525→   525→    color: #ff6b6b;
+   526→   526→    min-height: 1.2em;
+   527→   527→    transition: opacity 0.2s;
+   528→   528→  }
+   529→   529→
+   530→   530→  .message-details {
+   531→   531→    border: 1px solid var(--border-color);
+   532→   532→    border-radius: 12px;
+   533→   533→    overflow: hidden;
+   534→   534→  }
+   535→   535→
+   536→   536→  .message-toggle {
+   537→   537→    display: flex;
+   538→   538→    align-items: center;
+   539→   539→    gap: 0.5rem;
+   540→   540→    padding: 0.7rem 1rem;
+   541→   541→    font-size: 0.9rem;
+   542→   542→    font-weight: 500;
+   543→   543→    color: var(--text-secondary);
+   544→   544→    cursor: pointer;
+   545→   545→    list-style: none;
+   546→   546→    transition: background 0.15s;
+   547→   547→  }
+   548→   548→
+   549→   549→  .message-toggle::-webkit-details-marker {
+   550→   550→    display: none;
+   551→   551→  }
+   552→   552→
+   553→   553→  .message-toggle::after {
+   554→   554→    content: '\25BC';
+   555→   555→    margin-left: auto;
+   556→   556→    font-size: 0.65rem;
+   557→   557→    transition: transform 0.2s;
+   558→   558→    opacity: 0.5;
+   559→   559→  }
+   560→   560→
+   561→   561→  .message-details[open] .message-toggle::after {
+   562→   562→    transform: rotate(180deg);
+   563→   563→  }
+   564→   564→
+   565→   565→  .message-toggle:hover {
+   566→   566→    background: var(--border-color);
+   567→   567→  }
+   568→   568→
+   569→   569→  .toggle-icon {
+   570→   570→    width: 18px;
+   571→   571→    height: 18px;
+   572→   572→    flex-shrink: 0;
+   573→   573→    opacity: 0.6;
+   574→   574→  }
+   575→   575→
+   576→   576→  .message-body {
+   577→   577→    padding: 0 0.75rem 0.75rem 0.75rem;
+   578→   578→  }
+   579→   579→
+   580→   580→  .message-input {
+   581→   581→    background: var(--bg-input);
+   582→   582→    border: 2px solid var(--border-color);
+   583→   583→    border-radius: 10px;
+   584→   584→    color: var(--text-primary);
+   585→   585→    padding: 0.75rem 1rem;
+   586→   586→    font-size: 0.95rem;
+   587→   587→    resize: vertical;
+   588→   588→    min-height: 80px;
+   589→   589→    width: 100%;
+   590→   590→    transition: border-color 0.2s;
+   591→   591→    outline: none;
+   592→   592→  }
+   593→   593→
+   594→   594→  .message-input:focus {
+   595→   595→    border-color: var(--opn-primary);
+   596→   596→  }
+   597→   597→
+   598→   598→  .message-input::placeholder {
+   599→   599→    color: var(--text-secondary);
+   600→   600→    opacity: 0.5;
+   601→   601→  }
+   602→   602→
+   603→   603→  .submit-btn {
+   604→   604→    display: flex;
+   605→   605→    align-items: center;
+   606→   606→    justify-content: center;
+   607→   607→    gap: 0.75rem;
+   608→   608→    background: var(--opn-primary);
+   609→   609→    color: #fff;
+   610→   610→    border: none;
+   611→   611→    border-radius: 12px;
+   612→   612→    padding: 1rem 1.5rem;
+   613→   613→    font-size: 1.05rem;
+   614→   614→    font-weight: 700;
+   615→   615→    cursor: pointer;
+   616→   616→    transition: all 0.2s;
+   617→   617→    text-transform: none;
+   618→   618→    letter-spacing: 0.01em;
+   619→   619→  }
+   620→   620→
+   621→   621→  .submit-btn:hover {
+   622→   622→    background: var(--opn-primary-dark);
+   623→   623→    transform: translateY(-1px);
+   624→   624→    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+   625→   625→  }
+   626→   626→
+   627→   627→  .submit-btn:active {
+   628→   628→    transform: translateY(0);
+   629→   629→    box-shadow: none;
+   630→   630→  }
+   631→   631→
+   632→   632→  .submit-btn:focus-visible {
+   633→   633→    outline: 2px solid var(--opn-primary);
+   634→   634→    outline-offset: 2px;
+   635→   635→  }
+   636→   636→
+   637→   637→  .btn-icon {
+   638→   638→    width: 22px;
+   639→   639→    height: 22px;
+   640→   640→  }
+   641→   641→
+   642→   642→  .history-section {
+   643→   643→    background: var(--bg-secondary);
+   644→   644→    border-radius: 16px;
+   645→   645→    padding: 1.25rem;
+   646→   646→    border: 1px solid var(--border-color);
+   647→   647→    box-shadow: var(--card-shadow);
+   648→   648→  }
+   649→   649→
+   650→   650→  .history-header {
+   651→   651→    display: flex;
+   652→   652→    align-items: center;
+   653→   653→    justify-content: space-between;
+   654→   654→    margin-bottom: 0.75rem;
+   655→   655→  }
+   656→   656→
+   657→   657→  .history-title {
+   658→   658→    font-size: 0.85rem;
+   659→   659→    font-weight: 600;
+   660→   660→    color: var(--text-secondary);
+   661→   661→    text-transform: uppercase;
+   662→   662→    letter-spacing: 0.05em;
+   663→   663→    margin: 0;
+   664→   664→  }
+   665→   665→
+   666→   666→  .clear-btn {
+   667→   667→    font-size: 0.75rem;
+   668→   668→    color: var(--text-secondary);
+   669→   669→    background: none;
+   670→   670→    border: 1px solid var(--border-color);
+   671→   671→    border-radius: 6px;
+   672→   672→    padding: 0.25rem 0.6rem;
+   673→   673→    cursor: pointer;
+   674→   674→    transition: all 0.2s;
+   675→   675→  }
+   676→   676→
+   677→   677→  .clear-btn:hover {
+   678→   678→    color: #ff6b6b;
+   679→   679→    border-color: #ff6b6b;
+   680→   680→  }
+   681→   681→
+   682→   682→  .history-list {
+   683→   683→    list-style: none;
+   684→   684→    display: flex;
+   685→   685→    flex-direction: column;
+   686→   686→    gap: 0.4rem;
+   687→   687→  }
+   688→   688→
+   689→   689→  :global(.history-item) {
+   690→   690→    display: flex;
+   691→   691→    align-items: center;
+   692→   692→    justify-content: space-between;
+   693→   693→    padding: 0.6rem 0.75rem;
+   694→   694→    border-radius: 10px;
+   695→   695→    background: var(--bg-input);
+   696→   696→    transition: background 0.15s;
+   697→   697→  }
+   698→   698→
+   699→   699→  :global(.history-item:hover) {
+   700→   700→    background: var(--border-color);
+   701→   701→  }
+   702→   702→
+   703→   703→  :global(.history-number) {
+   704→   704→    font-weight: 500;
+   705→   705→    font-size: 0.95rem;
+   706→   706→    cursor: pointer;
+   707→   707→  }
+   708→   708→
+   709→   709→  :global(.history-number:hover) {
+   710→   710→    color: var(--opn-primary);
+   711→   711→  }
+   712→   712→
+   713→   713→  :global(.history-time) {
+   714→   714→    font-size: 0.7rem;
+   715→   715→    color: var(--text-secondary);
+   716→   716→    opacity: 0.6;
+   717→   717→  }
+   718→   718→
+   719→   719→  :global(.history-chat-btn) {
+   720→   720→    font-size: 0.7rem;
+   721→   721→    font-weight: 600;
+   722→   722→    padding: 0.3rem 0.65rem;
+   723→   723→    border-radius: 6px;
+   724→   724→    background: var(--opn-primary);
+   725→   725→    color: #fff;
+   726→   726→    border: none;
+   727→   727→    cursor: pointer;
+   728→   728→    transition: background 0.2s;
+   729→   729→    text-transform: none;
+   730→   730→  }
+   731→   731→
+   732→   732→  :global(.history-chat-btn:hover) {
+   733→   733→    background: var(--opn-primary-dark);
+   734→   734→  }
+   735→   735→
+   736→   736→  :global(.history-left) {
+   737→   737→    display: flex;
+   738→   738→    flex-direction: column;
+   739→   739→    gap: 0.15rem;
+   740→   740→  }
+   741→   741→
+   742→   742→  /* SEO Section */
+   743→   743→  .seo-section {
+   744→   744→    display: flex;
+   745→   745→    flex-direction: column;
+   746→   746→    gap: 2rem;
+   747→   747→    padding-top: 1.5rem;
+   748→   748→  }
+   749→   749→
+   750→   750→  .seo-block {
+   751→   751→    display: flex;
+   752→   752→    flex-direction: column;
+   753→   753→    gap: 0.75rem;
+   754→   754→  }
+   755→   755→
+   756→   756→  .seo-heading {
+   757→   757→    font-size: 1.25rem;
+   758→   758→    font-weight: 700;
+   759→   759→    color: var(--text-primary);
+   760→   760→    letter-spacing: -0.01em;
+   761→   761→    line-height: 1.3;
+   762→   762→  }
+   763→   763→
+   764→   764→  .seo-text {
+   765→   765→    font-size: 0.9rem;
+   766→   766→    line-height: 1.75;
+   767→   767→    color: var(--text-secondary);
+   768→   768→  }
+   769→   769→
+   770→   770→  .seo-features {
+   771→   771→    display: flex;
+   772→   772→    flex-direction: column;
+   773→   773→    gap: 1rem;
+   774→   774→  }
+   775→   775→
+   776→   776→  .feature-item {
+   777→   777→    display: flex;
+   778→   778→    gap: 0.75rem;
+   779→   779→    align-items: flex-start;
+   780→   780→  }
+   781→   781→
+   782→   782→  .feature-icon {
+   783→   783→    font-size: 1.4rem;
+   784→   784→    line-height: 1;
+   785→   785→    flex-shrink: 0;
+   786→   786→    margin-top: 0.15rem;
+   787→   787→  }
+   788→   788→
+   789→   789→  .feature-title {
+   790→   790→    font-size: 0.9rem;
+   791→   791→    font-weight: 700;
+   792→   792→    color: var(--text-primary);
+   793→   793→    margin-bottom: 0.2rem;
+   794→   794→  }
+   795→   795→
+   796→   796→  .feature-desc {
+   797→   797→    font-size: 0.85rem;
+   798→   798→    line-height: 1.6;
+   799→   799→    color: var(--text-secondary);
+   800→   800→  }
+   801→   801→
+   802→   802→  /* FAQ */
+   803→   803→  .faq-list {
+   804→   804→    display: flex;
+   805→   805→    flex-direction: column;
+   806→   806→    gap: 0.5rem;
+   807→   807→  }
+   808→   808→
+   809→   809→  .faq-item {
+   810→   810→    background: var(--bg-input);
+   811→   811→    border-radius: 10px;
+   812→   812→    overflow: hidden;
+   813→   813→    border: 1px solid var(--border-color);
+   814→   814→  }
+   815→   815→
+   816→   816→  .faq-question {
+   817→   817→    display: block;
+   818→   818→    padding: 0.85rem 1rem;
+   819→   819→    font-weight: 600;
+   820→   820→    font-size: 0.9rem;
+   821→   821→    color: var(--text-primary);
+   822→   822→    cursor: pointer;
+   823→   823→    list-style: none;
+   824→   824→    transition: background 0.15s;
+   825→   825→  }
+   826→   826→
+   827→   827→  .faq-question::-webkit-details-marker {
+   828→   828→    display: none;
+   829→   829→  }
+   830→   830→
+   831→   831→  .faq-question::after {
+   832→   832→    content: '+';
+   833→   833→    float: right;
+   834→   834→    font-size: 1.1rem;
+   835→   835→    font-weight: 400;
+   836→   836→    color: var(--text-secondary);
+   837→   837→    transition: transform 0.2s;
+   838→   838→  }
+   839→   839→
+   840→   840→  .faq-item[open] .faq-question::after {
+   841→   841→    content: '\2212';
+   842→   842→  }
+   843→   843→
+   844→   844→  .faq-question:hover {
+   845→   845→    background: var(--border-color);
+   846→   846→  }
+   847→   847→
+   848→   848→  .faq-answer {
+   849→   849→    padding: 0 1rem 0.85rem 1rem;
+   850→   850→    font-size: 0.85rem;
+   851→   851→    line-height: 1.65;
+   852→   852→    color: var(--text-secondary);
+   853→   853→  }
+   854→   854→
+   855→   855→  .footer {
+   856→   856→    text-align: center;
+   857→   857→    padding: 0.5rem;
+   858→   858→  }
+   859→   859→
+   860→   860→  .footer-tagline {
+   861→   861→    font-size: 0.75rem;
+   862→   862→    color: var(--text-secondary);
+   863→   863→    opacity: 0.6;
+   864→   864→    line-height: 1.5;
+   865→   865→    margin-bottom: 1rem;
+   866→   866→  }
+   867→   867→
+   868→   868→  .footer-links {
+   869→   869→    display: flex;
+   870→   870→    justify-content: center;
+   871→   871→    gap: 1.5rem;
+   872→   872→    margin-bottom: 0.75rem;
+   873→   873→  }
+   874→   874→
+   875→   875→  .footer-link {
+   876→   876→    font-size: 0.8rem;
+   877→   877→    font-weight: 600;
+   878→   878→    color: var(--opn-primary-light);
+   879→   879→    text-decoration: none;
+   880→   880→    transition: opacity 0.2s;
+   881→   881→  }
+   882→   882→
+   883→   883→  .footer-link:hover {
+   884→   884→    opacity: 0.8;
+   885→   885→    text-decoration: underline;
+   886→   886→  }
+   887→   887→
+   888→   888→  .disclaimer-brief {
+   889→   889→    font-size: 0.7rem;
+   890→   890→    color: var(--text-secondary);
+   891→   891→    opacity: 0.5;
+   892→   892→    line-height: 1.45;
+   893→   893→  }
+   894→   894→
+   895→   895→  @media (max-width: 520px) {
+   896→   896→    .container {
+   897→   897→      padding: 1.25rem 1rem;
+   898→   898→    }
+   899→   899→    .title {
+   900→   900→      font-size: 1.75rem;
+   901→   901→    }
+   902→   902→    .site-header {
+   903→   903→      justify-content: center;
+   904→   904→    }
+   905→   905→    .header-actions {
+   906→   906→      justify-content: center;
+   907→   907→    }
+   908→   908→    .form {
+   909→   909→      padding: 1.25rem;
+   910→   910→    }
+   911→   911→    .seo-heading {
+   912→   912→      font-size: 1.1rem;
+   913→   913→    }
+   914→   914→    .seo-text {
+   915→   915→      font-size: 0.85rem;
+   916→   916→    }
+   917→   917→    .lang-btn {
+   918→   918→      min-width: auto;
+   919→   919→      padding: 0.5rem 0.6rem;
+   920→   920→      font-size: 0.8rem;
+   921→   921→    }
+   922→   922→    .short-lang { display: inline; }
+   923→   923→    .full-lang { display: none; }
+   924→   924→  }
+   925→   925→</style>
+   926→   926→
+   927→   927→<script define:vars={{ lang }}>
+   928→   928→  const form = document.getElementById('whatsapp-form');
+   929→   929→  const phoneInput = document.getElementById('phone');
+   930→   930→  const messageInput = document.getElementById('message');
+   931→   931→  const errorMsg = document.getElementById('error-msg');
+   932→   932→  const historySection = document.getElementById('history-section');
+   933→   933→  const historyList = document.getElementById('history-list');
+   934→   934→  const clearBtn = document.getElementById('clear-history');
+   935→   935→
+   936→   936→  const STORAGE_KEY = 'opnchat-history';
+   937→   937→  const MAX_HISTORY = 5;
+   938→   938→
+   939→   939→  const localeMap = { en: 'en-US', es: 'es-ES', pt: 'pt-BR', id: 'id-ID' };
+   940→   940→  const locale = localeMap[lang] || 'en-US';
+   941→   941→
+   942→   942→  const chatLabel = lang === 'es' ? 'Chat' : lang === 'pt' ? 'Chat' : 'Chat';
+   943→   943→
+   944→   944→  // Phone input — digits only
+   945→   945→  phoneInput.addEventListener('input', () => {
+   946→   946→    let val = phoneInput.value.replace(/\D/g, '');
+   947→   947→    if (val.length > 15) val = val.slice(0, 15);
+   948→   948→    phoneInput.value = val;
+   949→   949→    errorMsg.textContent = '';
+   950→   950→  });
+   951→   951→
+   952→   952→  // Load history from localStorage
+   953→   953→  function loadHistory() {
+   954→   954→    try {
+   955→   955→      const data = localStorage.getItem(STORAGE_KEY);
+   956→   956→      return data ? JSON.parse(data) : [];
+   957→   957→    } catch {
+   958→   958→      return [];
+   959→   959→    }
+   960→   960→  }
+   961→   961→
+   962→   962→  // Save — store clean digits (no +), display with +
+   963→   963→  function saveHistory(cleanDigits) {
+   964→   964→    const history = loadHistory().filter(h => h.number !== cleanDigits);
+   965→   965→    history.unshift({ number: cleanDigits, timestamp: Date.now() });
+   966→   966→    if (history.length > MAX_HISTORY) history.pop();
+   967→   967→    localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+   968→   968→    renderHistory();
+   969→   969→  }
+   970→   970→
+   971→   971→  function renderHistory() {
+   972→   972→    const history = loadHistory();
+   973→   973→    if (history.length === 0) {
+   974→   974→      historySection.style.display = 'none';
+   975→   975→      return;
+   976→   976→    }
+   977→   977→    historySection.style.display = 'block';
+   978→   978→    historyList.innerHTML = '';
+   979→   979→
+   980→   980→    history.forEach(item => {
+   981→   981→      const digits = item.number.replace(/\D/g, '');
+   982→   982→      const li = document.createElement('li');
+   983→   983→      li.className = 'history-item';
+   984→   984→
+   985→   985→      // Left side: number + time
+   986→   986→      const leftDiv = document.createElement('div');
+   987→   987→      leftDiv.className = 'history-left';
+   988→   988→
+   989→   989→      const numSpan = document.createElement('span');
+   990→   990→      numSpan.className = 'history-number';
+   991→   991→      numSpan.textContent = '+' + digits;
+   992→   992→      // Click number → fill input
+   993→   993→      numSpan.addEventListener('click', (e) => {
+   994→   994→        e.stopPropagation();
+   995→   995→        phoneInput.value = digits;
+   996→   996→        phoneInput.focus();
+   997→   997→      });
+   998→   998→
+   999→   999→      const timeSpan = document.createElement('span');
+  1000→  1000→      timeSpan.className = 'history-time';
+  1001→  1001→      const time = new Date(item.timestamp);
+  1002→  1002→      timeSpan.textContent = time.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
+  1003→  1003→
+  1004→  1004→      leftDiv.appendChild(numSpan);
+  1005→  1005→      leftDiv.appendChild(timeSpan);
+  1006→  1006→
+  1007→  1007→      // Right side: Chat button
+  1008→  1008→      const chatBtn = document.createElement('button');
+  1009→  1009→      chatBtn.type = 'button';
+  1010→  1010→      chatBtn.className = 'history-chat-btn';
+  1011→  1011→      chatBtn.textContent = chatLabel;
+  1012→  1012→      chatBtn.addEventListener('click', (e) => {
+  1013→  1013→        e.stopPropagation();
+  1014→  1014→        window.open(`https://wa.me/${digits}`, '_blank', 'noopener,noreferrer');
+  1015→  1015→      });
+  1016→  1016→
+  1017→  1017→      li.appendChild(leftDiv);
+  1018→  1018→      li.appendChild(chatBtn);
+  1019→  1019→      historyList.appendChild(li);
+  1020→  1020→    });
+  1021→  1021→  }
+  1022→  1022→
+  1023→  1023→  // Clear history
+  1024→  1024→  clearBtn.addEventListener('click', () => {
+  1025→  1025→    localStorage.removeItem(STORAGE_KEY);
+  1026→  1026→    renderHistory();
+  1027→  1027→  });
+  1028→  1028→
+  1029→  1029→  // Initial render
+  1030→  1030→  renderHistory();
+  1031→  1031→
+  1032→  1032→  // Form submit
+  1033→  1033→  form.addEventListener('submit', (e) => {
+  1034→  1034→    e.preventDefault();
+  1035→  1035→    errorMsg.textContent = '';
+  1036→  1036→
+  1037→  1037→    const rawPhone = phoneInput.value.replace(/\D/g, '');
+  1038→  1038→    const message = messageInput.value.trim();
+  1039→  1039→
+  1040→  1040→    const errorMessages = {
+  1041→  1041→      valid: lang === 'es' ? 'Ingresa un número de teléfono válido' : lang === 'pt' ? 'Insira um número de telefone válido' : 'Please enter a valid phone number',
+  1042→  1042→      short: lang === 'es' ? 'El número de teléfono es demasiado corto' : lang === 'pt' ? 'O número de telefone é muito curto' : 'Phone number is too short',
+  1043→  1043→    };
+  1044→  1044→
+  1045→  1045→    if (rawPhone.length < 7) {
+  1046→  1046→      errorMsg.textContent = errorMessages.valid;
+  1047→  1047→      phoneInput.focus();
+  1048→  1048→      return;
+  1049→  1049→    }
+  1050→  1050→
+  1051→  1051→    if (rawPhone.length < 10) {
+  1052→  1052→      errorMsg.textContent = errorMessages.short;
+  1053→  1053→      phoneInput.focus();
+  1054→  1054→      return;
+  1055→  1055→    }
+  1056→  1056→
+  1057→  1057→    // Save clean digits (without +)
+  1058→  1058→    saveHistory(rawPhone);
+  1059→  1059→
+  1060→  1060→    let url = `https://wa.me/${rawPhone}`;
+  1061→  1061→    if (message) {
+  1062→  1062→      url += `?text=${encodeURIComponent(message)}`;
+  1063→  1063→    }
+  1064→  1064→    window.open(url, '_blank');
+  1065→  1065→  });
+  1066→  1066→
+  1067→  1067→  // Keyboard shortcut — Enter to submit when phone is focused
+  1068→  1068→  phoneInput.addEventListener('keydown', (e) => {
+  1069→  1069→    if (e.key === 'Enter') {
+  1070→  1070→      e.preventDefault();
+  1071→  1071→      form.dispatchEvent(new Event('submit', { cancelable: true }));
+  1072→  1072→    }
+  1073→  1073→  });
+  1074→  1074→
+  1075→  1075→  // Theme toggle
+  1076→  1076→  const themeToggle = document.getElementById('theme-toggle');
+  1077→  1077→  if (themeToggle) {
+  1078→  1078→    themeToggle.addEventListener('click', () => {
+  1079→  1079→      const current = document.documentElement.getAttribute('data-theme');
+  1080→  1080→      const next = current === 'dark' ? 'light' : 'dark';
+  1081→  1081→      document.documentElement.setAttribute('data-theme', next);
+  1082→  1082→      localStorage.setItem('opnchat-theme', next);
+  1083→  1083→    });
+  1084→  1084→  }
+  1085→  1085→</script>
+  1086→  1086→
