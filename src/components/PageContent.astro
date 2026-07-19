@@ -404,7 +404,7 @@ const pageSchema = {
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--card-shadow), 0 4px 24px rgba(0, 0, 0, 0.15);
     border: 1px solid var(--border-color);
   }
 
@@ -583,7 +583,7 @@ const pageSchema = {
   .submit-btn:hover {
     background: var(--opn-primary-dark);
     transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(0, 82, 204, 0.3);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
   }
 
   .submit-btn:active {
@@ -606,6 +606,7 @@ const pageSchema = {
     border-radius: 16px;
     padding: 1.25rem;
     border: 1px solid var(--border-color);
+    box-shadow: var(--card-shadow);
   }
 
   .history-header {
