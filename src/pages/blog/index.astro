@@ -10,6 +10,40 @@ const t = useTranslations(lang);
 
 const allPosts = await getCollection('blog', ({ data }) => data.lang === 'en');
 const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const blogSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "name": t('blog.title'),
+      "description": t('blog.description'),
+      "url": getAlternateUrl(lang, 'blog'),
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "OPN Chat",
+        "url": "https://opnchat.net/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "OPN Chat",
+          "item": getAlternateUrl(lang, '')
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": t('blog.title'),
+          "item": getAlternateUrl(lang, 'blog')
+        }
+      ]
+    }
+  ]
+};
 ---
 
 <Layout title={`${t('blog.title')} | OPN Chat`} lang={lang}>
@@ -17,6 +51,7 @@ const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
     <meta name="description" content={t('blog.description')} />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href={getAlternateUrl(lang, 'blog')} />
+    <script type="application/ld+json" set:html={JSON.stringify(blogSchema)} />
   </Fragment>
 
   <main class="blog-container">

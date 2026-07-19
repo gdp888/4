@@ -20,7 +20,7 @@ const hubSchema = {
     {
       "@type": "WebSite",
       "name": "OPN Chat",
-      "url": "https://opnchat.net",
+      "url": getAlternateUrl(lang, ''),
       "description": t('hub.meta.description'),
       "inLanguage": Object.keys(languages),
     },
@@ -31,7 +31,7 @@ const hubSchema = {
           "@type": "ListItem",
           "position": 1,
           "name": "OPN Chat",
-          "item": "https://opnchat.net"
+          "item": getAlternateUrl(lang, '')
         }
       ]
     }
