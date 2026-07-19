@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { useTranslations, getLocalizedPath, getAlternateUrl } from '../i18n/utils';
-import { languages, langCodes, type Lang } from '../i18n/ui';
+import { languages, langCodes, defaultLang, type Lang } from '../i18n/ui';
 
 export interface Props {
   lang: Lang;
@@ -39,7 +39,7 @@ const hubSchema = {
 };
 ---
 
-<Layout title={t('hub.meta.title')} lang={lang} service="whatsapp">
+<Layout title={t('hub.meta.title')} lang={lang} service="">
   <Fragment slot="meta">
     <meta name="description" content={t('hub.meta.description')} />
     <meta name="keywords" content={t('hub.meta.keywords')} />
@@ -81,7 +81,7 @@ const hubSchema = {
             {(Object.keys(languages) as Lang[]).map((l) => (
               <li>
                 <a
-                  href={l === lang ? '/' : '/'}
+                  href={l === defaultLang ? '/' : `/${l}/`}
                   class:list={['lang-btn', { active: l === lang }]}
                   title={languages[l]}
                   aria-current={l === lang ? 'page' : undefined}
