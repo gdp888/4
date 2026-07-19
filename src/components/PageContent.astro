@@ -11,7 +11,7 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 const otherLangs = (Object.keys(languages) as Lang[]).filter(l => l !== lang);
 
-const localeMap: Record<Lang, string> = { eng: 'en_US', esp: 'es_ES', por: 'pt_BR', ind: 'id_ID' };
+const localeMap: Record<Lang, string> = { en: 'en_US', es: 'es_ES', pt: 'pt_BR', id: 'id_ID' };
 const alternateLocales = otherLangs.map(l => localeMap[l]);
 
 // Schema.org — FAQ data
@@ -291,7 +291,7 @@ const pageSchema = {
       <p class="footer-tagline">{t('footer.tagline')}</p>
       <div class="footer-links">
         <a href={getLocalizedPath(lang, 'telegram')} class="footer-link">{t('footer.telegram')}</a>
-        <a href={getLocalizedPath('eng', 'blog')} class="footer-link">{t('footer.blog')}</a>
+        <a href={getLocalizedPath('en', 'blog')} class="footer-link">{t('footer.blog')}</a>
         <a href={getLocalizedPath(lang, 'disclaimer')} class="footer-link">{t('footer.disclaimer.link')}</a>
       </div>
       <p class="disclaimer-brief">{t('footer.disclaimer.brief')}</p>
@@ -936,10 +936,10 @@ const pageSchema = {
   const STORAGE_KEY = 'opnchat-history';
   const MAX_HISTORY = 5;
 
-  const localeMap = { eng: 'en-US', esp: 'es-ES', por: 'pt-BR', ind: 'id-ID' };
+  const localeMap = { en: 'en-US', es: 'es-ES', pt: 'pt-BR', id: 'id-ID' };
   const locale = localeMap[lang] || 'en-US';
 
-  const chatLabel = lang === 'esp' ? 'Chat' : lang === 'por' ? 'Chat' : 'Chat';
+  const chatLabel = lang === 'es' ? 'Chat' : lang === 'pt' ? 'Chat' : 'Chat';
 
   // Phone input — digits only
   phoneInput.addEventListener('input', () => {
@@ -1038,8 +1038,8 @@ const pageSchema = {
     const message = messageInput.value.trim();
 
     const errorMessages = {
-      valid: lang === 'esp' ? 'Ingresa un número de teléfono válido' : lang === 'por' ? 'Insira um número de telefone válido' : 'Please enter a valid phone number',
-      short: lang === 'esp' ? 'El número de teléfono es demasiado corto' : lang === 'por' ? 'O número de telefone é muito curto' : 'Phone number is too short',
+      valid: lang === 'es' ? 'Ingresa un número de teléfono válido' : lang === 'pt' ? 'Insira um número de telefone válido' : 'Please enter a valid phone number',
+      short: lang === 'es' ? 'El número de teléfono es demasiado corto' : lang === 'pt' ? 'O número de telefone é muito curto' : 'Phone number is too short',
     };
 
     if (rawPhone.length < 7) {

@@ -1,18 +1,18 @@
-const CACHE_NAME = 'opnchat-cache-v5';
+const CACHE_NAME = 'opnchat-cache-v6';
 
 // Install — precache key resources
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll([
-      '/eng/whatsapp/',
-      '/esp/whatsapp/',
-      '/por/whatsapp/',
-      '/ind/whatsapp/',
-      '/eng/telegram/',
-      '/esp/telegram/',
-      '/por/telegram/',
-      '/ind/telegram/',
-      '/eng/blog/',
+      '/en/whatsapp/',
+      '/es/whatsapp/',
+      '/pt/whatsapp/',
+      '/id/whatsapp/',
+      '/en/telegram/',
+      '/es/telegram/',
+      '/pt/telegram/',
+      '/id/telegram/',
+      '/en/blog/',
       '/icon-192.svg',
       '/icon-512.svg',
       '/manifest.json',
@@ -44,16 +44,12 @@ self.addEventListener('activate', (event) => {
 
 // Fetch — network first, fallback to cache
 self.addEventListener('fetch', (event) => {
-  // Skip non-GET requests
   if (event.request.method !== 'GET') return;
-
-  // Skip external requests (wa.me, t.me, etc.)
   if (!event.request.url.startsWith(self.location.origin)) return;
 
   event.respondWith(
     fetch(event.request)
       .then((response) => {
-        // Clone and cache successful responses
         if (response.ok) {
           const clone = response.clone();
           caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));

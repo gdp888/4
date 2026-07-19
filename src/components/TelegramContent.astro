@@ -11,7 +11,7 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 const otherLangs = (Object.keys(languages) as Lang[]).filter(l => l !== lang);
 
-const localeMap: Record<Lang, string> = { eng: 'en_US', esp: 'es_ES', por: 'pt_BR', ind: 'id_ID' };
+const localeMap: Record<Lang, string> = { en: 'en_US', es: 'es_ES', pt: 'pt_BR', id: 'id_ID' };
 const alternateLocales = otherLangs.map(l => localeMap[l]);
 
 // Schema.org — FAQ data
@@ -301,7 +301,7 @@ const pageSchema = {
       <p class="footer-tagline">{t('tg.footer.tagline')}</p>
       <div class="footer-links">
         <a href={getLocalizedPath(lang, 'whatsapp')} class="footer-link">{t('tg.footer.whatsapp')}</a>
-        <a href={getLocalizedPath('eng', 'blog')} class="footer-link">{t('footer.blog')}</a>
+        <a href={getLocalizedPath('en', 'blog')} class="footer-link">{t('footer.blog')}</a>
         <a href={getLocalizedPath(lang, 'disclaimer')} class="footer-link">{t('footer.disclaimer.link')}</a>
       </div>
       <p class="disclaimer-brief">{t('tg.footer.disclaimer.brief')}</p>
@@ -956,7 +956,7 @@ const pageSchema = {
   const STORAGE_KEY = 'opnchat-telegram-history';
   const MAX_HISTORY = 5;
 
-  const localeMap = { eng: 'en-US', esp: 'es-ES', por: 'pt-BR', ind: 'id-ID' };
+  const localeMap = { en: 'en-US', es: 'es-ES', pt: 'pt-BR', id: 'id-ID' };
   const locale = localeMap[lang] || 'en-US';
 
   const chatLabel = 'Chat';
@@ -1070,9 +1070,9 @@ const pageSchema = {
     var message = messageInput.value.trim();
 
     var errorMessages = {
-      username: lang === 'esp' ? 'Ingresa un nombre de usuario válido (3+ caracteres)' : lang === 'por' ? 'Digite um nome de usuário válido (3+ caracteres)' : lang === 'ind' ? 'Silakan masukkan username yang valid (3+ karakter)' : 'Please enter a valid username (3+ characters)',
-      phone: lang === 'esp' ? 'Ingresa un número de teléfono válido' : lang === 'por' ? 'Digite um número de telefone válido' : lang === 'ind' ? 'Silakan masukkan nomor telepon yang valid' : 'Please enter a valid phone number',
-      short: lang === 'esp' ? 'El número de teléfono es demasiado corto' : lang === 'por' ? 'O número de telefone é muito curto' : lang === 'ind' ? 'Nomor telepon terlalu pendek' : 'Phone number is too short',
+      username: lang === 'es' ? 'Ingresa un nombre de usuario válido (3+ caracteres)' : lang === 'pt' ? 'Digite um nome de usuário válido (3+ caracteres)' : lang === 'id' ? 'Silakan masukkan username yang valid (3+ karakter)' : 'Please enter a valid username (3+ characters)',
+      phone: lang === 'es' ? 'Ingresa un número de teléfono válido' : lang === 'pt' ? 'Digite um número de telefone válido' : lang === 'id' ? 'Silakan masukkan nomor telepon yang valid' : 'Please enter a valid phone number',
+      short: lang === 'es' ? 'El número de teléfono es demasiado corto' : lang === 'pt' ? 'O número de telefone é muito curto' : lang === 'id' ? 'Nomor telepon terlalu pendek' : 'Phone number is too short',
     };
 
     if (!rawVal) {

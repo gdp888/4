@@ -2,7 +2,7 @@
   "name": "OPN Chat — Message WhatsApp Without Saving Number",
   "short_name": "OPN Chat",
   "description": "Send WhatsApp messages without saving contact numbers. Free, private, no sign-up.",
-  "start_url": "/eng/whatsapp/",
+  "start_url": "/en/whatsapp/",
   "display": "standalone",
   "background_color": "#0a0f1a",
   "theme_color": "#25D366",

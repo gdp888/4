@@ -1,23 +1,23 @@
 export const languages = {
-  eng: 'English',
-  esp: 'Español',
-  por: 'Português',
-  ind: 'Bahasa Indonesia',
+  en: 'English',
+  es: 'Español',
+  pt: 'Português',
+  id: 'Bahasa Indonesia',
 };
 
 export const langCodes = {
-  eng: 'ENG',
-  esp: 'ESP',
-  por: 'POR',
-  ind: 'IND',
+  en: 'ENG',
+  es: 'ESP',
+  pt: 'POR',
+  id: 'IND',
 };
 
-export const defaultLang = 'eng';
+export const defaultLang = 'en';
 
 export type Lang = keyof typeof languages;
 
 export const ui = {
-  eng: {
+  en: {
     // Meta
     'meta.title': 'OPN Chat — Message WhatsApp Without Saving Number',
     'meta.description': 'OPN Chat — Message WhatsApp without saving the number. Free, private, no sign-up. Enter any phone number and start chatting instantly on opnchat.net.',
@@ -197,7 +197,7 @@ export const ui = {
     'lang.switch': 'Español',
     'lang.current': 'English',
   },
-  esp: {
+  es: {
     // Meta
     'meta.title': 'OPN Chat — Mensaje por WhatsApp Sin Guardar el Número',
     'meta.description': 'OPN Chat — Envía un mensaje por WhatsApp sin guardar el número. Gratis, privado, sin registro. Ingresa cualquier número de teléfono y comienza a chatear al instante en opnchat.net.',
@@ -377,7 +377,7 @@ export const ui = {
     'lang.switch': 'English',
     'lang.current': 'Español',
   },
-  por: {
+  pt: {
     // Meta
     'meta.title': 'OPN Chat — Enviar Mensagem no WhatsApp Sem Salvar Contato',
     'meta.description': 'Inicie uma conversa no WhatsApp com qualquer número instantaneamente. Grátis, privado, sem cadastro. Digite o número e fale direto no opnchat.net.',
@@ -557,7 +557,7 @@ export const ui = {
     'lang.switch': 'English',
     'lang.current': 'Português',
   },
-  ind: {
+  id: {
     // Meta
     'meta.title': 'OPN Chat — Kirim Pesan WhatsApp Tanpa Simpan Nomor',
     'meta.description': 'Mulai obrolan WhatsApp dengan nomor apa pun secara instan. Gratis, privat, tanpa daftar. Masukkan nomor telepon dan langsung chat di opnchat.net.',

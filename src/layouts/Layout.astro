@@ -11,8 +11,7 @@ const { title, lang } = Astro.props;
 
 const allLangs = Object.keys(languages) as Lang[];
 
-// Map 3-letter lang codes to valid hreflang values (ISO 639-1)
-const hreflangMap: Record<Lang, string> = { eng: 'en', esp: 'es', por: 'pt', ind: 'id' };
+// Lang codes are already ISO 639-1 (en, es, pt, id) — used directly as hreflang
 
 const websiteSchema = {
   "@context": "https://schema.org",
@@ -25,7 +24,7 @@ const websiteSchema = {
 ---
 
 <!doctype html>
-<html lang={hreflangMap[lang]} data-theme="dark">
+<html lang={lang} data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -50,9 +49,9 @@ const websiteSchema = {
     <meta name="apple-mobile-web-app-title" content="OPN Chat" />
     <link rel="apple-touch-icon" href="/icon-192.svg" />
     {allLangs.map((l) => (
-      <link rel="alternate" hreflang={hreflangMap[l]} href={getAlternateUrl(l)} />
+      <link rel="alternate" hreflang={l} href={getAlternateUrl(l)} />
     ))}
-    <link rel="alternate" hreflang="x-default" href={getAlternateUrl('eng')} />
+    <link rel="alternate" hreflang="x-default" href={getAlternateUrl('en')} />
     <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
     <slot name="meta" />
     <meta name="robots" content="index, follow" />

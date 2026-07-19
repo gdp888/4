@@ -4,160 +4,160 @@
 
   <!-- WhatsApp pages -->
   <url>
-    <loc>https://opnchat.net/eng/whatsapp/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/eng/whatsapp/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/esp/whatsapp/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/por/whatsapp/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/ind/whatsapp/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/eng/whatsapp/"/>
+    <loc>https://opnchat.net/en/whatsapp/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/en/whatsapp/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/whatsapp/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/whatsapp/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/whatsapp/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/en/whatsapp/"/>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
-    <loc>https://opnchat.net/esp/whatsapp/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/eng/whatsapp/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/esp/whatsapp/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/por/whatsapp/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/ind/whatsapp/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/eng/whatsapp/"/>
+    <loc>https://opnchat.net/es/whatsapp/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/en/whatsapp/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/whatsapp/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/whatsapp/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/whatsapp/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/en/whatsapp/"/>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://opnchat.net/por/whatsapp/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/eng/whatsapp/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/esp/whatsapp/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/por/whatsapp/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/ind/whatsapp/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/eng/whatsapp/"/>
+    <loc>https://opnchat.net/pt/whatsapp/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/en/whatsapp/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/whatsapp/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/whatsapp/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/whatsapp/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/en/whatsapp/"/>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://opnchat.net/ind/whatsapp/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/eng/whatsapp/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/esp/whatsapp/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/por/whatsapp/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/ind/whatsapp/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/eng/whatsapp/"/>
+    <loc>https://opnchat.net/id/whatsapp/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/en/whatsapp/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/whatsapp/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/whatsapp/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/whatsapp/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/en/whatsapp/"/>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <!-- Telegram pages -->
   <url>
-    <loc>https://opnchat.net/eng/telegram/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/eng/telegram/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/esp/telegram/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/por/telegram/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/ind/telegram/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/eng/telegram/"/>
+    <loc>https://opnchat.net/en/telegram/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/en/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/en/telegram/"/>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://opnchat.net/esp/telegram/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/eng/telegram/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/esp/telegram/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/por/telegram/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/ind/telegram/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/eng/telegram/"/>
+    <loc>https://opnchat.net/es/telegram/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/en/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/en/telegram/"/>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://opnchat.net/por/telegram/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/eng/telegram/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/esp/telegram/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/por/telegram/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/ind/telegram/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/eng/telegram/"/>
+    <loc>https://opnchat.net/pt/telegram/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/en/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/en/telegram/"/>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://opnchat.net/ind/telegram/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/eng/telegram/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/esp/telegram/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/por/telegram/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/ind/telegram/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/eng/telegram/"/>
+    <loc>https://opnchat.net/id/telegram/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/en/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/en/telegram/"/>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <!-- Disclaimer pages -->
   <url>
-    <loc>https://opnchat.net/eng/disclaimer/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/eng/disclaimer/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/esp/disclaimer/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/por/disclaimer/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/ind/disclaimer/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/eng/disclaimer/"/>
+    <loc>https://opnchat.net/en/disclaimer/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/en/disclaimer/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/disclaimer/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/disclaimer/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/disclaimer/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/en/disclaimer/"/>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
 
   <url>
-    <loc>https://opnchat.net/esp/disclaimer/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/eng/disclaimer/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/esp/disclaimer/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/por/disclaimer/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/ind/disclaimer/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/eng/disclaimer/"/>
+    <loc>https://opnchat.net/es/disclaimer/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/en/disclaimer/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/disclaimer/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/disclaimer/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/disclaimer/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/en/disclaimer/"/>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
 
   <url>
-    <loc>https://opnchat.net/por/disclaimer/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/eng/disclaimer/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/esp/disclaimer/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/por/disclaimer/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/ind/disclaimer/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/eng/disclaimer/"/>
+    <loc>https://opnchat.net/pt/disclaimer/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/en/disclaimer/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/disclaimer/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/disclaimer/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/disclaimer/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/en/disclaimer/"/>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
 
   <url>
-    <loc>https://opnchat.net/ind/disclaimer/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/eng/disclaimer/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/esp/disclaimer/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/por/disclaimer/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/ind/disclaimer/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/eng/disclaimer/"/>
+    <loc>https://opnchat.net/id/disclaimer/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/en/disclaimer/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/disclaimer/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/disclaimer/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/disclaimer/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/en/disclaimer/"/>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
 
   <!-- Blog (English only) -->
   <url>
-    <loc>https://opnchat.net/eng/blog/</loc>
+    <loc>https://opnchat.net/en/blog/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
-    <loc>https://opnchat.net/eng/blog/whatsapp-direct-message</loc>
+    <loc>https://opnchat.net/en/blog/whatsapp-direct-message</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
 
   <url>
-    <loc>https://opnchat.net/eng/blog/whatsapp-click-to-chat-guide</loc>
+    <loc>https://opnchat.net/en/blog/whatsapp-click-to-chat-guide</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
 
   <url>
-    <loc>https://opnchat.net/eng/blog/whatsapp-without-saving-number</loc>
+    <loc>https://opnchat.net/en/blog/whatsapp-without-saving-number</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>

@@ -1,24 +1,20 @@
-# Old URL structure → New URL structure (301 redirects)
-# WhatsApp pages
-/ /eng/whatsapp/ 301
-/es/ /esp/whatsapp/ 301
-/pt/ /por/whatsapp/ 301
-/id/ /ind/whatsapp/ 301
+# Old URL structure → New /{lang}/{service}/ structure (301 redirects)
+# Only for URLs that actually changed
 
-# Telegram pages
-/telegram/ /eng/telegram/ 301
-/es/telegram/ /esp/telegram/ 301
-/pt/telegram/ /por/telegram/ 301
-/id/telegram/ /ind/telegram/ 301
+# Root WhatsApp pages
+/ /en/whatsapp/ 301
+/es/ /es/whatsapp/ 301
+/pt/ /pt/whatsapp/ 301
+/id/ /id/whatsapp/ 301
 
-# Disclaimer pages
-/disclaimer /eng/disclaimer/ 301
-/es/disclaimer /esp/disclaimer/ 301
-/pt/disclaimer /por/disclaimer/ 301
-/id/disclaimer /ind/disclaimer/ 301
+# English Telegram (was /telegram/, now /en/telegram/)
+/telegram/ /en/telegram/ 301
 
-# Blog pages
-/blog/ /eng/blog/ 301
-/blog/whatsapp-direct-message /eng/blog/whatsapp-direct-message 301
-/blog/whatsapp-click-to-chat-guide /eng/blog/whatsapp-click-to-chat-guide 301
-/blog/whatsapp-without-saving-number /eng/blog/whatsapp-without-saving-number 301
+# English Disclaimer (was /disclaimer, now /en/disclaimer/)
+/disclaimer /en/disclaimer/ 301
+
+# Blog pages (were /blog/, now /en/blog/)
+/blog/ /en/blog/ 301
+/blog/whatsapp-direct-message /en/blog/whatsapp-direct-message 301
+/blog/whatsapp-click-to-chat-guide /en/blog/whatsapp-click-to-chat-guide 301
+/blog/whatsapp-without-saving-number /en/blog/whatsapp-without-saving-number 301

@@ -40,7 +40,7 @@ const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
 
     <div class="posts-list">
       {posts.map((post) => (
-        <a href={`/eng/blog/${post.slug}`} class="post-card">
+        <a href={`/en/blog/${post.slug}`} class="post-card">
           <span class="post-date">
             {post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
           </span>
