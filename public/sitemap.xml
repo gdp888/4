@@ -90,4 +90,49 @@
     <priority>0.3</priority>
   </url>
 
+  <!-- Telegram pages -->
+  <url>
+    <loc>https://opnchat.net/telegram/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/telegram/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://opnchat.net/es/telegram/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/telegram/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://opnchat.net/pt/telegram/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/telegram/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://opnchat.net/id/telegram/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/telegram/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/telegram/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
 </urlset>

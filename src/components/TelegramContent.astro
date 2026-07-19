@@ -16,11 +16,11 @@ const alternateLocales = otherLangs.map(l => localeMap[l]);
 
 // Schema.org — FAQ data
 const faqItems = [
-  { q: t('seo.faq.q1'), a: t('seo.faq.a1') },
-  { q: t('seo.faq.q2'), a: t('seo.faq.a2') },
-  { q: t('seo.faq.q3'), a: t('seo.faq.a3') },
-  { q: t('seo.faq.q4'), a: t('seo.faq.a4') },
-  { q: t('seo.faq.q5'), a: t('seo.faq.a5') },
+  { q: t('tg.seo.faq.q1'), a: t('tg.seo.faq.a1') },
+  { q: t('tg.seo.faq.q2'), a: t('tg.seo.faq.a2') },
+  { q: t('tg.seo.faq.q3'), a: t('tg.seo.faq.a3') },
+  { q: t('tg.seo.faq.q4'), a: t('tg.seo.faq.a4') },
+  { q: t('tg.seo.faq.q5'), a: t('tg.seo.faq.a5') },
 ];
 
 const pageSchema = {
@@ -28,9 +28,9 @@ const pageSchema = {
   "@graph": [
     {
       "@type": "WebApplication",
-      "name": "OPN Chat",
-      "url": getAlternateUrl(lang),
-      "description": t('meta.description'),
+      "name": "OPN Chat Telegram",
+      "url": getAlternateUrl(lang, 'telegram'),
+      "description": t('tg.meta.description'),
       "applicationCategory": "CommunicationApplication",
       "operatingSystem": "Any",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
@@ -41,10 +41,10 @@ const pageSchema = {
       },
       "inLanguage": Object.keys(languages),
       "featureList": [
-        t('seo.why.feature1.title') + ': ' + t('seo.why.feature1.desc'),
-        t('seo.why.feature2.title') + ': ' + t('seo.why.feature2.desc'),
-        t('seo.why.feature3.title') + ': ' + t('seo.why.feature3.desc'),
-        t('seo.why.feature4.title') + ': ' + t('seo.why.feature4.desc'),
+        t('tg.seo.why.feature1.title') + ': ' + t('tg.seo.why.feature1.desc'),
+        t('tg.seo.why.feature2.title') + ': ' + t('tg.seo.why.feature2.desc'),
+        t('tg.seo.why.feature3.title') + ': ' + t('tg.seo.why.feature3.desc'),
+        t('tg.seo.why.feature4.title') + ': ' + t('tg.seo.why.feature4.desc'),
       ],
     },
     {
@@ -64,8 +64,14 @@ const pageSchema = {
         {
           "@type": "ListItem",
           "position": 1,
-          "name": t('header.title'),
+          "name": "OPN Chat",
           "item": getAlternateUrl(lang)
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Telegram",
+          "item": getAlternateUrl(lang, 'telegram')
         }
       ]
     }
@@ -73,14 +79,14 @@ const pageSchema = {
 };
 ---
 
-<Layout title={t('meta.title')} lang={lang}>
+<Layout title={t('tg.meta.title')} lang={lang}>
   <Fragment slot="meta">
-    <meta name="description" content={t('meta.description')} />
-    <meta name="keywords" content={t('meta.keywords')} />
-    <link rel="canonical" href={getAlternateUrl(lang)} />
-    <meta property="og:title" content={t('meta.og.title')} />
-    <meta property="og:description" content={t('meta.og.description')} />
-    <meta property="og:url" content={getAlternateUrl(lang)} />
+    <meta name="description" content={t('tg.meta.description')} />
+    <meta name="keywords" content={t('tg.meta.keywords')} />
+    <link rel="canonical" href={getAlternateUrl(lang, 'telegram')} />
+    <meta property="og:title" content={t('tg.meta.og.title')} />
+    <meta property="og:description" content={t('tg.meta.og.description')} />
+    <meta property="og:url" content={getAlternateUrl(lang, 'telegram')} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="OPN Chat" />
     <meta property="og:locale" content={localeMap[lang]} />
@@ -88,15 +94,15 @@ const pageSchema = {
       <meta property="og:locale:alternate" content={loc} />
     ))}
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content={t('meta.twitter.title')} />
-    <meta name="twitter:description" content={t('meta.twitter.description')} />
+    <meta name="twitter:title" content={t('tg.meta.twitter.title')} />
+    <meta name="twitter:description" content={t('tg.meta.twitter.description')} />
     <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
   </Fragment>
 
   <main class="container">
     <!-- Header with nav -->
     <header class="site-header">
-      <a href={getLocalizedPath(lang)} class="logo" aria-label="OPN Chat — Home">
+      <a href={getLocalizedPath(lang, 'telegram')} class="logo" aria-label="OPN Chat Telegram — Home">
         <span class="logo-text">OPN Chat</span>
         <svg viewBox="0 0 24 24" fill="currentColor" class="logo-icon" aria-hidden="true">
           <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
@@ -115,7 +121,7 @@ const pageSchema = {
             {(Object.keys(languages) as Lang[]).map((l) => (
               <li>
                 <a
-                  href={getLocalizedPath(l)}
+                  href={getLocalizedPath(l, 'telegram')}
                   class:list={['lang-btn', { active: l === lang }]}
                   title={languages[l]}
                   aria-current={l === lang ? 'page' : undefined}
@@ -139,34 +145,38 @@ const pageSchema = {
       <h1 class="title">
         <span class="title-brand">{t('header.title')}</span>
         <span class="title-dash"> — </span>
-        <span class="title-desc">{t('header.description')}</span>
+        <span class="title-desc">{t('tg.header.description')}</span>
       </h1>
     </div>
 
     <!-- Form -->
-    <form id="whatsapp-form" class="form">
+    <form id="telegram-form" class="form">
       <div class="input-group">
-        <label for="phone" class="label">{t('form.label.phone')}</label>
-        <div class="phone-input-group">
-          <span class="phone-prefix">+</span>
+        <label for="tg-input" class="label">{t('tg.form.label.input')}</label>
+        <div class="tg-input-group">
+          <span class="tg-prefix">
+            <svg viewBox="0 0 24 24" fill="currentColor" class="prefix-icon" aria-hidden="true">
+              <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+            </svg>
+          </span>
           <input
-            type="tel"
-            id="phone"
-            class="phone-input"
-            placeholder={t('form.placeholder.phone')}
-            autocomplete="tel"
+            type="text"
+            id="tg-input"
+            class="tg-input"
+            placeholder={t('tg.form.placeholder.input')}
+            autocomplete="off"
             required
           />
         </div>
-        <span class="hint">{t('form.hint')}</span>
+        <span class="hint">{t('tg.form.hint')}</span>
         <span id="error-msg" class="error-msg" role="alert"></span>
       </div>
 
       <button type="submit" class="submit-btn" id="submit-btn">
         <svg viewBox="0 0 24 24" fill="currentColor" class="btn-icon">
-          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+          <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
         </svg>
-        {t('form.submit')}
+        {t('tg.form.submit')}
       </button>
 
       <details class="message-details">
@@ -191,96 +201,96 @@ const pageSchema = {
     <!-- History -->
     <div id="history-section" class="history-section" style="display:none;">
       <div class="history-header">
-        <h3 class="history-title">{t('history.title')}</h3>
-        <button type="button" id="clear-history" class="clear-btn" aria-label="Clear history">{t('history.clear')}</button>
+        <h3 class="history-title">{t('tg.history.title')}</h3>
+        <button type="button" id="clear-history" class="clear-btn" aria-label="Clear history">{t('tg.history.clear')}</button>
       </div>
       <ul id="history-list" class="history-list"></ul>
     </div>
 
     <!-- SEO Content Section -->
-    <section class="seo-section" aria-label="About OPN Chat">
+    <section class="seo-section" aria-label="About OPN Chat Telegram">
 
       <article class="seo-block">
-        <h2 class="seo-heading">{t('seo.opn.heading')}</h2>
-        <p class="seo-text" set:html={t('seo.opn.text')} />
+        <h2 class="seo-heading">{t('tg.seo.opn.heading')}</h2>
+        <p class="seo-text" set:html={t('tg.seo.opn.text')} />
       </article>
 
       <article class="seo-block">
-        <h2 class="seo-heading">{t('seo.without.heading')}</h2>
-        <p class="seo-text">{t('seo.without.text')}</p>
+        <h2 class="seo-heading">{t('tg.seo.without.heading')}</h2>
+        <p class="seo-text">{t('tg.seo.without.text')}</p>
       </article>
 
       <article class="seo-block">
-        <h2 class="seo-heading">{t('seo.how.heading')}</h2>
-        <p class="seo-text">{t('seo.how.text')}</p>
+        <h2 class="seo-heading">{t('tg.seo.how.heading')}</h2>
+        <p class="seo-text">{t('tg.seo.how.text')}</p>
       </article>
 
       <article class="seo-block">
-        <h2 class="seo-heading">{t('seo.why.heading')}</h2>
+        <h2 class="seo-heading">{t('tg.seo.why.heading')}</h2>
         <div class="seo-features">
           <div class="feature-item">
             <span class="feature-icon">&#9889;</span>
             <div>
-              <h3 class="feature-title">{t('seo.why.feature1.title')}</h3>
-              <p class="feature-desc">{t('seo.why.feature1.desc')}</p>
+              <h3 class="feature-title">{t('tg.seo.why.feature1.title')}</h3>
+              <p class="feature-desc">{t('tg.seo.why.feature1.desc')}</p>
             </div>
           </div>
           <div class="feature-item">
             <span class="feature-icon">&#128274;</span>
             <div>
-              <h3 class="feature-title">{t('seo.why.feature2.title')}</h3>
-              <p class="feature-desc">{t('seo.why.feature2.desc')}</p>
+              <h3 class="feature-title">{t('tg.seo.why.feature2.title')}</h3>
+              <p class="feature-desc">{t('tg.seo.why.feature2.desc')}</p>
             </div>
           </div>
           <div class="feature-item">
             <span class="feature-icon">&#127760;</span>
             <div>
-              <h3 class="feature-title">{t('seo.why.feature3.title')}</h3>
-              <p class="feature-desc">{t('seo.why.feature3.desc')}</p>
+              <h3 class="feature-title">{t('tg.seo.why.feature3.title')}</h3>
+              <p class="feature-desc">{t('tg.seo.why.feature3.desc')}</p>
             </div>
           </div>
           <div class="feature-item">
-            <span class="feature-icon">&#9993;</span>
+            <span class="feature-icon">&#128172;</span>
             <div>
-              <h3 class="feature-title">{t('seo.why.feature4.title')}</h3>
-              <p class="feature-desc">{t('seo.why.feature4.desc')}</p>
+              <h3 class="feature-title">{t('tg.seo.why.feature4.title')}</h3>
+              <p class="feature-desc">{t('tg.seo.why.feature4.desc')}</p>
             </div>
           </div>
         </div>
       </article>
 
       <article class="seo-block">
-        <h2 class="seo-heading">{t('seo.cases.heading')}</h2>
-        <p class="seo-text">{t('seo.cases.text')}</p>
+        <h2 class="seo-heading">{t('tg.seo.cases.heading')}</h2>
+        <p class="seo-text">{t('tg.seo.cases.text')}</p>
       </article>
 
       <article class="seo-block">
-        <h2 class="seo-heading">{t('seo.direct.heading')}</h2>
-        <p class="seo-text">{t('seo.direct.text')}</p>
+        <h2 class="seo-heading">{t('tg.seo.direct.heading')}</h2>
+        <p class="seo-text">{t('tg.seo.direct.text')}</p>
       </article>
 
       <article class="seo-block">
-        <h2 class="seo-heading">{t('seo.faq.heading')}</h2>
+        <h2 class="seo-heading">{t('tg.seo.faq.heading')}</h2>
         <div class="faq-list">
           <details class="faq-item">
-            <summary class="faq-question">{t('seo.faq.q1')}</summary>
-            <p class="faq-answer">{t('seo.faq.a1')}</p>
+            <summary class="faq-question">{t('tg.seo.faq.q1')}</summary>
+            <p class="faq-answer">{t('tg.seo.faq.a1')}</p>
           </details>
           <details class="faq-item">
-            <summary class="faq-question">{t('seo.faq.q2')}</summary>
-            <p class="faq-answer">{t('seo.faq.a2')}</p>
+            <summary class="faq-question">{t('tg.seo.faq.q2')}</summary>
+            <p class="faq-answer">{t('tg.seo.faq.a2')}</p>
           </details>
           <details class="faq-item">
-            <summary class="faq-question">{t('seo.faq.q3')}</summary>
-            <p class="faq-answer">{t('seo.faq.a3')}</p>
+            <summary class="faq-question">{t('tg.seo.faq.q3')}</summary>
+            <p class="faq-answer">{t('tg.seo.faq.a3')}</p>
           </details>
           <details class="faq-item">
-            <summary class="faq-question">{t('seo.faq.q4')}</summary>
-            <p class="faq-answer">{t('seo.faq.a4')}</p>
+            <summary class="faq-question">{t('tg.seo.faq.q4')}</summary>
+            <p class="faq-answer">{t('tg.seo.faq.a4')}</p>
           </details>
           <details class="faq-item">
-            <summary class="faq-question">{t('seo.faq.q5')}</summary>
-            <p class="faq-answer">{t('seo.faq.a5')}</p>
+            <summary class="faq-question">{t('tg.seo.faq.q5')}</summary>
+            <p class="faq-answer">{t('tg.seo.faq.a5')}</p>
           </details>
         </div>
       </article>
@@ -288,18 +298,25 @@ const pageSchema = {
 
     <!-- Footer -->
     <footer class="footer">
-      <p class="footer-tagline">{t('footer.tagline')}</p>
+      <p class="footer-tagline">{t('tg.footer.tagline')}</p>
       <div class="footer-links">
-        <a href={getLocalizedPath(lang, 'telegram')} class="footer-link">{t('footer.telegram')}</a>
+        <a href={getLocalizedPath(lang)} class="footer-link">{t('tg.footer.whatsapp')}</a>
         <a href={getLocalizedPath(lang, 'blog')} class="footer-link">{t('footer.blog')}</a>
         <a href={getLocalizedPath(lang, 'disclaimer')} class="footer-link">{t('footer.disclaimer.link')}</a>
       </div>
-      <p class="disclaimer-brief">{t('footer.disclaimer.brief')}</p>
+      <p class="disclaimer-brief">{t('tg.footer.disclaimer.brief')}</p>
     </footer>
   </main>
 </Layout>
 
 <style>
+  /* Telegram blue accent */
+  :root {
+    --tg-primary: #2AABEE;
+    --tg-primary-dark: #229ED9;
+    --tg-primary-light: #7EC8F2;
+  }
+
   .container {
     position: relative;
     z-index: 1;
@@ -335,7 +352,7 @@ const pageSchema = {
   .logo-icon {
     width: 24px;
     height: 24px;
-    color: var(--opn-primary);
+    color: var(--tg-primary);
     flex-shrink: 0;
   }
 
@@ -390,14 +407,14 @@ const pageSchema = {
   }
 
   .lang-btn:hover {
-    color: var(--opn-primary);
-    border-color: var(--opn-primary);
+    color: var(--tg-primary);
+    border-color: var(--tg-primary);
     background: var(--bg-input);
   }
 
   .lang-btn.active {
-    background: var(--opn-primary);
-    border-color: var(--opn-primary);
+    background: var(--tg-primary);
+    border-color: var(--tg-primary);
     color: #fff;
     pointer-events: none;
   }
@@ -468,7 +485,7 @@ const pageSchema = {
     opacity: 0.7;
   }
 
-  .phone-input-group {
+  .tg-input-group {
     display: flex;
     align-items: stretch;
     border: 2px solid var(--border-color);
@@ -478,25 +495,28 @@ const pageSchema = {
     transition: border-color 0.2s;
   }
 
-  .phone-input-group:focus-within {
-    border-color: var(--opn-primary);
+  .tg-input-group:focus-within {
+    border-color: var(--tg-primary);
   }
 
-  .phone-prefix {
+  .tg-prefix {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0.85rem 0.75rem 0.85rem 1rem;
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--text-secondary);
     background: var(--border-color);
     border-right: 2px solid var(--border-color);
     user-select: none;
     min-width: 44px;
+    color: var(--tg-primary);
   }
 
-  .phone-input {
+  .prefix-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .tg-input {
     flex: 1;
     background: transparent;
     border: none;
@@ -509,7 +529,7 @@ const pageSchema = {
     width: 100%;
   }
 
-  .phone-input::placeholder {
+  .tg-input::placeholder {
     color: var(--text-secondary);
     opacity: 0.5;
   }
@@ -592,7 +612,7 @@ const pageSchema = {
   }
 
   .message-input:focus {
-    border-color: var(--opn-primary);
+    border-color: var(--tg-primary);
   }
 
   .message-input::placeholder {
@@ -605,7 +625,7 @@ const pageSchema = {
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
-    background: var(--opn-primary);
+    background: var(--tg-primary);
     color: #fff;
     border: none;
     border-radius: 12px;
@@ -619,9 +639,9 @@ const pageSchema = {
   }
 
   .submit-btn:hover {
-    background: var(--opn-primary-dark);
+    background: var(--tg-primary-dark);
     transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+    box-shadow: 0 6px 20px rgba(42, 171, 238, 0.3);
   }
 
   .submit-btn:active {
@@ -630,7 +650,7 @@ const pageSchema = {
   }
 
   .submit-btn:focus-visible {
-    outline: 2px solid var(--opn-primary);
+    outline: 2px solid var(--tg-primary);
     outline-offset: 2px;
   }
 
@@ -707,7 +727,7 @@ const pageSchema = {
   }
 
   :global(.history-number:hover) {
-    color: var(--opn-primary);
+    color: var(--tg-primary);
   }
 
   :global(.history-time) {
@@ -721,7 +741,7 @@ const pageSchema = {
     font-weight: 600;
     padding: 0.3rem 0.65rem;
     border-radius: 6px;
-    background: var(--opn-primary);
+    background: var(--tg-primary);
     color: #fff;
     border: none;
     cursor: pointer;
@@ -730,7 +750,7 @@ const pageSchema = {
   }
 
   :global(.history-chat-btn:hover) {
-    background: var(--opn-primary-dark);
+    background: var(--tg-primary-dark);
   }
 
   :global(.history-left) {
@@ -875,7 +895,7 @@ const pageSchema = {
   .footer-link {
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--opn-primary-light);
+    color: var(--tg-primary-light);
     text-decoration: none;
     transition: opacity 0.2s;
   }
@@ -925,51 +945,64 @@ const pageSchema = {
 </style>
 
 <script define:vars={{ lang }}>
-  const form = document.getElementById('whatsapp-form');
-  const phoneInput = document.getElementById('phone');
+  const form = document.getElementById('telegram-form');
+  const input = document.getElementById('tg-input');
   const messageInput = document.getElementById('message');
   const errorMsg = document.getElementById('error-msg');
   const historySection = document.getElementById('history-section');
   const historyList = document.getElementById('history-list');
   const clearBtn = document.getElementById('clear-history');
 
-  const STORAGE_KEY = 'opnchat-history';
+  const STORAGE_KEY = 'opnchat-telegram-history';
   const MAX_HISTORY = 5;
 
   const localeMap = { en: 'en-US', es: 'es-ES', pt: 'pt-BR', id: 'id-ID' };
   const locale = localeMap[lang] || 'en-US';
 
-  const chatLabel = lang === 'es' ? 'Chat' : lang === 'pt' ? 'Chat' : 'Chat';
+  const chatLabel = 'Chat';
 
-  // Phone input — digits only
-  phoneInput.addEventListener('input', () => {
-    let val = phoneInput.value.replace(/\D/g, '');
-    if (val.length > 15) val = val.slice(0, 15);
-    phoneInput.value = val;
+  // Detect if input is a username or phone number
+  function isUsername(val) {
+    // Strip leading @, check if remaining is alphanumeric/underscores
+    var cleaned = val.replace(/^@/, '');
+    return /[a-zA-Z]/.test(cleaned);
+  }
+
+  // Clean username: strip @, keep alphanumeric + underscores
+  function cleanUsername(val) {
+    return val.replace(/^@/, '').replace(/[^a-zA-Z0-9_]/g, '');
+  }
+
+  // Clean phone: digits only
+  function cleanPhone(val) {
+    return val.replace(/\D/g, '');
+  }
+
+  // Input handler
+  input.addEventListener('input', () => {
     errorMsg.textContent = '';
   });
 
   // Load history from localStorage
   function loadHistory() {
     try {
-      const data = localStorage.getItem(STORAGE_KEY);
+      var data = localStorage.getItem(STORAGE_KEY);
       return data ? JSON.parse(data) : [];
     } catch {
       return [];
     }
   }
 
-  // Save — store clean digits (no +), display with +
-  function saveHistory(cleanDigits) {
-    const history = loadHistory().filter(h => h.number !== cleanDigits);
-    history.unshift({ number: cleanDigits, timestamp: Date.now() });
+  function saveHistory(entry) {
+    var history = loadHistory().filter(h => h.value !== entry.value);
+    history.unshift(entry);
     if (history.length > MAX_HISTORY) history.pop();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
     renderHistory();
   }
 
   function renderHistory() {
-    const history = loadHistory();
+    var history = loadHistory();
     if (history.length === 0) {
       historySection.style.display = 'none';
       return;
@@ -977,41 +1010,40 @@ const pageSchema = {
     historySection.style.display = 'block';
     historyList.innerHTML = '';
 
-    history.forEach(item => {
-      const digits = item.number.replace(/\D/g, '');
-      const li = document.createElement('li');
+    history.forEach(function(item) {
+      var li = document.createElement('li');
       li.className = 'history-item';
 
-      // Left side: number + time
-      const leftDiv = document.createElement('div');
+      var leftDiv = document.createElement('div');
       leftDiv.className = 'history-left';
 
-      const numSpan = document.createElement('span');
+      var numSpan = document.createElement('span');
       numSpan.className = 'history-number';
-      numSpan.textContent = '+' + digits;
-      // Click number → fill input
-      numSpan.addEventListener('click', (e) => {
+      numSpan.textContent = item.type === 'phone' ? '+' + item.value : '@' + item.value;
+      numSpan.addEventListener('click', function(e) {
         e.stopPropagation();
-        phoneInput.value = digits;
-        phoneInput.focus();
+        input.value = item.type === 'phone' ? item.value : '@' + item.value;
+        input.focus();
       });
 
-      const timeSpan = document.createElement('span');
+      var timeSpan = document.createElement('span');
       timeSpan.className = 'history-time';
-      const time = new Date(item.timestamp);
+      var time = new Date(item.timestamp);
       timeSpan.textContent = time.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
 
       leftDiv.appendChild(numSpan);
       leftDiv.appendChild(timeSpan);
 
-      // Right side: Chat button
-      const chatBtn = document.createElement('button');
+      var chatBtn = document.createElement('button');
       chatBtn.type = 'button';
       chatBtn.className = 'history-chat-btn';
       chatBtn.textContent = chatLabel;
-      chatBtn.addEventListener('click', (e) => {
+      chatBtn.addEventListener('click', function(e) {
         e.stopPropagation();
-        window.open(`https://wa.me/${digits}`, '_blank', 'noopener,noreferrer');
+        var url = item.type === 'phone'
+          ? 'https://t.me/+' + item.value
+          : 'https://t.me/' + item.value;
+        window.open(url, '_blank', 'noopener,noreferrer');
       });
 
       li.appendChild(leftDiv);
@@ -1021,7 +1053,7 @@ const pageSchema = {
   }
 
   // Clear history
-  clearBtn.addEventListener('click', () => {
+  clearBtn.addEventListener('click', function() {
     localStorage.removeItem(STORAGE_KEY);
     renderHistory();
   });
@@ -1030,42 +1062,63 @@ const pageSchema = {
   renderHistory();
 
   // Form submit
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', function(e) {
     e.preventDefault();
     errorMsg.textContent = '';
 
-    const rawPhone = phoneInput.value.replace(/\D/g, '');
-    const message = messageInput.value.trim();
+    var rawVal = input.value.trim();
+    var message = messageInput.value.trim();
 
-    const errorMessages = {
-      valid: lang === 'es' ? 'Ingresa un número de teléfono válido' : lang === 'pt' ? 'Insira um número de telefone válido' : 'Please enter a valid phone number',
-      short: lang === 'es' ? 'El número de teléfono es demasiado corto' : lang === 'pt' ? 'O número de telefone é muito curto' : 'Phone number is too short',
+    var errorMessages = {
+      username: lang === 'es' ? 'Ingresa un nombre de usuario válido (3+ caracteres)' : lang === 'pt' ? 'Digite um nome de usuário válido (3+ caracteres)' : lang === 'id' ? 'Silakan masukkan username yang valid (3+ karakter)' : 'Please enter a valid username (3+ characters)',
+      phone: lang === 'es' ? 'Ingresa un número de teléfono válido' : lang === 'pt' ? 'Digite um número de telefone válido' : lang === 'id' ? 'Silakan masukkan nomor telepon yang valid' : 'Please enter a valid phone number',
+      short: lang === 'es' ? 'El número de teléfono es demasiado corto' : lang === 'pt' ? 'O número de telefone é muito curto' : lang === 'id' ? 'Nomor telepon terlalu pendek' : 'Phone number is too short',
     };
 
-    if (rawPhone.length < 7) {
-      errorMsg.textContent = errorMessages.valid;
-      phoneInput.focus();
+    if (!rawVal) {
+      errorMsg.textContent = errorMessages.username;
+      input.focus();
       return;
     }
 
-    if (rawPhone.length < 10) {
-      errorMsg.textContent = errorMessages.short;
-      phoneInput.focus();
-      return;
+    if (isUsername(rawVal)) {
+      // Username mode
+      var username = cleanUsername(rawVal);
+      if (username.length < 3) {
+        errorMsg.textContent = errorMessages.username;
+        input.focus();
+        return;
+      }
+      saveHistory({ value: username, type: 'username', timestamp: Date.now() });
+      var url = 'https://t.me/' + username;
+      if (message) {
+        url += '?text=' + encodeURIComponent(message);
+      }
+      window.open(url, '_blank');
+    } else {
+      // Phone mode
+      var digits = cleanPhone(rawVal);
+      if (digits.length < 7) {
+        errorMsg.textContent = errorMessages.phone;
+        input.focus();
+        return;
+      }
+      if (digits.length < 10) {
+        errorMsg.textContent = errorMessages.short;
+        input.focus();
+        return;
+      }
+      saveHistory({ value: digits, type: 'phone', timestamp: Date.now() });
+      var url = 'https://t.me/+' + digits;
+      if (message) {
+        url += '?text=' + encodeURIComponent(message);
+      }
+      window.open(url, '_blank');
     }
-
-    // Save clean digits (without +)
-    saveHistory(rawPhone);
-
-    let url = `https://wa.me/${rawPhone}`;
-    if (message) {
-      url += `?text=${encodeURIComponent(message)}`;
-    }
-    window.open(url, '_blank');
   });
 
-  // Keyboard shortcut — Enter to submit when phone is focused
-  phoneInput.addEventListener('keydown', (e) => {
+  // Keyboard shortcut
+  input.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') {
       e.preventDefault();
       form.dispatchEvent(new Event('submit', { cancelable: true }));
@@ -1073,11 +1126,11 @@ const pageSchema = {
   });
 
   // Theme toggle
-  const themeToggle = document.getElementById('theme-toggle');
+  var themeToggle = document.getElementById('theme-toggle');
   if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-      const current = document.documentElement.getAttribute('data-theme');
-      const next = current === 'dark' ? 'light' : 'dark';
+    themeToggle.addEventListener('click', function() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
       localStorage.setItem('opnchat-theme', next);
     });
