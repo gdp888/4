@@ -10,6 +10,15 @@ export interface Props {
 const { title, lang } = Astro.props;
 
 const allLangs = Object.keys(languages) as Lang[];
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "OPN Chat",
+  "url": "https://opnchat.net",
+  "description": "Message WhatsApp without saving the number. Free, private, no sign-up. Enter any phone number and start chatting instantly.",
+  "inLanguage": allLangs,
+};
 ---
 
 <!doctype html>
@@ -29,6 +38,7 @@ const allLangs = Object.keys(languages) as Lang[];
       <link rel="alternate" hreflang={l} href={getAlternateUrl(l)} />
     ))}
     <link rel="alternate" hreflang="x-default" href={getAlternateUrl('en')} />
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
     <slot name="meta" />
     <meta name="robots" content="index, follow" />
   </head>

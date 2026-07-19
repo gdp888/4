@@ -13,6 +13,40 @@ const otherLangs = (Object.keys(languages) as Lang[]).filter(l => l !== lang);
 
 const localeMap: Record<Lang, string> = { en: 'en_US', es: 'es_ES', pt: 'pt_BR', id: 'id_ID' };
 const alternateLocales = otherLangs.map(l => localeMap[l]);
+
+const disclaimerSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "name": t('disclaimer.heading'),
+      "url": getAlternateUrl(lang, 'disclaimer'),
+      "description": t('disclaimer.meta.description'),
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "OPN Chat",
+        "url": "https://opnchat.net"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "OPN Chat",
+          "item": getAlternateUrl(lang)
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": t('disclaimer.heading'),
+          "item": getAlternateUrl(lang, 'disclaimer')
+        }
+      ]
+    }
+  ]
+};
 ---
 
 <Layout title={t('disclaimer.meta.title')} lang={lang}>
@@ -20,6 +54,7 @@ const alternateLocales = otherLangs.map(l => localeMap[l]);
     <meta name="description" content={t('disclaimer.meta.description')} />
     <meta name="robots" content="noindex, follow" />
     <link rel="canonical" href={getAlternateUrl(lang, 'disclaimer')} />
+    <script type="application/ld+json" set:html={JSON.stringify(disclaimerSchema)} />
   </Fragment>
 
   <main class="container">

@@ -13,6 +13,64 @@ const otherLangs = (Object.keys(languages) as Lang[]).filter(l => l !== lang);
 
 const localeMap: Record<Lang, string> = { en: 'en_US', es: 'es_ES', pt: 'pt_BR', id: 'id_ID' };
 const alternateLocales = otherLangs.map(l => localeMap[l]);
+
+// Schema.org — FAQ data
+const faqItems = [
+  { q: t('seo.faq.q1'), a: t('seo.faq.a1') },
+  { q: t('seo.faq.q2'), a: t('seo.faq.a2') },
+  { q: t('seo.faq.q3'), a: t('seo.faq.a3') },
+  { q: t('seo.faq.q4'), a: t('seo.faq.a4') },
+  { q: t('seo.faq.q5'), a: t('seo.faq.a5') },
+];
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "OPN Chat",
+      "url": getAlternateUrl(lang),
+      "description": t('meta.description'),
+      "applicationCategory": "CommunicationApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "inLanguage": Object.keys(languages),
+      "featureList": [
+        t('seo.why.feature1.title') + ': ' + t('seo.why.feature1.desc'),
+        t('seo.why.feature2.title') + ': ' + t('seo.why.feature2.desc'),
+        t('seo.why.feature3.title') + ': ' + t('seo.why.feature3.desc'),
+        t('seo.why.feature4.title') + ': ' + t('seo.why.feature4.desc'),
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqItems.map(item => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": item.a
+        }
+      }))
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": t('header.title'),
+          "item": getAlternateUrl(lang)
+        }
+      ]
+    }
+  ]
+};
 ---
 
 <Layout title={t('meta.title')} lang={lang}>
@@ -32,6 +90,7 @@ const alternateLocales = otherLangs.map(l => localeMap[l]);
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={t('meta.twitter.title')} />
     <meta name="twitter:description" content={t('meta.twitter.description')} />
+    <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
   </Fragment>
 
   <main class="container">

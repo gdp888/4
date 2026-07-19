@@ -1,0 +1,462 @@
+     1→export const languages = {
+     2→  en: 'English',
+     3→  es: 'Español',
+     4→  pt: 'Português',
+     5→  id: 'Bahasa Indonesia',
+     6→};
+     7→
+     8→export const defaultLang = 'en';
+     9→
+    10→export type Lang = keyof typeof languages;
+    11→
+    12→export const ui = {
+    13→  en: {
+    14→    // Meta
+    15→    'meta.title': 'OPN Chat — Message WhatsApp Without Saving Number',
+    16→    'meta.description': 'OPN Chat — Message WhatsApp without saving the number. Free, private, no sign-up. Enter any phone number and start chatting instantly on opnchat.net.',
+    17→    'meta.keywords': 'OPN Chat, whatsapp without saving number, whatsapp direct, message whatsapp without contact, click to chat, wa.me, opnchat, direct message whatsapp, open chat no contact',
+    18→    'meta.og.title': 'OPN Chat — Message WhatsApp Without Saving Number',
+    19→    'meta.og.description': 'Start a WhatsApp conversation with any number instantly. No contact saving, no sign-up, 100% private.',
+    20→    'meta.twitter.title': 'OPN Chat — Message WhatsApp Without Saving Number',
+    21→    'meta.twitter.description': 'Start a WhatsApp conversation with any number instantly. No contact saving, no sign-up, 100% private.',
+    22→
+    23→    // Header
+    24→    'header.title': 'OPN Chat',
+    25→    'header.subtitle': 'Message WhatsApp Without Saving Number',
+    26→
+    27→    // Form
+    28→    'form.label.phone': 'Enter full phone number without +',
+    29→    'form.label.message': 'Message',
+    30→    'form.addMessage': 'Add a message',
+    31→    'form.label.optional': '(optional)',
+    32→    'form.placeholder.phone': '7 951 899 4988',
+    33→    'form.placeholder.message': "Hi! I'm writing about...",
+    34→    'form.hint': 'Include country code (e.g. 7 for Russia, 55 for Brazil, 1 for USA)',
+    35→    'form.error.valid': 'Please enter a valid phone number',
+    36→    'form.error.short': 'Phone number is too short',
+    37→    'form.submit': 'Open Chat in WhatsApp',
+    38→
+    39→    // History
+    40→    'history.title': 'Recent Numbers',
+    41→    'history.clear': 'Clear',
+    42→
+    43→    // SEO — What Does OPN Stand For
+    44→    'seo.opn.heading': 'What Does OPN Stand For?',
+    45→    'seo.opn.text': 'OPN is an acronym for <strong>O</strong>nline <strong>P</strong>rivacy <strong>N</strong>etwork. We chose this name because our tool is built from the ground up with a privacy-first approach. We never store, log, or track any phone numbers or messages you enter. Everything happens securely inside your own web browser, ensuring complete data sovereignty.',
+    46→
+    47→    // SEO — WhatsApp Without Saving Number
+    48→    'seo.without.heading': 'WhatsApp Without Saving Number',
+    49→    'seo.without.text': "OPN Chat lets you start a WhatsApp conversation with any phone number instantly — no need to save the contact first. Whether you're reaching out to a delivery driver, a business, or someone from a marketplace, simply enter their phone number and open a chat directly in WhatsApp. It's the fastest way to message someone on WhatsApp without cluttering your contacts list.",
+    50→
+    51→    // SEO — How It Works
+    52→    'seo.how.heading': 'How It Works',
+    53→    'seo.how.text': 'Using OPN Chat is simple and takes just a few seconds. Enter the phone number with the country code, and optionally write a message that will be pre-filled in the chat. Click "Open Chat in WhatsApp" and you\'ll be redirected straight to the conversation. No sign-up, no app install, no data stored on any server — everything runs right in your browser.',
+    54→
+    55→    // SEO — Why Use OPN Chat
+    56→    'seo.why.heading': 'Why Use OPN Chat?',
+    57→    'seo.why.feature1.title': 'Instant Access',
+    58→    'seo.why.feature1.desc': 'Open a WhatsApp chat in seconds. No contact saving, no app downloads, no accounts to create.',
+    59→    'seo.why.feature2.title': '100% Private',
+    60→    'seo.why.feature2.desc': 'No data is stored on our servers. Your phone numbers and messages stay in your browser only.',
+    61→    'seo.why.feature3.title': 'Works Everywhere',
+    62→    'seo.why.feature3.desc': 'Works with any phone number worldwide. Use it on any device — phone, tablet, or desktop. No install needed.',
+    63→    'seo.why.feature4.title': 'Pre-filled Messages',
+    64→    'seo.why.feature4.desc': 'Write a message before opening the chat. Perfect for business inquiries, quick introductions, or follow-ups.',
+    65→
+    66→    // SEO — Common Use Cases
+    67→    'seo.cases.heading': 'Common Use Cases',
+    68→    'seo.cases.text': 'OPN Chat is useful in dozens of everyday situations. Contact a courier or delivery driver without adding them to your phone. Reach out to a seller on a marketplace like Craigslist, OLX, or Avito. Message a business or service provider without saving their number. Send a quick message to someone you just met at an event. Communicate with landlords, taxi drivers, or hotel staff while traveling — all without polluting your contacts.',
+    69→
+    70→    // SEO — WhatsApp Direct Message
+    71→    'seo.direct.heading': 'WhatsApp Direct Message — The Smart Way',
+    72→    'seo.direct.text': 'Also known as "WhatsApp Direct" or "Click to Chat," OPN Chat uses the official WhatsApp wa.me link protocol to open a chat with any phone number. This means your message is sent through WhatsApp\'s own secure infrastructure. OPN Chat simply provides a convenient interface — we never intercept, read, or store your messages. It\'s the same as typing a wa.me link manually, but faster and easier.',
+    73→
+    74→    // SEO — FAQ
+    75→    'seo.faq.heading': 'Frequently Asked Questions',
+    76→    'seo.faq.q1': 'Do I need to install anything?',
+    77→    'seo.faq.a1': 'No. OPN Chat works in any web browser on any device. You just need WhatsApp installed on your phone or computer to receive the chat.',
+    78→    'seo.faq.q2': 'Is my phone number visible to the other person?',
+    79→    'seo.faq.a2': 'Yes — if you send a message, the recipient sees your WhatsApp number just like a normal conversation. OPN Chat simply opens the chat; it doesn\'t anonymize your number.',
+    80→    'seo.faq.q3': 'Does the other person need to have my number saved?',
+    81→    'seo.faq.a3': 'No. Your message will be delivered regardless. However, if they have privacy settings that restrict messages from unknown contacts, they may need to add your number first.',
+    82→    'seo.faq.q4': 'Is OPN Chat free?',
+    83→    'seo.faq.a4': 'Yes, OPN Chat is completely free to use. No hidden fees, no premium tiers, no ads. We believe in making communication easier for everyone.',
+    84→    'seo.faq.q5': 'What happens to the numbers I enter?',
+    85→    'seo.faq.a5': "Nothing is sent to our servers. Your recent numbers are stored locally in your browser's localStorage for convenience only. You can clear them anytime by clearing your browser data.",
+    86→
+    87→    // Footer
+    88→    'footer.tagline': 'opnchat.net — OPN Chat. No data stored on servers. Everything runs in your browser.',
+    89→    'footer.disclaimer.link': 'Legal Disclaimer',
+    90→    'footer.disclaimer.brief': 'OPN Chat is not affiliated with Meta, WhatsApp, or OpenChat DAO.',
+    91→
+    92→    // Disclaimer page
+    93→    'disclaimer.meta.title': 'Legal Disclaimer — OPN Chat',
+    94→    'disclaimer.meta.description': 'Legal disclaimer and terms of use for OPN Chat (opnchat.net). Independent tool, not affiliated with Meta or WhatsApp.',
+    95→    'disclaimer.heading': 'Legal Disclaimer',
+    96→    'disclaimer.lastUpdated': 'Last updated: July 2026',
+    97→
+    98→    'disclaimer.independence.heading': 'Independent Application',
+    99→    'disclaimer.independence.text': 'OPN Chat (opnchat.net) is an independent web application and is not affiliated, associated, authorized, endorsed by, or in any way officially connected with Meta Platforms, Inc., WhatsApp LLC, OpenChat DAO, OpenAI, or any of their subsidiaries or affiliates. The official WhatsApp website can be found at <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer">whatsapp.com</a>. The names "WhatsApp", "OpenChat", "Open Chat", as well as related names, marks, emblems, and images are registered trademarks of their respective owners.',
+   100→
+   101→    'disclaimer.purpose.heading': 'Purpose of the Service',
+   102→    'disclaimer.purpose.text': 'OPN Chat provides a convenient interface for opening WhatsApp conversations using the official wa.me link protocol. This is the same as manually typing a wa.me URL into your browser address bar — we simply make it faster and easier. OPN Chat does not intercept, read, store, or modify any messages sent through WhatsApp. All communication happens directly between your device and WhatsApp\'s servers.',
+   103→
+   104→    'disclaimer.privacy.heading': 'Privacy & Data',
+   105→    'disclaimer.privacy.text': 'OPN Chat does not collect, store, or transmit any personal data to external servers. Phone numbers you enter are used solely to generate a wa.me link and are optionally saved in your browser\'s localStorage for your convenience (recent numbers feature). No data is ever sent to our servers or any third party. You can clear your history at any time using the "Clear" button in the app or by clearing your browser data.',
+   106→
+   107→    'disclaimer.warranty.heading': 'No Warranty',
+   108→    'disclaimer.warranty.text': 'This utility is provided "as is" without warranties of any kind, either express or implied, including but not limited to the implied warranties of merchantability, fitness for a particular purpose, or non-infringement. We make no guarantee that the service will be uninterrupted, timely, secure, or error-free. Use of the service is at your sole risk.',
+   109→
+   110→    'disclaimer.limitation.heading': 'Limitation of Liability',
+   111→    'disclaimer.limitation.text': 'In no event shall the creators of OPN Chat be liable for any direct, indirect, incidental, special, consequential, or exemplary damages arising out of or in connection with the use of the service. This includes, but is not limited to, damages for loss of profits, goodwill, data, or other intangible losses resulting from the use or inability to use the service.',
+   112→
+   113→    'disclaimer.trademarks.heading': 'Trademarks',
+   114→    'disclaimer.trademarks.text': 'All product names, logos, brands, and other trademarks featured or referred to within OPN Chat are the property of their respective trademark holders. These trademark holders are not affiliated with OPN Chat, our products, or our website. They do not sponsor or endorse our service.',
+   115→
+   116→    'disclaimer.changes.heading': 'Changes to This Disclaimer',
+   117→    'disclaimer.changes.text': 'We reserve the right to update or modify this disclaimer at any time without prior notice. Changes become effective immediately upon being posted on this page. Your continued use of the service after any changes constitutes your acceptance of the updated disclaimer.',
+   118→
+   119→    'disclaimer.back': 'Back to OPN Chat',
+   120→
+   121→    // Language switcher
+   122→    'lang.switch': 'Español',
+   123→    'lang.current': 'English',
+   124→  },
+   125→  es: {
+   126→    // Meta
+   127→    'meta.title': 'OPN Chat — Mensaje por WhatsApp Sin Guardar el Número',
+   128→    'meta.description': 'OPN Chat — Envía un mensaje por WhatsApp sin guardar el número. Gratis, privado, sin registro. Ingresa cualquier número de teléfono y comienza a chatear al instante en opnchat.net.',
+   129→    'meta.keywords': 'OPN Chat, whatsapp sin guardar numero, whatsapp directo, mensaje whatsapp sin contacto, click to chat, wa.me, opnchat, mensaje directo whatsapp, chat sin contacto',
+   130→    'meta.og.title': 'OPN Chat — Mensaje por WhatsApp Sin Guardar el Número',
+   131→    'meta.og.description': 'Inicia una conversación de WhatsApp con cualquier número al instante. Sin guardar contacto, sin registro, 100% privado.',
+   132→    'meta.twitter.title': 'OPN Chat — Mensaje por WhatsApp Sin Guardar el Número',
+   133→    'meta.twitter.description': 'Inicia una conversación de WhatsApp con cualquier número al instante. Sin guardar contacto, sin registro, 100% privado.',
+   134→
+   135→    // Header
+   136→    'header.title': 'OPN Chat',
+   137→    'header.subtitle': 'Mensaje por WhatsApp Sin Guardar el Número',
+   138→
+   139→    // Form
+   140→    'form.label.phone': 'Ingresa el número completo sin +',
+   141→    'form.label.message': 'Mensaje',
+   142→    'form.addMessage': 'Agregar un mensaje',
+   143→    'form.label.optional': '(opcional)',
+   144→    'form.placeholder.phone': '34 612 345 678',
+   145→    'form.placeholder.message': '¡Hola! Escribo sobre...',
+   146→    'form.hint': 'Incluye el código de país (ej. 34 para España, 52 para México, 54 para Argentina)',
+   147→    'form.error.valid': 'Ingresa un número de teléfono válido',
+   148→    'form.error.short': 'El número de teléfono es demasiado corto',
+   149→    'form.submit': 'Abrir Chat en WhatsApp',
+   150→
+   151→    // History
+   152→    'history.title': 'Números Recientes',
+   153→    'history.clear': 'Borrar',
+   154→
+   155→    // SEO — What Does OPN Stand For
+   156→    'seo.opn.heading': '¿Qué Significa OPN?',
+   157→    'seo.opn.text': 'OPN es el acrónimo de <strong>O</strong>nline <strong>P</strong>rivacy <strong>N</strong>etwork (Red de Privacidad en Línea). Elegimos este nombre porque nuestra herramienta está diseñada desde cero con un enfoque centrado en la privacidad. Nunca almacenamos, registramos ni rastreamos ningún número de teléfono o mensaje que ingreses. Todo ocurre de forma segura dentro de tu propio navegador web, garantizando una completa soberanía de datos.',
+   158→
+   159→    // SEO — WhatsApp Without Saving Number
+   160→    'seo.without.heading': 'WhatsApp Sin Guardar el Número',
+   161→    'seo.without.text': 'OPN Chat te permite iniciar una conversación de WhatsApp con cualquier número de teléfono al instante — sin necesidad de guardar el contacto primero. Ya sea que te comuniques con un repartidor, una empresa o alguien de un marketplace, simplemente ingresa su número de teléfono y abre un chat directamente en WhatsApp. Es la forma más rápida de enviar un mensaje por WhatsApp sin llenar tu lista de contactos.',
+   162→
+   163→    // SEO — How It Works
+   164→    'seo.how.heading': 'Cómo Funciona',
+   165→    'seo.how.text': 'Usar OPN Chat es sencillo y toma solo unos segundos. Ingresa el número de teléfono con el código de país y, opcionalmente, redacta un mensaje que aparecerá prellenado en el chat. Haz clic en "Abrir Chat en WhatsApp" y serás redirigido directamente a la conversación. Sin registro, sin instalación de apps, sin datos almacenados en ningún servidor — todo funciona directamente en tu navegador.',
+   166→
+   167→    // SEO — Why Use OPN Chat
+   168→    'seo.why.heading': '¿Por Qué Usar OPN Chat?',
+   169→    'seo.why.feature1.title': 'Acceso Instantáneo',
+   170→    'seo.why.feature1.desc': 'Abre un chat de WhatsApp en segundos. Sin guardar contacto, sin descargar apps, sin crear cuentas.',
+   171→    'seo.why.feature2.title': '100% Privado',
+   172→    'seo.why.feature2.desc': 'No almacenamos datos en nuestros servidores. Tus números y mensajes permanecen solo en tu navegador.',
+   173→    'seo.why.feature3.title': 'Funciona en Todas Partes',
+   174→    'seo.why.feature3.desc': 'Compatible con cualquier número de teléfono del mundo. Úsalo en cualquier dispositivo — teléfono, tablet o computadora. Sin instalación.',
+   175→    'seo.why.feature4.title': 'Mensajes Prellenados',
+   176→    'seo.why.feature4.desc': 'Escribe un mensaje antes de abrir el chat. Perfecto para consultas comerciales, presentaciones rápidas o seguimientos.',
+   177→
+   178→    // SEO — Common Use Cases
+   179→    'seo.cases.heading': 'Casos de Uso Comunes',
+   180→    'seo.cases.text': 'OPN Chat es útil en docenas de situaciones cotidianas. Comunícate con un mensajero o repartidor sin añadirlo a tu teléfono. Contacta a un vendedor en un marketplace como Wallapop, MercadoLibre o OLX. Envía un mensaje a una empresa o proveedor de servicios sin guardar su número. Escribe rápidamente a alguien que acabas de conocer en un evento. Comunícate con propietarios, taxistas o personal de hotel mientras viajas — todo sin llenar tus contactos.',
+   181→
+   182→    // SEO — WhatsApp Direct Message
+   183→    'seo.direct.heading': 'Mensaje Directo por WhatsApp — La Forma Inteligente',
+   184→    'seo.direct.text': 'También conocido como "WhatsApp Direct" o "Click to Chat", OPN Chat utiliza el protocolo oficial de enlaces wa.me de WhatsApp para abrir un chat con cualquier número de teléfono. Esto significa que tu mensaje se envía a través de la propia infraestructura segura de WhatsApp. OPN Chat simplemente proporciona una interfaz conveniente — nunca interceptamos, leemos ni almacenamos tus mensajes. Es lo mismo que escribir un enlace wa.me manualmente, pero más rápido y fácil.',
+   185→
+   186→    // SEO — FAQ
+   187→    'seo.faq.heading': 'Preguntas Frecuentes',
+   188→    'seo.faq.q1': '¿Necesito instalar algo?',
+   189→    'seo.faq.a1': 'No. OPN Chat funciona en cualquier navegador web en cualquier dispositivo. Solo necesitas tener WhatsApp instalado en tu teléfono o computadora para recibir el chat.',
+   190→    'seo.faq.q2': '¿Mi número de teléfono es visible para la otra persona?',
+   191→    'seo.faq.a2': 'Sí — si envías un mensaje, el destinatario ve tu número de WhatsApp como en una conversación normal. OPN Chat simplemente abre el chat; no anonimiza tu número.',
+   192→    'seo.faq.q3': '¿La otra persona necesita tener mi número guardado?',
+   193→    'seo.faq.a3': 'No. Tu mensaje se entregará de todos modos. Sin embargo, si la persona tiene configuraciones de privacidad que restringen mensajes de contactos desconocidos, puede que necesite añadir tu número primero.',
+   194→    'seo.faq.q4': '¿OPN Chat es gratuito?',
+   195→    'seo.faq.a4': 'Sí, OPN Chat es completamente gratuito. Sin cargos ocultos, sin niveles premium, sin anuncios. Creemos en facilitar la comunicación para todos.',
+   196→    'seo.faq.q5': '¿Qué pasa con los números que ingreso?',
+   197→    'seo.faq.a5': 'No se envía nada a nuestros servidores. Tus números recientes se almacenan localmente en el localStorage de tu navegador solo por conveniencia. Puedes eliminarlos en cualquier momento borrando los datos de tu navegador.',
+   198→
+   199→    // Footer
+   200→    'footer.tagline': 'opnchat.net — OPN Chat. Sin datos en servidores. Todo funciona en tu navegador.',
+   201→    'footer.disclaimer.link': 'Aviso Legal',
+   202→    'footer.disclaimer.brief': 'OPN Chat no está afiliado con Meta, WhatsApp ni OpenChat DAO.',
+   203→
+   204→    // Disclaimer page
+   205→    'disclaimer.meta.title': 'Aviso Legal — OPN Chat',
+   206→    'disclaimer.meta.description': 'Aviso legal y condiciones de uso de OPN Chat (opnchat.net). Herramienta independiente, no afiliada con Meta ni WhatsApp.',
+   207→    'disclaimer.heading': 'Aviso Legal',
+   208→    'disclaimer.lastUpdated': 'Última actualización: Julio 2026',
+   209→
+   210→    'disclaimer.independence.heading': 'Aplicación Independiente',
+   211→    'disclaimer.independence.text': 'OPN Chat (opnchat.net) es una aplicación web independiente y no está afiliada, asociada, autorizada, respaldada ni conectada de ninguna manera oficial con Meta Platforms, Inc., WhatsApp LLC, OpenChat DAO, OpenAI, ni con ninguna de sus filiales. El sitio web oficial de WhatsApp se encuentra en <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer">whatsapp.com</a>. Los nombres "WhatsApp", "OpenChat", "Open Chat", así como los nombres, marcas, emblemas e imágenes relacionados son marcas registradas de sus respectivos propietarios.',
+   212→
+   213→    'disclaimer.purpose.heading': 'Propósito del Servicio',
+   214→    'disclaimer.purpose.text': 'OPN Chat proporciona una interfaz conveniente para abrir conversaciones de WhatsApp utilizando el protocolo oficial de enlaces wa.me. Esto es lo mismo que escribir manualmente una URL wa.me en la barra de direcciones de tu navegador — simplemente lo hacemos más rápido y fácil. OPN Chat no intercepta, lee, almacena ni modifica ningún mensaje enviado a través de WhatsApp. Toda la comunicación ocurre directamente entre tu dispositivo y los servidores de WhatsApp.',
+   215→
+   216→    'disclaimer.privacy.heading': 'Privacidad y Datos',
+   217→    'disclaimer.privacy.text': 'OPN Chat no recopila, almacena ni transmite ningún dato personal a servidores externos. Los números de teléfono que ingresas se utilizan únicamente para generar un enlace wa.me y, opcionalmente, se guardan en el localStorage de tu navegador para tu conveniencia (función de números recientes). Nunca se envían datos a nuestros servidores ni a terceros. Puedes limpiar tu historial en cualquier momento usando el botón "Borrar" en la aplicación o limpiando los datos de tu navegador.',
+   218→
+   219→    'disclaimer.warranty.heading': 'Sin Garantía',
+   220→    'disclaimer.warranty.text': 'Esta herramienta se proporciona "tal cual" sin garantías de ningún tipo, ya sean expresas o implícitas, incluyendo pero no limitándose a las garantías implícitas de comercialización, idoneidad para un propósito particular o no infracción. No garantizamos que el servicio sea ininterrumpido, oportuno, seguro o libre de errores. El uso del servicio es bajo tu propio riesgo.',
+   221→
+   222→    'disclaimer.limitation.heading': 'Limitación de Responsabilidad',
+   223→    'disclaimer.limitation.text': 'En ningún caso los creadores de OPN Chat serán responsables de ningún daño directo, indirecto, incidental, especial, consecuencial o ejemplar que surja de o en conexión con el uso del servicio. Esto incluye, pero no se limita a, daños por pérdida de beneficios, buena voluntad, datos u otras pérdidas intangibles resultantes del uso o la imposibilidad de uso del servicio.',
+   224→
+   225→    'disclaimer.trademarks.heading': 'Marcas Registradas',
+   226→    'disclaimer.trademarks.text': 'Todos los nombres de productos, logotipos, marcas y otras marcas comerciales que aparecen o se mencionan en OPN Chat son propiedad de sus respectivos titulares. Estos titulares de marcas no están afiliados con OPN Chat, nuestros productos o nuestro sitio web. No patrocinan ni respaldan nuestro servicio.',
+   227→
+   228→    'disclaimer.changes.heading': 'Cambios en Este Aviso',
+   229→    'disclaimer.changes.text': 'Nos reservamos el derecho de actualizar o modificar este aviso legal en cualquier momento sin previo aviso. Los cambios entran en vigor inmediatamente después de su publicación en esta página. Tu uso continuado del servicio después de cualquier cambio constituye tu aceptación del aviso actualizado.',
+   230→
+   231→    'disclaimer.back': 'Volver a OPN Chat',
+   232→
+   233→    // Language switcher
+   234→    'lang.switch': 'English',
+   235→    'lang.current': 'Español',
+   236→  },
+   237→  pt: {
+   238→    // Meta
+   239→    'meta.title': 'OPN Chat — Enviar Mensagem no WhatsApp Sem Salvar Contato',
+   240→    'meta.description': 'Inicie uma conversa no WhatsApp com qualquer número instantaneamente. Grátis, privado, sem cadastro. Digite o número e fale direto no opnchat.net.',
+   241→    'meta.keywords': 'OPN Chat, whatsapp sem salvar contato, whatsapp direto, enviar mensagem whatsapp sem adicionar, clique para conversar, wa.me, opnchat, mensagem direta whatsapp',
+   242→    'meta.og.title': 'OPN Chat — Enviar Mensagem no WhatsApp Sem Salvar Contato',
+   243→    'meta.og.description': 'Inicie uma conversa no WhatsApp com qualquer número instantaneamente. Sem salvar contato, sem cadastro, 100% privado.',
+   244→    'meta.twitter.title': 'OPN Chat — Enviar Mensagem no WhatsApp Sem Salvar Contato',
+   245→    'meta.twitter.description': 'Inicie uma conversa no WhatsApp com qualquer número instantaneamente. Sem salvar contato, sem cadastro, 100% privado.',
+   246→
+   247→    // Header
+   248→    'header.title': 'OPN Chat',
+   249→    'header.subtitle': 'Enviar Mensagem no WhatsApp Sem Salvar Contato',
+   250→
+   251→    // Form
+   252→    'form.label.phone': 'Digite o número completo sem +',
+   253→    'form.label.message': 'Mensagem',
+   254→    'form.addMessage': 'Adicionar uma mensagem',
+   255→    'form.label.optional': '(opcional)',
+   256→    'form.placeholder.phone': '55 11 99988 7766',
+   257→    'form.placeholder.message': 'Olá! Estou escrevendo sobre...',
+   258→    'form.hint': 'Inclua o código do país (ex. 55 para Brasil, 351 para Portugal, 1 para EUA)',
+   259→    'form.error.valid': 'Insira um número de telefone válido',
+   260→    'form.error.short': 'O número de telefone é muito curto',
+   261→    'form.submit': 'Abrir Conversa no WhatsApp',
+   262→
+   263→    // History
+   264→    'history.title': 'Números Recentes',
+   265→    'history.clear': 'Limpar',
+   266→
+   267→    // SEO — What Does OPN Stand For
+   268→    'seo.opn.heading': 'O Que Significa OPN?',
+   269→    'seo.opn.text': 'OPN é a sigla para <strong>O</strong>nline <strong>P</strong>rivacy <strong>N</strong>etwork (Rede de Privacidade Online). Escolhemos este nome porque nossa ferramenta foi desenvolvida do zero com foco total na privacidade. Nunca armazenamos, registramos ou rastreamos nenhum número de telefone ou mensagem que você insere. Tudo acontece de forma segura dentro do seu próprio navegador, garantindo total soberania dos seus dados.',
+   270→
+   271→    // SEO — WhatsApp Without Saving Number
+   272→    'seo.without.heading': 'WhatsApp Sem Salvar o Número',
+   273→    'seo.without.text': 'O OPN Chat permite que você inicie uma conversa no WhatsApp com qualquer número de telefone instantaneamente — sem precisar salvar o contato primeiro. Seja para falar com um entregador, uma empresa ou um vendedor de marketplace, basta digitar o número e abrir o chat direto no WhatsApp. É a forma mais rápida de enviar mensagens no WhatsApp sem lotar sua agenda de contatos.',
+   274→
+   275→    // SEO — How It Works
+   276→    'seo.how.heading': 'Como Funciona',
+   277→    'seo.how.text': 'Usar o OPN Chat é simples e leva apenas alguns segundos. Digite o número de telefone com o código do país e, se quiser, escreva uma mensagem que já aparecerá preenchida no chat. Clique em "Abrir Conversa no WhatsApp" e você será redirecionado direto para a conversa. Sem cadastro, sem instalar aplicativos, sem dados salvos em servidores — tudo roda direto no seu navegador.',
+   278→
+   279→    // SEO — Why Use OPN Chat
+   280→    'seo.why.heading': 'Por Que Usar o OPN Chat?',
+   281→    'seo.why.feature1.title': 'Acesso Instantâneo',
+   282→    'seo.why.feature1.desc': 'Abra um chat do WhatsApp em segundos. Sem salvar contato, sem baixar apps, sem criar contas.',
+   283→    'seo.why.feature2.title': '100% Privado',
+   284→    'seo.why.feature2.desc': 'Não guardamos dados em nossos servidores. Seus números e mensagens ficam apenas no seu navegador.',
+   285→    'seo.why.feature3.title': 'Funciona em Tudo',
+   286→    'seo.why.feature3.desc': 'Funciona com qualquer número de telefone do mundo. Use em qualquer dispositivo — celular, tablet ou computador. Sem instalação.',
+   287→    'seo.why.feature4.title': 'Mensagens Preenchidas',
+   288→    'seo.why.feature4.desc': 'Escreva uma mensagem antes de abrir o chat. Perfeito para orçamentos, apresentações rápidas ou retornos.',
+   289→
+   290→    // SEO — Common Use Cases
+   291→    'seo.cases.heading': 'Casos de Uso Comuns',
+   292→    'seo.cases.text': 'O OPN Chat é útil em dezenas de situações do dia a dia. Fale com um motoboy ou entregador sem adicioná-lo ao telefone. Entre em contato com um vendedor no Mercado Livre, OLX ou Facebook Marketplace. Envie uma mensagem para uma empresa ou prestador de serviços sem salvar o número. Mande uma mensagem rápida para alguém que acabou de conhecer em um evento. Fale com proprietários, motoristas de táxi ou funcionários de hotel enquanto viaja — tudo sem poluir seus contatos.',
+   293→
+   294→    // SEO — WhatsApp Direct Message
+   295→    'seo.direct.heading': 'Mensagem Direta no WhatsApp — Do Jeito Inteligente',
+   296→    'seo.direct.text': 'Também conhecido como "WhatsApp Direto" ou "Clique para Conversar", o OPN Chat utiliza o protocolo de links oficial wa.me do WhatsApp para abrir conversas com qualquer número. Isso significa que sua mensagem é enviada através da própria infraestrutura segura do WhatsApp. O OPN Chat apenas fornece uma interface conveniente — nós nunca interceptamos, lemos ou armazenamos suas mensagens. É exatamente o mesmo que digitar um link wa.me manualmente, só que muito mais rápido e fácil.',
+   297→
+   298→    // SEO — FAQ
+   299→    'seo.faq.heading': 'Perguntas Frequentes',
+   300→    'seo.faq.q1': 'Preciso instalar alguma coisa?',
+   301→    'seo.faq.a1': 'Não. O OPN Chat funciona em qualquer navegador web e em qualquer dispositivo. Você só precisa ter o WhatsApp instalado no seu celular ou computador para receber a conversa.',
+   302→    'seo.faq.q2': 'Meu número de telefone fica visível para a outra pessoa?',
+   303→    'seo.faq.a2': 'Sim — se você enviar uma mensagem, o destinatário verá seu número de WhatsApp normalmente, como em qualquer conversa. O OPN Chat apenas abre a conversa, ele não torna seu número anônimo.',
+   304→    'seo.faq.q3': 'A outra pessoa precisa ter o meu número salvo?',
+   305→    'seo.faq.a3': 'Não. Sua mensagem será entregue de qualquer forma. No entanto, se a pessoa tiver configurações de privacidade estritas que restringem mensagens de desconhecidos, ela pode precisar aceitar sua conversa primeiro.',
+   306→    'seo.faq.q4': 'O OPN Chat é gratuito?',
+   307→    'seo.faq.a4': 'Sim, o OPN Chat é totalmente gratuito. Sem taxas ocultas, sem funções premium e sem anúncios chatos. Acreditamos em facilitar a comunicação para todos.',
+   308→    'seo.faq.q5': 'O que acontece com os números que eu digito?',
+   309→    'seo.faq.a5': 'Nada é enviado para os nossos servidores. Seus números recentes são armazenados localmente no localStorage do seu navegador apenas para sua conveniência. Você pode apagá-los a qualquer momento limpando os dados do navegador.',
+   310→
+   311→    // Footer
+   312→    'footer.tagline': 'opnchat.net — OPN Chat. Sem dados em servidores. Tudo roda no seu navegador.',
+   313→    'footer.disclaimer.link': 'Aviso Legal',
+   314→    'footer.disclaimer.brief': 'OPN Chat não é afiliado à Meta, WhatsApp ou OpenChat DAO.',
+   315→
+   316→    // Disclaimer page
+   317→    'disclaimer.meta.title': 'Aviso Legal — OPN Chat',
+   318→    'disclaimer.meta.description': 'Aviso legal e condições de uso do OPN Chat (opnchat.net). Ferramenta independente, não afiliada à Meta ou WhatsApp.',
+   319→    'disclaimer.heading': 'Aviso Legal',
+   320→    'disclaimer.lastUpdated': 'Última atualização: Julho 2026',
+   321→
+   322→    'disclaimer.independence.heading': 'Aplicativo Independente',
+   323→    'disclaimer.independence.text': 'OPN Chat (opnchat.net) é um aplicativo web independente e não é afiliado, associado, autorizado, endossado ou de qualquer forma conectado oficialmente com a Meta Platforms, Inc., WhatsApp LLC, OpenChat DAO, OpenAI ou qualquer uma de suas subsidiárias ou afiliadas. O site oficial do WhatsApp pode ser encontrado em <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer">whatsapp.com</a>. Os nomes "WhatsApp", "OpenChat", "Open Chat", bem como nomes, marcas, emblemas e imagens relacionados são marcas registradas de seus respectivos proprietários.',
+   324→
+   325→    'disclaimer.purpose.heading': 'Propósito do Serviço',
+   326→    'disclaimer.purpose.text': 'O OPN Chat fornece uma interface conveniente para abrir conversas no WhatsApp usando o protocolo oficial de links wa.me. Isso é o mesmo que digitar manualmente uma URL wa.me na barra de endereços do seu navegador — nós apenas tornamos mais rápido e fácil. O OPN Chat não intercepta, lê, armazena ou modifica nenhuma mensagem enviada pelo WhatsApp. Toda a comunicação acontece diretamente entre seu dispositivo e os servidores do WhatsApp.',
+   327→
+   328→    'disclaimer.privacy.heading': 'Privacidade e Dados',
+   329→    'disclaimer.privacy.text': 'O OPN Chat não coleta, armazena ou transmite nenhum dado pessoal para servidores externos. Os números de telefone que você digita são usados exclusivamente para gerar um link wa.me e, opcionalmente, são salvos no localStorage do seu navegador para sua conveniência (recurso de números recentes). Nenhum dado é enviado aos nossos servidores ou a terceiros. Você pode limpar seu histórico a qualquer momento usando o botão "Limpar" no aplicativo ou limpando os dados do navegador.',
+   330→
+   331→    'disclaimer.warranty.heading': 'Sem Garantia',
+   332→    'disclaimer.warranty.text': 'Esta ferramenta é fornecida "no estado em que se encontra", sem garantias de qualquer tipo, sejam expressas ou implícitas, incluindo, mas não se limitando às garantias implícitas de comercialização, adequação a uma finalidade específica ou não violação. Não garantimos que o serviço será ininterrupto, oportuno, seguro ou livre de erros. O uso do serviço é por sua conta e risco.',
+   333→
+   334→    'disclaimer.limitation.heading': 'Limitação de Responsabilidade',
+   335→    'disclaimer.limitation.text': 'Em nenhuma circunstância os criadores do OPN Chat serão responsáveis por quaisquer danos diretos, indiretos, incidentais, especiais, consequenciais ou exemplares decorrentes ou em conexão com o uso do serviço. Isso inclui, mas não se limita a, danos por perda de lucros, boa vontade, dados ou outras perdas intangíveis resultantes do uso ou da incapacidade de usar o serviço.',
+   336→
+   337→    'disclaimer.trademarks.heading': 'Marcas Registradas',
+   338→    'disclaimer.trademarks.text': 'Todos os nomes de produtos, logotipos, marcas e outras marcas comerciais apresentados ou referidos no OPN Chat são propriedade de seus respectivos titulares. Esses titulares de marcas não são afiliados ao OPN Chat, aos nossos produtos ou ao nosso site. Eles não patrocinam ou endossam nosso serviço.',
+   339→
+   340→    'disclaimer.changes.heading': 'Alterações Neste Aviso',
+   341→    'disclaimer.changes.text': 'Reservamo-nos o direito de atualizar ou modificar este aviso legal a qualquer momento sem aviso prévio. As alterações entram em vigor imediatamente após serem publicadas nesta página. Seu uso continuado do serviço após quaisquer alterações constitui sua aceitação do aviso atualizado.',
+   342→
+   343→    'disclaimer.back': 'Voltar ao OPN Chat',
+   344→
+   345→    // Language switcher
+   346→    'lang.switch': 'English',
+   347→    'lang.current': 'Português',
+   348→  },
+   349→  id: {
+   350→    // Meta
+   351→    'meta.title': 'OPN Chat — Kirim Pesan WhatsApp Tanpa Simpan Nomor',
+   352→    'meta.description': 'Mulai obrolan WhatsApp dengan nomor apa pun secara instan. Gratis, privat, tanpa daftar. Masukkan nomor telepon dan langsung chat di opnchat.net.',
+   353→    'meta.keywords': 'OPN Chat, whatsapp tanpa simpan nomor, whatsapp langsung, kirim pesan whatsapp tanpa kontak, klik untuk chat, wa.me, opnchat, pesan langsung whatsapp, chat tanpa kontak',
+   354→    'meta.og.title': 'OPN Chat — Kirim Pesan WhatsApp Tanpa Simpan Nomor',
+   355→    'meta.og.description': 'Mulai percakapan WhatsApp dengan nomor apa pun secara instan. Tanpa simpan kontak, tanpa daftar, 100% privat.',
+   356→    'meta.twitter.title': 'OPN Chat — Kirim Pesan WhatsApp Tanpa Simpan Nomor',
+   357→    'meta.twitter.description': 'Mulai percakapan WhatsApp dengan nomor apa pun secara instan. Tanpa simpan kontak, tanpa daftar, 100% privat.',
+   358→
+   359→    // Header
+   360→    'header.title': 'OPN Chat',
+   361→    'header.subtitle': 'Kirim Pesan WhatsApp Tanpa Simpan Nomor',
+   362→
+   363→    // Form
+   364→    'form.label.phone': 'Masukkan nomor telepon lengkap tanpa +',
+   365→    'form.label.message': 'Pesan',
+   366→    'form.addMessage': 'Tambahkan pesan',
+   367→    'form.label.optional': '(opsional)',
+   368→    'form.placeholder.phone': '62 812 3456 7890',
+   369→    'form.placeholder.message': 'Halo! Saya ingin menanyakan tentang...',
+   370→    'form.hint': 'Sertakan kode negara (contoh: 62 untuk Indonesia, 1 untuk AS, 55 untuk Brasil)',
+   371→    'form.error.valid': 'Silakan masukkan nomor telepon yang valid',
+   372→    'form.error.short': 'Nomor telepon terlalu pendek',
+   373→    'form.submit': 'Buka Chat di WhatsApp',
+   374→
+   375→    // History
+   376→    'history.title': 'Nomor Terbaru',
+   377→    'history.clear': 'Hapus',
+   378→
+   379→    // SEO — What Does OPN Stand For
+   380→    'seo.opn.heading': 'Apa Arti OPN?',
+   381→    'seo.opn.text': 'OPN adalah singkatan dari <strong>O</strong>nline <strong>P</strong>rivacy <strong>N</strong>etwork (Jaringan Privasi Online). Kami memilih nama ini karena alat kami dirancang dari awal dengan pendekatan yang mengutamakan privasi. Kami tidak pernah menyimpan, mencatat, atau melacak nomor telepon atau pesan yang Anda masukkan. Semuanya berjalan dengan aman di dalam peramban web Anda sendiri, memastikan kedaulatan data Anda sepenuhnya.',
+   382→
+   383→    // SEO — WhatsApp Without Saving Number
+   384→    'seo.without.heading': 'WhatsApp Tanpa Simpan Nomor',
+   385→    'seo.without.text': 'OPN Chat memungkinkan Anda memulai percakapan WhatsApp dengan nomor telepon apa pun secara instan — tanpa perlu menyimpan kontak terlebih dahulu. Baik saat Anda ingin menghubungi kurir pengiriman, bisnis, atau seseorang dari marketplace, cukup masukkan nomor telepon mereka dan buka obrolan langsung di WhatsApp. Ini adalah cara tercepat untuk mengirim pesan di WhatsApp tanpa memenuhi daftar kontak Anda.',
+   386→
+   387→    // SEO — How It Works
+   388→    'seo.how.heading': 'Cara Kerja',
+   389→    'seo.how.text': 'Menggunakan OPN Chat sangat mudah dan hanya butuh beberapa detik. Masukkan nomor telepon beserta kode negara, dan secara opsional tulis pesan yang akan otomatis terisi di chat. Klik "Buka Chat di WhatsApp" dan Anda akan langsung diarahkan ke percakapan. Tanpa pendaftaran, tanpa instalasi aplikasi, tidak ada data yang disimpan di server mana pun — semuanya berjalan langsung di peramban Anda.',
+   390→
+   391→    // SEO — Why Use OPN Chat
+   392→    'seo.why.heading': 'Mengapa Menggunakan OPN Chat?',
+   393→    'seo.why.feature1.title': 'Akses Instan',
+   394→    'seo.why.feature1.desc': 'Buka chat WhatsApp dalam hitungan detik. Tanpa simpan kontak, tanpa unduh aplikasi, tanpa buat akun.',
+   395→    'seo.why.feature2.title': '100% Privat',
+   396→    'seo.why.feature2.desc': 'Tidak ada data yang disimpan di server kami. Nomor telepon dan pesan Anda hanya tersimpan di peramban Anda.',
+   397→    'seo.why.feature3.title': 'Bisa Digunakan di Mana Saja',
+   398→    'seo.why.feature3.desc': 'Mendukung nomor telepon dari seluruh dunia. Gunakan di perangkat apa pun — ponsel, tablet, atau komputer. Tanpa instalasi.',
+   399→    'seo.why.feature4.title': 'Pesan Otomatis Terisi',
+   400→    'seo.why.feature4.desc': 'Tulis pesan sebelum membuka chat. Sangat cocok untuk pertanyaan bisnis, perkenalan singkat, atau tindak lanjut.',
+   401→
+   402→    // SEO — Common Use Cases
+   403→    'seo.cases.heading': 'Contoh Penggunaan Umum',
+   404→    'seo.cases.text': 'OPN Chat sangat berguna dalam berbagai situasi sehari-hari. Hubungi kurir atau driver pengiriman tanpa menambahkan mereka ke ponsel Anda. Hubungi penjual di marketplace seperti Shopee, Tokopedia, atau Bukalapak. Kirim pesan ke bisnis atau penyedia layanan tanpa menyimpan nomor mereka. Kirim pesan cepat ke seseorang yang baru saja Anda temui di sebuah acara. Berkomunikasi dengan pemilik penginapan, sopir taksi, atau staf hotel saat bepergian — semuanya tanpa mengotori daftar kontak Anda.',
+   405→
+   406→    // SEO — WhatsApp Direct Message
+   407→    'seo.direct.heading': 'Pesan Langsung WhatsApp — Cara yang Cerdas',
+   408→    'seo.direct.text': 'Juga dikenal sebagai "WhatsApp Direct" atau "Klik untuk Chat", OPN Chat menggunakan protokol tautan wa.me resmi WhatsApp untuk membuka chat dengan nomor telepon apa pun. Ini berarti pesan Anda dikirim melalui infrastruktur aman milik WhatsApp sendiri. OPN Chat hanya menyediakan antarmuka yang nyaman — kami tidak pernah mencegat, membaca, atau menyimpan pesan Anda. Ini persis sama dengan mengetik tautan wa.me secara manual, tetapi jauh lebih cepat dan mudah.',
+   409→
+   410→    // SEO — FAQ
+   411→    'seo.faq.heading': 'Pertanyaan yang Sering Diajukan',
+   412→    'seo.faq.q1': 'Apakah saya perlu menginstal sesuatu?',
+   413→    'seo.faq.a1': 'Tidak. OPN Chat berjalan di peramban web apa pun di perangkat apa pun. Anda hanya perlu menginstal aplikasi WhatsApp di ponsel atau komputer Anda agar chat dapat terbuka.',
+   414→    'seo.faq.q2': 'Apakah nomor telepon saya bisa dilihat oleh orang lain?',
+   415→    'seo.faq.a2': 'Ya — saat Anda mengirim pesan, penerima akan melihat nomor WhatsApp Anda seperti chat biasa. OPN Chat hanya membuka percakapan, alat ini tidak membuat nomor Anda menjadi anonim.',
+   416→    'seo.faq.q3': 'Apakah orang lain harus menyimpan nomor saya?',
+   417→    'seo.faq.a3': 'Tidak. Pesan Anda akan tetap terkirim. Namun, jika orang tersebut memiliki pengaturan privasi yang sangat ketat yang membatasi pesan dari orang asing, mereka mungkin perlu menerima permintaan chat Anda terlebih dahulu.',
+   418→    'seo.faq.q4': 'Apakah OPN Chat gratis?',
+   419→    'seo.faq.a4': 'Ya, OPN Chat sepenuhnya gratis. Tanpa biaya tersembunyi, tanpa fitur premium, dan tanpa iklan. Kami percaya pada kemudahan komunikasi untuk semua orang.',
+   420→    'seo.faq.q5': 'Apa yang terjadi dengan nomor yang saya masukkan?',
+   421→    'seo.faq.a5': 'Tidak ada data yang dikirim ke server kami. Nomor terbaru Anda disimpan secara lokal di localStorage peramban Anda hanya untuk kenyamanan. Anda dapat menghapusnya kapan saja menggunakan tombol "Hapus" atau dengan menghapus data peramban Anda.',
+   422→
+   423→    // Footer
+   424→    'footer.tagline': 'opnchat.net — OPN Chat. Tanpa data di server. Semuanya berjalan di peramban Anda.',
+   425→    'footer.disclaimer.link': 'Penafian Hukum',
+   426→    'footer.disclaimer.brief': 'OPN Chat tidak berafiliasi dengan Meta, WhatsApp, atau OpenChat DAO.',
+   427→
+   428→    // Disclaimer page
+   429→    'disclaimer.meta.title': 'Penafian Hukum — OPN Chat',
+   430→    'disclaimer.meta.description': 'Penafian hukum dan ketentuan penggunaan OPN Chat (opnchat.net). Alat independen, tidak berafiliasi dengan Meta atau WhatsApp.',
+   431→    'disclaimer.heading': 'Penafian Hukum',
+   432→    'disclaimer.lastUpdated': 'Terakhir diperbarui: Juli 2026',
+   433→
+   434→    'disclaimer.independence.heading': 'Aplikasi Independen',
+   435→    'disclaimer.independence.text': 'OPN Chat (opnchat.net) adalah aplikasi web independen dan tidak berafiliasi, dikaitkan, diizinkan, didukung oleh, atau dengan cara apa pun terhubung secara resmi dengan Meta Platforms, Inc., WhatsApp LLC, OpenChat DAO, OpenAI, atau anak perusahaan atau afiliasi mereka. Situs web resmi WhatsApp dapat ditemukan di <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer">whatsapp.com</a>. Nama "WhatsApp", "OpenChat", "Open Chat", serta nama, merek, lambang, dan gambar terkait adalah merek dagang terdaftar dari pemiliknya masing-masing.',
+   436→
+   437→    'disclaimer.purpose.heading': 'Tujuan Layanan',
+   438→    'disclaimer.purpose.text': 'OPN Chat menyediakan antarmuka yang nyaman untuk membuka percakapan WhatsApp menggunakan protokol tautan wa.me resmi. Ini sama dengan mengetik URL wa.me secara manual di bilah alamat peramban Anda — kami hanya membuatnya lebih cepat dan mudah. OPN Chat tidak mencegat, membaca, menyimpan, atau mengubah pesan apa pun yang dikirim melalui WhatsApp. Semua komunikasi terjadi langsung antara perangkat Anda dan server WhatsApp.',
+   439→
+   440→    'disclaimer.privacy.heading': 'Privasi & Data',
+   441→    'disclaimer.privacy.text': 'OPN Chat tidak mengumpulkan, menyimpan, atau mengirimkan data pribadi apa pun ke server eksternal. Nomor telepon yang Anda masukkan hanya digunakan untuk menghasilkan tautan wa.me dan secara opsional disimpan di localStorage peramban Anda untuk kenyamanan (fitur nomor terbaru). Tidak ada data yang pernah dikirim ke server kami atau pihak ketiga mana pun. Anda dapat menghapus riwayat kapan saja menggunakan tombol "Hapus" di aplikasi atau dengan menghapus data peramban Anda.',
+   442→
+   443→    'disclaimer.warranty.heading': 'Tanpa Jaminan',
+   444→    'disclaimer.warranty.text': 'Alat ini disediakan "apa adanya" tanpa jaminan dalam bentuk apa pun, baik tersurat maupun tersirat, termasuk namun tidak terbatas pada jaminan tersirat mengenai kelayakan untuk diperdagangkan, kesesuaian untuk tujuan tertentu, atau non-pelanggaran. Kami tidak menjamin bahwa layanan akan berjalan tanpa gangguan, tepat waktu, aman, atau bebas dari kesalahan. Penggunaan layanan sepenuhnya menjadi risiko Anda sendiri.',
+   445→
+   446→    'disclaimer.limitation.heading': 'Batasan Tanggung Jawab',
+   447→    'disclaimer.limitation.text': 'Dalam keadaan apa pun, pembuat OPN Chat tidak bertanggung jawab atas kerugian langsung, tidak langsung, insidental, khusus, konsekuensial, atau contoh yang timbul dari atau sehubungan dengan penggunaan layanan. Ini termasuk, namun tidak terbatas pada, kerugian akibat hilangnya keuntungan, itikad baik, data, atau kerugian tidak berwujud lainnya yang diakibatkan oleh penggunaan atau ketidakmampuan menggunakan layanan.',
+   448→
+   449→    'disclaimer.trademarks.heading': 'Merek Dagang',
+   450→    'disclaimer.trademarks.text': 'Semua nama produk, logo, merek, dan merek dagang lainnya yang ditampilkan atau disebutkan dalam OPN Chat adalah milik pemilik merek dagang masing-masing. Pemilik merek dagang ini tidak berafiliasi dengan OPN Chat, produk kami, atau situs web kami. Mereka tidak mensponsori atau mendukung layanan kami.',
+   451→
+   452→    'disclaimer.changes.heading': 'Perubahan Penafian Ini',
+   453→    'disclaimer.changes.text': 'Kami berhak memperbarui atau mengubah penafian hukum ini kapan saja tanpa pemberitahuan sebelumnya. Perubahan berlaku segera setelah dipublikasikan di halaman ini. Penggunaan layanan yang berkelanjutan setelah perubahan apa pun merupakan penerimaan Anda terhadap penafian yang diperbarui.',
+   454→
+   455→    'disclaimer.back': 'Kembali ke OPN Chat',
+   456→
+   457→    // Language switcher
+   458→    'lang.switch': 'English',
+   459→    'lang.current': 'Bahasa Indonesia',
+   460→  },
+   461→} as const;
+   462→
