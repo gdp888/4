@@ -19,13 +19,13 @@ export type Lang = keyof typeof languages;
 export const ui = {
   en: {
     // Meta
-    'meta.title': 'OPN Chat — Message WhatsApp Without Saving Number',
-    'meta.description': 'OPN Chat — Message WhatsApp without saving the number. Free, private, no sign-up. Enter any phone number and start chatting instantly on opnchat.net.',
-    'meta.keywords': 'OPN Chat, whatsapp without saving number, whatsapp direct, message whatsapp without contact, click to chat, wa.me, opnchat, direct message whatsapp, open chat no contact',
-    'meta.og.title': 'OPN Chat — Message WhatsApp Without Saving Number',
-    'meta.og.description': 'Start a WhatsApp conversation with any number instantly. No contact saving, no sign-up, 100% private.',
-    'meta.twitter.title': 'OPN Chat — Message WhatsApp Without Saving Number',
-    'meta.twitter.description': 'Start a WhatsApp conversation with any number instantly. No contact saving, no sign-up, 100% private.',
+    'meta.title': 'WhatsApp Without Saving Number — Free & Private | OPN Chat',
+    'meta.description': 'Send a WhatsApp message without saving the number. Free, private, no sign-up. Just enter the phone number with country code and chat instantly.',
+    'meta.keywords': 'whatsapp without saving number, message whatsapp without saving contact, whatsapp direct message, send whatsapp without adding contact, wa.me link, click to chat whatsapp, whatsapp no save, open whatsapp chat, opnchat, free whatsapp chat',
+    'meta.og.title': 'WhatsApp Without Saving Number — Free & Private | OPN Chat',
+    'meta.og.description': 'Send a WhatsApp message without saving the number. Free, private, no sign-up. Enter any phone and chat instantly.',
+    'meta.twitter.title': 'WhatsApp Without Saving Number — Free & Private',
+    'meta.twitter.description': 'Send a WhatsApp message without saving the number. Free, private, no sign-up. Enter any phone and chat instantly.',
 
     // Header
     'header.title': 'OPN Chat',
@@ -142,9 +142,9 @@ export const ui = {
     '404.back': 'Back to OPN Chat',
 
     // Telegram
-    'tg.meta.title': 'OPN Chat — Message Telegram Without Saving Number',
-    'tg.meta.description': 'OPN Chat — Message Telegram without saving the number or adding contacts. Free, private, no sign-up. Enter a username or phone number and start chatting instantly on opnchat.net.',
-    'tg.meta.keywords': 'OPN Chat, telegram without saving number, telegram direct message, message telegram without contact, t.me, opnchat telegram, open telegram chat, telegram without adding contact',
+    'tg.meta.title': 'Telegram Without Saving Number — Free & Private | OPN Chat',
+    'tg.meta.description': 'Send a Telegram message without saving the number or adding contacts. Free, private, no sign-up. Enter @username or phone number and chat instantly.',
+    'tg.meta.keywords': 'telegram without saving number, message telegram without contact, telegram direct message, send telegram without adding contact, t.me link, open telegram chat, telegram no save, opnchat telegram, free telegram chat',
     'tg.meta.og.title': 'OPN Chat — Message Telegram Without Saving Number',
     'tg.meta.og.description': 'Start a Telegram conversation with any username or number instantly. No contact saving, no sign-up, 100% private.',
     'tg.meta.twitter.title': 'OPN Chat — Message Telegram Without Saving Number',
@@ -195,9 +195,9 @@ export const ui = {
     'tg.footer.whatsapp': 'WhatsApp Version',
 
     // Hub page
-    'hub.meta.title': 'OPN Chat — Free Online Tools. WhatsApp, Telegram & More',
-    'hub.meta.description': 'OPN Chat — Free online tools that run entirely in your browser. Message WhatsApp and Telegram without saving numbers. No sign-up, no data stored on servers. Private and instant.',
-    'hub.meta.keywords': 'OPN Chat, online tools, whatsapp without saving number, telegram without saving number, free online tools, private tools, browser tools',
+    'hub.meta.title': 'OPN Chat — Free Online Tools: WhatsApp & Telegram Without Saving Number',
+    'hub.meta.description': 'Free online tools that run in your browser. Send WhatsApp and Telegram messages without saving numbers. No sign-up, no data on servers. Private and instant.',
+    'hub.meta.keywords': 'whatsapp without saving number, telegram without saving number, free online tools, private browser tools, send message without contact, wa.me, t.me, opnchat',
     'hub.hero.title': 'Free Online Tools',
     'hub.hero.subtitle': 'Private. Instant. No sign-up. Everything runs in your browser.',
     'hub.service.whatsapp.title': 'WhatsApp',
@@ -219,13 +219,13 @@ export const ui = {
   },
   es: {
     // Meta
-    'meta.title': 'OPN Chat — Mensaje por WhatsApp Sin Guardar el Número',
-    'meta.description': 'OPN Chat — Envía un mensaje por WhatsApp sin guardar el número. Gratis, privado, sin registro. Ingresa cualquier número de teléfono y comienza a chatear al instante en opnchat.net.',
-    'meta.keywords': 'OPN Chat, whatsapp sin guardar numero, whatsapp directo, mensaje whatsapp sin contacto, click to chat, wa.me, opnchat, mensaje directo whatsapp, chat sin contacto',
-    'meta.og.title': 'OPN Chat — Mensaje por WhatsApp Sin Guardar el Número',
-    'meta.og.description': 'Inicia una conversación de WhatsApp con cualquier número al instante. Sin guardar contacto, sin registro, 100% privado.',
-    'meta.twitter.title': 'OPN Chat — Mensaje por WhatsApp Sin Guardar el Número',
-    'meta.twitter.description': 'Inicia una conversación de WhatsApp con cualquier número al instante. Sin guardar contacto, sin registro, 100% privado.',
+    'meta.title': 'WhatsApp Sin Guardar Número — Gratis y Privado | OPN Chat',
+    'meta.description': 'Escribe por WhatsApp sin guardar el número. Gratis, privado, sin registro. Ingresa el número con código de país y chatea al instante.',
+    'meta.keywords': 'whatsapp sin guardar numero, enviar whatsapp sin guardar contacto, mensaje whatsapp sin contacto, whatsapp directo, wa.me link, click to chat whatsapp, whatsapp sin agregar, abrir chat whatsapp, opnchat, whatsapp gratis',
+    'meta.og.title': 'WhatsApp Sin Guardar Número — Gratis y Privado | OPN Chat',
+    'meta.og.description': 'Escribe por WhatsApp sin guardar el número. Gratis, privado, sin registro. Ingresa cualquier número y chatea al instante.',
+    'meta.twitter.title': 'WhatsApp Sin Guardar Número — Gratis y Privado',
+    'meta.twitter.description': 'Escribe por WhatsApp sin guardar el número. Gratis, privado, sin registro. Ingresa cualquier número y chatea al instante.',
 
     // Header
     'header.title': 'OPN Chat',
@@ -342,9 +342,9 @@ export const ui = {
     '404.back': 'Volver a OPN Chat',
 
     // Telegram
-    'tg.meta.title': 'OPN Chat — Mensaje por Telegram Sin Guardar el Número',
-    'tg.meta.description': 'OPN Chat — Envía un mensaje por Telegram sin guardar el número ni añadir contactos. Gratis, privado, sin registro. Ingresa un nombre de usuario o número de teléfono y comienza a chatear al instante en opnchat.net.',
-    'tg.meta.keywords': 'OPN Chat, telegram sin guardar numero, mensaje directo telegram, telegram sin contacto, t.me, opnchat telegram, chat telegram directo, telegram sin añadir contacto',
+    'tg.meta.title': 'Telegram Sin Guardar Número — Gratis y Privado | OPN Chat',
+    'tg.meta.description': 'Escribe por Telegram sin guardar el número ni añadir contactos. Gratis, privado, sin registro. Ingresa @usuario o número y chatea al instante.',
+    'tg.meta.keywords': 'telegram sin guardar numero, enviar telegram sin contacto, mensaje telegram sin agregar, telegram directo, t.me link, abrir chat telegram, telegram sin añadir contacto, opnchat telegram, telegram gratis',
     'tg.meta.og.title': 'OPN Chat — Mensaje por Telegram Sin Guardar el Número',
     'tg.meta.og.description': 'Inicia una conversación de Telegram con cualquier usuario o número al instante. Sin guardar contacto, sin registro, 100% privado.',
     'tg.meta.twitter.title': 'OPN Chat — Mensaje por Telegram Sin Guardar el Número',
@@ -395,9 +395,9 @@ export const ui = {
     'tg.footer.whatsapp': 'Versión WhatsApp',
 
     // Hub page
-    'hub.meta.title': 'OPN Chat — Herramientas Online Gratuitas. WhatsApp, Telegram y Más',
-    'hub.meta.description': 'OPN Chat — Herramientas online gratuitas que funcionan completamente en tu navegador. Envía mensajes por WhatsApp y Telegram sin guardar números. Sin registro, sin datos en servidores. Privado e instantáneo.',
-    'hub.meta.keywords': 'OPN Chat, herramientas online, whatsapp sin guardar numero, telegram sin guardar numero, herramientas gratuitas, herramientas privadas',
+    'hub.meta.title': 'OPN Chat — Herramientas Gratis: WhatsApp y Telegram Sin Guardar Número',
+    'hub.meta.description': 'Herramientas online gratis que funcionan en tu navegador. Escribe por WhatsApp y Telegram sin guardar números. Sin registro, sin datos en servidores. Privado e instantáneo.',
+    'hub.meta.keywords': 'whatsapp sin guardar numero, telegram sin guardar numero, herramientas online gratis, herramientas privadas, enviar mensaje sin contacto, wa.me, t.me, opnchat',
     'hub.hero.title': 'Herramientas Online Gratuitas',
     'hub.hero.subtitle': 'Privadas. Instantáneas. Sin registro. Todo funciona en tu navegador.',
     'hub.service.whatsapp.title': 'WhatsApp',
@@ -419,13 +419,13 @@ export const ui = {
   },
   pt: {
     // Meta
-    'meta.title': 'OPN Chat — Enviar Mensagem no WhatsApp Sem Salvar Contato',
-    'meta.description': 'Inicie uma conversa no WhatsApp com qualquer número instantaneamente. Grátis, privado, sem cadastro. Digite o número e fale direto no opnchat.net.',
-    'meta.keywords': 'OPN Chat, whatsapp sem salvar contato, whatsapp direto, enviar mensagem whatsapp sem adicionar, clique para conversar, wa.me, opnchat, mensagem direta whatsapp',
-    'meta.og.title': 'OPN Chat — Enviar Mensagem no WhatsApp Sem Salvar Contato',
-    'meta.og.description': 'Inicie uma conversa no WhatsApp com qualquer número instantaneamente. Sem salvar contato, sem cadastro, 100% privado.',
-    'meta.twitter.title': 'OPN Chat — Enviar Mensagem no WhatsApp Sem Salvar Contato',
-    'meta.twitter.description': 'Inicie uma conversa no WhatsApp com qualquer número instantaneamente. Sem salvar contato, sem cadastro, 100% privado.',
+    'meta.title': 'WhatsApp Sem Salvar Contato — Grátis e Privado | OPN Chat',
+    'meta.description': 'Envie mensagem no WhatsApp sem salvar o contato. Grátis, privado, sem cadastro. Digite o número com DDD e converse direto.',
+    'meta.keywords': 'whatsapp sem salvar contato, enviar whatsapp sem adicionar, mensagem whatsapp sem salvar numero, whatsapp direto, wa.me link, clique para conversar, whatsapp sem cadastrar, abrir chat whatsapp, opnchat, whatsapp gratis',
+    'meta.og.title': 'WhatsApp Sem Salvar Contato — Grátis e Privado | OPN Chat',
+    'meta.og.description': 'Envie mensagem no WhatsApp sem salvar o contato. Grátis, privado, sem cadastro. Digite qualquer número e converse direto.',
+    'meta.twitter.title': 'WhatsApp Sem Salvar Contato — Grátis e Privado',
+    'meta.twitter.description': 'Envie mensagem no WhatsApp sem salvar o contato. Grátis, privado, sem cadastro. Digite qualquer número e converse direto.',
 
     // Header
     'header.title': 'OPN Chat',
@@ -542,9 +542,9 @@ export const ui = {
     '404.back': 'Voltar ao OPN Chat',
 
     // Telegram
-    'tg.meta.title': 'OPN Chat — Mensagem no Telegram Sem Salvar o Número',
-    'tg.meta.description': 'OPN Chat — Envie uma mensagem no Telegram sem salvar o número ou adicionar contatos. Grátis, privado, sem cadastro. Digite um nome de usuário ou número de telefone e comece a conversar instantaneamente no opnchat.net.',
-    'tg.meta.keywords': 'OPN Chat, telegram sem salvar numero, mensagem direta telegram, telegram sem contato, t.me, opnchat telegram, chat telegram direto, telegram sem adicionar contato',
+    'tg.meta.title': 'Telegram Sem Salvar Contato — Grátis e Privado | OPN Chat',
+    'tg.meta.description': 'Envie mensagem no Telegram sem salvar o contato ou adicionar contatos. Grátis, privado, sem cadastro. Digite @usuario ou número e converse direto.',
+    'tg.meta.keywords': 'telegram sem salvar numero, enviar telegram sem adicionar, mensagem telegram sem contato, telegram direto, t.me link, abrir chat telegram, telegram sem cadastrar, opnchat telegram, telegram gratis',
     'tg.meta.og.title': 'OPN Chat — Mensagem no Telegram Sem Salvar o Número',
     'tg.meta.og.description': 'Inicie uma conversa no Telegram com qualquer usuário ou número instantaneamente. Sem salvar contato, sem cadastro, 100% privado.',
     'tg.meta.twitter.title': 'OPN Chat — Mensagem no Telegram Sem Salvar o Número',
@@ -595,9 +595,9 @@ export const ui = {
     'tg.footer.whatsapp': 'Versão WhatsApp',
 
     // Hub page
-    'hub.meta.title': 'OPN Chat — Ferramentas Online Gratuitas. WhatsApp, Telegram e Mais',
-    'hub.meta.description': 'OPN Chat — Ferramentas online gratuitas que funcionam inteiramente no seu navegador. Envie mensagens no WhatsApp e Telegram sem salvar números. Sem cadastro, sem dados em servidores. Privado e instantâneo.',
-    'hub.meta.keywords': 'OPN Chat, ferramentas online, whatsapp sem salvar numero, telegram sem salvar numero, ferramentas gratuitas, ferramentas privadas',
+    'hub.meta.title': 'OPN Chat — Ferramentas Grátis: WhatsApp e Telegram Sem Salvar Contato',
+    'hub.meta.description': 'Ferramentas online grátis que funcionam no seu navegador. Envie mensagens no WhatsApp e Telegram sem salvar contatos. Sem cadastro, sem dados em servidores. Privado e instantâneo.',
+    'hub.meta.keywords': 'whatsapp sem salvar contato, telegram sem salvar numero, ferramentas online gratis, ferramentas privadas, enviar mensagem sem contato, wa.me, t.me, opnchat',
     'hub.hero.title': 'Ferramentas Online Gratuitas',
     'hub.hero.subtitle': 'Privadas. Instantâneas. Sem cadastro. Tudo funciona no seu navegador.',
     'hub.service.whatsapp.title': 'WhatsApp',
@@ -619,13 +619,13 @@ export const ui = {
   },
   id: {
     // Meta
-    'meta.title': 'OPN Chat — Kirim Pesan WhatsApp Tanpa Simpan Nomor',
-    'meta.description': 'Mulai obrolan WhatsApp dengan nomor apa pun secara instan. Gratis, privat, tanpa daftar. Masukkan nomor telepon dan langsung chat di opnchat.net.',
-    'meta.keywords': 'OPN Chat, whatsapp tanpa simpan nomor, whatsapp langsung, kirim pesan whatsapp tanpa kontak, klik untuk chat, wa.me, opnchat, pesan langsung whatsapp, chat tanpa kontak',
-    'meta.og.title': 'OPN Chat — Kirim Pesan WhatsApp Tanpa Simpan Nomor',
-    'meta.og.description': 'Mulai percakapan WhatsApp dengan nomor apa pun secara instan. Tanpa simpan kontak, tanpa daftar, 100% privat.',
-    'meta.twitter.title': 'OPN Chat — Kirim Pesan WhatsApp Tanpa Simpan Nomor',
-    'meta.twitter.description': 'Mulai percakapan WhatsApp dengan nomor apa pun secara instan. Tanpa simpan kontak, tanpa daftar, 100% privat.',
+    'meta.title': 'WhatsApp Tanpa Simpan Nomor — Gratis & Privat | OPN Chat',
+    'meta.description': 'Kirim pesan WhatsApp tanpa simpan nomor. Gratis, privat, tanpa daftar. Masukkan nomor telepon dengan kode negara dan langsung chat.',
+    'meta.keywords': 'whatsapp tanpa simpan nomor, kirim whatsapp tanpa kontak, pesan whatsapp tanpa simpan, whatsapp langsung, wa.me link, klik untuk chat, whatsapp tanpa tambah, buka chat whatsapp, opnchat, whatsapp gratis',
+    'meta.og.title': 'WhatsApp Tanpa Simpan Nomor — Gratis & Privat | OPN Chat',
+    'meta.og.description': 'Kirim pesan WhatsApp tanpa simpan nomor. Gratis, privat, tanpa daftar. Masukkan nomor dan langsung chat.',
+    'meta.twitter.title': 'WhatsApp Tanpa Simpan Nomor — Gratis & Privat',
+    'meta.twitter.description': 'Kirim pesan WhatsApp tanpa simpan nomor. Gratis, privat, tanpa daftar. Masukkan nomor dan langsung chat.',
 
     // Header
     'header.title': 'OPN Chat',
@@ -742,9 +742,9 @@ export const ui = {
     '404.back': 'Kembali ke OPN Chat',
 
     // Telegram
-    'tg.meta.title': 'OPN Chat — Kirim Pesan Telegram Tanpa Simpan Nomor',
-    'tg.meta.description': 'OPN Chat — Kirim pesan Telegram tanpa simpan nomor atau tambah kontak. Gratis, privat, tanpa daftar. Masukkan username atau nomor telepon dan langsung chat di opnchat.net.',
-    'tg.meta.keywords': 'OPN Chat, telegram tanpa simpan nomor, pesan langsung telegram, telegram tanpa kontak, t.me, opnchat telegram, buka chat telegram, telegram tanpa tambah kontak',
+    'tg.meta.title': 'Telegram Tanpa Simpan Nomor — Gratis & Privat | OPN Chat',
+    'tg.meta.description': 'Kirim pesan Telegram tanpa simpan nomor atau tambah kontak. Gratis, privat, tanpa daftar. Masukkan @username atau nomor dan langsung chat.',
+    'tg.meta.keywords': 'telegram tanpa simpan nomor, kirim telegram tanpa kontak, pesan telegram tanpa tambah, telegram langsung, t.me link, buka chat telegram, telegram tanpa daftar, opnchat telegram, telegram gratis',
     'tg.meta.og.title': 'OPN Chat — Kirim Pesan Telegram Tanpa Simpan Nomor',
     'tg.meta.og.description': 'Mulai percakapan Telegram dengan username atau nomor apa pun secara instan. Tanpa simpan kontak, tanpa daftar, 100% privat.',
     'tg.meta.twitter.title': 'OPN Chat — Kirim Pesan Telegram Tanpa Simpan Nomor',
@@ -795,9 +795,9 @@ export const ui = {
     'tg.footer.whatsapp': 'Versi WhatsApp',
 
     // Hub page
-    'hub.meta.title': 'OPN Chat — Alat Online Gratis. WhatsApp, Telegram & Lainnya',
-    'hub.meta.description': 'OPN Chat — Alat online gratis yang berjalan sepenuhnya di peramban Anda. Kirim pesan WhatsApp dan Telegram tanpa menyimpan nomor. Tanpa daftar, tanpa data di server. Privat dan instan.',
-    'hub.meta.keywords': 'OPN Chat, alat online, whatsapp tanpa simpan nomor, telegram tanpa simpan nomor, alat gratis, alat privat',
+    'hub.meta.title': 'OPN Chat — Alat Gratis: WhatsApp & Telegram Tanpa Simpan Nomor',
+    'hub.meta.description': 'Alat online gratis yang berjalan di peramban Anda. Kirim pesan WhatsApp dan Telegram tanpa simpan nomor. Tanpa daftar, tanpa data di server. Privat dan instan.',
+    'hub.meta.keywords': 'whatsapp tanpa simpan nomor, telegram tanpa simpan nomor, alat online gratis, alat privat, kirim pesan tanpa kontak, wa.me, t.me, opnchat',
     'hub.hero.title': 'Alat Online Gratis',
     'hub.hero.subtitle': 'Privat. Instan. Tanpa daftar. Semuanya berjalan di peramban Anda.',
     'hub.service.whatsapp.title': 'WhatsApp',
