@@ -1,0 +1,169 @@
+Брат, стратегия максимум-трафика проста: мультиформатный QR-генератор (URL / Wi-Fi / vCard / SMS / email / телефон / гео) + PWA-режим офлайн + контент-кластер из 10–12 статей вокруг инструмента + дифференциация «no signup, no watermark, no expiration, всё локально». Именно это сочетание выбивает тебя в топ по длинному хвосту, где конкуренты вроде QR Code Generator и QR.io проигрывают из-за paywall и обязательной регистрации.
+
+Roadmap на 4 фазы (30 дней)
+21
+23
+25
+27
+29
+31
+01
+03
+05
+07
+09
+11
+13
+15
+17
+Библиотека + 7 типов QR
+Кастомизация (цвет/логотип)
+Экспорт PNG/SVG/PDF
+Мультиязычные landing (/fil/qr)
+Schema.org WebApplication
+Блог-кластер (5 первых статей)
+PWA + manifest + offline
+Встроенные шаблоны (cafe/event)
+Live preview + share
+Reddit/HN/X launch
+Доп. 5 статей + internal links
+Embed-виджет для блогов
+Фаза 1 — MVP функционал
+Фаза 2 — SEO-фундамент
+Фаза 3 — Дифференциация
+Фаза 4 — Виральность
+QR-генератор для opnchat.net — план запуска
+Сравнение типов QR-кодов — что добавлять в MVP
+Тип
+Сценарий
+Спрос
+Приоритет
+Сложность формата
+URL	Ссылки на сайты, Instagram bio, меню	🔥 Очень высокий	P0 — MVP	Тривиально
+Wi-Fi (WIFI:T:WPA;S:...;P:...;;)	Пароли в кафе, отелях, доме	🔥 Очень высокий	P0 — MVP	Низкая
+Текст	Произвольный текст, заметки	Высокий	P0 — MVP	Тривиально
+vCard	Визитки, email-подписи, бейджи	Высокий	P0 — MVP	Средняя (структурированный формат)
+Email	mailto с темой и телом	Средний	P1 — фаза 3	Низкая
+SMS	sms: с предзаполненным текстом	Средний	P1 — фаза 3	Низкая
+Телефон	tel: для звонка одним тапом	Средний	P1 — фаза 3	Тривиально
+Гео	geo:lat,lng для локаций	Низкий	P2 — фаза 4	Низкая
+WhatsApp	wa.me-ссылка внутри QR	Средний	P1 — фаза 3 (кросс-промо с твоим WhatsApp-инструментом!)	Тривиально
+Event (vCalendar)	Расписание, мероприятия	Низкий	P2 — фаза 4	Средняя
+
+Ключевой insights: WhatsApp-QR связывает два твоих инструмента в один user-journey — юзер делает QR для своего WhatsApp, потом возвращается за «написать без сохранения номера». Это уникальная связка, которой нет у конкурентов.
+
+Фаза 1 — MVP-функционал (дни 1–6)
+Стек
+Библиотека: EasyQRCodeJS — поддерживает Canvas/SVG, лого по центру, цвета, совместима с React/Next.js/Vue, рендерится полностью на клиенте.
+Экспорт SVG: Canvas → SVG-конвертация или EasyQRCodeJS с режимом SVG (важно для печатных материалов, конкуренты часто закрывают SVG за paywall).
+Скачивание PNG/PDF: canvas.toDataURL() для PNG, jsPDF для PDF — всё на клиенте.
+Функционал MVP
+Один инпут с tabs переключения типов (URL / Wi-Fi / vCard / Текст).
+Превью в реальном времени — QR обновляется при каждом нажатии клавиши (debounce 100ms).
+Базовая кастомизация: цвет foreground, цвет background, уровень коррекции ошибок (L/M/Q/H).
+Кнопки скачивания: PNG (256/512/1024px), SVG.
+Кнопка «Copy as image» и «Share» (Web Share API).
+Дифференцирующие фичи (прямо в MVP)
+No signup — конкуренты QR.io, Uniqode требуют аккаунт.
+No watermark — QR Code Generator ставит водяной знак на free-плане.
+No expiration — статические QR работают вечно, в отличие от динамических с триал-периодом.
+Privacy-first — подчёркиваешь в UI: «Generated in your browser. Nothing sent to our servers.» Это ровно твоё УТП.
+Фаза 2 — SEO-фундамент (дни 7–14)
+Мультиязычные landing-страницы
+Под каждый язык — отдельная страница с локализованным H1 и мета-тегами:
+
+URL
+H1 (пример)
+Ключевое слово
+/qr-code/	Free QR Code Generator — No Signup, No Watermark	qr code generator
+/es/qr-code/	Generador de Código QR Gratis — Sin Registro	generador codigo qr
+/pt/qr-code/	Gerador de Código QR Grátis — Sem Cadastro	gerador codigo qr
+/id/qr-code/	Generator Kode QR Gratis — Tanpa Daftar	generator kode qr
+/fil/qr-code/	Libreng QR Code Generator — Walang Signup	qr code generator tagalog
+/ru/qr-code/	Бесплатный генератор QR-кодов — без регистрации	генератор qr кодов
+
+Schema.org WebApplication на каждой странице
+Плюс FAQPage schema на странице инструмента с 5–6 вопросами типа «Is this QR generator free?», «Do QR codes expire?», «Is my data sent to servers?» — это даёт rich snippets в выдаче.
+
+Блог-кластер (5 статей за 4 дня)
+Тематический кластер вокруг инструмента — каждая статья линкует на /qr-code/ и обратно:
+
+«What is a QR code and how does it work?» — информационный верхний уровень воронки.
+«How to create a WiFi QR code for your cafe (step-by-step)» — практический гайд с твоим инструментом.
+«vCard QR code: the modern business card» — кейс для предпринимателей.
+«Static vs Dynamic QR codes — which to choose?» — сравнение, отлично ловит коммерческий intent.
+«Best free QR code generators without signup (2026)» — listicle, где ты себя упоминаешь среди конкурентов (прозрачно, без обмана).
+Фаза 3 — Дифференциация и удержание (дни 15–21)
+PWA + offline-режим
+Это самая мощная must-have фича, потому что превращает сайт в «приложение», которое работает без интернета — повторяемый трафик без App Store:
+
+manifest.json с иконками, display: standalone, start_url: /qr-code/
+Service Worker кэширует библиотеку EasyQRCodeJS + HTML/CSS/JS — после первой загрузки QR генерируется офлайн.
+Prompt «Add to Home Screen» для мобильных — превращает разового посетителя в возвращаемого юзера.
+Конкуренты вроде QR Code Monkey работают только онлайн; PWA-оффлайн — это уникальное преимущество, которое особенно ценят пользователи с нестабильным интернетом (Индия, Филиппины, Индонезия — твои целевые рынки).
+
+Встроенные шаблоны под сценарии
+Вместо пустого инпута — пресеты на главной странице инструмента:
+
+«Cafe WiFi» — форма с SSID + паролем → готовый Wi-Fi QR
+«Business Card» — форма vCard с полями имя/должность/телефон/email → vCard QR
+«Restaurant Menu» — инпут URL меню → URL QR с предложением скачать в SVG для печати
+«Event Check-in» — URL или email пресет
+Это снижает когнитивную нагрузку и повышает конверсию в действие — юзер видит свой кейс сразу.
+
+Live preview + Share
+Превью обновляется в реальном времени при изменении цвета/логотипа.
+Web Share API: кнопка «Share QR» — юзер может отправить PNG в WhatsApp/Telegram/почту одной кнопкой (особенно полезно для vCard — отправить свою визитку контакту).
+Прямая ссылка «Copy link to this QR» — генерирует URL с параметрами (например /qr-code/?type=wifi&ssid=MyCafe&password=1234), который восстанавливает состояние. Это создаёт вирусную петлю: юзер делится ссылкой, получатель попадает на твой сайт с готовым QR.
+Фаза 4 — Виральность и обратные ссылки (дни 22–30)
+Запуск
+Reddit: r/SideProject, r/selfhosted, r/privacy, r/InternetIsBeautiful — пост «I built a privacy-first QR generator that works offline, no signup, no watermark».
+Hacker News: «Show HN: OPN Chat — QR generator that runs entirely in your browser».
+Product Hunt: запуск с акцентом на privacy + offline.
+X/Twitter: thread с гифкой PWA-установки и офлайн-генерации.
+Privacy-focused сообщества — твоя естественная аудитория, они любят тулзы, которые «не отправляют данные на сервер».
+
+Дополнительные 5 статей
+«How to put a QR code on a business card (with template)»
+«QR code error correction levels explained (L/M/Q/H)»
+«QR code size guide for print — what resolution do you need?»
+«How to scan a QR code without an app (built-in camera)»
+«QR code security: how scammers abuse QR codes and how to stay safe»
+Каждая статья линкует на инструмент и на 2–3 другие статьи — формируется внутреннее кольцо ссылок, которое Google воспринимает как тематический авторитет.
+
+Embed-виджет для блогов
+Кусок iframe-кода, который любой блогер/вебмастер может встроить на свой сайт:
+
+Это даёт бесплатные обратные ссылки с реферальным трафиком — классическая виральная механика, которая работает годами после публикации.
+
+Технический стек — итоговый
+Компонент
+Выбор
+Зачем
+QR-движок	EasyQRCodeJS	Лого, цвета, SVG, без зависимостей
+Экспорт PDF	jsPDF	Чистый клиентский, без бэкенда
+State в URL	query-params	Вирусный шеринг, восстанавливаемое состояние
+PWA	manifest + Workbox	Offline, install prompt, return traffic
+Schema	WebApplication + FAQPage	Rich snippets в выдаче
+Аналитика	Plausible / Umami (privacy-first)	Поддерживает твоё УТП
+
+Ключевые SEO-ключи под захват
+EN: qr code generator, free qr code generator no signup, wifi qr code generator, vcard qr code generator, qr code generator with logo, qr code generator offline
+
+ES: generador codigo qr gratis, crear codigo qr wifi, generador qr sin registro
+
+PT: gerador codigo qr gratis, gerar qr code wifi, qr code sem cadastro
+
+ID: generator kode qr gratis, buat qr code wifi, pembuat qr code tanpa daftar
+
+RU: генератор qr кодов, создать qr код wifi, qr код без регистрации
+
+FIL: qr code generator tagalog, gumawa ng qr code wifi, libreng qr code maker
+
+Что НЕ делать
+Не добавляй динамические QR-коды с трекингом — они требуют бэкенда и редиректов, ломают твоё УТП «no data on servers».
+Не ставь paywall на SVG/PDF экспорт — это твоё главное преимущество перед QR Code Generator, который закрывает SVG за подпиской.
+Не делай обязательное поле email для скачивания — это убивает конверсию, и именно это раздражает юзеров у конкурентов.
+Не добавляй AI-генерацию QR — модно, но требует API, нарушает приватность-фёрст.
+Если одной строкой
+Делай мультиформатный PWA-генератор с 7 типами QR, без регистрации и водяных знаков, с шерингом состояния через URL — и оборачивай его в контент-кластер из 10 статей на 6 языках. Через 30 дней у тебя будет инструмент, который по связке «приватность + офлайн + zero-friction» обходит конкурентов в длинном хвосте, а WhatsApp-QR связывает его с твоим первым инструментом в единую пользовательскую экосистему. Брат, скажи, когда начнёшь Фазу 1 — распишу готовую HTML-структуру страницы с табами, формами под каждый тип QR и готовым кодом под EasyQRCodeJS.
