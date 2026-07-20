@@ -246,6 +246,7 @@ export const ui = {
     'qr.customize.errorCorrection.H': 'High (30%)',
 
     // Actions
+    'qr.download.jpg': 'Download JPG',
     'qr.download.png': 'Download PNG',
     'qr.download.svg': 'Download SVG',
     'qr.download.size': 'Size',
@@ -583,6 +584,7 @@ export const ui = {
     'qr.customize.errorCorrection.M': 'Media (15%)',
     'qr.customize.errorCorrection.Q': 'Cuartil (25%)',
     'qr.customize.errorCorrection.H': 'Alta (30%)',
+    'qr.download.jpg': 'Descargar JPG',
     'qr.download.png': 'Descargar PNG',
     'qr.download.svg': 'Descargar SVG',
     'qr.download.size': 'Tamaño',
@@ -914,6 +916,7 @@ export const ui = {
     'qr.customize.errorCorrection.M': 'Média (15%)',
     'qr.customize.errorCorrection.Q': 'Quartil (25%)',
     'qr.customize.errorCorrection.H': 'Alta (30%)',
+    'qr.download.jpg': 'Baixar JPG',
     'qr.download.png': 'Baixar PNG',
     'qr.download.svg': 'Baixar SVG',
     'qr.download.size': 'Tamanho',
@@ -1245,6 +1248,7 @@ export const ui = {
     'qr.customize.errorCorrection.M': 'Sedang (15%)',
     'qr.customize.errorCorrection.Q': 'Kuartil (25%)',
     'qr.customize.errorCorrection.H': 'Tinggi (30%)',
+    'qr.download.jpg': 'Unduh JPG',
     'qr.download.png': 'Unduh PNG',
     'qr.download.svg': 'Unduh SVG',
     'qr.download.size': 'Ukuran',

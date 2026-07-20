@@ -264,7 +264,11 @@ const qrSchema = {
               <button class="size-btn" data-size="1024">1024px</button>
             </div>
           </div>
-          <button class="action-btn primary" id="btn-download-png" disabled>
+          <button class="action-btn primary" id="btn-download-jpg" disabled>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            {t('qr.download.jpg')}
+          </button>
+          <button class="action-btn" id="btn-download-png" disabled>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             {t('qr.download.png')}
           </button>
@@ -614,6 +618,7 @@ const qrSchema = {
   const panels = document.querySelectorAll('.form-panel');
   const qrCanvas = document.getElementById('qr-canvas')!;
   const previewEmpty = document.getElementById('preview-empty')!;
+  const btnJpg = document.getElementById('btn-download-jpg') as HTMLButtonElement;
   const btnPng = document.getElementById('btn-download-png') as HTMLButtonElement;
   const btnSvg = document.getElementById('btn-download-svg') as HTMLButtonElement;
   const btnCopy = document.getElementById('btn-copy') as HTMLButtonElement;
@@ -711,7 +716,7 @@ const qrSchema = {
       qrCanvas.classList.remove('visible');
       qrCanvas.innerHTML = '';
       previewEmpty.classList.remove('hidden');
-      btnPng.disabled = true; btnSvg.disabled = true; btnCopy.disabled = true; btnShare.style.display = 'none';
+      btnJpg.disabled = true; btnPng.disabled = true; btnSvg.disabled = true; btnCopy.disabled = true; btnShare.style.display = 'none';
       return;
     }
 
@@ -719,7 +724,7 @@ const qrSchema = {
     qrCanvas.innerHTML = '';
     qrCanvas.classList.add('visible');
     previewEmpty.classList.add('hidden');
-    btnPng.disabled = false; btnSvg.disabled = false; btnCopy.disabled = false;
+    btnJpg.disabled = false; btnPng.disabled = false; btnSvg.disabled = false; btnCopy.disabled = false;
 
     // Show share button if supported
     if (navigator.share) { btnShare.style.display = ''; }
@@ -740,6 +745,26 @@ const qrSchema = {
       console.error('QR generation failed:', e);
     }
   }
+
+  // Download JPG
+  btnJpg?.addEventListener('click', () => {
+    const canvas = qrCanvas.querySelector('canvas');
+    if (!canvas) return;
+
+    const tmpCanvas = document.createElement('canvas');
+    tmpCanvas.width = currentSize;
+    tmpCanvas.height = currentSize;
+    const ctx = tmpCanvas.getContext('2d')!;
+    // JPG doesn't support transparency — fill with background color
+    ctx.fillStyle = bgColorInput.value;
+    ctx.fillRect(0, 0, currentSize, currentSize);
+    ctx.drawImage(canvas, 0, 0, currentSize, currentSize);
+
+    const link = document.createElement('a');
+    link.download = `qrcode-${currentSize}x${currentSize}.jpg`;
+    link.href = tmpCanvas.toDataURL('image/jpeg', 0.95);
+    link.click();
+  });
 
   // Download PNG
   btnPng?.addEventListener('click', () => {
