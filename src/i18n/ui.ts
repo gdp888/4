@@ -98,6 +98,7 @@ export const ui = {
     'footer.disclaimer.brief': 'OPN Chat is not affiliated with Meta, WhatsApp, or OpenChat DAO.',
     'footer.blog': 'Blog',
     'footer.telegram': 'Telegram Version',
+    'footer.privacy.link': 'Privacy Policy',
 
     // Blog
     'blog.title': 'Blog',
@@ -133,6 +134,52 @@ export const ui = {
     'disclaimer.changes.text': 'We reserve the right to update or modify this disclaimer at any time without prior notice. Changes become effective immediately upon being posted on this page. Your continued use of the service after any changes constitutes your acceptance of the updated disclaimer.',
 
     'disclaimer.back': 'Back to OPN Chat',
+
+    // Privacy Policy page
+    'privacy.meta.title': 'Privacy Policy — OPN Chat',
+    'privacy.meta.description': 'Privacy policy for OPN Chat (opnchat.net). Learn how we protect your data with privacy-first analytics and no personal data collection.',
+    'privacy.heading': 'Privacy Policy',
+    'privacy.lastUpdated': 'Last updated: July 2026',
+
+    'privacy.intro.heading': 'Introduction',
+    'privacy.intro.text': 'At OPN Chat (opnchat.net), your privacy is our top priority. This Privacy Policy explains what data we collect, how we use it, and why you can trust us. We built OPN Chat with a "privacy-first" philosophy: we collect the absolute minimum amount of data necessary to operate and improve the service, and we are fully transparent about every tool and technology we use. We do not require you to create an account, and we never ask for personal information such as your name, email address, or phone number.',
+
+    'privacy.nodata.heading': 'No Personal Data Collection',
+    'privacy.nodata.text': 'OPN Chat does not collect, store, or transmit any personal data to external servers. Phone numbers you enter are used solely to generate a wa.me or t.me link and are optionally saved in your browser\'s localStorage for your convenience (the "recent numbers" feature). No data is ever sent to our servers or any third party. You can clear your history at any time using the "Clear" button in the app or by clearing your browser data. We have no databases, no user accounts, and no server-side logs that could identify you personally.',
+
+    'privacy.cloudflare.heading': 'Analytics & Data Usage (Cloudflare Web Analytics)',
+    'privacy.cloudflare.text': 'We use Cloudflare Web Analytics exclusively to understand general visit statistics and improve our website. This tool is fundamentally different from traditional analytics services like Google Analytics. Here is why Cloudflare Web Analytics is fully compatible with a privacy-first approach:',
+
+    'privacy.cloudflare.nocookie.heading': 'No Cookies',
+    'privacy.cloudflare.nocookie.text': 'The Cloudflare Web Analytics script does not set or read any cookies on your device. Unlike most analytics platforms that rely on cookies to track user behavior over time, this tool operates entirely without them. This means there is no persistent identifier stored on your browser, no tracking of your return visits, and no way to build a profile about you across sessions.',
+
+    'privacy.cloudflare.nocross.heading': 'No Cross-Site Tracking',
+    'privacy.cloudflare.nocross.text': 'Cloudflare Web Analytics does not track you across different websites. Your activity on opnchat.net is never linked to your activity on any other site. There are no third-party trackers, no advertising networks, and no data sharing with other platforms. What happens on our site stays on our site — and even then, only in an aggregated, anonymized form.',
+
+    'privacy.cloudflare.aggregated.heading': 'Aggregated Data Only',
+    'privacy.cloudflare.aggregated.text': 'Only anonymized, aggregated metrics are collected — such as total page views, general geographic region (country level), device type (mobile vs. desktop), and referral source. None of these data points can be used to identify a specific individual. For example, we can see that "500 people from Spain visited the WhatsApp page on mobile devices," but we cannot see who those people are, what their IP addresses are, or what they did on the site.',
+
+    'privacy.cloudflare.nopii.heading': 'No PII Collection',
+    'privacy.cloudflare.nopii.text': 'Cloudflare Web Analytics does not collect any Personally Identifiable Information (PII). It does not record names, email addresses, exact IP addresses in an identifiable form, or any other data that could directly or indirectly identify you. The service is designed from the ground up to be incapable of tracking individuals, which is why it complies with GDPR, CCPA, and ePrivacy regulations without requiring a cookie consent banner.',
+
+    'privacy.cloudflare.conclusion.text': 'Because of these characteristics, Cloudflare Web Analytics — similar to privacy-focused alternatives like Plausible or Fathom — does not require an intrusive cookie consent banner in most jurisdictions, including the European Union. We chose this tool specifically because it allows us to understand how our site is used without compromising your privacy.',
+
+    'privacy.localstorage.heading': 'Local Storage (Browser Only)',
+    'privacy.localstorage.text': 'OPN Chat uses your browser\'s localStorage to save your recently used phone numbers and usernames. This data never leaves your device — it is not transmitted to any server. You have full control over this data and can clear it at any time by clicking the "Clear" button next to your recent history or by clearing your browser\'s site data. We chose localStorage instead of cookies specifically because it is under your control and cannot be accessed by third parties.',
+
+    'privacy.thirdparty.heading': 'Third-Party Services',
+    'privacy.thirdparty.text': 'OPN Chat generates links using the official WhatsApp (wa.me) and Telegram (t.me) protocols. When you click "Open Chat," you are redirected to WhatsApp or Telegram\'s own apps or websites. We have no control over, and are not responsible for, the privacy practices of Meta/WhatsApp or Telegram. We encourage you to review their respective privacy policies. Aside from Cloudflare Web Analytics (described above) and the CDN hosting for our static site, we do not use any other third-party services, scripts, or trackers.',
+
+    'privacy.children.heading': 'Children\'s Privacy',
+    'privacy.children.text': 'OPN Chat does not knowingly collect any personal information from children under the age of 13. Since we do not collect personal data from any users regardless of age, our service is inherently safe for minors to use. However, we recommend that parents and guardians supervise their children\'s use of any online tool, including OPN Chat, and review WhatsApp\'s and Telegram\'s own age requirements.',
+
+    'privacy.rights.heading': 'Your Rights',
+    'privacy.rights.text': 'Under GDPR (for EU residents) and CCPA (for California residents), you have the right to access, correct, delete, or port your personal data. Since OPN Chat does not collect any personal data in the first place, there is nothing to request, correct, or delete from our side. If you wish to remove your locally stored history, you can do so directly from the app using the "Clear" button or by clearing your browser\'s site data. If you have any questions about your rights, feel free to contact us.',
+
+    'privacy.changes.heading': 'Changes to This Policy',
+    'privacy.changes.text': 'We reserve the right to update or modify this Privacy Policy at any time without prior notice. Changes become effective immediately upon being posted on this page. We encourage you to review this page periodically to stay informed about how we protect your privacy. Your continued use of the service after any changes constitutes your acceptance of the updated policy.',
+
+    'privacy.back': 'Back to OPN Chat',
 
     // 404 page
     '404.title': 'Page Not Found',
@@ -298,6 +345,7 @@ export const ui = {
     'footer.disclaimer.brief': 'OPN Chat no está afiliado con Meta, WhatsApp ni OpenChat DAO.',
     'footer.blog': 'Blog',
     'footer.telegram': 'Versión Telegram',
+    'footer.privacy.link': 'Política de Privacidad',
 
     // Blog
     'blog.title': 'Blog',
@@ -333,6 +381,52 @@ export const ui = {
     'disclaimer.changes.text': 'Nos reservamos el derecho de actualizar o modificar este aviso legal en cualquier momento sin previo aviso. Los cambios entran en vigor inmediatamente después de su publicación en esta página. Tu uso continuado del servicio después de cualquier cambio constituye tu aceptación del aviso actualizado.',
 
     'disclaimer.back': 'Volver a OPN Chat',
+
+    // Privacy Policy page
+    'privacy.meta.title': 'Política de Privacidad — OPN Chat',
+    'privacy.meta.description': 'Política de privacidad de OPN Chat (opnchat.net). Conozca cómo protegemos sus datos con analítica privacy-first y sin recopilación de datos personales.',
+    'privacy.heading': 'Política de Privacidad',
+    'privacy.lastUpdated': 'Última actualización: Julio 2026',
+
+    'privacy.intro.heading': 'Introducción',
+    'privacy.intro.text': 'En OPN Chat (opnchat.net), su privacidad es nuestra máxima prioridad. Esta Política de Privacidad explica qué datos recopilamos, cómo los usamos y por qué puede confiar en nosotros. Construimos OPN Chat con una filosofía "privacy-first": recopilamos la cantidad mínima absoluta de datos necesarios para operar y mejorar el servicio, y somos completamente transparentes sobre cada herramienta y tecnología que utilizamos. No requiere que cree una cuenta y nunca le pedimos información personal como su nombre, dirección de correo electrónico o número de teléfono.',
+
+    'privacy.nodata.heading': 'Sin Recopilación de Datos Personales',
+    'privacy.nodata.text': 'OPN Chat no recopila, almacena ni transmite ningún dato personal a servidores externos. Los números de teléfono que ingresa se utilizan únicamente para generar un enlace wa.me o t.me y, opcionalmente, se guardan en el localStorage de su navegador para su conveniencia (la función de "números recientes"). Nunca se envían datos a nuestros servidores ni a terceros. Puede limpiar su historial en cualquier momento usando el botón "Borrar" en la aplicación o limpiando los datos de su navegador. No tenemos bases de datos, cuentas de usuario ni registros del lado del servidor que puedan identificarle personalmente.',
+
+    'privacy.cloudflare.heading': 'Analítica y Uso de Datos (Cloudflare Web Analytics)',
+    'privacy.cloudflare.text': 'Utilizamos Cloudflare Web Analytics exclusivamente para comprender las estadísticas generales de visitas y mejorar nuestro sitio web. Esta herramienta es fundamentalmente diferente de los servicios de analítica tradicionales como Google Analytics. Aquí le explicamos por qué Cloudflare Web Analytics es totalmente compatible con un enfoque privacy-first:',
+
+    'privacy.cloudflare.nocookie.heading': 'Sin Cookies',
+    'privacy.cloudflare.nocookie.text': 'El script de Cloudflare Web Analytics no establece ni lee ninguna cookie en su dispositivo. A diferencia de la mayoría de las plataformas de analítica que dependen de cookies para rastrear el comportamiento del usuario a lo largo del tiempo, esta herramienta opera completamente sin ellas. Esto significa que no hay ningún identificador persistente almacenado en su navegador, no se rastrea sus visitas recurrentes y no hay forma de crear un perfil sobre usted entre sesiones.',
+
+    'privacy.cloudflare.nocross.heading': 'Sin Rastreo Entre Sitios',
+    'privacy.cloudflare.nocross.text': 'Cloudflare Web Analytics no le rastrea entre diferentes sitios web. Su actividad en opnchat.net nunca se vincula con su actividad en ningún otro sitio. No hay rastreadores de terceros, redes publicitarias ni intercambio de datos con otras plataformas. Lo que sucede en nuestro sitio se queda en nuestro sitio — e incluso entonces, solo de forma agregada y anonimizada.',
+
+    'privacy.cloudflare.aggregated.heading': 'Solo Datos Agregados',
+    'privacy.cloudflare.aggregated.text': 'Solo se recopilan métricas anonimizadas y agregadas — como el total de páginas vistas, la región geográfica general (nivel de país), el tipo de dispositivo (móvil vs. escritorio) y la fuente de referencia. Ninguno de estos puntos de datos puede utilizarse para identificar a un individuo específico. Por ejemplo, podemos ver que "500 personas de España visitaron la página de WhatsApp en dispositivos móviles", pero no podemos ver quiénes son esas personas, cuáles son sus direcciones IP ni qué hicieron en el sitio.',
+
+    'privacy.cloudflare.nopii.heading': 'Sin Recopilación de PII',
+    'privacy.cloudflare.nopii.text': 'Cloudflare Web Analytics no recopila ninguna Información de Identificación Personal (PII). No registra nombres, direcciones de correo electrónico, direcciones IP exactas de forma identificable ni ningún otro dato que pueda identificarle directa o indirectamente. El servicio está diseñado desde sus cimientos para ser incapaz de rastrear individuos, por lo que cumple con las regulaciones GDPR, CCPA y ePrivacy sin requerir un banner de consentimiento de cookies.',
+
+    'privacy.cloudflare.conclusion.text': 'Gracias a estas características, Cloudflare Web Analytics — similar a alternativas enfocadas en la privacidad como Plausible o Fathom — no requiere un banner intrusivo de consentimiento de cookies en la mayoría de las jurisdicciones, incluyendo la Unión Europea. Elegimos esta herramienta específicamente porque nos permite entender cómo se usa nuestro sitio sin comprometer su privacidad.',
+
+    'privacy.localstorage.heading': 'Almacenamiento Local (Solo en el Navegador)',
+    'privacy.localstorage.text': 'OPN Chat utiliza el localStorage de su navegador para guardar los números de teléfono y nombres de usuario utilizados recientemente. Estos datos nunca salen de su dispositivo — no se transmiten a ningún servidor. Usted tiene control total sobre estos datos y puede eliminarlos en cualquier momento haciendo clic en el botón "Borrar" junto a su historial reciente o limpiando los datos del sitio en su navegador. Elegimos localStorage en lugar de cookies específicamente porque está bajo su control y no puede ser accedido por terceros.',
+
+    'privacy.thirdparty.heading': 'Servicios de Terceros',
+    'privacy.thirdparty.text': 'OPN Chat genera enlaces utilizando los protocolos oficiales de WhatsApp (wa.me) y Telegram (t.me). Cuando hace clic en "Abrir Chat", es redirigido a las propias aplicaciones o sitios web de WhatsApp o Telegram. No tenemos control sobre las prácticas de privacidad de Meta/WhatsApp o Telegram, ni somos responsables de ellas. Le recomendamos revisar sus respectivas políticas de privacidad. Aparte de Cloudflare Web Analytics (descrito anteriormente) y el alojamiento CDN para nuestro sitio estático, no utilizamos ningún otro servicio, script o rastreador de terceros.',
+
+    'privacy.children.heading': 'Privacidad de Menores',
+    'privacy.children.text': 'OPN Chat no recopila conscientemente ninguna información personal de menores de 13 años. Dado que no recopilamos datos personales de ningún usuario independientemente de su edad, nuestro servicio es inherentemente seguro para que lo usen menores. Sin embargo, recomendamos que los padres y tutores supervisen el uso que sus hijos hacen de cualquier herramienta en línea, incluyendo OPN Chat, y revisen los requisitos de edad de WhatsApp y Telegram.',
+
+    'privacy.rights.heading': 'Sus Derechos',
+    'privacy.rights.text': 'Bajo el GDPR (para residentes de la UE) y el CCPA (para residentes de California), usted tiene derecho a acceder, corregir, eliminar o portar sus datos personales. Dado que OPN Chat no recopila datos personales en primer lugar, no hay nada que solicitar, corregir o eliminar por nuestra parte. Si desea eliminar su historial almacenado localmente, puede hacerlo directamente desde la aplicación usando el botón "Borrar" o limpiando los datos del sitio en su navegador. Si tiene preguntas sobre sus derechos, no dude en contactarnos.',
+
+    'privacy.changes.heading': 'Cambios en Esta Política',
+    'privacy.changes.text': 'Nos reservamos el derecho de actualizar o modificar esta Política de Privacidad en cualquier momento sin previo aviso. Los cambios entran en vigor inmediatamente después de su publicación en esta página. Le recomendamos revisar esta página periódicamente para mantenerse informado sobre cómo protegemos su privacidad. Su uso continuado del servicio después de cualquier cambio constituye su aceptación de la política actualizada.',
+
+    'privacy.back': 'Volver a OPN Chat',
 
     // 404 page
     '404.title': 'Página No Encontrada',
@@ -498,6 +592,7 @@ export const ui = {
     'footer.disclaimer.brief': 'OPN Chat não é afiliado à Meta, WhatsApp ou OpenChat DAO.',
     'footer.blog': 'Blog',
     'footer.telegram': 'Versão Telegram',
+    'footer.privacy.link': 'Política de Privacidade',
 
     // Blog
     'blog.title': 'Blog',
@@ -533,6 +628,52 @@ export const ui = {
     'disclaimer.changes.text': 'Reservamo-nos o direito de atualizar ou modificar este aviso legal a qualquer momento sem aviso prévio. As alterações entram em vigor imediatamente após serem publicadas nesta página. Seu uso continuado do serviço após quaisquer alterações constitui sua aceitação do aviso atualizado.',
 
     'disclaimer.back': 'Voltar ao OPN Chat',
+
+    // Privacy Policy page
+    'privacy.meta.title': 'Política de Privacidade — OPN Chat',
+    'privacy.meta.description': 'Política de privacidade do OPN Chat (opnchat.net). Saiba como protegemos seus dados com análises privacy-first e sem coleta de dados pessoais.',
+    'privacy.heading': 'Política de Privacidade',
+    'privacy.lastUpdated': 'Última atualização: Julho 2026',
+
+    'privacy.intro.heading': 'Introdução',
+    'privacy.intro.text': 'No OPN Chat (opnchat.net), sua privacidade é nossa máxima prioridade. Esta Política de Privacidade explica quais dados coletamos, como os usamos e por que você pode confiar em nós. Construímos o OPN Chat com uma filosofia "privacy-first": coletamos o mínimo absoluto de dados necessário para operar e melhorar o serviço, e somos totalmente transparentes sobre cada ferramenta e tecnologia que utilizamos. Não exigimos que você crie uma conta e nunca pedimos informações pessoais como seu nome, endereço de e-mail ou número de telefone.',
+
+    'privacy.nodata.heading': 'Sem Coleta de Dados Pessoais',
+    'privacy.nodata.text': 'O OPN Chat não coleta, armazena ou transmite nenhum dado pessoal para servidores externos. Os números de telefone que você digita são usados exclusivamente para gerar um link wa.me ou t.me e, opcionalmente, são salvos no localStorage do seu navegador para sua conveniência (o recurso de "números recentes"). Nenhum dado é enviado aos nossos servidores ou a terceiros. Você pode limpar seu histórico a qualquer momento usando o botão "Limpar" no aplicativo ou limpando os dados do seu navegador. Não temos bancos de dados, contas de usuário ou registros do lado do servidor que possam identificá-lo pessoalmente.',
+
+    'privacy.cloudflare.heading': 'Análise e Uso de Dados (Cloudflare Web Analytics)',
+    'privacy.cloudflare.text': 'Usamos o Cloudflare Web Analytics exclusivamente para entender as estatísticas gerais de visitas e melhorar nosso site. Esta ferramenta é fundamentalmente diferente dos serviços de análise tradicionais como o Google Analytics. Veja por que o Cloudflare Web Analytics é totalmente compatível com uma abordagem privacy-first:',
+
+    'privacy.cloudflare.nocookie.heading': 'Sem Cookies',
+    'privacy.cloudflare.nocookie.text': 'O script do Cloudflare Web Analytics não define nem lê nenhum cookie no seu dispositivo. Ao contrário da maioria das plataformas de análise que dependem de cookies para rastrear o comportamento do usuário ao longo do tempo, esta ferramenta opera inteiramente sem eles. Isso significa que não há nenhum identificador persistente armazenado no seu navegador, nenhum rastreamento de suas visitas recorrentes e nenhuma maneira de criar um perfil sobre você entre sessões.',
+
+    'privacy.cloudflare.nocross.heading': 'Sem Rastreamento Entre Sites',
+    'privacy.cloudflare.nocross.text': 'O Cloudflare Web Analytics não rastreia você em diferentes sites. Sua atividade no opnchat.net nunca é vinculada à sua atividade em qualquer outro site. Não há rastreadores de terceiros, redes de publicidade ou compartilhamento de dados com outras plataformas. O que acontece no nosso site fica no nosso site — e mesmo assim, apenas de forma agregada e anonimizada.',
+
+    'privacy.cloudflare.aggregated.heading': 'Apenas Dados Agregados',
+    'privacy.cloudflare.aggregated.text': 'Apenas métricas anonimizadas e agregadas são coletadas — como total de visualizações de página, região geográfica geral (nível de país), tipo de dispositivo (móvel vs. desktop) e fonte de referência. Nenhum desses pontos de dados pode ser usado para identificar um indivíduo específico. Por exemplo, podemos ver que "500 pessoas do Brasil visitaram a página do WhatsApp em dispositivos móveis", mas não podemos ver quem são essas pessoas, quais são seus endereços IP ou o que fizeram no site.',
+
+    'privacy.cloudflare.nopii.heading': 'Sem Coleta de PII',
+    'privacy.cloudflare.nopii.text': 'O Cloudflare Web Analytics não coleta nenhuma Informação de Identificação Pessoal (PII). Ele não registra nomes, endereços de e-mail, endereços IP exatos de forma identificável ou qualquer outro dado que possa identificá-lo direta ou indiretamente. O serviço é projetado desde a base para ser incapaz de rastrear indivíduos, motivo pelo qual está em conformidade com as regulamentações GDPR, CCPA e ePrivacy sem exigir um banner de consentimento de cookies.',
+
+    'privacy.cloudflare.conclusion.text': 'Devido a essas características, o Cloudflare Web Analytics — semelhante a alternativas focadas em privacidade como Plausible ou Fathom — não requer um banner intrusivo de consentimento de cookies na maioria das jurisdições, incluindo a União Europeia. Escolhemos esta ferramenta especificamente porque nos permite entender como nosso site é usado sem comprometer sua privacidade.',
+
+    'privacy.localstorage.heading': 'Armazenamento Local (Apenas no Navegador)',
+    'privacy.localstorage.text': 'O OPN Chat usa o localStorage do seu navegador para salvar os números de telefone e nomes de usuário usados recentemente. Esses dados nunca saem do seu dispositivo — não são transmitidos para nenhum servidor. Você tem controle total sobre esses dados e pode limpá-los a qualquer momento clicando no botão "Limpar" ao lado do seu histórico recente ou limpando os dados do site no seu navegador. Escolhemos localStorage em vez de cookies especificamente porque está sob seu controle e não pode ser acessado por terceiros.',
+
+    'privacy.thirdparty.heading': 'Serviços de Terceiros',
+    'privacy.thirdparty.text': 'O OPN Chat gera links usando os protocolos oficiais do WhatsApp (wa.me) e Telegram (t.me). Quando você clica em "Abrir Chat", é redirecionado para os próprios aplicativos ou sites do WhatsApp ou Telegram. Não temos controle sobre as práticas de privacidade do Meta/WhatsApp ou Telegram, nem somos responsáveis por elas. Recomendamos que você revise suas respectivas políticas de privacidade. Além do Cloudflare Web Analytics (descrito acima) e da hospedagem CDN para nosso site estático, não usamos nenhum outro serviço, script ou rastreador de terceiros.',
+
+    'privacy.children.heading': 'Privacidade de Menores',
+    'privacy.children.text': 'O OPN Chat não coleta conscientemente nenhuma informação pessoal de menores de 13 anos. Como não coletamos dados pessoais de nenhum usuário independentemente da idade, nosso serviço é inerentemente seguro para menores usarem. No entanto, recomendamos que pais e responsáveis supervisionem o uso de qualquer ferramenta online por seus filhos, incluindo o OPN Chat, e revisem os requisitos de idade do WhatsApp e do Telegram.',
+
+    'privacy.rights.heading': 'Seus Direitos',
+    'privacy.rights.text': 'Sob o GDPR (para residentes da UE) e o CCPA (para residentes da Califórnia), você tem o direito de acessar, corrigir, excluir ou portar seus dados pessoais. Como o OPN Chat não coleta dados pessoais em primeiro lugar, não há nada a solicitar, corrigir ou excluir do nosso lado. Se desejar remover seu histórico armazenado localmente, pode fazê-lo diretamente no aplicativo usando o botão "Limpar" ou limpando os dados do site no seu navegador. Se tiver perguntas sobre seus direitos, sinta-se à vontade para nos contatar.',
+
+    'privacy.changes.heading': 'Alterações Nesta Política',
+    'privacy.changes.text': 'Reservamo-nos o direito de atualizar ou modificar esta Política de Privacidade a qualquer momento sem aviso prévio. As alterações entram em vigor imediatamente após serem publicadas nesta página. Recomendamos que você revise esta página periodicamente para se manter informado sobre como protegemos sua privacidade. Seu uso continuado do serviço após quaisquer alterações constitui sua aceitação da política atualizada.',
+
+    'privacy.back': 'Voltar ao OPN Chat',
 
     // 404 page
     '404.title': 'Página Não Encontrada',
@@ -698,6 +839,7 @@ export const ui = {
     'footer.disclaimer.brief': 'OPN Chat tidak berafiliasi dengan Meta, WhatsApp, atau OpenChat DAO.',
     'footer.blog': 'Blog',
     'footer.telegram': 'Versi Telegram',
+    'footer.privacy.link': 'Kebijakan Privasi',
 
     // Blog
     'blog.title': 'Blog',
@@ -733,6 +875,52 @@ export const ui = {
     'disclaimer.changes.text': 'Kami berhak memperbarui atau mengubah penafian hukum ini kapan saja tanpa pemberitahuan sebelumnya. Perubahan berlaku segera setelah dipublikasikan di halaman ini. Penggunaan layanan yang berkelanjutan setelah perubahan apa pun merupakan penerimaan Anda terhadap penafian yang diperbarui.',
 
     'disclaimer.back': 'Kembali ke OPN Chat',
+
+    // Privacy Policy page
+    'privacy.meta.title': 'Kebijakan Privasi — OPN Chat',
+    'privacy.meta.description': 'Kebijakan privasi OPN Chat (opnchat.net). Pelajari bagaimana kami melindungi data Anda dengan analitik privacy-first dan tanpa pengumpulan data pribadi.',
+    'privacy.heading': 'Kebijakan Privasi',
+    'privacy.lastUpdated': 'Terakhir diperbarui: Juli 2026',
+
+    'privacy.intro.heading': 'Pendahuluan',
+    'privacy.intro.text': 'Di OPN Chat (opnchat.net), privasi Anda adalah prioritas utama kami. Kebijakan Privasi ini menjelaskan data apa yang kami kumpulkan, bagaimana kami menggunakannya, dan mengapa Anda dapat mempercayai kami. Kami membangun OPN Chat dengan filosofi "privacy-first": kami mengumpulkan jumlah data minimum yang diperlukan untuk mengoperasikan dan meningkatkan layanan, dan kami sepenuhnya transparan tentang setiap alat dan teknologi yang kami gunakan. Kami tidak mengharuskan Anda membuat akun, dan kami tidak pernah meminta informasi pribadi seperti nama, alamat email, atau nomor telepon Anda.',
+
+    'privacy.nodata.heading': 'Tanpa Pengumpulan Data Pribadi',
+    'privacy.nodata.text': 'OPN Chat tidak mengumpulkan, menyimpan, atau mengirimkan data pribadi apa pun ke server eksternal. Nomor telepon yang Anda masukkan hanya digunakan untuk menghasilkan tautan wa.me atau t.me dan secara opsional disimpan di localStorage peramban Anda untuk kenyamanan (fitur "nomor terbaru"). Tidak ada data yang pernah dikirim ke server kami atau pihak ketiga mana pun. Anda dapat menghapus riwayat kapan saja menggunakan tombol "Hapus" di aplikasi atau dengan menghapus data peramban Anda. Kami tidak memiliki basis data, akun pengguna, atau log sisi server yang dapat mengidentifikasi Anda secara pribadi.',
+
+    'privacy.cloudflare.heading': 'Analitik dan Penggunaan Data (Cloudflare Web Analytics)',
+    'privacy.cloudflare.text': 'Kami menggunakan Cloudflare Web Analytics secara eksklusif untuk memahami statistik kunjungan umum dan meningkatkan situs web kami. Alat ini secara fundamental berbeda dari layanan analitik tradisional seperti Google Analytics. Berikut alasan mengapa Cloudflare Web Analytics sepenuhnya kompatibel dengan pendekatan privacy-first:',
+
+    'privacy.cloudflare.nocookie.heading': 'Tanpa Cookies',
+    'privacy.cloudflare.nocookie.text': 'Skrip Cloudflare Web Analytics tidak menyetel atau membaca cookies apa pun di perangkat Anda. Berbeda dengan sebagian besar platform analitik yang bergantung pada cookies untuk melacak perilaku pengguna dari waktu ke waktu, alat ini beroperasi sepenuhnya tanpa cookies. Ini berarti tidak ada pengidentifikasi persisten yang disimpan di peramban Anda, tidak ada pelacakan kunjungan berulang Anda, dan tidak ada cara untuk membangun profil tentang Anda antar sesi.',
+
+    'privacy.cloudflare.nocross.heading': 'Tanpa Pelacakan Lintas Situs',
+    'privacy.cloudflare.nocross.text': 'Cloudflare Web Analytics tidak melacak Anda di berbagai situs web. Aktivitas Anda di opnchat.net tidak pernah ditautkan dengan aktivitas Anda di situs lain mana pun. Tidak ada pelacak pihak ketiga, jaringan iklan, atau berbagi data dengan platform lain. Apa yang terjadi di situs kami tetap di situs kami — dan bahkan kemudian, hanya dalam bentuk agregat dan anonim.',
+
+    'privacy.cloudflare.aggregated.heading': 'Hanya Data Agregat',
+    'privacy.cloudflare.aggregated.text': 'Hanya metrik yang dianonimkan dan diagregasi yang dikumpulkan — seperti total tampilan halaman, wilayah geografis umum (tingkat negara), jenis perangkat (seluler vs. desktop), dan sumber rujukan. Tidak ada titik data ini yang dapat digunakan untuk mengidentifikasi individu tertentu. Misalnya, kami dapat melihat bahwa "500 orang dari Indonesia mengunjungi halaman WhatsApp di perangkat seluler," tetapi kami tidak dapat melihat siapa orang-orang tersebut, apa alamat IP mereka, atau apa yang mereka lakukan di situs.',
+
+    'privacy.cloudflare.nopii.heading': 'Tanpa Pengumpulan PII',
+    'privacy.cloudflare.nopii.text': 'Cloudflare Web Analytics tidak mengumpulkan Informasi Identifikasi Pribadi (PII) apa pun. Layanan ini tidak mencatat nama, alamat email, alamat IP yang tepat dalam bentuk yang dapat diidentifikasi, atau data lain apa pun yang dapat mengidentifikasi Anda secara langsung atau tidak langsung. Layanan ini dirancang dari dasar untuk tidak mampu melacak individu, itulah mengapa layanan ini mematuhi peraturan GDPR, CCPA, dan ePrivacy tanpa memerlukan banner persetujuan cookies.',
+
+    'privacy.cloudflare.conclusion.text': 'Dengan karakteristik ini, Cloudflare Web Analytics — mirip dengan alternatif yang berfokus pada privasi seperti Plausible atau Fathom — tidak memerlukan banner persetujuan cookies yang mengganggu di sebagian besar yurisdiksi, termasuk Uni Eropa. Kami memilih alat ini secara khusus karena memungkinkan kami memahami bagaimana situs kami digunakan tanpa mengorbankan privasi Anda.',
+
+    'privacy.localstorage.heading': 'Penyimpanan Lokal (Hanya di Peramban)',
+    'privacy.localstorage.text': 'OPN Chat menggunakan localStorage peramban Anda untuk menyimpan nomor telepon dan nama pengguna yang baru saja digunakan. Data ini tidak pernah meninggalkan perangkat Anda — tidak ditransmisikan ke server mana pun. Anda memiliki kendali penuh atas data ini dan dapat menghapusnya kapan saja dengan mengklik tombol "Hapus" di samping riwayat terbaru Anda atau dengan menghapus data situs di peramban Anda. Kami memilih localStorage alih-alih cookies secara khusus karena berada di bawah kendali Anda dan tidak dapat diakses oleh pihak ketiga.',
+
+    'privacy.thirdparty.heading': 'Layanan Pihak Ketiga',
+    'privacy.thirdparty.text': 'OPN Chat menghasilkan tautan menggunakan protokol resmi WhatsApp (wa.me) dan Telegram (t.me). Ketika Anda mengklik "Buka Chat", Anda akan dialihkan ke aplikasi atau situs web WhatsApp atau Telegram itu sendiri. Kami tidak memiliki kendali atas praktik privasi Meta/WhatsApp atau Telegram, dan tidak bertanggung jawab atas praktik tersebut. Kami menyarankan Anda untuk meninjau kebijakan privasi masing-masing. Selain Cloudflare Web Analytics (dijelaskan di atas) dan hosting CDN untuk situs statis kami, kami tidak menggunakan layanan, skrip, atau pelacak pihak ketiga lainnya.',
+
+    'privacy.children.heading': 'Privasi Anak',
+    'privacy.children.text': 'OPN Chat dengan sengaja tidak mengumpulkan informasi pribadi dari anak-anak di bawah usia 13 tahun. Karena kami tidak mengumpulkan data pribadi dari pengguna mana pun terlepas dari usia, layanan kami secara inheren aman untuk digunakan oleh anak di bawah umur. Namun, kami menyarankan agar orang tua dan wali mengawasi penggunaan alat daring apa pun oleh anak-anak mereka, termasuk OPN Chat, dan meninjau persyaratan usia WhatsApp dan Telegram.',
+
+    'privacy.rights.heading': 'Hak Anda',
+    'privacy.rights.text': 'Di bawah GDPR (untuk penduduk UE) dan CCPA (untuk penduduk California), Anda berhak untuk mengakses, memperbaiki, menghapus, atau memindahkan data pribadi Anda. Karena OPN Chat tidak mengumpulkan data pribadi sejak awal, tidak ada yang perlu diminta, diperbaiki, atau dihapus dari pihak kami. Jika Anda ingin menghapus riwayat yang disimpan secara lokal, Anda dapat melakukannya langsung dari aplikasi menggunakan tombol "Hapus" atau dengan menghapus data situs di peramban Anda. Jika Anda memiliki pertanyaan tentang hak Anda, jangan ragu untuk menghubungi kami.',
+
+    'privacy.changes.heading': 'Perubahan Kebijakan Ini',
+    'privacy.changes.text': 'Kami berhak memperbarui atau mengubah Kebijakan Privasi ini kapan saja tanpa pemberitahuan sebelumnya. Perubahan berlaku segera setelah dipublikasikan di halaman ini. Kami menyarankan Anda untuk meninjau halaman ini secara berkala agar tetap mendapat informasi tentang bagaimana kami melindungi privasi Anda. Penggunaan layanan yang berkelanjutan setelah perubahan apa pun merupakan penerimaan Anda terhadap kebijakan yang diperbarui.',
+
+    'privacy.back': 'Kembali ke OPN Chat',
 
     // 404 page
     '404.title': 'Halaman Tidak Ditemukan',
