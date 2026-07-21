@@ -56,9 +56,8 @@ const websiteSchema = {
     <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
     <slot name="meta" />
     <meta name="robots" content="index, follow" />
-  </head>
-  <body>
-    <slot />
+
+    <!-- Critical: theme + language redirect MUST run before DOM renders to prevent FOUC -->
     <script is:inline>
       // Theme: apply early to avoid flash
       (function() {
@@ -90,19 +89,22 @@ const websiteSchema = {
             if (supportedLangs.indexOf(browserLang) !== -1) {
               localStorage.setItem('opnchat-lang', browserLang);
               window.location.replace('/' + browserLang + '/');
-              return;
+            } else {
+              // Browser is English or unsupported — save 'en' so we don't keep checking
+              localStorage.setItem('opnchat-lang', 'en');
             }
-            // Browser is English or unsupported — save 'en' so we don't keep checking
-            localStorage.setItem('opnchat-lang', 'en');
           } else if (supportedLangs.indexOf(savedLang) !== -1) {
             // Returning visitor with saved non-English preference — redirect
             window.location.replace('/' + savedLang + '/');
-            return;
           }
           // savedLang === 'en' or not in supported list — stay on English hub
         }
       })();
-
+    </script>
+  </head>
+  <body>
+    <slot />
+    <script is:inline>
       // Language switcher: save preference on click
       document.addEventListener('click', function(e) {
         var link = e.target.closest('.lang-btn');
