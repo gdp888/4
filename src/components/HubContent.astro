@@ -163,6 +163,24 @@ const hubSchema = {
         </span>
       </a>
 
+      <!-- Password Generator Card -->
+      <a href={getLocalizedPath(lang, 'password')} class="service-card password-card">
+        <div class="card-icon-wrapper pw-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="card-icon" aria-hidden="true">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <div class="card-content">
+          <h2 class="card-title">{t('hub.service.password.title')}</h2>
+          <p class="card-desc">{t('hub.service.password.desc')}</p>
+        </div>
+        <span class="card-cta">
+          {t('hub.service.password.cta')}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+
       <!-- Coming Soon Card -->
       <div class="service-card coming-soon-card">
         <div class="card-icon-wrapper cs-icon">
@@ -200,6 +218,7 @@ const hubSchema = {
         <a href={getLocalizedPath(lang, 'disclaimer')} class="footer-link">{t('footer.disclaimer.link')}</a>
         <a href={getLocalizedPath(lang, 'privacy')} class="footer-link">{t('footer.privacy.link')}</a>
         <a href={getLocalizedPath(lang, 'qr-code')} class="footer-link">{t('footer.qr.link')}</a>
+        <a href={getLocalizedPath(lang, 'password')} class="footer-link">{t('footer.password.link')}</a>
       </div>
       <p class="disclaimer-brief">{t('footer.disclaimer.brief')}</p>
     </footer>
@@ -411,6 +430,11 @@ const hubSchema = {
   .qr-icon {
     background: rgba(139, 92, 246, 0.12);
     color: #8B5CF6;
+  }
+
+  .pw-icon {
+    background: rgba(234, 179, 8, 0.12);
+    color: #EAB308;
   }
 
   .cs-icon {
