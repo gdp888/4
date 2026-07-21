@@ -544,14 +544,18 @@ const hubSchema = {
     transition: opacity 0.2s;
   }
 
+  .footer-link:focus-visible {
+    outline: 2px solid var(--opn-primary);
+    outline-offset: 2px;
+  }
+
   .footer-link:hover {
     opacity: 0.8;
   }
 
   .disclaimer-brief {
-    font-size: 0.68rem;
+    font-size: 0.72rem;
     color: var(--text-secondary);
-    opacity: 0.5;
     line-height: 1.45;
   }
 

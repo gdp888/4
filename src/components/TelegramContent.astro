@@ -416,8 +416,8 @@ const pageSchema = {
   }
 
   .lang-btn.active {
-    background: var(--tg-primary);
-    border-color: var(--tg-primary);
+    background: var(--tg-primary-dark);
+    border-color: var(--tg-primary-dark);
     color: #fff;
     pointer-events: none;
   }
@@ -485,7 +485,7 @@ const pageSchema = {
     text-transform: none;
     letter-spacing: 0;
     font-size: 0.8rem;
-    opacity: 0.7;
+    color: var(--text-secondary);
   }
 
   .tg-input-group {
@@ -534,13 +534,12 @@ const pageSchema = {
 
   .tg-input::placeholder {
     color: var(--text-secondary);
-    opacity: 0.5;
+    opacity: 0.7;
   }
 
   .hint {
     font-size: 0.85rem;
     color: var(--text-secondary);
-    opacity: 0.7;
   }
 
   .hint-plus {
@@ -629,7 +628,7 @@ const pageSchema = {
 
   .message-input::placeholder {
     color: var(--text-secondary);
-    opacity: 0.5;
+    opacity: 0.7;
   }
 
   .submit-btn {
@@ -637,7 +636,7 @@ const pageSchema = {
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
-    background: var(--tg-primary);
+    background: var(--tg-primary-dark);
     color: #fff;
     border: none;
     border-radius: 12px;
@@ -651,7 +650,7 @@ const pageSchema = {
   }
 
   .submit-btn:hover {
-    background: var(--tg-primary-dark);
+    background: #1a8bc4;
     transform: translateY(-1px);
     box-shadow: 0 6px 20px rgba(42, 171, 238, 0.3);
   }
@@ -743,9 +742,8 @@ const pageSchema = {
   }
 
   :global(.history-time) {
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     color: var(--text-secondary);
-    opacity: 0.6;
   }
 
   :global(.history-chat-btn) {
@@ -892,7 +890,6 @@ const pageSchema = {
   .footer-tagline {
     font-size: 0.75rem;
     color: var(--text-secondary);
-    opacity: 0.6;
     line-height: 1.5;
     margin-bottom: 1rem;
   }
@@ -907,7 +904,7 @@ const pageSchema = {
   .footer-link {
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--tg-primary-light);
+    color: var(--tg-primary);
     text-decoration: none;
     transition: opacity 0.2s;
   }
@@ -917,10 +914,14 @@ const pageSchema = {
     text-decoration: underline;
   }
 
+  .footer-link:focus-visible {
+    outline: 2px solid var(--tg-primary);
+    outline-offset: 2px;
+  }
+
   .disclaimer-brief {
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     color: var(--text-secondary);
-    opacity: 0.5;
     line-height: 1.45;
   }
 
