@@ -68,6 +68,56 @@ const websiteSchema = {
         document.documentElement.setAttribute('data-theme', theme);
       })();
 
+      // Language: auto-redirect based on preference
+      (function() {
+        var supportedLangs = ['es', 'pt', 'id'];
+        var path = window.location.pathname;
+
+        // Save current language preference from URL
+        var langMatch = path.match(/^\/(es|pt|id)(\/|$)/);
+        if (langMatch) {
+          localStorage.setItem('opnchat-lang', langMatch[1]);
+        }
+
+        // Determine if we should redirect
+        var isEnglishHub = (path === '/' || path === '');
+        var savedLang = localStorage.getItem('opnchat-lang');
+
+        if (isEnglishHub) {
+          if (!savedLang) {
+            // First-time visitor — check browser language
+            var browserLang = (navigator.language || navigator.userLanguage || 'en').split('-')[0].toLowerCase();
+            if (supportedLangs.indexOf(browserLang) !== -1) {
+              localStorage.setItem('opnchat-lang', browserLang);
+              window.location.replace('/' + browserLang + '/');
+              return;
+            }
+            // Browser is English or unsupported — save 'en' so we don't keep checking
+            localStorage.setItem('opnchat-lang', 'en');
+          } else if (supportedLangs.indexOf(savedLang) !== -1) {
+            // Returning visitor with saved non-English preference — redirect
+            window.location.replace('/' + savedLang + '/');
+            return;
+          }
+          // savedLang === 'en' or not in supported list — stay on English hub
+        }
+      })();
+
+      // Language switcher: save preference on click
+      document.addEventListener('click', function(e) {
+        var link = e.target.closest('.lang-btn');
+        if (!link) return;
+        var href = link.getAttribute('href') || '';
+        // Detect target language from URL pattern
+        var match = href.match(/^\/(es|pt|id)(\/|$)/);
+        if (match) {
+          localStorage.setItem('opnchat-lang', match[1]);
+        } else {
+          // No /es/ /pt/ /id/ prefix = English
+          localStorage.setItem('opnchat-lang', 'en');
+        }
+      });
+
       // Service Worker
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
