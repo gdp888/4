@@ -57,6 +57,41 @@ const hubSchema = {
     <meta name="twitter:title" content={t('hub.meta.title')} />
     <meta name="twitter:description" content={t('hub.meta.description')} />
     <script type="application/ld+json" set:html={JSON.stringify(hubSchema)} />
+    <!-- Language auto-detect: ONLY on the hub root page, never on internal pages -->
+    <script is:inline>
+      (function() {
+        var supportedLangs = ['es', 'pt', 'id'];
+        var path = window.location.pathname;
+
+        // Save current language preference from URL
+        var langMatch = path.match(/^\/(es|pt|id)(\/|$)/);
+        if (langMatch) {
+          localStorage.setItem('opnchat-lang', langMatch[1]);
+        }
+
+        // Auto-redirect only on the English hub root
+        var isEnglishHub = (path === '/' || path === '');
+        var savedLang = localStorage.getItem('opnchat-lang');
+
+        if (isEnglishHub) {
+          if (!savedLang) {
+            // First-time visitor — detect browser language
+            var browserLang = (navigator.language || navigator.userLanguage || 'en').split('-')[0].toLowerCase();
+            if (supportedLangs.indexOf(browserLang) !== -1) {
+              localStorage.setItem('opnchat-lang', browserLang);
+              window.location.replace('/' + browserLang + '/');
+            } else {
+              // English or unsupported — save 'en' so we don't keep checking
+              localStorage.setItem('opnchat-lang', 'en');
+            }
+          } else if (supportedLangs.indexOf(savedLang) !== -1) {
+            // Returning visitor with saved non-English preference — redirect
+            window.location.replace('/' + savedLang + '/');
+          }
+          // savedLang === 'en' — stay on English hub
+        }
+      })();
+    </script>
   </Fragment>
 
   <main class="container">
