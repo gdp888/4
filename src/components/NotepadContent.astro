@@ -1,0 +1,706 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { useTranslations, getLocalizedPath, getAlternateUrl } from '../i18n/utils';
+import { languages, langCodes, type Lang } from '../i18n/ui';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const otherLangs = (Object.keys(languages) as Lang[]).filter(l => l !== lang);
+
+const localeMap: Record<Lang, string> = { en: 'en_US', es: 'es_ES', pt: 'pt_BR', id: 'id_ID' };
+
+const npSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": t('np.heading'),
+      "url": getAlternateUrl(lang, 'notepad'),
+      "description": t('np.meta.description'),
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "OPN Chat",
+        "url": "https://opnchat.net/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "OPN Chat",
+          "item": getAlternateUrl(lang, '')
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": t('np.heading'),
+          "item": getAlternateUrl(lang, 'notepad')
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": t('np.faq.q1'), "acceptedAnswer": { "@type": "Answer", "text": t('np.faq.a1') } },
+        { "@type": "Question", "name": t('np.faq.q2'), "acceptedAnswer": { "@type": "Answer", "text": t('np.faq.a2') } },
+        { "@type": "Question", "name": t('np.faq.q3'), "acceptedAnswer": { "@type": "Answer", "text": t('np.faq.a3') } },
+        { "@type": "Question", "name": t('np.faq.q4'), "acceptedAnswer": { "@type": "Answer", "text": t('np.faq.a4') } },
+        { "@type": "Question", "name": t('np.faq.q5'), "acceptedAnswer": { "@type": "Answer", "text": t('np.faq.a5') } }
+      ]
+    }
+  ]
+};
+---
+
+<Layout title={t('np.meta.title')} lang={lang} service="notepad">
+  <Fragment slot="meta">
+    <meta name="description" content={t('np.meta.description')} />
+    <meta name="keywords" content={t('np.meta.keywords')} />
+    <link rel="canonical" href={getAlternateUrl(lang, 'notepad')} />
+    <meta property="og:title" content={t('np.meta.og.title')} />
+    <meta property="og:description" content={t('np.meta.og.description')} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={t('np.meta.twitter.title')} />
+    <meta name="twitter:description" content={t('np.meta.twitter.description')} />
+    <script type="application/ld+json" set:html={JSON.stringify(npSchema)} />
+  </Fragment>
+
+  <main class="container">
+    <!-- Header -->
+    <header class="site-header">
+      <a href={getLocalizedPath(lang, '')} class="logo" aria-label="OPN Chat — Home">
+        <span class="logo-text">OPN Chat</span>
+        <svg viewBox="0 0 24 24" fill="currentColor" class="logo-icon" aria-hidden="true">
+          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+        </svg>
+      </a>
+      <div class="header-actions">
+        <nav aria-label="Language switcher">
+          <ul class="lang-switcher">
+            <li class="globe-icon-item" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="globe-icon">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
+            </li>
+            {(Object.keys(languages) as Lang[]).map((l) => (
+              <li>
+                <a href={getLocalizedPath(l, 'notepad')} class:list={['lang-btn', { active: l === lang }]} title={languages[l]} aria-current={l === lang ? 'page' : undefined}>
+                  <span class="full-lang">{languages[l]}</span>
+                  <span class="short-lang">{langCodes[l]}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <button type="button" class="theme-toggle" aria-label="Toggle theme" id="theme-toggle">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1 class="title">{t('np.heading')}</h1>
+      <p class="subtitle">{t('np.subtitle')}</p>
+      <div class="privacy-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        {t('np.privacy.badge')}
+      </div>
+    </div>
+
+    <!-- Notepad Tool -->
+    <div class="notepad">
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <button class="tool-btn primary" id="btn-new" title={t('np.new')}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <span>{t('np.new')}</span>
+        </button>
+        <input type="text" id="note-title" class="note-title-input" placeholder={t('np.untitled')} />
+        <div class="toolbar-right">
+          <button class="tool-btn" id="btn-export" title={t('np.export')}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>{t('np.export')}</span>
+          </button>
+          <button class="tool-btn danger" id="btn-delete" title={t('np.delete')}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Editor + Sidebar Layout -->
+      <div class="editor-layout">
+        <!-- Notes Sidebar -->
+        <aside class="notes-sidebar" id="notes-sidebar">
+          <div class="sidebar-header">
+            <input type="text" id="search-input" class="search-input" placeholder={t('np.search')} />
+            <span class="notes-count" id="notes-count">0 {t('np.notes.count')}</span>
+          </div>
+          <ul class="notes-list" id="notes-list">
+            <li class="notes-empty" id="notes-empty">{t('np.empty')}</li>
+          </ul>
+        </aside>
+
+        <!-- Editor Area -->
+        <div class="editor-area">
+          <textarea id="note-editor" class="note-editor" placeholder={t('np.placeholder')}></textarea>
+          <div class="editor-footer">
+            <span id="word-count">0 {t('np.word.count')}</span>
+            <span id="char-count">0 {t('np.char.count')}</span>
+            <span id="save-status"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <section class="features">
+      <h2 class="section-heading">{t('np.features.heading')}</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3 class="feature-title">{t('np.features.local.title')}</h3>
+          <p class="feature-desc">{t('np.features.local.desc')}</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <h3 class="feature-title">{t('np.features.instant.title')}</h3>
+          <p class="feature-desc">{t('np.features.instant.desc')}</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3 class="feature-title">{t('np.features.private.title')}</h3>
+          <p class="feature-desc">{t('np.features.private.desc')}</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <h3 class="feature-title">{t('np.features.free.title')}</h3>
+          <p class="feature-desc">{t('np.features.free.desc')}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+      <h2 class="section-heading">{t('np.faq.heading')}</h2>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>{t('np.faq.q1')}</summary>
+          <p>{t('np.faq.a1')}</p>
+        </details>
+        <details class="faq-item">
+          <summary>{t('np.faq.q2')}</summary>
+          <p>{t('np.faq.a2')}</p>
+        </details>
+        <details class="faq-item">
+          <summary>{t('np.faq.q3')}</summary>
+          <p>{t('np.faq.a3')}</p>
+        </details>
+        <details class="faq-item">
+          <summary>{t('np.faq.q4')}</summary>
+          <p>{t('np.faq.a4')}</p>
+        </details>
+        <details class="faq-item">
+          <summary>{t('np.faq.q5')}</summary>
+          <p>{t('np.faq.a5')}</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p class="footer-tagline">{t('footer.tagline')}</p>
+      <div class="footer-links">
+        <a href={getLocalizedPath(lang, 'whatsapp')} class="footer-link">WhatsApp</a>
+        <a href={getLocalizedPath(lang, 'telegram')} class="footer-link">Telegram</a>
+        <a href={getLocalizedPath(lang, 'qr-code')} class="footer-link">{t('footer.qr.link')}</a>
+        <a href={getLocalizedPath(lang, 'password')} class="footer-link">{t('footer.password.link')}</a>
+        <a href={getLocalizedPath(lang, 'disclaimer')} class="footer-link">{t('footer.disclaimer.link')}</a>
+        <a href={getLocalizedPath(lang, 'privacy')} class="footer-link">{t('footer.privacy.link')}</a>
+      </div>
+      <p class="disclaimer-brief">{t('footer.disclaimer.brief')}</p>
+    </footer>
+  </main>
+</Layout>
+
+<style>
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 860px;
+    padding: 2rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  /* Site Header */
+  .site-header { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 1rem; }
+  .logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--text-primary); }
+  @media (max-width: 640px) { .logo { display: none; } }
+  .logo-icon { width: 24px; height: 24px; color: var(--opn-primary); flex-shrink: 0; }
+  .logo-text { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text-primary); }
+  .header-actions { display: flex; align-items: center; gap: 0.5rem; }
+  .lang-switcher { display: flex; align-items: center; gap: 0.35rem; list-style: none; }
+  .globe-icon-item { display: flex; align-items: center; padding-right: 0.2rem; }
+  .globe-icon { color: var(--text-secondary); flex-shrink: 0; }
+  .lang-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 52px; padding: 0.55rem 1rem; border-radius: 24px;
+    background: var(--bg-secondary); border: 1.5px solid var(--border-color);
+    color: var(--text-secondary); font-size: 0.85rem; font-weight: 600;
+    text-decoration: none; transition: all 0.2s; white-space: nowrap; letter-spacing: 0.04em;
+  }
+  .lang-btn:hover { color: var(--opn-primary); border-color: var(--opn-primary); background: var(--bg-input); }
+  .lang-btn.active { background: var(--opn-primary-dark); border-color: var(--opn-primary-dark); color: #fff; pointer-events: none; }
+  .short-lang { display: none; }
+  .full-lang { display: inline; }
+
+  /* Hero */
+  .hero { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+  .title {
+    font-size: 2rem; font-weight: 800; letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #25D366, #6fe89d);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .subtitle { font-size: 1rem; color: var(--text-secondary); font-weight: 500; }
+  .privacy-badge {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.8rem; color: var(--opn-primary); background: var(--bg-secondary);
+    border: 1px solid var(--border-color); padding: 0.35rem 0.75rem; border-radius: 20px;
+    margin-top: 0.25rem;
+  }
+
+  /* Notepad Box */
+  .notepad {
+    background: var(--bg-secondary); border: 1.5px solid var(--border-color);
+    border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;
+  }
+
+  /* Toolbar */
+  .toolbar {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.75rem 1rem; border-bottom: 1px solid var(--border-color);
+    background: var(--bg-input);
+  }
+  .toolbar-right { display: flex; gap: 0.35rem; margin-left: auto; }
+
+  .note-title-input {
+    flex: 1; min-width: 0; background: transparent; border: none;
+    color: var(--text-primary); font-size: 0.95rem; font-weight: 600;
+    outline: none; padding: 0.35rem 0.5rem; border-radius: 6px;
+  }
+  .note-title-input::placeholder { color: var(--text-secondary); }
+  .note-title-input:focus { background: var(--bg-secondary); }
+
+  .tool-btn {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    padding: 0.45rem 0.7rem; border-radius: 8px;
+    border: 1.5px solid var(--border-color); background: var(--bg-secondary);
+    color: var(--text-secondary); font-size: 0.82rem; font-weight: 600;
+    cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  }
+  .tool-btn:hover { border-color: var(--opn-primary); color: var(--opn-primary); }
+  .tool-btn.primary { background: var(--opn-primary-dark); border-color: var(--opn-primary-dark); color: #fff; }
+  .tool-btn.primary:hover { background: #159240; border-color: #159240; }
+  .tool-btn.danger:hover { border-color: #ef4444; color: #ef4444; }
+
+  /* Editor Layout */
+  .editor-layout {
+    display: flex; min-height: 400px; max-height: 520px;
+  }
+
+  /* Notes Sidebar */
+  .notes-sidebar {
+    width: 220px; border-right: 1px solid var(--border-color);
+    display: flex; flex-direction: column; flex-shrink: 0;
+    background: var(--bg-input);
+  }
+  .sidebar-header {
+    padding: 0.65rem 0.75rem; border-bottom: 1px solid var(--border-color);
+    display: flex; flex-direction: column; gap: 0.4rem;
+  }
+  .search-input {
+    width: 100%; padding: 0.4rem 0.6rem; border-radius: 6px;
+    border: 1px solid var(--border-color); background: var(--bg-secondary);
+    color: var(--text-primary); font-size: 0.8rem; outline: none;
+  }
+  .search-input::placeholder { color: var(--text-secondary); }
+  .search-input:focus { border-color: var(--opn-primary); }
+  .notes-count { font-size: 0.72rem; color: var(--text-secondary); }
+
+  .notes-list {
+    list-style: none; overflow-y: auto; flex: 1;
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .notes-empty {
+    padding: 1.5rem 0.75rem; text-align: center;
+    font-size: 0.82rem; color: var(--text-secondary);
+  }
+
+  :global(.note-item) {
+    padding: 0.6rem 0.75rem; cursor: pointer;
+    border-bottom: 1px solid var(--border-color);
+    transition: background 0.15s;
+  }
+  :global(.note-item:hover) { background: var(--bg-secondary); }
+  :global(.note-item.active) { background: var(--bg-secondary); border-left: 3px solid var(--opn-primary); }
+  :global(.note-item-title) {
+    font-size: 0.82rem; font-weight: 600; color: var(--text-primary);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    display: block;
+  }
+  :global(.note-item-date) {
+    font-size: 0.7rem; color: var(--text-secondary); margin-top: 0.15rem;
+    display: block;
+  }
+  :global(.note-item-preview) {
+    font-size: 0.72rem; color: var(--text-secondary);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    margin-top: 0.15rem; display: block;
+  }
+
+  /* Editor Area */
+  .editor-area { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+  .note-editor {
+    flex: 1; width: 100%; background: transparent; border: none;
+    color: var(--text-primary); font-size: 0.92rem; line-height: 1.7;
+    padding: 1rem 1.25rem; resize: none; outline: none;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+  .note-editor::placeholder { color: var(--text-secondary); }
+  .editor-footer {
+    display: flex; gap: 1rem; padding: 0.5rem 1rem;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.72rem; color: var(--text-secondary);
+    background: var(--bg-input);
+  }
+  #save-status { margin-left: auto; color: var(--opn-primary); font-weight: 600; }
+
+  /* Features */
+  .section-heading { font-size: 1.25rem; font-weight: 700; color: var(--text-primary); text-align: center; }
+  .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.75rem; }
+  .feature-card {
+    background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px;
+    padding: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem;
+  }
+  .feature-icon { color: var(--opn-primary); }
+  .feature-title { font-size: 0.95rem; font-weight: 700; color: var(--text-primary); }
+  .feature-desc { font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary); }
+
+  /* FAQ */
+  .faq-list { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.75rem; }
+  .faq-item {
+    background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 10px;
+    overflow: hidden;
+  }
+  .faq-item summary {
+    padding: 0.85rem 1rem; font-size: 0.9rem; font-weight: 600; color: var(--text-primary);
+    cursor: pointer; list-style: none;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::before { content: "+ "; color: var(--opn-primary); font-weight: 700; }
+  .faq-item[open] summary::before { content: "− "; }
+  .faq-item[open] summary { border-bottom: 1px solid var(--border-color); }
+  .faq-item p { padding: 0.85rem 1rem; font-size: 0.85rem; line-height: 1.7; color: var(--text-secondary); }
+
+  /* Footer */
+  .footer { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; padding-top: 1rem; border-top: 1px solid var(--border-color); }
+  .footer-tagline { font-size: 0.8rem; color: var(--text-secondary); text-align: center; }
+  .footer-links { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+  .footer-link { font-size: 0.85rem; color: var(--opn-primary); text-decoration: none; font-weight: 500; }
+  .footer-link:hover { text-decoration: underline; }
+  .footer-link:focus-visible { outline: 2px solid var(--opn-primary); outline-offset: 2px; }
+  .disclaimer-brief { font-size: 0.75rem; color: var(--text-secondary); text-align: center; }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    .container { padding: 1.25rem 1rem; }
+    .title { font-size: 1.5rem; }
+    .subtitle { font-size: 0.9rem; }
+    .features-grid { grid-template-columns: 1fr; }
+    .notepad { border-radius: 12px; }
+    .lang-btn { min-width: auto; padding: 0.5rem 0.6rem; font-size: 0.8rem; }
+    .short-lang { display: inline; }
+    .full-lang { display: none; }
+    .site-header { justify-content: center; }
+    .header-actions { justify-content: center; }
+    .editor-layout { flex-direction: column; max-height: none; }
+    .notes-sidebar {
+      width: 100%; border-right: none; border-bottom: 1px solid var(--border-color);
+      max-height: 160px;
+    }
+    .notes-list { flex-direction: row; overflow-x: auto; overflow-y: hidden; gap: 0; }
+    :global(.note-item) {
+      border-bottom: none; border-right: 1px solid var(--border-color);
+      min-width: 140px; flex-shrink: 0;
+    }
+    :global(.note-item.active) { border-left: none; border-bottom: 3px solid var(--opn-primary); }
+    .note-editor { min-height: 260px; }
+    .tool-btn span { display: none; }
+    .tool-btn { padding: 0.45rem; }
+  }
+</style>
+
+<script>
+  // Theme toggle
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('opnchat-theme', next);
+    });
+  }
+
+  // --- Notepad Logic ---
+  const STORAGE_KEY = 'opnchat-notes';
+  const editor = document.getElementById('note-editor') as HTMLTextAreaElement;
+  const titleInput = document.getElementById('note-title') as HTMLInputElement;
+  const notesList = document.getElementById('notes-list') as HTMLUListElement;
+  const notesEmpty = document.getElementById('notes-empty') as HTMLLIElement;
+  const notesCount = document.getElementById('notes-count') as HTMLSpanElement;
+  const searchInput = document.getElementById('search-input') as HTMLInputElement;
+  const wordCountEl = document.getElementById('word-count') as HTMLSpanElement;
+  const charCountEl = document.getElementById('char-count') as HTMLSpanElement;
+  const saveStatusEl = document.getElementById('save-status') as HTMLSpanElement;
+  const btnNew = document.getElementById('btn-new') as HTMLButtonElement;
+  const btnExport = document.getElementById('btn-export') as HTMLButtonElement;
+  const btnDelete = document.getElementById('btn-delete') as HTMLButtonElement;
+
+  interface Note {
+    id: string;
+    title: string;
+    content: string;
+    updatedAt: number;
+  }
+
+  let notes: Note[] = [];
+  let activeNoteId: string | null = null;
+  let saveTimeout: ReturnType<typeof setTimeout> | null = null;
+
+  // Load notes from localStorage
+  function loadNotes(): Note[] {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  // Save notes to localStorage
+  function saveNotes() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
+  }
+
+  // Generate unique ID
+  function genId(): string {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  }
+
+  // Format date
+  function formatDate(ts: number): string {
+    const d = new Date(ts);
+    const now = new Date();
+    const diff = now.getTime() - d.getTime();
+    if (diff < 60000) return 'just now';
+    if (diff < 3600000) return Math.floor(diff / 60000) + 'm ago';
+    if (diff < 86400000) return Math.floor(diff / 3600000) + 'h ago';
+    return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+  }
+
+  // Render notes list
+  function renderList(filter: string = '') {
+    const filtered = filter
+      ? notes.filter(n => n.title.toLowerCase().includes(filter) || n.content.toLowerCase().includes(filter))
+      : notes;
+
+    notesList.innerHTML = '';
+    if (filtered.length === 0) {
+      const empty = document.createElement('li');
+      empty.className = 'notes-empty';
+      empty.textContent = filter ? '—' : notesEmpty.textContent || '';
+      notesList.appendChild(empty);
+    } else {
+      filtered.forEach(note => {
+        const li = document.createElement('li');
+        li.className = 'note-item' + (note.id === activeNoteId ? ' active' : '');
+        li.dataset.id = note.id;
+
+        const titleSpan = document.createElement('span');
+        titleSpan.className = 'note-item-title';
+        titleSpan.textContent = note.title || 'Untitled Note';
+
+        const dateSpan = document.createElement('span');
+        dateSpan.className = 'note-item-date';
+        dateSpan.textContent = formatDate(note.updatedAt);
+
+        const previewSpan = document.createElement('span');
+        previewSpan.className = 'note-item-preview';
+        previewSpan.textContent = note.content.slice(0, 60);
+
+        li.appendChild(titleSpan);
+        li.appendChild(dateSpan);
+        li.appendChild(previewSpan);
+
+        li.addEventListener('click', () => selectNote(note.id));
+        notesList.appendChild(li);
+      });
+    }
+
+    notesCount.textContent = notes.length + ' notes';
+  }
+
+  // Select a note
+  function selectNote(id: string) {
+    // Save current note first
+    saveCurrentNote();
+
+    activeNoteId = id;
+    const note = notes.find(n => n.id === id);
+    if (note) {
+      titleInput.value = note.title;
+      editor.value = note.content;
+      updateCounts();
+    }
+    renderList(searchInput.value.toLowerCase());
+  }
+
+  // Save current note
+  function saveCurrentNote() {
+    if (!activeNoteId) return;
+    const note = notes.find(n => n.id === activeNoteId);
+    if (note) {
+      note.title = titleInput.value.trim();
+      note.content = editor.value;
+      note.updatedAt = Date.now();
+      saveNotes();
+    }
+  }
+
+  // Auto-save with debounce
+  function scheduleSave() {
+    if (saveTimeout) clearTimeout(saveTimeout);
+    saveStatusEl.textContent = '';
+    saveTimeout = setTimeout(() => {
+      saveCurrentNote();
+      renderList(searchInput.value.toLowerCase());
+      saveStatusEl.textContent = '✓';
+      setTimeout(() => { saveStatusEl.textContent = ''; }, 2000);
+    }, 500);
+  }
+
+  // Update word/char counts
+  function updateCounts() {
+    const text = editor.value;
+    const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+    wordCountEl.textContent = words + ' words';
+    charCountEl.textContent = text.length + ' characters';
+  }
+
+  // Create new note
+  function createNote() {
+    saveCurrentNote();
+    const note: Note = {
+      id: genId(),
+      title: '',
+      content: '',
+      updatedAt: Date.now()
+    };
+    notes.unshift(note);
+    saveNotes();
+    selectNote(note.id);
+    titleInput.focus();
+  }
+
+  // Delete current note
+  function deleteCurrentNote() {
+    if (!activeNoteId) return;
+    const msg = btnDelete.getAttribute('title') || 'Delete?';
+    if (!confirm(msg)) return;
+    notes = notes.filter(n => n.id !== activeNoteId);
+    saveNotes();
+    activeNoteId = null;
+    titleInput.value = '';
+    editor.value = '';
+    updateCounts();
+
+    if (notes.length > 0) {
+      selectNote(notes[0].id);
+    } else {
+      renderList();
+    }
+  }
+
+  // Export notes as text file
+  function exportNotes() {
+    if (notes.length === 0) return;
+    let text = '';
+    notes.forEach((note, i) => {
+      text += '═'.repeat(40) + '\n';
+      text += (note.title || 'Untitled Note') + '\n';
+      text += '═'.repeat(40) + '\n';
+      text += note.content + '\n\n';
+    });
+    const blob = new Blob([text], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'opnchat-notes-' + new Date().toISOString().slice(0, 10) + '.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // Event listeners
+  btnNew.addEventListener('click', createNote);
+  btnDelete.addEventListener('click', deleteCurrentNote);
+  btnExport.addEventListener('click', exportNotes);
+
+  editor.addEventListener('input', () => {
+    updateCounts();
+    scheduleSave();
+  });
+
+  titleInput.addEventListener('input', () => {
+    scheduleSave();
+  });
+
+  searchInput.addEventListener('input', () => {
+    renderList(searchInput.value.toLowerCase());
+  });
+
+  // Initialize
+  notes = loadNotes();
+  if (notes.length > 0) {
+    selectNote(notes[0].id);
+  } else {
+    createNote();
+  }
+</script>

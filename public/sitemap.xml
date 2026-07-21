@@ -317,6 +317,51 @@
     <priority>0.8</priority>
   </url>
 
+  <!-- Online Notepad pages — EN at root, others with prefix -->
+  <url>
+    <loc>https://opnchat.net/notepad/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/notepad/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/notepad/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/notepad/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/notepad/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/notepad/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://opnchat.net/es/notepad/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/notepad/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/notepad/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/notepad/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/notepad/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/notepad/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://opnchat.net/pt/notepad/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/notepad/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/notepad/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/notepad/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/notepad/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/notepad/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://opnchat.net/id/notepad/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://opnchat.net/notepad/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://opnchat.net/es/notepad/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://opnchat.net/pt/notepad/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://opnchat.net/id/notepad/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://opnchat.net/notepad/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- Blog (English only — at root level) -->
   <url>
     <loc>https://opnchat.net/blog/</loc>
