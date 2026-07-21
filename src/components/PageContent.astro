@@ -81,6 +81,8 @@ const pageSchema = {
 
 <Layout title={t('meta.title')} lang={lang} service="whatsapp">
   <Fragment slot="meta">
+    <link rel="dns-prefetch" href="https://wa.me" />
+    <link rel="preconnect" href="https://wa.me" crossorigin />
     <meta name="description" content={t('meta.description')} />
     <meta name="keywords" content={t('meta.keywords')} />
     <link rel="canonical" href={getAlternateUrl(lang)} />
