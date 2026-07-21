@@ -1,0 +1,16 @@
+---
+import ConverterContent from '../../../components/ConverterContent.astro';
+import { languages, defaultLang, type Lang } from '../../../i18n/ui';
+
+// Only non-default languages — default (en) lives at root: /unit-converter/
+export function getStaticPaths() {
+  return (Object.keys(languages) as Lang[]).filter((lang) => lang !== defaultLang).map((lang) => ({
+    params: { lang },
+    props: { lang },
+  }));
+}
+
+const { lang } = Astro.props;
+---
+
+<ConverterContent lang={lang} />
