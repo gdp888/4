@@ -73,9 +73,9 @@ const websiteSchema = {
         localStorage.setItem('opnchat-theme', next);
       });
 
-      // Language switcher: save preference on click
+      // Language dropdown: save preference on click + close menu
       document.addEventListener('click', function(e) {
-        var link = e.target.closest('.lang-btn');
+        var link = e.target.closest('.lang-link');
         if (!link) return;
         var href = link.getAttribute('href') || '';
         // Detect target language from URL pattern
@@ -86,6 +86,9 @@ const websiteSchema = {
           // No /es/ /pt/ /id/ /ru/ /ar/ prefix = English
           localStorage.setItem('opnchat-lang', 'en');
         }
+        // Close the dropdown after selection
+        var dd = link.closest('.lang-dropdown');
+        if (dd) dd.removeAttribute('open');
       });
 
       // Service Worker
@@ -291,6 +294,97 @@ const websiteSchema = {
   }
   [dir="rtl"] .seo-section {
     text-align: right;
+  }
+
+  /* ===== Language dropdown switcher ===== */
+  .lang-select {
+    position: relative;
+    display: inline-flex;
+  }
+  .lang-dropdown {
+    position: relative;
+  }
+  .lang-summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: rgba(128, 128, 128, 0.1);
+    border: 1px solid rgba(128, 128, 128, 0.15);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background 0.2s, border 0.2s;
+    user-select: none;
+    list-style: none;
+    outline: none;
+  }
+  .lang-summary:hover {
+    background: rgba(128, 128, 128, 0.2);
+  }
+  .lang-summary::-webkit-details-marker {
+    display: none;
+  }
+  .lang-summary::marker {
+    content: '';
+  }
+  .lang-summary:focus-visible {
+    outline: 2px solid var(--opn-primary);
+    outline-offset: 2px;
+  }
+  .globe-svg {
+    flex-shrink: 0;
+  }
+  .lang-current {
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+  }
+  .chevron {
+    transition: transform 0.2s ease;
+  }
+  .lang-dropdown[open] .chevron {
+    transform: rotate(180deg);
+  }
+  .lang-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    inset-inline-end: 0;
+    min-width: 160px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    padding: 6px;
+    margin: 0;
+    list-style: none;
+    opacity: 0;
+    transform: translateY(-5px);
+    animation: langFadeIn 0.2s forwards;
+    z-index: 100;
+  }
+  @keyframes langFadeIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .lang-link {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 14px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .lang-link:hover {
+    background: rgba(128, 128, 128, 0.15);
+    color: var(--text-primary);
+  }
+  .lang-link.active {
+    color: var(--opn-primary);
+    font-weight: 600;
+    background: rgba(37, 211, 102, 0.1);
+    pointer-events: none;
   }
 
   /* ===== Theme toggle button ===== */
