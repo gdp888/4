@@ -1,0 +1,905 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { useTranslations, getLocalizedPath, getAlternateUrl } from '../i18n/utils';
+import { languages, type Lang } from '../i18n/ui';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const otherLangs = (Object.keys(languages) as Lang[]).filter(l => l !== lang);
+
+const localeMap: Record<Lang, string> = { en: 'en_US', es: 'es_ES', pt: 'pt_BR' };
+const alternateLocales = otherLangs.map(l => localeMap[l]);
+---
+
+<Layout title={t('meta.title')} lang={lang}>
+  <Fragment slot="meta">
+    <meta name="description" content={t('meta.description')} />
+    <meta name="keywords" content={t('meta.keywords')} />
+    <link rel="canonical" href={getAlternateUrl(lang)} />
+    <meta property="og:title" content={t('meta.og.title')} />
+    <meta property="og:description" content={t('meta.og.description')} />
+    <meta property="og:url" content={getAlternateUrl(lang)} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="OPN Chat" />
+    <meta property="og:locale" content={localeMap[lang]} />
+    {alternateLocales.map(loc => (
+      <meta property="og:locale:alternate" content={loc} />
+    ))}
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={t('meta.twitter.title')} />
+    <meta name="twitter:description" content={t('meta.twitter.description')} />
+  </Fragment>
+
+  <main class="container">
+    <!-- Language Switcher -->
+    <div class="lang-switcher">
+      {(Object.keys(languages) as Lang[]).map((l) => (
+        <a
+          href={getLocalizedPath(l)}
+          class:list={['lang-btn', { active: l === lang }]}
+          title={languages[l]}
+          aria-current={l === lang ? 'page' : undefined}
+        >
+          {l.toUpperCase()}
+        </a>
+      ))}
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+      <h1 class="title">{t('header.title')}</h1>
+      <p class="subtitle">{t('header.subtitle')}</p>
+    </div>
+
+    <!-- Form -->
+    <form id="whatsapp-form" class="form">
+      <div class="input-group">
+        <label for="phone" class="label">{t('form.label.phone')}</label>
+        <div class="phone-input-group">
+          <span class="phone-prefix">+</span>
+          <input
+            type="tel"
+            id="phone"
+            class="phone-input"
+            placeholder={t('form.placeholder.phone')}
+            autocomplete="tel"
+            required
+          />
+        </div>
+        <span class="hint">{t('form.hint')}</span>
+        <span id="error-msg" class="error-msg" role="alert"></span>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submit-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor" class="btn-icon">
+          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+        </svg>
+        {t('form.submit')}
+      </button>
+
+      <details class="message-details">
+        <summary class="message-toggle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="toggle-icon">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          {t('form.addMessage')}
+          <span class="optional">{t('form.label.optional')}</span>
+        </summary>
+        <div class="message-body">
+          <textarea
+            id="message"
+            class="message-input"
+            placeholder={t('form.placeholder.message')}
+            rows="3"
+          ></textarea>
+        </div>
+      </details>
+    </form>
+
+    <!-- History -->
+    <div id="history-section" class="history-section" style="display:none;">
+      <div class="history-header">
+        <h3 class="history-title">{t('history.title')}</h3>
+        <button type="button" id="clear-history" class="clear-btn" aria-label="Clear history">{t('history.clear')}</button>
+      </div>
+      <ul id="history-list" class="history-list"></ul>
+    </div>
+
+    <!-- SEO Content Section -->
+    <section class="seo-section" aria-label="About OPN Chat">
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('seo.opn.heading')}</h2>
+        <p class="seo-text" set:html={t('seo.opn.text')} />
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('seo.without.heading')}</h2>
+        <p class="seo-text">{t('seo.without.text')}</p>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('seo.how.heading')}</h2>
+        <p class="seo-text">{t('seo.how.text')}</p>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('seo.why.heading')}</h2>
+        <div class="seo-features">
+          <div class="feature-item">
+            <span class="feature-icon">&#9889;</span>
+            <div>
+              <h3 class="feature-title">{t('seo.why.feature1.title')}</h3>
+              <p class="feature-desc">{t('seo.why.feature1.desc')}</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">&#128274;</span>
+            <div>
+              <h3 class="feature-title">{t('seo.why.feature2.title')}</h3>
+              <p class="feature-desc">{t('seo.why.feature2.desc')}</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">&#127760;</span>
+            <div>
+              <h3 class="feature-title">{t('seo.why.feature3.title')}</h3>
+              <p class="feature-desc">{t('seo.why.feature3.desc')}</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">&#9993;</span>
+            <div>
+              <h3 class="feature-title">{t('seo.why.feature4.title')}</h3>
+              <p class="feature-desc">{t('seo.why.feature4.desc')}</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('seo.cases.heading')}</h2>
+        <p class="seo-text">{t('seo.cases.text')}</p>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('seo.direct.heading')}</h2>
+        <p class="seo-text">{t('seo.direct.text')}</p>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('seo.faq.heading')}</h2>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary class="faq-question">{t('seo.faq.q1')}</summary>
+            <p class="faq-answer">{t('seo.faq.a1')}</p>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question">{t('seo.faq.q2')}</summary>
+            <p class="faq-answer">{t('seo.faq.a2')}</p>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question">{t('seo.faq.q3')}</summary>
+            <p class="faq-answer">{t('seo.faq.a3')}</p>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question">{t('seo.faq.q4')}</summary>
+            <p class="faq-answer">{t('seo.faq.a4')}</p>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question">{t('seo.faq.q5')}</summary>
+            <p class="faq-answer">{t('seo.faq.a5')}</p>
+          </details>
+        </div>
+      </article>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p class="footer-tagline">{t('footer.tagline')}</p>
+      <p class="disclaimer" set:html={t('footer.disclaimer')} />
+    </footer>
+  </main>
+</Layout>
+
+<style>
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 480px;
+    padding: 2rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* Language Switcher */
+  .lang-switcher {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .lang-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 52px;
+    padding: 0.55rem 1rem;
+    border-radius: 24px;
+    background: var(--bg-secondary);
+    border: 1.5px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    white-space: nowrap;
+    letter-spacing: 0.04em;
+  }
+
+  .lang-btn:hover {
+    color: var(--opn-primary);
+    border-color: var(--opn-primary);
+    background: var(--bg-input);
+  }
+
+  .lang-btn.active {
+    background: var(--opn-primary);
+    border-color: var(--opn-primary);
+    color: #fff;
+    pointer-events: none;
+  }
+
+  .header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .title {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #0052cc, #4dabf7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    font-size: 1.15rem;
+    color: var(--opn-primary);
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  .form {
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--border-color);
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: none;
+    letter-spacing: 0.01em;
+  }
+
+  .optional {
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.8rem;
+    opacity: 0.7;
+  }
+
+  .phone-input-group {
+    display: flex;
+    align-items: stretch;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--bg-input);
+    transition: border-color 0.2s;
+  }
+
+  .phone-input-group:focus-within {
+    border-color: var(--opn-primary);
+  }
+
+  .phone-prefix {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.85rem 0.75rem 0.85rem 1rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: var(--border-color);
+    border-right: 2px solid var(--border-color);
+    user-select: none;
+    min-width: 44px;
+  }
+
+  .phone-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    padding: 0.85rem 1rem;
+    font-size: 1.25rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    outline: none;
+    width: 100%;
+  }
+
+  .phone-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.5;
+  }
+
+  .hint {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    opacity: 0.7;
+  }
+
+  .error-msg {
+    font-size: 0.8rem;
+    color: #ff6b6b;
+    min-height: 1.2em;
+    transition: opacity 0.2s;
+  }
+
+  .message-details {
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .message-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    list-style: none;
+    transition: background 0.15s;
+  }
+
+  .message-toggle::-webkit-details-marker {
+    display: none;
+  }
+
+  .message-toggle::after {
+    content: '\25BC';
+    margin-left: auto;
+    font-size: 0.65rem;
+    transition: transform 0.2s;
+    opacity: 0.5;
+  }
+
+  .message-details[open] .message-toggle::after {
+    transform: rotate(180deg);
+  }
+
+  .message-toggle:hover {
+    background: var(--border-color);
+  }
+
+  .toggle-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
+
+  .message-body {
+    padding: 0 0.75rem 0.75rem 0.75rem;
+  }
+
+  .message-input {
+    background: var(--bg-input);
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    color: var(--text-primary);
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 80px;
+    width: 100%;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+
+  .message-input:focus {
+    border-color: var(--opn-primary);
+  }
+
+  .message-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.5;
+  }
+
+  .submit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: var(--opn-primary);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: none;
+    letter-spacing: 0.01em;
+  }
+
+  .submit-btn:hover {
+    background: var(--opn-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0, 82, 204, 0.3);
+  }
+
+  .submit-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+
+  .submit-btn:focus-visible {
+    outline: 2px solid var(--opn-primary);
+    outline-offset: 2px;
+  }
+
+  .btn-icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .history-section {
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    padding: 1.25rem;
+    border: 1px solid var(--border-color);
+  }
+
+  .history-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+
+  .history-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0;
+  }
+
+  .clear-btn {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 0.25rem 0.6rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .clear-btn:hover {
+    color: #ff6b6b;
+    border-color: #ff6b6b;
+  }
+
+  .history-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  :global(.history-item) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 0.75rem;
+    border-radius: 10px;
+    background: var(--bg-input);
+    transition: background 0.15s;
+  }
+
+  :global(.history-item:hover) {
+    background: var(--border-color);
+  }
+
+  :global(.history-number) {
+    font-weight: 500;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+
+  :global(.history-number:hover) {
+    color: var(--opn-primary);
+  }
+
+  :global(.history-time) {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    opacity: 0.6;
+  }
+
+  :global(.history-chat-btn) {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.3rem 0.65rem;
+    border-radius: 6px;
+    background: var(--opn-primary);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-transform: none;
+  }
+
+  :global(.history-chat-btn:hover) {
+    background: var(--opn-primary-dark);
+  }
+
+  :global(.history-left) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  /* SEO Section */
+  .seo-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-top: 1.5rem;
+  }
+
+  .seo-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .seo-heading {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  .seo-text {
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: var(--text-secondary);
+  }
+
+  .seo-features {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .feature-item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .feature-icon {
+    font-size: 1.4rem;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+
+  .feature-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.2rem;
+  }
+
+  .feature-desc {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  /* FAQ */
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .faq-item {
+    background: var(--bg-input);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+  }
+
+  .faq-question {
+    display: block;
+    padding: 0.85rem 1rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    list-style: none;
+    transition: background 0.15s;
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question::after {
+    content: '+';
+    float: right;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+    transition: transform 0.2s;
+  }
+
+  .faq-item[open] .faq-question::after {
+    content: '\2212';
+  }
+
+  .faq-question:hover {
+    background: var(--border-color);
+  }
+
+  .faq-answer {
+    padding: 0 1rem 0.85rem 1rem;
+    font-size: 0.85rem;
+    line-height: 1.65;
+    color: var(--text-secondary);
+  }
+
+  .footer {
+    text-align: center;
+    padding: 0.5rem;
+  }
+
+  .footer-tagline {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    opacity: 0.6;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+
+  .disclaimer {
+    font-size: 0.68rem;
+    color: var(--text-secondary);
+    opacity: 0.45;
+    line-height: 1.45;
+    text-align: left;
+    max-width: 100%;
+  }
+
+  .disclaimer :global(a) {
+    color: var(--text-secondary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .disclaimer :global(a:hover) {
+    opacity: 0.8;
+  }
+
+  @media (max-width: 520px) {
+    .container {
+      padding: 1.25rem 1rem;
+    }
+    .title {
+      font-size: 1.6rem;
+    }
+    .form {
+      padding: 1.25rem;
+    }
+    .seo-heading {
+      font-size: 1.1rem;
+    }
+    .seo-text {
+      font-size: 0.85rem;
+    }
+    .lang-btn {
+      min-width: 48px;
+      padding: 0.6rem 0.9rem;
+      font-size: 0.85rem;
+    }
+  }
+</style>
+
+<script define:vars={{ lang }}>
+  const form = document.getElementById('whatsapp-form');
+  const phoneInput = document.getElementById('phone');
+  const messageInput = document.getElementById('message');
+  const errorMsg = document.getElementById('error-msg');
+  const historySection = document.getElementById('history-section');
+  const historyList = document.getElementById('history-list');
+  const clearBtn = document.getElementById('clear-history');
+
+  const STORAGE_KEY = 'opnchat-history';
+  const MAX_HISTORY = 5;
+
+  const localeMap = { en: 'en-US', es: 'es-ES', pt: 'pt-BR' };
+  const locale = localeMap[lang] || 'en-US';
+
+  const chatLabel = lang === 'es' ? 'Chat' : lang === 'pt' ? 'Chat' : 'Chat';
+
+  // Phone input — digits only
+  phoneInput.addEventListener('input', () => {
+    let val = phoneInput.value.replace(/\D/g, '');
+    if (val.length > 15) val = val.slice(0, 15);
+    phoneInput.value = val;
+    errorMsg.textContent = '';
+  });
+
+  // Load history from localStorage
+  function loadHistory() {
+    try {
+      const data = localStorage.getItem(STORAGE_KEY);
+      return data ? JSON.parse(data) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  // Save — store clean digits (no +), display with +
+  function saveHistory(cleanDigits) {
+    const history = loadHistory().filter(h => h.number !== cleanDigits);
+    history.unshift({ number: cleanDigits, timestamp: Date.now() });
+    if (history.length > MAX_HISTORY) history.pop();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+    renderHistory();
+  }
+
+  function renderHistory() {
+    const history = loadHistory();
+    if (history.length === 0) {
+      historySection.style.display = 'none';
+      return;
+    }
+    historySection.style.display = 'block';
+    historyList.innerHTML = '';
+
+    history.forEach(item => {
+      const digits = item.number.replace(/\D/g, '');
+      const li = document.createElement('li');
+      li.className = 'history-item';
+
+      // Left side: number + time
+      const leftDiv = document.createElement('div');
+      leftDiv.className = 'history-left';
+
+      const numSpan = document.createElement('span');
+      numSpan.className = 'history-number';
+      numSpan.textContent = '+' + digits;
+      // Click number → fill input
+      numSpan.addEventListener('click', (e) => {
+        e.stopPropagation();
+        phoneInput.value = digits;
+        phoneInput.focus();
+      });
+
+      const timeSpan = document.createElement('span');
+      timeSpan.className = 'history-time';
+      const time = new Date(item.timestamp);
+      timeSpan.textContent = time.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
+
+      leftDiv.appendChild(numSpan);
+      leftDiv.appendChild(timeSpan);
+
+      // Right side: Chat button
+      const chatBtn = document.createElement('button');
+      chatBtn.type = 'button';
+      chatBtn.className = 'history-chat-btn';
+      chatBtn.textContent = chatLabel;
+      chatBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        window.open(`https://wa.me/${digits}`, '_blank', 'noopener,noreferrer');
+      });
+
+      li.appendChild(leftDiv);
+      li.appendChild(chatBtn);
+      historyList.appendChild(li);
+    });
+  }
+
+  // Clear history
+  clearBtn.addEventListener('click', () => {
+    localStorage.removeItem(STORAGE_KEY);
+    renderHistory();
+  });
+
+  // Initial render
+  renderHistory();
+
+  // Form submit
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    errorMsg.textContent = '';
+
+    const rawPhone = phoneInput.value.replace(/\D/g, '');
+    const message = messageInput.value.trim();
+
+    const errorMessages = {
+      valid: lang === 'es' ? 'Ingresa un número de teléfono válido' : lang === 'pt' ? 'Insira um número de telefone válido' : 'Please enter a valid phone number',
+      short: lang === 'es' ? 'El número de teléfono es demasiado corto' : lang === 'pt' ? 'O número de telefone é muito curto' : 'Phone number is too short',
+    };
+
+    if (rawPhone.length < 7) {
+      errorMsg.textContent = errorMessages.valid;
+      phoneInput.focus();
+      return;
+    }
+
+    if (rawPhone.length < 10) {
+      errorMsg.textContent = errorMessages.short;
+      phoneInput.focus();
+      return;
+    }
+
+    // Save clean digits (without +)
+    saveHistory(rawPhone);
+
+    let url = `https://wa.me/${rawPhone}`;
+    if (message) {
+      url += `?text=${encodeURIComponent(message)}`;
+    }
+    window.open(url, '_blank');
+  });
+
+  // Keyboard shortcut — Enter to submit when phone is focused
+  phoneInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      form.dispatchEvent(new Event('submit', { cancelable: true }));
+    }
+  });
+</script>

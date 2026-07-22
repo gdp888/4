@@ -1,0 +1,55 @@
+const CACHE_NAME = 'opnchat-cache-v1';
+
+// Install — precache key resources
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => cache.addAll([
+      '/',
+      '/es/',
+      '/pt/',
+      '/icon-192.svg',
+      '/icon-512.svg',
+      '/manifest.json',
+    ]))
+  );
+  self.skipWaiting();
+});
+
+// Activate — clean old caches
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) =>
+      Promise.all(
+        cacheNames.map((cache) => {
+          if (cache !== CACHE_NAME) {
+            console.log('Clearing old cache:', cache);
+            return caches.delete(cache);
+          }
+        })
+      )
+    )
+  );
+  self.clients.claim();
+});
+
+// Fetch — network first, fallback to cache
+self.addEventListener('fetch', (event) => {
+  // Skip non-GET requests
+  if (event.request.method !== 'GET') return;
+
+  // Skip external requests (wa.me, etc.)
+  if (!event.request.url.startsWith(self.location.origin)) return;
+
+  event.respondWith(
+    fetch(event.request)
+      .then((response) => {
+        // Clone and cache successful responses
+        if (response.ok) {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+        }
+        return response;
+      })
+      .catch(() => caches.match(event.request))
+  );
+});
