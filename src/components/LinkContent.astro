@@ -160,41 +160,8 @@ const pageSchema = {
         <div class="step-content">
           <label for="wl-phone" class="label">{t('wl.form.phone.label')}</label>
           <div class="phone-input-group">
-            <select id="wl-country" class="country-select">
-              <option value="1">+1 (US/CA)</option>
-              <option value="7">+7 (RU)</option>
-              <option value="44">+44 (UK)</option>
-              <option value="55">+55 (BR)</option>
-              <option value="91">+91 (IN)</option>
-              <option value="62">+62 (ID)</option>
-              <option value="34">+34 (ES)</option>
-              <option value="351">+351 (PT)</option>
-              <option value="49">+49 (DE)</option>
-              <option value="33">+33 (FR)</option>
-              <option value="81">+81 (JP)</option>
-              <option value="86">+86 (CN)</option>
-              <option value="52">+52 (MX)</option>
-              <option value="27">+27 (ZA)</option>
-              <option value="54">+54 (AR)</option>
-              <option value="20">+20 (EG)</option>
-              <option value="234">+234 (NG)</option>
-              <option value="60">+60 (MY)</option>
-              <option value="65">+65 (SG)</option>
-              <option value="966">+966 (SA)</option>
-              <option value="971">+971 (AE)</option>
-              <option value="380">+380 (UA)</option>
-              <option value="39">+39 (IT)</option>
-              <option value="31">+31 (NL)</option>
-              <option value="46">+46 (SE)</option>
-              <option value="41">+41 (CH)</option>
-              <option value="43">+43 (AT)</option>
-              <option value="358">+358 (FI)</option>
-              <option value="47">+47 (NO)</option>
-              <option value="45">+45 (DK)</option>
-              <option value="354">+354 (IS)</option>
-            </select>
             <span class="phone-prefix">+</span>
-            <input type="tel" id="wl-phone" class="phone-input" placeholder={t('wl.form.phone.placeholder')} required />
+            <input type="tel" id="wl-phone" class="phone-input" placeholder={t('wl.form.phone.placeholder')} autocomplete="tel" required />
           </div>
           <span class="hint">{t('wl.form.phone.hint')}</span>
           <span id="wl-error" class="error-msg" role="alert"></span>
@@ -372,7 +339,6 @@ const pageSchema = {
   function initLinkGenerator() {
     var generateBtn = document.getElementById('wl-generate');
     var phoneInput = document.getElementById('wl-phone');
-    var countrySelect = document.getElementById('wl-country');
     var messageInput = document.getElementById('wl-message');
     var resultSection = document.getElementById('wl-result');
     var linkDisplay = document.getElementById('wl-link');
@@ -418,23 +384,30 @@ const pageSchema = {
 
     // Generate link
     function doGenerate() {
-      var countryCode = countrySelect.value;
       var phone = phoneInput.value.replace(/\D/g, '');
       var message = messageInput.value.trim();
 
-      if (!phone || phone.length < 6) {
-        errorMsg.textContent = document.documentElement.lang === 'es' ? 'Ingresa un número válido' :
-          document.documentElement.lang === 'pt' ? 'Insira um número válido' :
-          document.documentElement.lang === 'id' ? 'Masukkan nomor yang valid' :
-          'Please enter a valid phone number';
+      if (!phone || phone.length < 7) {
+        errorMsg.textContent = document.documentElement.lang === 'es' ? 'Ingresa un número válido (incluye código de país)' :
+          document.documentElement.lang === 'pt' ? 'Insira um número válido (inclua código do país)' :
+          document.documentElement.lang === 'id' ? 'Masukkan nomor yang valid (sertakan kode negara)' :
+          'Please enter a valid phone number (include country code)';
         errorMsg.style.display = 'block';
         return;
       }
 
-      errorMsg.style.display = 'none';
+      if (phone.length < 10) {
+        errorMsg.textContent = document.documentElement.lang === 'es' ? 'El número parece demasiado corto — verifica el código de país' :
+          document.documentElement.lang === 'pt' ? 'O número parece muito curto — verifique o código do país' :
+          document.documentElement.lang === 'id' ? 'Nomor terlihat terlalu pendek — periksa kode negara' :
+          'Phone number seems too short — check country code';
+        errorMsg.style.display = 'block';
+        // Still allow generation but warn
+      } else {
+        errorMsg.style.display = 'none';
+      }
 
-      var fullNumber = countryCode + phone;
-      var link = 'https://wa.me/' + fullNumber;
+      var link = 'https://wa.me/' + phone;
       if (message) {
         link += '?text=' + encodeURIComponent(message);
       }
@@ -510,19 +483,6 @@ const pageSchema = {
 
     phoneInput.addEventListener('keydown', function(e) {
       if (e.key === 'Enter') doGenerate();
-    });
-
-    // Auto-detect country from phone prefix
-    phoneInput.addEventListener('input', function() {
-      var val = phoneInput.value.replace(/\D/g, '');
-      var prefixList = ['351', '380', '966', '971', '358', '354', '91', '62', '55', '44', '49', '33', '81', '86', '52', '34', '27', '54', '20', '234', '60', '65', '31', '46', '41', '43', '47', '45', '39', '7', '1'];
-      for (var i = 0; i < prefixList.length; i++) {
-        var prefix = prefixList[i];
-        if (val.indexOf(prefix) === 0) {
-          countrySelect.value = prefix;
-          break;
-        }
-      }
     });
   }
 
@@ -738,19 +698,6 @@ const pageSchema = {
 
   .phone-input-group:focus-within {
     border-color: var(--opn-primary);
-  }
-
-  .country-select {
-    background: transparent;
-    border: none;
-    border-right: 1px solid var(--border-color);
-    padding: 0.6rem 0.4rem 0.6rem 0.6rem;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--text-primary);
-    cursor: pointer;
-    outline: none;
-    min-width: 80px;
   }
 
   .phone-prefix {
