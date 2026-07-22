@@ -144,11 +144,7 @@ const pageSchema = {
 
     <!-- Hero -->
     <div class="hero">
-      <h1 class="title">
-        <span class="title-brand">{t('header.title')}</span>
-        <span class="title-dash"> — </span>
-        <span class="title-desc">{t('tg.header.description')}</span>
-      </h1>
+      <h1 class="title">{t('tg.header.description')}</h1>
     </div>
 
     <!-- Form -->
@@ -446,18 +442,7 @@ const pageSchema = {
     line-height: 1.2;
   }
 
-  .title-brand {
-    font-weight: 800;
-  }
-
-  .title-dash {
-    font-weight: 300;
-    opacity: 0.4;
-  }
-
-  .title-desc {
-    font-weight: 600;
-  }
+  /* title is now pure description — brand lives in the logo */
 
   .form {
     background: var(--bg-secondary);

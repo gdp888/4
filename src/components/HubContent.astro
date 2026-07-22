@@ -137,11 +137,7 @@ const hubSchema = {
 
     <!-- Hero -->
     <div class="hero">
-      <h1 class="title">
-        <span class="title-brand">OPN Chat</span>
-        <span class="title-dash"> — </span>
-        <span class="title-desc">{t('hub.hero.title')}</span>
-      </h1>
+      <h1 class="title">{t('hub.hero.title')}</h1>
       <p class="subtitle">{t('hub.hero.subtitle')}</p>
     </div>
 
@@ -421,20 +417,7 @@ const hubSchema = {
     color: var(--text-primary);
   }
 
-  .title-brand {
-    background: linear-gradient(135deg, #25D366, #6fe89d);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .title-dash {
-    color: var(--text-secondary);
-  }
-
-  .title-desc {
-    color: var(--text-secondary);
-  }
+  /* title is now pure description — brand lives in the logo */
 
   .subtitle {
     font-size: 0.95rem;
