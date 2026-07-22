@@ -20,12 +20,12 @@ const websiteSchema = {
   "name": "OPN Chat",
   "url": "https://opnchat.net",
   "description": "Message WhatsApp without saving the number. Free, private, no sign-up. Enter any phone number and start chatting instantly.",
-  "inLanguage": ['en', 'es', 'pt', 'id'],
+  "inLanguage": ['en', 'es', 'pt', 'id', 'ru', 'ar'],
 };
 ---
 
 <!doctype html>
-<html lang={lang} data-theme="dark">
+<html lang={lang} dir={lang === 'ar' ? 'rtl' : 'ltr'} data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -79,11 +79,11 @@ const websiteSchema = {
         if (!link) return;
         var href = link.getAttribute('href') || '';
         // Detect target language from URL pattern
-        var match = href.match(/^\/(es|pt|id)(\/|$)/);
+        var match = href.match(/^\/(es|pt|id|ru|ar)(\/|$)/);
         if (match) {
           localStorage.setItem('opnchat-lang', match[1]);
         } else {
-          // No /es/ /pt/ /id/ prefix = English
+          // No /es/ /pt/ /id/ /ru/ /ar/ prefix = English
           localStorage.setItem('opnchat-lang', 'en');
         }
       });
@@ -129,6 +129,72 @@ const websiteSchema = {
     font-weight: 700;
     font-style: normal;
     font-display: swap;
+  }
+
+  /* Cairo — self-hosted, Arabic pages */
+  @font-face {
+    font-family: 'Cairo';
+    src: url('/fonts/Cairo-Regular-Latin.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0000-024F, U+0300-036F;
+  }
+  @font-face {
+    font-family: 'Cairo';
+    src: url('/fonts/Cairo-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+  }
+  @font-face {
+    font-family: 'Cairo';
+    src: url('/fonts/Cairo-Medium-Latin.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0000-024F, U+0300-036F;
+  }
+  @font-face {
+    font-family: 'Cairo';
+    src: url('/fonts/Cairo-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+  }
+  @font-face {
+    font-family: 'Cairo';
+    src: url('/fonts/Cairo-SemiBold-Latin.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0000-024F, U+0300-036F;
+  }
+  @font-face {
+    font-family: 'Cairo';
+    src: url('/fonts/Cairo-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+  }
+  @font-face {
+    font-family: 'Cairo';
+    src: url('/fonts/Cairo-Bold-Latin.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0000-024F, U+0300-036F;
+  }
+  @font-face {
+    font-family: 'Cairo';
+    src: url('/fonts/Cairo-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
   }
 
   *,
@@ -189,6 +255,42 @@ const websiteSchema = {
     overflow-y: auto;
     position: relative;
     transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  /* Arabic pages: use Cairo as primary font */
+  [lang="ar"] body,
+  [lang="ar"] {
+    font-family: 'Cairo', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+
+  /* RTL adjustments for Arabic */
+  [dir="rtl"] .header-actions {
+    flex-direction: row-reverse;
+  }
+  [dir="rtl"] .nav-lang {
+    flex-direction: row-reverse;
+  }
+  [dir="rtl"] .service-card {
+    text-align: right;
+  }
+  [dir="rtl"] .breadcrumb-separator {
+    transform: scaleX(-1);
+  }
+  [dir="rtl"] .card-arrow {
+    transform: scaleX(-1);
+  }
+  [dir="rtl"] input,
+  [dir="rtl"] textarea {
+    text-align: right;
+  }
+  [dir="rtl"] .form-hint {
+    text-align: right;
+  }
+  [dir="rtl"] .faq-item {
+    text-align: right;
+  }
+  [dir="rtl"] .seo-section {
+    text-align: right;
   }
 
   /* ===== Theme toggle button ===== */
