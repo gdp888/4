@@ -18,7 +18,7 @@ export function useTranslations(lang: Lang) {
  * Other locales are prefixed: /es/whatsapp/, /pt/telegram/, etc.
  * All paths end with a trailing slash for consistency.
  */
-export function getLocalizedPath(lang: Lang, path: string = 'whatsapp'): string {
+export function getLocalizedPath(lang: Lang, path: string = ''): string {
   let result: string;
   if (lang === defaultLang) {
     result = `/${path}`.replace(/\/+/g, '/');
@@ -32,7 +32,7 @@ export function getLocalizedPath(lang: Lang, path: string = 'whatsapp'): string 
   return result;
 }
 
-export function getAlternateUrl(lang: Lang, path: string = 'whatsapp'): string {
+export function getAlternateUrl(lang: Lang, path: string = ''): string {
   const base = 'https://opnchat.net';
   return base + getLocalizedPath(lang, path);
 }
