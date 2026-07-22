@@ -271,14 +271,4 @@ const postSchema = {
   }
 </style>
 
-<script>
-  const themeToggle = document.getElementById('theme-toggle');
-  if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-      const current = document.documentElement.getAttribute('data-theme');
-      const next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('opnchat-theme', next);
-    });
-  }
-</script>
+

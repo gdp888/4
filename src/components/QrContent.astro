@@ -643,16 +643,6 @@ const qrSchema = {
 
 <script is:inline src="/js/easy.qrcode.min.js"></script>
 <script>
-  // Theme toggle
-  const themeToggle = document.getElementById('theme-toggle');
-  if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-      const current = document.documentElement.getAttribute('data-theme');
-      const next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('opnchat-theme', next);
-    });
-  }
 
   // QR Generator Logic
   const tabs = document.querySelectorAll('.type-tab');

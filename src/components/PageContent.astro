@@ -1107,15 +1107,4 @@ const pageSchema = {
       form.dispatchEvent(new Event('submit', { cancelable: true }));
     }
   });
-
-  // Theme toggle
-  const themeToggle = document.getElementById('theme-toggle');
-  if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-      const current = document.documentElement.getAttribute('data-theme');
-      const next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('opnchat-theme', next);
-    });
-  }
 </script>

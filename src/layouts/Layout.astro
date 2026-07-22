@@ -63,6 +63,16 @@ const websiteSchema = {
   <body>
     <slot />
     <script is:inline>
+      // Theme toggle: switch between dark and light
+      document.addEventListener('click', function(e) {
+        var btn = e.target.closest('.theme-toggle');
+        if (!btn) return;
+        var current = document.documentElement.getAttribute('data-theme');
+        var next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('opnchat-theme', next);
+      });
+
       // Language switcher: save preference on click
       document.addEventListener('click', function(e) {
         var link = e.target.closest('.lang-btn');
