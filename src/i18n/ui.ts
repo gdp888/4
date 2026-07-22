@@ -44,6 +44,19 @@ export const ui = {
     'form.error.short': 'Phone number is too short',
     'form.submit': 'Open Chat in WhatsApp',
 
+    // Breadcrumbs
+    'bc.home': 'OPN Chat',
+    'bc.whatsapp': 'WhatsApp',
+    'bc.telegram': 'Telegram',
+    'bc.walink': 'Link Generator',
+    'bc.qr': 'QR Code',
+    'bc.password': 'Password',
+    'bc.notepad': 'Notepad',
+    'bc.converter': 'Converter',
+    'bc.privacy': 'Privacy',
+    'bc.disclaimer': 'Disclaimer',
+    'bc.blog': 'Blog',
+
     // History
     'history.title': 'Recent Numbers',
     'history.clear': 'Clear',
@@ -636,6 +649,19 @@ export const ui = {
     'form.error.short': 'El número de teléfono es demasiado corto',
     'form.submit': 'Abrir Chat en WhatsApp',
 
+    // Breadcrumbs
+    'bc.home': 'OPN Chat',
+    'bc.whatsapp': 'WhatsApp',
+    'bc.telegram': 'Telegram',
+    'bc.walink': 'Generador de Enlace',
+    'bc.qr': 'QR Code',
+    'bc.password': 'Contraseña',
+    'bc.notepad': 'Notepad',
+    'bc.converter': 'Convertidor',
+    'bc.privacy': 'Privacidad',
+    'bc.disclaimer': 'Aviso Legal',
+    'bc.blog': 'Blog',
+
     // History
     'history.title': 'Números Recientes',
     'history.clear': 'Borrar',
@@ -1207,6 +1233,19 @@ export const ui = {
     'form.error.short': 'O número de telefone é muito curto',
     'form.submit': 'Abrir Conversa no WhatsApp',
 
+    // Breadcrumbs
+    'bc.home': 'OPN Chat',
+    'bc.whatsapp': 'WhatsApp',
+    'bc.telegram': 'Telegram',
+    'bc.walink': 'Gerador de Link',
+    'bc.qr': 'QR Code',
+    'bc.password': 'Senha',
+    'bc.notepad': 'Notepad',
+    'bc.converter': 'Conversor',
+    'bc.privacy': 'Privacidade',
+    'bc.disclaimer': 'Aviso Legal',
+    'bc.blog': 'Blog',
+
     // History
     'history.title': 'Números Recentes',
     'history.clear': 'Limpar',
@@ -1777,6 +1816,19 @@ export const ui = {
     'form.error.valid': 'Silakan masukkan nomor telepon yang valid',
     'form.error.short': 'Nomor telepon terlalu pendek',
     'form.submit': 'Buka Chat di WhatsApp',
+
+    // Breadcrumbs
+    'bc.home': 'OPN Chat',
+    'bc.whatsapp': 'WhatsApp',
+    'bc.telegram': 'Telegram',
+    'bc.walink': 'Generator Link',
+    'bc.qr': 'QR Code',
+    'bc.password': 'Password',
+    'bc.notepad': 'Notepad',
+    'bc.converter': 'Konverter',
+    'bc.privacy': 'Privasi',
+    'bc.disclaimer': 'Disclaimer',
+    'bc.blog': 'Blog',
 
     // History
     'history.title': 'Nomor Terbaru',

@@ -142,6 +142,13 @@ const pageSchema = {
       </div>
     </header>
 
+    <!-- Breadcrumbs -->
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href={getLocalizedPath(lang)} class="bc-link">{t('bc.home')}</a>
+      <span class="bc-sep">›</span>
+      <span class="bc-current">{t('bc.telegram')}</span>
+    </nav>
+
     <!-- Hero -->
     <div class="hero">
       <h1 class="title">{t('tg.header.description')}</h1>
@@ -330,6 +337,36 @@ const pageSchema = {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+  }
+
+  /* Breadcrumbs */
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+  }
+
+  .bc-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .bc-link:hover {
+    color: var(--opn-primary);
+  }
+
+  .bc-sep {
+    color: var(--text-secondary);
+    opacity: 0.5;
+  }
+
+  .bc-current {
+    font-weight: 600;
+    color: var(--text-primary);
   }
 
   /* Site Header */
