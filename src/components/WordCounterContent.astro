@@ -167,13 +167,17 @@ const wcSchema = {
         </div>
       </div>
 
-      <!-- Textarea -->
-      <textarea id="wc-textarea" class="wc-textarea" placeholder={t('wc.placeholder')} aria-label="Text input for word counting"></textarea>
-
-      <!-- Toolbar -->
-      <div class="wc-toolbar">
-        <button type="button" class="wc-btn" id="wc-clear">{t('wc.clear')}</button>
-        <button type="button" class="wc-btn wc-btn-primary" id="wc-copy">{t('wc.copy')}</button>
+      <!-- Textarea with micro-buttons overlay -->
+      <div class="wc-textarea-wrap">
+        <textarea id="wc-textarea" class="wc-textarea" placeholder={t('wc.placeholder')} aria-label="Text input for word counting"></textarea>
+        <div class="wc-micro-btns">
+          <button type="button" class="wc-micro-btn" id="wc-clear" title={t('wc.clear')} aria-label={t('wc.clear')}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          </button>
+          <button type="button" class="wc-micro-btn" id="wc-copy" title={t('wc.copy')} aria-label={t('wc.copy')} data-label-copy={t('wc.copy')} data-label-copied={t('wc.copied')}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+        </div>
       </div>
 
       <!-- Keyword Density -->
@@ -417,11 +421,16 @@ const wcSchema = {
     flex-shrink: 0;
   }
 
-  /* Textarea */
+  /* Textarea wrapper + micro-buttons */
+  .wc-textarea-wrap {
+    position: relative;
+  }
+
   .wc-textarea {
     width: 100%;
     min-height: 200px;
     padding: 1rem;
+    padding-top: 2.5rem;
     border-radius: 12px;
     border: 1.5px solid var(--border-color);
     background: var(--bg-input);
@@ -539,40 +548,41 @@ const wcSchema = {
     font-weight: 600;
   }
 
-  /* Toolbar */
-  .wc-toolbar {
+  /* Micro-buttons overlay */
+  .wc-micro-btns {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
     display: flex;
-    justify-content: space-between;
-    gap: 0.5rem;
+    gap: 0.35rem;
+    z-index: 2;
   }
 
-  .wc-btn {
-    padding: 0.55rem 1rem;
-    border-radius: 10px;
-    border: 1.5px solid var(--border-color);
-    background: var(--bg-input);
+  .wc-micro-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
     color: var(--text-secondary);
-    font-size: 0.9rem;
-    font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
+    padding: 0;
   }
 
-  .wc-btn:hover {
-    border-color: var(--text-secondary);
-    color: var(--text-primary);
-  }
-
-  .wc-btn-primary {
-    background: var(--opn-primary);
+  .wc-micro-btn:hover {
     border-color: var(--opn-primary);
-    color: #fff;
+    color: var(--opn-primary);
+    background: rgba(37, 211, 102, 0.1);
   }
 
-  .wc-btn-primary:hover {
-    background: var(--opn-primary-dark);
-    border-color: var(--opn-primary-dark);
-    color: #fff;
+  .wc-micro-btn.copied {
+    border-color: var(--opn-primary);
+    color: var(--opn-primary);
+    background: rgba(37, 211, 102, 0.15);
   }
 
   /* Keyword Density */
