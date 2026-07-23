@@ -891,10 +891,55 @@ const wcSchema = {
     return mins + ' ' + lblMin;
   }
 
+  // Stop words — Russian + English prepositions, conjunctions, pronouns, particles
+  const STOP_WORDS: Set<string> = new Set([
+    // Russian prepositions, conjunctions, particles, pronouns
+    'и', 'в', 'на', 'с', 'к', 'по', 'от', 'из', 'за', 'под', 'над', 'о', 'об', 'у',
+    'но', 'а', 'же', 'ли', 'бы', 'то', 'вот', 'ведь', 'даже', 'уже', 'ещё', 'еще',
+    'или', 'потому', 'поэтому', 'также', 'так', 'как', 'что', 'это', 'который',
+    'которая', 'которое', 'которые', 'всё', 'все', 'только', 'не', 'нет', 'ни',
+    'был', 'была', 'было', 'будут', 'быть', 'есть', 'будет', 'может', 'могут',
+    'его', 'её', 'её', 'их', 'мой', 'моя', 'моё', 'мои', 'наш', 'наша', 'наше',
+    'наши', 'этот', 'эта', 'это', 'эти', 'тот', 'та', 'то', 'те', 'сам', 'сама',
+    'само', 'сами', 'один', 'одна', 'одно', 'два', 'три', 'для', 'при', 'через',
+    'между', 'без', 'до', 'после', 'во', 'со', 'то', 'чем', 'тоже', 'там', 'тут',
+    'где', 'когда', 'зачем', 'почему', 'лишь', 'впрочем', 'однако', 'хотя', 'если',
+    'чтоб', 'чтобы', 'пусть', 'пускай', 'наконец', 'итак', 'значит', 'видимо',
+    'кажется', 'вероятно', 'возможно', 'наверное', 'очень', 'довольно', 'весь',
+    'целый', 'каждый', 'любой', 'самый', 'какой', 'какая', 'какое', 'какие',
+    'чей', 'чья', 'чьё', 'чьи', 'кто', 'кого', 'кому', 'кем', 'чем', 'чего',
+    'котором', 'которой', 'которым', 'которых', 'мне', 'меня', 'мной', 'тебе',
+    'тебя', 'тобой', 'нам', 'нами', 'вам', 'вами', 'ним', 'ними', 'ней', 'ею',
+    // English stop words
+    'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of',
+    'with', 'by', 'from', 'is', 'are', 'was', 'were', 'be', 'been', 'being',
+    'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should',
+    'can', 'may', 'might', 'must', 'shall', 'that', 'this', 'these', 'those',
+    'it', 'its', 'he', 'she', 'they', 'we', 'you', 'i', 'me', 'my', 'your',
+    'our', 'their', 'him', 'her', 'us', 'them', 'not', 'no', 'nor', 'if', 'then',
+    'than', 'so', 'as', 'just', 'also', 'very', 'too', 'much', 'more', 'most',
+    'some', 'any', 'all', 'each', 'every', 'both', 'few', 'many', 'several',
+    'such', 'own', 'same', 'other', 'another', 'which', 'what', 'who', 'whom',
+    'where', 'when', 'why', 'how', 'there', 'here', 'up', 'down', 'out', 'off',
+    'over', 'under', 'again', 'further', 'once', 'about', 'into', 'through',
+    'during', 'before', 'after', 'above', 'below', 'between', 'under', 'until',
+    'while', 'because', 'since', 'although', 'though', 'yet', 'still', 'even',
+    'only', 'just', 'already', 'always', 'never', 'often', 'sometimes', 'usually',
+    // Arabic common stop words
+    'في', 'من', 'إلى', 'على', 'عن', 'مع', 'هذا', 'هذه', 'ذلك', 'تلك',
+    'الذي', 'التي', 'الذين', 'اللاتي', 'هو', 'هي', 'هم', 'هن', 'نحن',
+    'أنا', 'أنت', 'أنتم', 'كان', 'كانت', 'يكون', 'تكون', 'ليس', 'ليست',
+    'أن', 'لا', 'لم', 'لن', 'ما', 'قد', 'بل', 'ثم', 'أو', 'و',
+    'حتى', 'إذ', 'إذا', 'لو', 'لأن', 'بعد', 'قبل', 'بين', 'دون', 'غير',
+    'كل', 'بعض', 'أي', 'أيضا', 'كذلك', 'هنا', 'هناك', 'أين', 'كيف', 'عند',
+  ]);
+
   function getKeywordDensity(text: string, totalWords: number): { word: string; count: number; percent: string }[] {
     if (totalWords === 0) return [];
     // Extract words, lowercase, remove punctuation
-    const words = text.toLowerCase().replace(/[^\w\s\u0600-\u06FF]/g, '').split(/\s+/).filter(w => w.length > 2);
+    const words = text.toLowerCase().replace(/[^\w\s\u0600-\u06FF]/g, '').split(/\s+/)
+      .filter(w => w.length > 1)
+      .filter(w => !STOP_WORDS.has(w));
     // Count frequency
     const freq: Record<string, number> = {};
     for (const w of words) {
@@ -1005,9 +1050,20 @@ const wcSchema = {
     try {
       await navigator.clipboard.writeText(textarea.value);
       if (copyBtn) {
-        const orig = copyBtn.textContent;
-        copyBtn.textContent = '✓';
-        setTimeout(() => { if (copyBtn) copyBtn.textContent = orig; }, 1500);
+        const lblCopied = copyBtn.dataset.labelCopied || 'Copied!';
+        copyBtn.classList.add('copied');
+        // Swap SVG icon to a checkmark temporarily
+        const svgCheck = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
+        const origSvg = copyBtn.innerHTML;
+        copyBtn.innerHTML = svgCheck;
+        copyBtn.title = lblCopied;
+        setTimeout(() => {
+          if (copyBtn) {
+            copyBtn.innerHTML = origSvg;
+            copyBtn.classList.remove('copied');
+            copyBtn.title = copyBtn.dataset.labelCopy || 'Copy';
+          }
+        }, 1500);
       }
     } catch {
       textarea.select();
