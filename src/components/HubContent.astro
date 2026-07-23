@@ -12,7 +12,7 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 const otherLangs = (Object.keys(languages) as Lang[]).filter(l => l !== lang);
 
-const localeMap: Record<Lang, string> = { en: 'en_US', es: 'es_ES', pt: 'pt_BR', id: 'id_ID', ar: 'ar_SA' };
+const localeMap: Record<Lang, string> = { en: 'en_US', es: 'es_ES', pt: 'pt_BR', id: 'id_ID', ru: 'ru_RU', ar: 'ar_SA' };
 const alternateLocales = otherLangs.map(l => localeMap[l]);
 
 const hubSchema = {
@@ -61,11 +61,11 @@ const hubSchema = {
     <!-- Language auto-detect: ONLY on the hub root page, never on internal pages -->
     <script is:inline>
       (function() {
-        var supportedLangs = ['es', 'pt', 'id'];
+        var supportedLangs = ['es', 'pt', 'id', 'ru'];
         var path = window.location.pathname;
 
         // Save current language preference from URL
-        var langMatch = path.match(/^\/(es|pt|id)(\/|$)/);
+        var langMatch = path.match(/^\/(es|pt|id|ru)(\/|$)/);
         if (langMatch) {
           localStorage.setItem('opnchat-lang', langMatch[1]);
         }

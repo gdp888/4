@@ -12,7 +12,7 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 const otherLangs = (Object.keys(languages) as Lang[]).filter(l => l !== lang);
 
-const localeMap: Record<Lang, string> = { en: 'en_US', es: 'es_ES', pt: 'pt_BR', id: 'id_ID', ar: 'ar_SA' };
+const localeMap: Record<Lang, string> = { en: 'en_US', es: 'es_ES', pt: 'pt_BR', id: 'id_ID', ru: 'ru_RU', ar: 'ar_SA' };
 const alternateLocales = otherLangs.map(l => localeMap[l]);
 
 // Schema.org — FAQ data
@@ -882,7 +882,7 @@ const pageSchema = {
   const STORAGE_KEY = 'opnchat-history';
   const MAX_HISTORY = 5;
 
-  const localeMap = { en: 'en-US', es: 'es-ES', pt: 'pt-BR', id: 'id-ID', ar: 'ar-SA' };
+  const localeMap = { en: 'en-US', es: 'es-ES', pt: 'pt-BR', id: 'id-ID', ru: 'ru-RU', ar: 'ar-SA' };
   const locale = localeMap[lang] || 'en-US';
 
   const chatLabel = lang === 'es' ? 'Chat' : lang === 'pt' ? 'Chat' : 'Chat';

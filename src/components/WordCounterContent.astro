@@ -129,6 +129,44 @@ const wcSchema = {
         </div>
       </div>
 
+      <!-- Social Media Limits -->
+      <div class="limits-section">
+        <h3 class="limits-heading">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="limits-icon"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+          {t('wc.limits.heading')}
+        </h3>
+        <div class="limits-grid">
+          <!-- Twitter/X -->
+          <div class="limit-item" id="limit-twitter-item">
+            <div class="limit-header">
+              <span class="limit-platform">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" class="limit-platform-icon" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.8L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                {t('wc.limits.twitter')}
+              </span>
+              <span class="limit-count" id="limit-twitter-count">0 / 280</span>
+            </div>
+            <div class="limit-bar-track">
+              <div class="limit-bar-fill" id="limit-twitter-bar" style="width:0%"></div>
+            </div>
+            <span class="limit-status" id="limit-twitter-status" data-remaining={t('wc.limits.remaining')} data-over={t('wc.limits.over')}>{t('wc.limits.remaining')}: 280</span>
+          </div>
+          <!-- Instagram -->
+          <div class="limit-item" id="limit-instagram-item">
+            <div class="limit-header">
+              <span class="limit-platform">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="limit-platform-icon" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                {t('wc.limits.instagram')}
+              </span>
+              <span class="limit-count" id="limit-instagram-count">0 / 2&nbsp;200</span>
+            </div>
+            <div class="limit-bar-track">
+              <div class="limit-bar-fill" id="limit-instagram-bar" style="width:0%"></div>
+            </div>
+            <span class="limit-status" id="limit-instagram-status" data-remaining={t('wc.limits.remaining')} data-over={t('wc.limits.over')}>{t('wc.limits.remaining')}: 2&nbsp;200</span>
+          </div>
+        </div>
+      </div>
+
       <!-- Textarea -->
       <textarea id="wc-textarea" class="wc-textarea" placeholder={t('wc.placeholder')} aria-label="Text input for word counting"></textarea>
 
@@ -405,6 +443,102 @@ const wcSchema = {
     opacity: 0.6;
   }
 
+  /* Social Media Limits */
+  .limits-section {
+    margin-top: 0.25rem;
+  }
+
+  .limits-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .limits-icon {
+    color: var(--opn-primary);
+  }
+
+  .limits-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .limit-item {
+    background: rgba(128, 128, 128, 0.06);
+    border: 1px solid rgba(128, 128, 128, 0.12);
+    border-radius: 10px;
+    padding: 0.65rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .limit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .limit-platform {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+  }
+
+  .limit-platform-icon {
+    flex-shrink: 0;
+  }
+
+  .limit-count {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .limit-bar-track {
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(128, 128, 128, 0.15);
+    overflow: hidden;
+  }
+
+  .limit-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.3s ease, background-color 0.3s ease;
+    background: var(--opn-primary);
+  }
+
+  .limit-bar-fill.warning {
+    background: #F59E0B;
+  }
+
+  .limit-bar-fill.danger {
+    background: #EF4444;
+  }
+
+  .limit-bar-fill.over {
+    background: #DC2626;
+  }
+
+  .limit-status {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+  }
+
+  .limit-status.over {
+    color: #EF4444;
+    font-weight: 600;
+  }
+
   /* Toolbar */
   .wc-toolbar {
     display: flex;
@@ -672,6 +806,10 @@ const wcSchema = {
     .wc-textarea {
       min-height: 150px;
     }
+    .limits-grid {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
   }
 </style>
 
@@ -687,11 +825,28 @@ const wcSchema = {
   const clearBtn = document.getElementById('wc-clear');
   const copyBtn = document.getElementById('wc-copy');
 
+  // Social media limit elements
+  const twitterCountEl = document.getElementById('limit-twitter-count');
+  const twitterBarEl = document.getElementById('limit-twitter-bar');
+  const twitterStatusEl = document.getElementById('limit-twitter-status');
+  const twitterItemEl = document.getElementById('limit-twitter-item');
+  const instagramCountEl = document.getElementById('limit-instagram-count');
+  const instagramBarEl = document.getElementById('limit-instagram-bar');
+  const instagramStatusEl = document.getElementById('limit-instagram-status');
+  const instagramItemEl = document.getElementById('limit-instagram-item');
+
+  const TWITTER_LIMIT = 280;
+  const INSTAGRAM_LIMIT = 2200;
+
   const WORDS_PER_MIN = 200;
 
   // Read i18n labels from the DOM (they're already rendered)
   const lblLess = statReading?.textContent || '< 1 min';
   const lblMin = 'min'; // simple suffix
+
+  // Read i18n labels for social limits from data attributes (rendered server-side)
+  const lblRemaining = twitterStatusEl?.dataset.remaining || 'remaining';
+  const lblOverBy = twitterStatusEl?.dataset.over || 'over by';
 
   function countWords(text: string): number {
     if (!text.trim()) return 0;
@@ -774,6 +929,56 @@ const wcSchema = {
             <td><span class="density-bar" style="width:${barWidth}px"></span>${d.percent}</td>
           </tr>`;
         }).join('');
+      }
+    }
+
+    // Social media character limits
+    updateLimits(chars);
+  }
+
+  function updateLimits(chars: number) {
+    updateSingleLimit(chars, TWITTER_LIMIT, twitterCountEl, twitterBarEl, twitterStatusEl, twitterItemEl);
+    updateSingleLimit(chars, INSTAGRAM_LIMIT, instagramCountEl, instagramBarEl, instagramStatusEl, instagramItemEl);
+  }
+
+  function updateSingleLimit(
+    chars: number,
+    limit: number,
+    countEl: HTMLElement | null,
+    barEl: HTMLElement | null,
+    statusEl: HTMLElement | null,
+    itemEl: HTMLElement | null
+  ) {
+    const pct = Math.min((chars / limit) * 100, 100);
+    const remaining = limit - chars;
+
+    if (countEl) {
+      const limitDisplay = limit >= 1000
+        ? (limit / 1000).toFixed(1).replace('.0', '') + '&nbsp;' + String(limit).slice(-3)
+        : String(limit);
+      countEl.innerHTML = `${chars} / ${limitDisplay}`;
+    }
+
+    if (barEl) {
+      barEl.style.width = pct + '%';
+      barEl.classList.remove('warning', 'danger', 'over');
+      if (chars > limit) {
+        barEl.classList.add('over');
+      } else if (pct >= 90) {
+        barEl.classList.add('danger');
+      } else if (pct >= 70) {
+        barEl.classList.add('warning');
+      }
+    }
+
+    if (statusEl) {
+      statusEl.classList.remove('over');
+      if (chars > limit) {
+        const overBy = chars - limit;
+        statusEl.textContent = `${lblOverBy} ${overBy}`;
+        statusEl.classList.add('over');
+      } else {
+        statusEl.textContent = `${lblRemaining}: ${remaining}`;
       }
     }
   }
