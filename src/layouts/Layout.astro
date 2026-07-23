@@ -246,6 +246,8 @@ const websiteSchema = {
 
   body {
     font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-size: 1rem;       /* 16px — WCAG baseline, prevents iOS zoom */
+    line-height: 1.6;      /* Optimal for screen reading — text breathes */
     background-color: var(--bg-primary);
     background-image: var(--bg-gradient);
     color: var(--text-primary);
