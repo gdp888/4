@@ -20,7 +20,7 @@ const websiteSchema = {
   "name": "OPN Chat",
   "url": "https://opnchat.net",
   "description": "Message WhatsApp without saving the number. Free, private, no sign-up. Enter any phone number and start chatting instantly.",
-  "inLanguage": ['en', 'es', 'pt', 'id', 'ru', 'ar'],
+  "inLanguage": ['en', 'es', 'pt', 'id', 'ru', 'de', 'ar'],
 };
 ---
 
@@ -79,7 +79,7 @@ const websiteSchema = {
         if (!link) return;
         var href = link.getAttribute('href') || '';
         // Detect target language from URL pattern
-        var match = href.match(/^\/(es|pt|id|ru|ar)(\/|$)/);
+        var match = href.match(/^\/(es|pt|id|ru|de|ar)(\/|$)/);
         if (match) {
           localStorage.setItem('opnchat-lang', match[1]);
         } else {
