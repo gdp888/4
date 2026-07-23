@@ -244,6 +244,26 @@ const hubSchema = {
         </span>
       </a>
 
+      <!-- Word Counter Card -->
+      <a href={getLocalizedPath(lang, 'word-counter')} class="service-card wordcounter-card">
+        <div class="card-icon-wrapper wc-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="card-icon" aria-hidden="true">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="12" y1="18" x2="12" y2="12"/>
+            <line x1="9" y1="15" x2="15" y2="15"/>
+          </svg>
+        </div>
+        <div class="card-content">
+          <h2 class="card-title">{t('hub.service.wordcounter.title')}</h2>
+          <p class="card-desc">{t('hub.service.wordcounter.desc')}</p>
+        </div>
+        <span class="card-cta">
+          {t('hub.service.wordcounter.cta')}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+
     </div>
 
     <!-- SEO Content Section -->
@@ -416,6 +436,11 @@ const hubSchema = {
   .cv-icon {
     background: rgba(245, 158, 11, 0.12);
     color: #F59E0B;
+  }
+
+  .wc-icon {
+    background: rgba(139, 92, 246, 0.12);
+    color: #8B5CF6;
   }
 
   .wl-icon {

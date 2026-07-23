@@ -1,0 +1,805 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { useTranslations, getLocalizedPath, getAlternateUrl } from '../i18n/utils';
+import { languages, langCodes, type Lang } from '../i18n/ui';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const otherLangs = (Object.keys(languages) as Lang[]).filter(l => l !== lang);
+
+const localeMap: Record<Lang, string> = { en: 'en_US', es: 'es_ES', pt: 'pt_BR', id: 'id_ID', ru: 'ru_RU', ar: 'ar_SA' };
+const alternateLocales = otherLangs.map(l => localeMap[l]);
+
+const wcSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": t('wc.heading'),
+      "description": t('wc.meta.description'),
+      "url": getAlternateUrl(lang, 'word-counter'),
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "OPN Chat", "item": "https://opnchat.net" },
+        { "@type": "ListItem", "position": 2, "name": t('bc.wordcounter'), "item": getAlternateUrl(lang, 'word-counter') }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": t('wc.faq.q1'), "acceptedAnswer": { "@type": "Answer", "text": t('wc.faq.a1') } },
+        { "@type": "Question", "name": t('wc.faq.q2'), "acceptedAnswer": { "@type": "Answer", "text": t('wc.faq.a2') } },
+        { "@type": "Question", "name": t('wc.faq.q3'), "acceptedAnswer": { "@type": "Answer", "text": t('wc.faq.a3') } },
+        { "@type": "Question", "name": t('wc.faq.q4'), "acceptedAnswer": { "@type": "Answer", "text": t('wc.faq.a4') } },
+        { "@type": "Question", "name": t('wc.faq.q5'), "acceptedAnswer": { "@type": "Answer", "text": t('wc.faq.a5') } }
+      ]
+    }
+  ]
+};
+---
+
+<Layout title={t('wc.meta.title')} lang={lang} service="word-counter">
+  <Fragment slot="meta">
+    <meta name="description" content={t('wc.meta.description')} />
+    <meta name="keywords" content={t('wc.meta.keywords')} />
+    <link rel="canonical" href={getAlternateUrl(lang, 'word-counter')} />
+    <meta property="og:title" content={t('wc.meta.og.title')} />
+    <meta property="og:description" content={t('wc.meta.og.description')} />
+    <meta property="og:locale" content={localeMap[lang]} />
+    {alternateLocales.map(loc => (
+      <meta property="og:locale:alternate" content={loc} />
+    ))}
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={t('wc.meta.twitter.title')} />
+    <meta name="twitter:description" content={t('wc.meta.twitter.description')} />
+    <script type="application/ld+json" set:html={JSON.stringify(wcSchema)} />
+  </Fragment>
+
+  <main class="container">
+    <!-- Header -->
+    <header class="site-header">
+      <a href={getLocalizedPath(lang)} class="logo" aria-label="OPN Chat — Home">
+        <span class="logo-text">OPN Chat</span>
+        <svg viewBox="0 0 24 24" fill="currentColor" class="logo-icon" aria-hidden="true">
+          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+        </svg>
+      </a>
+      <LanguageSwitcher lang={lang} path="word-counter" />
+      <button type="button" class="theme-toggle" aria-label="Toggle theme" id="theme-toggle">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </header>
+
+    <!-- Breadcrumbs -->
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href={getLocalizedPath(lang)} class="bc-link">{t('bc.home')}</a>
+      <span class="bc-sep">›</span>
+      <span class="bc-current">{t('bc.wordcounter')}</span>
+    </nav>
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1 class="title">{t('wc.heading')}</h1>
+      <p class="subtitle">{t('wc.subtitle')}</p>
+      <div class="privacy-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        {t('wc.privacy.badge')}
+      </div>
+    </div>
+
+    <!-- Counter Tool -->
+    <div class="counter-box">
+      <!-- Stats Bar -->
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span class="stat-value" id="stat-words">0</span>
+          <span class="stat-label">{t('wc.words')}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="stat-chars">0</span>
+          <span class="stat-label">{t('wc.characters')}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="stat-chars-no-space">0</span>
+          <span class="stat-label">{t('wc.chars.no.spaces')}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="stat-sentences">0</span>
+          <span class="stat-label">{t('wc.sentences')}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="stat-paragraphs">0</span>
+          <span class="stat-label">{t('wc.paragraphs')}</span>
+        </div>
+        <div class="stat-item stat-reading">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="stat-icon"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span class="stat-value" id="stat-reading">{t('wc.reading.time.less')}</span>
+          <span class="stat-label">{t('wc.reading.time')}</span>
+        </div>
+      </div>
+
+      <!-- Textarea -->
+      <textarea id="wc-textarea" class="wc-textarea" placeholder={t('wc.placeholder')} aria-label="Text input for word counting"></textarea>
+
+      <!-- Toolbar -->
+      <div class="wc-toolbar">
+        <button type="button" class="wc-btn" id="wc-clear">{t('wc.clear')}</button>
+        <button type="button" class="wc-btn wc-btn-primary" id="wc-copy">{t('wc.copy')}</button>
+      </div>
+
+      <!-- Keyword Density -->
+      <div class="density-section" id="density-section">
+        <h3 class="density-heading">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="density-icon"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          {t('wc.keyword.density')}
+        </h3>
+        <p class="density-sub">{t('wc.keyword.density.top')}</p>
+        <table class="density-table" id="density-table">
+          <thead>
+            <tr>
+              <th>{t('wc.keyword.density.word')}</th>
+              <th>{t('wc.keyword.density.count')}</th>
+              <th>{t('wc.keyword.density.percent')}</th>
+            </tr>
+          </thead>
+          <tbody id="density-body">
+            <tr class="density-empty"><td colspan="3">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <section class="features-section">
+      <h2 class="section-heading">{t('wc.features.heading')}</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3 class="feature-title">{t('wc.features.private.title')}</h3>
+          <p class="feature-desc">{t('wc.features.private.desc')}</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10"/></svg>
+          </div>
+          <h3 class="feature-title">{t('wc.features.instant.title')}</h3>
+          <p class="feature-desc">{t('wc.features.instant.desc')}</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <h3 class="feature-title">{t('wc.features.seo.title')}</h3>
+          <p class="feature-desc">{t('wc.features.seo.desc')}</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+          </div>
+          <h3 class="feature-title">{t('wc.features.everyday.title')}</h3>
+          <p class="feature-desc">{t('wc.features.everyday.desc')}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section">
+      <h2 class="section-heading">{t('wc.faq.heading')}</h2>
+      <div class="faq-list">
+        <details class="faq-item"><summary>{t('wc.faq.q1')}</summary><p>{t('wc.faq.a1')}</p></details>
+        <details class="faq-item"><summary>{t('wc.faq.q2')}</summary><p>{t('wc.faq.a2')}</p></details>
+        <details class="faq-item"><summary>{t('wc.faq.q3')}</summary><p>{t('wc.faq.a3')}</p></details>
+        <details class="faq-item"><summary>{t('wc.faq.q4')}</summary><p>{t('wc.faq.a4')}</p></details>
+        <details class="faq-item"><summary>{t('wc.faq.q5')}</summary><p>{t('wc.faq.a5')}</p></details>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p class="footer-tagline">{t('footer.tagline')}</p>
+      <div class="footer-links">
+        <a href={getLocalizedPath(lang, 'privacy')} class="footer-link">{t('footer.privacy.link')}</a>
+        <a href={getLocalizedPath(lang, 'disclaimer')} class="footer-link">{t('footer.disclaimer.link')}</a>
+        <a href={getLocalizedPath(lang, 'whatsapp')} class="footer-link">WhatsApp</a>
+        <a href={getLocalizedPath(lang, 'telegram')} class="footer-link">{t('footer.telegram')}</a>
+        <a href={getLocalizedPath(lang, 'qr-code')} class="footer-link">{t('footer.qr.link')}</a>
+        <a href={getLocalizedPath(lang, 'password')} class="footer-link">{t('footer.password.link')}</a>
+        <a href={getLocalizedPath(lang, 'notepad')} class="footer-link">{t('footer.notepad.link')}</a>
+        <a href={getLocalizedPath(lang, 'unit-converter')} class="footer-link">{t('footer.converter.link')}</a>
+      </div>
+      <p class="footer-disclaimer">{t('footer.disclaimer.brief')}</p>
+    </footer>
+  </main>
+</Layout>
+
+<style>
+  .container {
+    max-width: 720px;
+    width: 100%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 1.15rem;
+  }
+
+  .logo-text {
+    color: var(--opn-primary);
+  }
+
+  .logo-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--opn-primary);
+  }
+
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .bc-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+  }
+
+  .bc-link:hover {
+    color: var(--opn-primary);
+  }
+
+  .bc-current {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .hero {
+    text-align: center;
+    padding: 0.5rem 0;
+  }
+
+  .title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.5;
+  }
+
+  .privacy-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+    padding: 0.4rem 0.85rem;
+    border-radius: 24px;
+    background: rgba(37, 211, 102, 0.1);
+    border: 1px solid rgba(37, 211, 102, 0.25);
+    color: var(--opn-primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  /* Counter Tool */
+  .counter-box {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  /* Stats Bar */
+  .stats-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    border-radius: 10px;
+    background: rgba(128, 128, 128, 0.08);
+    border: 1px solid rgba(128, 128, 128, 0.12);
+    min-width: 80px;
+  }
+
+  .stat-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .stat-reading {
+    flex-direction: row;
+    gap: 0.3rem;
+    align-items: center;
+    min-width: 120px;
+  }
+
+  .stat-reading .stat-value {
+    font-size: 0.95rem;
+  }
+
+  .stat-reading .stat-label {
+    font-size: 0.75rem;
+  }
+
+  .stat-icon {
+    color: var(--opn-primary);
+    flex-shrink: 0;
+  }
+
+  /* Textarea */
+  .wc-textarea {
+    width: 100%;
+    min-height: 200px;
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1.5px solid var(--border-color);
+    background: var(--bg-input);
+    color: var(--text-primary);
+    font-size: 1rem;
+    line-height: 1.6;
+    resize: vertical;
+    font-family: inherit;
+    transition: border-color 0.2s;
+  }
+
+  .wc-textarea:focus {
+    outline: none;
+    border-color: var(--opn-primary);
+  }
+
+  .wc-textarea::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.6;
+  }
+
+  /* Toolbar */
+  .wc-toolbar {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .wc-btn {
+    padding: 0.55rem 1rem;
+    border-radius: 10px;
+    border: 1.5px solid var(--border-color);
+    background: var(--bg-input);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .wc-btn:hover {
+    border-color: var(--text-secondary);
+    color: var(--text-primary);
+  }
+
+  .wc-btn-primary {
+    background: var(--opn-primary);
+    border-color: var(--opn-primary);
+    color: #fff;
+  }
+
+  .wc-btn-primary:hover {
+    background: var(--opn-primary-dark);
+    border-color: var(--opn-primary-dark);
+    color: #fff;
+  }
+
+  /* Keyword Density */
+  .density-section {
+    margin-top: 0.25rem;
+  }
+
+  .density-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+  }
+
+  .density-icon {
+    color: var(--opn-primary);
+  }
+
+  .density-sub {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+  }
+
+  .density-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+
+  .density-table th {
+    text-align: left;
+    padding: 0.4rem 0.6rem;
+    border-bottom: 1.5px solid var(--border-color);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.8rem;
+  }
+
+  .density-table td {
+    padding: 0.4rem 0.6rem;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+    color: var(--text-primary);
+  }
+
+  .density-table tr:hover td {
+    background: rgba(128, 128, 128, 0.05);
+  }
+
+  .density-empty td {
+    color: var(--text-secondary);
+    text-align: center;
+    font-style: italic;
+  }
+
+  .density-word {
+    font-weight: 600;
+    color: var(--opn-primary);
+  }
+
+  .density-bar {
+    display: inline-block;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--opn-primary);
+    min-width: 4px;
+    margin-right: 0.3rem;
+    vertical-align: middle;
+  }
+
+  /* Features */
+  .features-section {
+    padding: 1rem 0;
+  }
+
+  .section-heading {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .feature-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .feature-icon {
+    color: var(--opn-primary);
+    display: flex;
+    align-items: center;
+  }
+
+  .feature-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .feature-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .feature-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  /* FAQ */
+  .faq-section {
+    padding: 1rem 0;
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .faq-item {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+  }
+
+  .faq-item summary {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    list-style: none;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item[open] summary {
+    color: var(--opn-primary);
+  }
+
+  .faq-item p {
+    margin-top: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 1.5rem 0 0.5rem;
+    border-top: 1px solid var(--border-color);
+    margin-top: 1rem;
+  }
+
+  .footer-tagline {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.2s;
+  }
+
+  .footer-link:hover {
+    color: var(--opn-primary);
+  }
+
+  .footer-disclaimer {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    opacity: 0.7;
+  }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    .container {
+      padding: 0.75rem;
+      gap: 1rem;
+    }
+    .title {
+      font-size: 1.6rem;
+    }
+    .subtitle {
+      font-size: 0.95rem;
+    }
+    .stat-item {
+      min-width: 65px;
+      padding: 0.4rem 0.5rem;
+    }
+    .stat-value {
+      font-size: 1.1rem;
+    }
+    .stat-reading {
+      min-width: 100px;
+    }
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+    .wc-textarea {
+      min-height: 150px;
+    }
+  }
+</style>
+
+<script>
+  const textarea = document.getElementById('wc-textarea') as HTMLTextAreaElement;
+  const statWords = document.getElementById('stat-words');
+  const statChars = document.getElementById('stat-chars');
+  const statCharsNoSpace = document.getElementById('stat-chars-no-space');
+  const statSentences = document.getElementById('stat-sentences');
+  const statParagraphs = document.getElementById('stat-paragraphs');
+  const statReading = document.getElementById('stat-reading');
+  const densityBody = document.getElementById('density-body');
+  const clearBtn = document.getElementById('wc-clear');
+  const copyBtn = document.getElementById('wc-copy');
+
+  const WORDS_PER_MIN = 200;
+
+  // Read i18n labels from the DOM (they're already rendered)
+  const lblLess = statReading?.textContent || '< 1 min';
+  const lblMin = 'min'; // simple suffix
+
+  function countWords(text: string): number {
+    if (!text.trim()) return 0;
+    // Split by whitespace for Latin scripts, handle CJK characters individually
+    const words = text.trim().split(/\s+/).filter(w => w.length > 0);
+    return words.length;
+  }
+
+  function countChars(text: string): number {
+    return text.length;
+  }
+
+  function countCharsNoSpaces(text: string): number {
+    return text.replace(/\s/g, '').length;
+  }
+
+  function countSentences(text: string): number {
+    if (!text.trim()) return 0;
+    const matches = text.match(/[.!?؟。！？]+/g);
+    return matches ? matches.length : 0;
+  }
+
+  function countParagraphs(text: string): number {
+    if (!text.trim()) return 0;
+    return text.split(/\n+/).filter(p => p.trim().length > 0).length;
+  }
+
+  function readingTime(words: number): string {
+    if (words === 0) return lblLess;
+    const mins = Math.ceil(words / WORDS_PER_MIN);
+    if (mins < 1) return lblLess;
+    return mins + ' ' + lblMin;
+  }
+
+  function getKeywordDensity(text: string, totalWords: number): { word: string; count: number; percent: string }[] {
+    if (totalWords === 0) return [];
+    // Extract words, lowercase, remove punctuation
+    const words = text.toLowerCase().replace(/[^\w\s\u0600-\u06FF]/g, '').split(/\s+/).filter(w => w.length > 2);
+    // Count frequency
+    const freq: Record<string, number> = {};
+    for (const w of words) {
+      freq[w] = (freq[w] || 0) + 1;
+    }
+    // Sort by frequency, take top 5
+    const sorted = Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, 5);
+    return sorted.map(([word, count]) => ({
+      word,
+      count,
+      percent: ((count / totalWords) * 100).toFixed(1) + '%'
+    }));
+  }
+
+  function updateStats() {
+    const text = textarea?.value || '';
+    const words = countWords(text);
+    const chars = countChars(text);
+    const charsNoSpace = countCharsNoSpaces(text);
+    const sentences = countSentences(text);
+    const paragraphs = countParagraphs(text);
+    const readTime = readingTime(words);
+
+    if (statWords) statWords.textContent = String(words);
+    if (statChars) statChars.textContent = String(chars);
+    if (statCharsNoSpace) statCharsNoSpace.textContent = String(charsNoSpace);
+    if (statSentences) statSentences.textContent = String(sentences);
+    if (statParagraphs) statParagraphs.textContent = String(paragraphs);
+    if (statReading) statReading.textContent = readTime;
+
+    // Keyword density
+    const density = getKeywordDensity(text, words);
+    if (densityBody) {
+      if (density.length === 0) {
+        densityBody.innerHTML = '<tr class="density-empty"><td colspan="3">—</td></tr>';
+      } else {
+        densityBody.innerHTML = density.map(d => {
+          const barWidth = Math.min(parseFloat(d.percent) * 10, 100);
+          return `<tr>
+            <td class="density-word">${d.word}</td>
+            <td>${d.count}</td>
+            <td><span class="density-bar" style="width:${barWidth}px"></span>${d.percent}</td>
+          </tr>`;
+        }).join('');
+      }
+    }
+  }
+
+  textarea?.addEventListener('input', updateStats);
+
+  clearBtn?.addEventListener('click', () => {
+    if (textarea) textarea.value = '';
+    updateStats();
+  });
+
+  copyBtn?.addEventListener('click', async () => {
+    if (!textarea) return;
+    try {
+      await navigator.clipboard.writeText(textarea.value);
+      if (copyBtn) {
+        const orig = copyBtn.textContent;
+        copyBtn.textContent = '✓';
+        setTimeout(() => { if (copyBtn) copyBtn.textContent = orig; }, 1500);
+      }
+    } catch {
+      textarea.select();
+      document.execCommand('copy');
+    }
+  });
+
+  // Initial state
+  updateStats();
+</script>
