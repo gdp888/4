@@ -298,6 +298,25 @@ const hubSchema = {
         </span>
       </a>
 
+      <!-- Fancy Text Card -->
+      <a href={getLocalizedPath(lang, 'fancy-text')} class="service-card fancytext-card">
+        <div class="card-icon-wrapper ft-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="card-icon" aria-hidden="true">
+            <path d="M4 7V4h16v3"/>
+            <path d="M9 20h6"/>
+            <path d="M12 4v16"/>
+          </svg>
+        </div>
+        <div class="card-content">
+          <h2 class="card-title">{t('hub.service.fancytext.title')}</h2>
+          <p class="card-desc">{t('hub.service.fancytext.desc')}</p>
+        </div>
+        <span class="card-cta">
+          {t('hub.service.fancytext.cta')}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+
     </div>
 
     <!-- SEO Content Section -->
