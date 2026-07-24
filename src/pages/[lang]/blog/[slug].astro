@@ -83,6 +83,14 @@ const postSchema = {
   </Fragment>
 
   <main class="post-container">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href={getLocalizedPath(lang)} class="bc-link">{t('bc.home')}</a>
+      <span class="bc-sep">›</span>
+      <a href={getLocalizedPath(lang, 'blog')} class="bc-link">{t('bc.blog')}</a>
+      <span class="bc-sep">›</span>
+      <span class="bc-current">{post.data.title}</span>
+    </nav>
+
     <header class="post-header">
       <a href={getLocalizedPath(lang, 'blog')} class="back-link">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="back-icon">
@@ -119,6 +127,35 @@ const postSchema = {
 </Layout>
 
 <style>
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+  }
+
+  .bc-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .bc-link:hover {
+    color: var(--opn-primary);
+  }
+
+  .bc-sep {
+    color: var(--text-secondary);
+    opacity: 0.5;
+  }
+
+  .bc-current {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
   .post-container {
     max-width: 680px;
     width: 100%;
