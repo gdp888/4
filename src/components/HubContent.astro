@@ -261,6 +261,23 @@ const hubSchema = {
         </span>
       </a>
 
+      <!-- Chat Widget Card -->
+      <a href={getLocalizedPath(lang, 'wa-widget')} class="service-card widget-card">
+        <div class="card-icon-wrapper cw-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="card-icon" aria-hidden="true">
+            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/><path d="M7 9h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"/>
+          </svg>
+        </div>
+        <div class="card-content">
+          <h2 class="card-title">{t('hub.service.widget.title')}</h2>
+          <p class="card-desc">{t('hub.service.widget.desc')}</p>
+        </div>
+        <span class="card-cta">
+          {t('hub.service.widget.cta')}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+
       <!-- Word Counter Card -->
       <a href={getLocalizedPath(lang, 'word-counter')} class="service-card wordcounter-card">
         <div class="card-icon-wrapper wc-icon">
@@ -309,6 +326,7 @@ const hubSchema = {
         <a href={getLocalizedPath(lang, 'unit-converter')} class="footer-link">{t('footer.converter.link')}</a>
         <a href={getLocalizedPath(lang, 'wa-link')} class="footer-link">{t('footer.walink.link')}</a>
         <a href={getLocalizedPath(lang, 'whatsapp-text-formatter')} class="footer-link">{t('footer.formatter.link')}</a>
+        <a href={getLocalizedPath(lang, 'wa-widget')} class="footer-link">{t('footer.widget.link')}</a>
       </div>
       <p class="disclaimer-brief">{t('footer.disclaimer.brief')}</p>
     </footer>
@@ -474,6 +492,11 @@ const hubSchema = {
   .cs-icon {
     background: rgba(134, 150, 168, 0.12);
     color: var(--text-secondary);
+  }
+
+  .cw-icon {
+    background: rgba(37, 211, 102, 0.12);
+    color: #25D366;
   }
 
   .card-icon {
