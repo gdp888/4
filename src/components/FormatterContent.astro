@@ -1,0 +1,834 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { useTranslations, getLocalizedPath, getAlternateUrl } from '../i18n/utils';
+import { languages, langCodes, type Lang } from '../i18n/ui';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const otherLangs = (Object.keys(languages) as Lang[]).filter(l => l !== lang);
+
+const localeMap: Record<Lang, string> = { en: 'en_US', es: 'es_ES', pt: 'pt_BR', id: 'id_ID', ru: 'ru_RU', ar: 'ar_SA', de: 'de_DE' };
+const alternateLocales = otherLangs.map(l => localeMap[l]);
+
+const faqItems = [
+  { q: t('fmt.faq.q1'), a: t('fmt.faq.a1') },
+  { q: t('fmt.faq.q2'), a: t('fmt.faq.a2') },
+  { q: t('fmt.faq.q3'), a: t('fmt.faq.a3') },
+  { q: t('fmt.faq.q4'), a: t('fmt.faq.a4') },
+  { q: t('fmt.faq.q5'), a: t('fmt.faq.a5') },
+];
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": t('fmt.heading'),
+      "url": getAlternateUrl(lang, 'whatsapp-text-formatter'),
+      "description": t('fmt.meta.description'),
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "inLanguage": Object.keys(languages),
+      "featureList": [
+        t('fmt.seo.why.feature1.title') + ': ' + t('fmt.seo.why.feature1.desc'),
+        t('fmt.seo.why.feature2.title') + ': ' + t('fmt.seo.why.feature2.desc'),
+        t('fmt.seo.why.feature3.title') + ': ' + t('fmt.seo.why.feature3.desc'),
+        t('fmt.seo.why.feature4.title') + ': ' + t('fmt.seo.why.feature4.desc'),
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqItems.map(item => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": { "@type": "Answer", "text": item.a }
+      }))
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "OPN Chat", "item": getAlternateUrl(lang, '') },
+        { "@type": "ListItem", "position": 2, "name": t('bc.formatter'), "item": getAlternateUrl(lang, 'whatsapp-text-formatter') }
+      ]
+    }
+  ]
+};
+---
+
+<Layout title={t('fmt.meta.title')} lang={lang} service="whatsapp-text-formatter">
+  <Fragment slot="meta">
+    <meta name="description" content={t('fmt.meta.description')} />
+    <meta name="keywords" content={t('fmt.meta.keywords')} />
+    <link rel="canonical" href={getAlternateUrl(lang, 'whatsapp-text-formatter')} />
+    <meta property="og:title" content={t('fmt.meta.og.title')} />
+    <meta property="og:description" content={t('fmt.meta.og.description')} />
+    <meta property="og:url" content={getAlternateUrl(lang, 'whatsapp-text-formatter')} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="OPN Chat" />
+    <meta property="og:locale" content={localeMap[lang]} />
+    {alternateLocales.map(loc => (
+      <meta property="og:locale:alternate" content={loc} />
+    ))}
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={t('fmt.meta.twitter.title')} />
+    <meta name="twitter:description" content={t('fmt.meta.twitter.description')} />
+    <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+  </Fragment>
+
+  <main class="container">
+    <!-- Header -->
+    <header class="site-header">
+      <a href={getLocalizedPath(lang)} class="logo" aria-label="OPN Chat — Home">
+        <span class="logo-text">OPN Chat</span>
+        <svg viewBox="0 0 24 24" fill="currentColor" class="logo-icon" aria-hidden="true">
+          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+        </svg>
+      </a>
+      <LanguageSwitcher lang={lang} path="whatsapp-text-formatter" />
+      <button type="button" class="theme-toggle" aria-label="Toggle theme" id="theme-toggle">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </header>
+
+    <!-- Breadcrumbs -->
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href={getLocalizedPath(lang)} class="bc-link">{t('bc.home')}</a>
+      <span class="bc-sep">›</span>
+      <span class="bc-current">{t('bc.formatter')}</span>
+    </nav>
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1 class="title">{t('fmt.heading')}</h1>
+      <p class="subtitle">{t('fmt.subheading')}</p>
+    </div>
+
+    <!-- Formatter Tool -->
+    <div class="formatter-tool">
+      <!-- Format Buttons -->
+      <div class="format-buttons">
+        <button type="button" class="fmt-btn" data-format="bold" title={t('fmt.btn.bold')}>
+          <span class="fmt-label-bold">B</span>
+        </button>
+        <button type="button" class="fmt-btn" data-format="italic" title={t('fmt.btn.italic')}>
+          <span class="fmt-label-italic">I</span>
+        </button>
+        <button type="button" class="fmt-btn" data-format="strikethrough" title={t('fmt.btn.strikethrough')}>
+          <span class="fmt-label-strike">S</span>
+        </button>
+        <button type="button" class="fmt-btn" data-format="monospace" title={t('fmt.btn.monospace')}>
+          <span class="fmt-label-mono">M</span>
+        </button>
+      </div>
+
+      <!-- Input Area -->
+      <div class="input-area">
+        <label for="fmt-input" class="input-label">{t('fmt.input.label')}</label>
+        <textarea id="fmt-input" class="fmt-input" placeholder={t('fmt.input.placeholder')} rows="4" autofocus></textarea>
+      </div>
+
+      <!-- Output Area -->
+      <div class="output-area">
+        <label class="output-label">{t('fmt.output.label')}</label>
+        <div id="fmt-output" class="fmt-output">
+          <span class="output-placeholder">{t('fmt.output.placeholder')}</span>
+        </div>
+        <div class="output-actions">
+          <button type="button" id="copy-btn" class="copy-btn" data-label-copy={t('fmt.copy')} data-label-copied={t('fmt.copied')} disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="copy-icon"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span class="copy-text">{t('fmt.copy')}</span>
+          </button>
+          <button type="button" id="clear-btn" class="clear-btn" disabled>{t('fmt.clear')}</button>
+        </div>
+      </div>
+
+      <!-- WhatsApp Preview -->
+      <div class="preview-section">
+        <label class="preview-label">{t('fmt.preview.label')}</label>
+        <div class="wa-chat-preview">
+          <div class="wa-preview-header">
+            <div class="wa-preview-avatar"></div>
+            <div class="wa-preview-name">You</div>
+          </div>
+          <div class="wa-preview-body">
+            <div id="wa-preview-msg" class="wa-preview-msg">
+              <span class="preview-placeholder-msg">{t('fmt.preview.placeholder')}</span>
+            </div>
+            <span class="wa-preview-time">12:00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Content Section -->
+    <section class="seo-section" aria-label="About WhatsApp Text Formatter">
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('fmt.seo.what.heading')}</h2>
+        <p class="seo-text">{t('fmt.seo.what.text')}</p>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('fmt.seo.formats.heading')}</h2>
+        <div class="format-ref-grid">
+          <div class="format-ref-item">
+            <span class="format-ref-name">{t('fmt.btn.bold')}</span>
+            <code class="format-ref-code">*text*</code>
+            <span class="format-ref-result"><strong>{t('fmt.seo.formats.bold.example')}</strong></span>
+          </div>
+          <div class="format-ref-item">
+            <span class="format-ref-name">{t('fmt.btn.italic')}</span>
+            <code class="format-ref-code">_text_</code>
+            <span class="format-ref-result"><em>{t('fmt.seo.formats.italic.example')}</em></span>
+          </div>
+          <div class="format-ref-item">
+            <span class="format-ref-name">{t('fmt.btn.strikethrough')}</span>
+            <code class="format-ref-code">~text~</code>
+            <span class="format-ref-result"><del>{t('fmt.seo.formats.strikethrough.example')}</del></span>
+          </div>
+          <div class="format-ref-item">
+            <span class="format-ref-name">{t('fmt.btn.monospace')}</span>
+            <code class="format-ref-code">```text```</code>
+            <span class="format-ref-result"><code class="mono-result">{t('fmt.seo.formats.monospace.example')}</code></span>
+          </div>
+        </div>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('fmt.seo.why.heading')}</h2>
+        <div class="seo-features">
+          <div class="feature-item">
+            <span class="feature-icon">&#9998;</span>
+            <div>
+              <h3 class="feature-title">{t('fmt.seo.why.feature1.title')}</h3>
+              <p class="feature-desc">{t('fmt.seo.why.feature1.desc')}</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">&#128065;</span>
+            <div>
+              <h3 class="feature-title">{t('fmt.seo.why.feature2.title')}</h3>
+              <p class="feature-desc">{t('fmt.seo.why.feature2.desc')}</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">&#128274;</span>
+            <div>
+              <h3 class="feature-title">{t('fmt.seo.why.feature3.title')}</h3>
+              <p class="feature-desc">{t('fmt.seo.why.feature3.desc')}</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">&#127760;</span>
+            <div>
+              <h3 class="feature-title">{t('fmt.seo.why.feature4.title')}</h3>
+              <p class="feature-desc">{t('fmt.seo.why.feature4.desc')}</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('fmt.seo.how.heading')}</h2>
+        <p class="seo-text">{t('fmt.seo.how.text')}</p>
+      </article>
+
+      <!-- FAQ -->
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('fmt.faq.heading')}</h2>
+        <div class="faq-list">
+          {faqItems.map((item) => (
+            <details class="faq-item">
+              <summary class="faq-question">{item.q}</summary>
+              <p class="faq-answer">{item.a}</p>
+            </details>
+          ))}
+        </div>
+      </article>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p class="footer-tagline">{t('fmt.footer.tagline')}</p>
+      <p class="disclaimer-brief">{t('fmt.footer.disclaimer')}</p>
+    </footer>
+  </main>
+</Layout>
+
+<style>
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 640px;
+    padding: 2rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* Breadcrumbs */
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+  }
+  .bc-link { color: var(--text-secondary); text-decoration: none; transition: color 0.15s; }
+  .bc-link:hover { color: var(--opn-primary); }
+  .bc-sep { color: var(--text-secondary); opacity: 0.5; }
+  .bc-current { font-weight: 600; color: var(--text-primary); }
+
+  /* Header */
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 0.75rem;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: 700;
+  }
+  .logo-text { font-size: 1.15rem; }
+  .logo-icon {
+    width: 20px;
+    height: 20px;
+    fill: var(--opn-primary);
+    transform: rotate(-45deg);
+    transition: transform 0.3s ease;
+  }
+  .logo:hover .logo-icon { transform: rotate(0deg); }
+
+  /* Theme toggle */
+  .theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    color: var(--text-secondary);
+    transition: color 0.2s;
+  }
+  .theme-toggle:hover { color: var(--text-primary); }
+  .icon-sun, .icon-moon { width: 20px; height: 20px; }
+  :global([data-theme="dark"]) .icon-sun { display: none; }
+  :global([data-theme="light"]) .icon-moon { display: none; }
+  :global([data-theme="dark"]) .icon-moon { display: block; }
+  :global([data-theme="light"]) .icon-sun { display: block; }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 0.5rem 0 1rem;
+  }
+  .title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+  .subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  /* Formatter Tool */
+  .formatter-tool {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  /* Format Buttons */
+  .format-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .fmt-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 40px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-primary);
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text-primary);
+  }
+  .fmt-btn:hover {
+    border-color: var(--opn-primary);
+    background: var(--opn-primary);
+    color: #fff;
+  }
+  .fmt-btn.active {
+    border-color: var(--opn-primary);
+    background: var(--opn-primary);
+    color: #fff;
+  }
+  .fmt-label-bold { font-weight: 900; font-size: 1rem; }
+  .fmt-label-italic { font-style: italic; font-weight: 600; font-size: 1rem; }
+  .fmt-label-strike { text-decoration: line-through; font-weight: 700; font-size: 1rem; }
+  .fmt-label-mono { font-family: monospace; font-weight: 600; font-size: 0.85rem; }
+
+  /* Input Area */
+  .input-area { display: flex; flex-direction: column; gap: 0.3rem; }
+  .input-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+  .fmt-input {
+    width: 100%;
+    min-height: 80px;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-input);
+    color: var(--text-primary);
+    font-size: 1rem;
+    line-height: 1.5;
+    resize: vertical;
+    transition: border-color 0.2s;
+  }
+  .fmt-input:focus {
+    outline: none;
+    border-color: var(--opn-primary);
+  }
+
+  /* Output Area */
+  .output-area { display: flex; flex-direction: column; gap: 0.3rem; }
+  .output-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+  .fmt-output {
+    width: 100%;
+    min-height: 80px;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-input);
+    color: var(--text-primary);
+    font-size: 1rem;
+    line-height: 1.5;
+    word-break: break-word;
+    white-space: pre-wrap;
+    font-family: monospace;
+  }
+  .output-placeholder {
+    color: var(--text-secondary);
+    opacity: 0.5;
+  }
+  .output-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+  }
+  .copy-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--opn-primary);
+    border-radius: 8px;
+    background: var(--opn-primary);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .copy-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .copy-btn:not(:disabled):hover { opacity: 0.85; }
+  .copy-icon { width: 16px; height: 16px; }
+  .copy-text { }
+  .clear-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .clear-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .clear-btn:not(:disabled):hover {
+    border-color: var(--text-secondary);
+    color: var(--text-primary);
+  }
+
+  /* WhatsApp Preview */
+  .preview-section { display: flex; flex-direction: column; gap: 0.3rem; }
+  .preview-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+  .wa-chat-preview {
+    border-radius: 12px;
+    background: #0b141a;
+    overflow: hidden;
+    max-width: 100%;
+  }
+  :global([data-theme="light"]) .wa-chat-preview {
+    background: #e5ddd5;
+  }
+  .wa-preview-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 0.75rem;
+    background: #075e54;
+    color: #fff;
+  }
+  :global([data-theme="light"]) .wa-preview-header {
+    background: #075e54;
+  }
+  .wa-preview-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #128c7e;
+  }
+  .wa-preview-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .wa-preview-body {
+    padding: 0.6rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .wa-preview-msg {
+    background: #25d366;
+    color: #fff;
+    padding: 0.5rem 0.7rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    max-width: 85%;
+    word-break: break-word;
+    white-space: pre-wrap;
+    align-self: flex-end;
+  }
+  :global([data-theme="light"]) .wa-preview-msg {
+    background: #dcf8c6;
+    color: #0b141a;
+  }
+  .preview-placeholder-msg {
+    opacity: 0.5;
+  }
+  .wa-preview-time {
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.5);
+    text-align: right;
+  }
+  :global([data-theme="light"]) .wa-preview-time {
+    color: rgba(0,0,0,0.35);
+  }
+
+  /* SEO Section */
+  .seo-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 1rem;
+  }
+  .seo-block { }
+  .seo-heading {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+  .seo-text {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* Format Reference Grid */
+  .format-ref-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+  .format-ref-item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 0.75rem;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+  }
+  .format-ref-name {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+  }
+  .format-ref-code {
+    font-family: monospace;
+    font-size: 0.85rem;
+    color: var(--opn-primary);
+    background: var(--bg-input);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+  }
+  .format-ref-result {
+    font-size: 0.85rem;
+  }
+  .mono-result {
+    font-family: monospace;
+    background: var(--bg-input);
+    padding: 0.15rem 0.3rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+  }
+
+  /* Features */
+  .seo-features {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+  .feature-item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+  .feature-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .feature-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.2rem;
+  }
+  .feature-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  /* FAQ */
+  .faq-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .faq-item {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-secondary);
+    overflow: hidden;
+  }
+  .faq-question {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .faq-question::-webkit-details-marker { display: none; }
+  .faq-question::after { content: '+'; font-size: 1.2rem; font-weight: 700; color: var(--opn-primary); }
+  .faq-item[open] .faq-question::after { content: '−'; }
+  .faq-answer {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    padding: 0 1rem 0.75rem;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+  .footer-tagline {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+  }
+  .disclaimer-brief {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    opacity: 0.5;
+    line-height: 1.45;
+  }
+
+  @media (max-width: 520px) {
+    .container { padding: 1.25rem 1rem; }
+    .title { font-size: 1.5rem; }
+    .format-ref-item { grid-template-columns: 1fr; gap: 0.3rem; }
+    .fmt-btn { width: 42px; height: 36px; }
+  }
+</style>
+
+<script>
+  const input = document.getElementById('fmt-input') as HTMLTextAreaElement;
+  const output = document.getElementById('fmt-output') as HTMLDivElement;
+  const previewMsg = document.getElementById('wa-preview-msg') as HTMLDivElement;
+  const copyBtn = document.getElementById('copy-btn') as HTMLButtonElement;
+  const clearBtn = document.getElementById('clear-btn') as HTMLButtonElement;
+  const formatBtns = document.querySelectorAll('.fmt-btn') as NodeListOf<HTMLButtonElement>;
+
+  // Active formats tracking
+  const activeFormats = new Set<string>();
+
+  // WhatsApp formatting characters
+  const formatChars: Record<string, { open: string; close: string }> = {
+    bold:           { open: '*',  close: '*' },
+    italic:         { open: '_',  close: '_' },
+    strikethrough:  { open: '~',  close: '~' },
+    monospace:      { open: '```', close: '```' },
+  };
+
+  function toggleFormat(format: string) {
+    if (activeFormats.has(format)) {
+      activeFormats.delete(format);
+    } else {
+      activeFormats.add(format);
+    }
+    updateButtons();
+    processText();
+  }
+
+  function updateButtons() {
+    formatBtns.forEach(btn => {
+      const format = btn.dataset.format!;
+      btn.classList.toggle('active', activeFormats.has(format));
+    });
+  }
+
+  function processText() {
+    const rawText = input.value;
+
+    if (!rawText.trim()) {
+      output.innerHTML = `<span class="output-placeholder">${output.querySelector('.output-placeholder')?.textContent || ''}</span>`;
+      previewMsg.innerHTML = `<span class="preview-placeholder-msg">${previewMsg.querySelector('.preview-placeholder-msg')?.textContent || ''}</span>`;
+      copyBtn.disabled = true;
+      clearBtn.disabled = true;
+      return;
+    }
+
+    copyBtn.disabled = false;
+    clearBtn.disabled = false;
+
+    // Build formatted text with WhatsApp markers
+    let formatted = rawText;
+    for (const format of activeFormats) {
+      const chars = formatChars[format];
+      formatted = chars.open + formatted + chars.close;
+    }
+
+    // Display formatted text in output (show markers)
+    output.textContent = formatted;
+
+    // Build HTML preview (WhatsApp-style rendering)
+    let htmlPreview = rawText;
+    for (const format of activeFormats) {
+      switch (format) {
+        case 'bold':           htmlPreview = `<strong>${htmlPreview}</strong>`; break;
+        case 'italic':         htmlPreview = `<em>${htmlPreview}</em>`; break;
+        case 'strikethrough':  htmlPreview = `<del>${htmlPreview}</del>`; break;
+        case 'monospace':      htmlPreview = `<code style="font-family:monospace;background:rgba(0,0,0,0.1);padding:0.1em 0.3em;border-radius:3px;font-size:0.85em;">${htmlPreview}</code>`; break;
+      }
+    }
+    previewMsg.innerHTML = htmlPreview;
+  }
+
+  // Format button clicks
+  formatBtns.forEach(btn => {
+    btn.addEventListener('click', () => toggleFormat(btn.dataset.format!));
+  });
+
+  // Input changes
+  input.addEventListener('input', processText);
+
+  // Copy button
+  copyBtn.addEventListener('click', async () => {
+    const text = output.textContent || '';
+    try {
+      await navigator.clipboard.writeText(text);
+      const copyTextEl = copyBtn.querySelector('.copy-text') as HTMLSpanElement;
+      const originalLabel = copyBtn.dataset.labelCopy!;
+      const copiedLabel = copyBtn.dataset.labelCopied!;
+      copyTextEl.textContent = copiedLabel;
+      copyBtn.style.borderColor = '#25d366';
+      copyBtn.style.background = '#25d366';
+      setTimeout(() => {
+        copyTextEl.textContent = originalLabel;
+        copyBtn.style.borderColor = '';
+        copyBtn.style.background = '';
+      }, 2000);
+    } catch {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+  });
+
+  // Clear button
+  clearBtn.addEventListener('click', () => {
+    input.value = '';
+    activeFormats.clear();
+    updateButtons();
+    processText();
+    input.focus();
+  });
+
+  // Theme toggle (handled by Layout global script, but we need to ensure toggle works)
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('opnchat-theme', next);
+    });
+  }
+</script>
