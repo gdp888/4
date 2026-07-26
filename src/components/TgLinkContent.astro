@@ -1,0 +1,1108 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { useTranslations, getLocalizedPath, getAlternateUrl } from '../i18n/utils';
+import { languages, langCodes, type Lang } from '../i18n/ui';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const otherLangs = (Object.keys(languages) as Lang[]).filter(l => l !== lang);
+
+const localeMap: Record<Lang, string> = { en: 'en_US', es: 'es_ES', pt: 'pt_BR', id: 'id_ID', ru: 'ru_RU', ar: 'ar_SA', de: 'de_DE' };
+const alternateLocales = otherLangs.map(l => localeMap[l]);
+
+// Schema.org — FAQ data
+const faqItems = [
+  { q: t('tgl.seo.faq.q1'), a: t('tgl.seo.faq.a1') },
+  { q: t('tgl.seo.faq.q2'), a: t('tgl.seo.faq.a2') },
+  { q: t('tgl.seo.faq.q3'), a: t('tgl.seo.faq.a3') },
+  { q: t('tgl.seo.faq.q4'), a: t('tgl.seo.faq.a4') },
+  { q: t('tgl.seo.faq.q5'), a: t('tgl.seo.faq.a5') },
+];
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "OPN Chat Telegram Link Generator",
+      "url": getAlternateUrl(lang, 'tg-link'),
+      "description": t('tgl.meta.description'),
+      "applicationCategory": "CommunicationApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "inLanguage": Object.keys(languages),
+      "featureList": [
+        t('tgl.seo.why.feature1.title') + ': ' + t('tgl.seo.why.feature1.desc'),
+        t('tgl.seo.why.feature2.title') + ': ' + t('tgl.seo.why.feature2.desc'),
+        t('tgl.seo.why.feature3.title') + ': ' + t('tgl.seo.why.feature3.desc'),
+        t('tgl.seo.why.feature4.title') + ': ' + t('tgl.seo.why.feature4.desc'),
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqItems.map(item => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": item.a
+        }
+      }))
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "OPN Chat",
+          "item": getAlternateUrl(lang, '')
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Telegram Link Generator",
+          "item": getAlternateUrl(lang, 'tg-link')
+        }
+      ]
+    }
+  ]
+};
+---
+
+<Layout title={t('tgl.meta.title')} lang={lang} service="tg-link">
+  <Fragment slot="meta">
+    <link rel="dns-prefetch" href="https://t.me" />
+    <link rel="preconnect" href="https://t.me" crossorigin />
+    <meta name="description" content={t('tgl.meta.description')} />
+    <meta name="keywords" content={t('tgl.meta.keywords')} />
+    <link rel="canonical" href={getAlternateUrl(lang, 'tg-link')} />
+    <meta property="og:title" content={t('tgl.meta.og.title')} />
+    <meta property="og:description" content={t('tgl.meta.og.description')} />
+    <meta property="og:url" content={getAlternateUrl(lang, 'tg-link')} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="OPN Chat" />
+    <meta property="og:locale" content={localeMap[lang]} />
+    {alternateLocales.map(loc => (
+      <meta property="og:locale:alternate" content={loc} />
+    ))}
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={t('tgl.meta.twitter.title')} />
+    <meta name="twitter:description" content={t('tgl.meta.twitter.description')} />
+    <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+  </Fragment>
+
+  <main class="container">
+    <!-- Header with nav -->
+    <header class="site-header">
+      <a href={getLocalizedPath(lang)} class="logo" aria-label="OPN Chat — Home">
+        <span class="logo-text">OPN Chat</span>
+        <svg viewBox="0 0 24 24" fill="currentColor" class="logo-icon" aria-hidden="true">
+          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+        </svg>
+      </a>
+      <LanguageSwitcher lang={lang} path="tg-link" />
+      <button type="button" class="theme-toggle" aria-label="Toggle theme" id="theme-toggle">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </header>
+
+    <!-- Breadcrumbs -->
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href={getLocalizedPath(lang)} class="bc-link">{t('bc.home')}</a>
+      <span class="bc-sep">›</span>
+      <a href={getLocalizedPath(lang, 'telegram')} class="bc-link">{t('bc.telegram')}</a>
+      <span class="bc-sep">›</span>
+      <span class="bc-current">{t('bc.tglink')}</span>
+    </nav>
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1 class="title">{t('tgl.heading')}</h1>
+      <p class="subtitle">{t('tgl.subtitle')}</p>
+      <div class="privacy-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        {t('tgl.privacy.badge')}
+      </div>
+    </div>
+
+    <!-- Generator Form -->
+    <div class="generator">
+      <!-- Step 1: Telegram Username -->
+      <div class="step-section">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <label for="tgl-username" class="label">{t('tgl.form.username.label')}</label>
+          <div class="username-input-group">
+            <span class="username-prefix">@</span>
+            <input type="text" id="tgl-username" class="username-input" placeholder={t('tgl.form.username.placeholder')} autocomplete="off" required />
+          </div>
+          <span class="hint">{t('tgl.form.username.hint')}</span>
+          <span id="tgl-error" class="error-msg" role="alert"></span>
+        </div>
+      </div>
+
+      <!-- Step 2: Start Message -->
+      <div class="step-section">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <label for="tgl-message" class="label">{t('tgl.form.message.label')}</label>
+          <span class="optional">{t('tgl.form.label.optional')}</span>
+          <textarea id="tgl-message" class="message-input" placeholder={t('tgl.form.message.placeholder')} rows="2"></textarea>
+        </div>
+      </div>
+
+      <!-- Step 3: Generate -->
+      <div class="step-section">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <button type="button" id="tgl-generate" class="submit-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            </svg>
+            {t('tgl.form.generate')}
+          </button>
+        </div>
+      </div>
+
+      <!-- Result Section (hidden until generated) -->
+      <div id="tgl-result" class="result-section" style="display:none;">
+        <h2 class="result-title">{t('tgl.result.title')}</h2>
+
+        <!-- Generated Link -->
+        <div class="link-box">
+          <code id="tgl-link" class="link-text"></code>
+          <button type="button" id="tgl-copy-link" class="copy-btn" aria-label={t('tgl.copy')} title={t('tgl.copy')}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="copy-icon">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            <span class="copy-label">{t('tgl.copy')}</span>
+          </button>
+        </div>
+
+        <!-- QR Code -->
+        <div class="qr-section">
+          <h3 class="qr-title">{t('tgl.qr.title')}</h3>
+          <div id="tgl-qr-canvas" class="qr-canvas"></div>
+          <button type="button" id="tgl-download-qr" class="download-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            {t('tgl.qr.download')}
+          </button>
+        </div>
+
+        <!-- Share Buttons -->
+        <div class="share-section">
+          <p class="share-label">{t('tgl.share.label')}</p>
+          <div class="share-buttons">
+            <button type="button" id="tgl-share-whatsapp" class="share-btn wa-share">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </button>
+            <button type="button" id="tgl-share-telegram" class="share-btn tg-share">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+            </button>
+            <button type="button" id="tgl-share-copy" class="share-btn copy-share">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Preview -->
+        <div class="preview-section">
+          <p class="preview-label">{t('tgl.preview.label')}</p>
+          <div class="preview-card">
+            <div class="preview-bubble">
+              <div class="preview-message" id="tgl-preview-msg"></div>
+              <div class="preview-time">10:30</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Content Section -->
+    <section class="seo-section" aria-label="About Telegram Link Generator">
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('tgl.seo.what.heading')}</h2>
+        <p class="seo-text">{t('tgl.seo.what.text')}</p>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('tgl.seo.why.heading')}</h2>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="feature-icon tg-feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <h3 class="feature-title">{t('tgl.seo.why.feature1.title')}</h3>
+            <p class="feature-desc">{t('tgl.seo.why.feature1.desc')}</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon tg-feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3 class="feature-title">{t('tgl.seo.why.feature2.title')}</h3>
+            <p class="feature-desc">{t('tgl.seo.why.feature2.desc')}</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon tg-feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3" height="3"/></svg>
+            </div>
+            <h3 class="feature-title">{t('tgl.seo.why.feature3.title')}</h3>
+            <p class="feature-desc">{t('tgl.seo.why.feature3.desc')}</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon tg-feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            </div>
+            <h3 class="feature-title">{t('tgl.seo.why.feature4.title')}</h3>
+            <p class="feature-desc">{t('tgl.seo.why.feature4.desc')}</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('tgl.seo.how.heading')}</h2>
+        <p class="seo-text">{t('tgl.seo.how.text')}</p>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('tgl.seo.use.heading')}</h2>
+        <p class="seo-text">{t('tgl.seo.use.text')}</p>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('tgl.seo.faq.heading')}</h2>
+        <div class="faq-list">
+          {faqItems.map((item, i) => (
+            <details class="faq-item">
+              <summary class="faq-q">{item.q}</summary>
+              <p class="faq-a">{item.a}</p>
+            </details>
+          ))}
+        </div>
+      </article>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p class="footer-tagline">opnchat.net — {t('footer.tagline')}</p>
+      <div class="footer-links">
+        <a href={getLocalizedPath(lang, 'whatsapp')} class="footer-link">{t('footer.whatsapp.link')}</a>
+        <a href={getLocalizedPath(lang, 'telegram')} class="footer-link">{t('footer.telegram')}</a>
+        <a href={getLocalizedPath(lang, 'qr-code')} class="footer-link">{t('footer.qr.link')}</a>
+        <a href={getLocalizedPath(lang, 'password')} class="footer-link">{t('footer.password.link')}</a>
+        <a href={getLocalizedPath(lang, 'notepad')} class="footer-link">{t('footer.notepad.link')}</a>
+        <a href={getLocalizedPath(lang, 'unit-converter')} class="footer-link">{t('footer.converter.link')}</a>
+        <a href={getLocalizedPath(lang, 'wa-link')} class="footer-link">{t('footer.walink.link')}</a>
+        <a href={getLocalizedPath(lang, 'tg-link')} class="footer-link">{t('footer.tglink.link')}</a>
+        <a href={getLocalizedPath(lang, 'disclaimer')} class="footer-link">{t('footer.disclaimer.link')}</a>
+        <a href={getLocalizedPath(lang, 'privacy')} class="footer-link">{t('footer.privacy.link')}</a>
+      </div>
+      <p class="disclaimer-brief">{t('footer.disclaimer.brief')}</p>
+    </footer>
+  </main>
+</Layout>
+
+<script is:inline>
+  // Telegram Link Generator — client-side logic
+  function initTgLinkGenerator() {
+    var generateBtn = document.getElementById('tgl-generate');
+    var usernameInput = document.getElementById('tgl-username');
+    var messageInput = document.getElementById('tgl-message');
+    var resultSection = document.getElementById('tgl-result');
+    var linkDisplay = document.getElementById('tgl-link');
+    var errorMsg = document.getElementById('tgl-error');
+    var copyBtn = document.getElementById('tgl-copy-link');
+    var previewMsg = document.getElementById('tgl-preview-msg');
+    var downloadQrBtn = document.getElementById('tgl-download-qr');
+    var shareWhatsAppBtn = document.getElementById('tgl-share-whatsapp');
+    var shareTelegramBtn = document.getElementById('tgl-share-telegram');
+    var shareCopyBtn = document.getElementById('tgl-share-copy');
+
+    var generatedLink = '';
+
+    // QR code generation
+    function generateQR(text, container) {
+      if (typeof QRCode !== 'undefined') {
+        container.innerHTML = '';
+        new QRCode(container, {
+          text: text,
+          width: 200,
+          height: 200,
+          colorDark: '#0088cc',
+          colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M,
+        });
+        var theme = document.documentElement.getAttribute('data-theme');
+        if (theme === 'light') {
+          container.innerHTML = '';
+          new QRCode(container, {
+            text: text,
+            width: 200,
+            height: 200,
+            colorDark: '#0088cc',
+            colorLight: '#f8fafc',
+            correctLevel: QRCode.CorrectLevel.M,
+          });
+        }
+      } else {
+        container.innerHTML = '<p style="text-align:center;color:var(--text-secondary);padding:1rem;">QR library loading...</p>';
+      }
+    }
+
+    // Generate link
+    function doGenerate() {
+      var username = usernameInput.value.trim().replace(/^@/, '');
+      var message = messageInput.value.trim();
+
+      if (!username) {
+        errorMsg.textContent = 'Please enter a Telegram username';
+        errorMsg.style.display = 'block';
+        return;
+      }
+
+      // Validate username: 5-32 chars, letters, digits, underscores
+      if (!/^[a-zA-Z][a-zA-Z0-9_]{4,31}$/.test(username)) {
+        errorMsg.textContent = 'Username must be 5-32 characters, start with a letter, and contain only letters, digits, underscores';
+        errorMsg.style.display = 'block';
+        return;
+      }
+
+      errorMsg.style.display = 'none';
+
+      var link = 'https://t.me/' + username;
+      if (message) {
+        link += '?start=' + encodeURIComponent(message);
+      }
+
+      generatedLink = link;
+      linkDisplay.textContent = link;
+      resultSection.style.display = 'block';
+      previewMsg.textContent = message || '👋';
+      previewMsg.style.display = 'block';
+
+      var qrCanvas = document.getElementById('tgl-qr-canvas');
+      generateQR(link, qrCanvas);
+
+      resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // Copy link
+    function doCopy(text) {
+      navigator.clipboard.writeText(text).then(function() {
+        var label = copyBtn.querySelector('.copy-label');
+        var originalText = label.textContent;
+        label.textContent = '✓';
+        setTimeout(function() { label.textContent = originalText; }, 1500);
+      }).catch(function() {
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+      });
+    }
+
+    // Download QR
+    function doDownloadQR() {
+      var qrCanvas = document.getElementById('tgl-qr-canvas');
+      var canvas = qrCanvas && qrCanvas.querySelector('canvas');
+      if (canvas) {
+        var link = document.createElement('a');
+        link.download = 'telegram-link-qr.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      } else {
+        var img = qrCanvas && qrCanvas.querySelector('img');
+        if (img) {
+          var link = document.createElement('a');
+          link.download = 'telegram-link-qr.png';
+          link.href = img.src;
+          link.click();
+        }
+      }
+    }
+
+    // Share via WhatsApp
+    function doShareWhatsApp() {
+      if (!generatedLink) return;
+      window.open('https://wa.me/?text=' + encodeURIComponent(generatedLink), '_blank');
+    }
+
+    // Share via Telegram
+    function doShareTelegram() {
+      if (!generatedLink) return;
+      window.open('https://t.me/share/url?url=' + encodeURIComponent(generatedLink), '_blank');
+    }
+
+    // Event listeners
+    generateBtn.addEventListener('click', doGenerate);
+    copyBtn.addEventListener('click', function() { doCopy(generatedLink); });
+    downloadQrBtn.addEventListener('click', doDownloadQR);
+    shareWhatsAppBtn.addEventListener('click', doShareWhatsApp);
+    shareTelegramBtn.addEventListener('click', doShareTelegram);
+    shareCopyBtn.addEventListener('click', function() { doCopy(generatedLink); });
+
+    usernameInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') doGenerate();
+    });
+  }
+
+  initTgLinkGenerator();
+</script>
+
+<style>
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 640px;
+    padding: 2rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* Breadcrumbs */
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+  }
+
+  .bc-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .bc-link:hover {
+    color: var(--opn-primary);
+  }
+
+  .bc-sep {
+    color: var(--text-secondary);
+    opacity: 0.5;
+  }
+
+  .bc-current {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  /* Site Header */
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--text-primary);
+  }
+
+  @media (max-width: 640px) {
+    .logo { display: none; }
+  }
+
+  .logo-icon {
+    width: 24px;
+    height: 24px;
+    color: var(--opn-primary);
+  }
+
+  .logo-text {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 0.5rem 0;
+  }
+
+  .title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    line-height: 1.2;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+    line-height: 1.5;
+  }
+
+  .privacy-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #2AABEE;
+    background: rgba(42, 171, 238, 0.08);
+    border: 1px solid rgba(42, 171, 238, 0.2);
+    border-radius: 20px;
+  }
+
+  /* Generator Section */
+  .generator {
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    box-shadow: var(--card-shadow), 0 4px 24px rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--border-color);
+  }
+
+  /* Step Sections */
+  .step-section {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .step-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #2AABEE;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+
+  .step-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .optional {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+  }
+
+  /* Username Input Group */
+  .username-input-group {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border-radius: 12px;
+    background: var(--bg-input);
+    border: 1.5px solid var(--border-color);
+    transition: border-color 0.15s;
+  }
+
+  .username-input-group:focus-within {
+    border-color: #2AABEE;
+  }
+
+  .username-prefix {
+    display: flex;
+    align-items: center;
+    padding: 0.6rem 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  .username-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 0.6rem 0.75rem 0.6rem 0;
+    font-size: 1rem;
+    color: var(--text-primary);
+    outline: none;
+    min-width: 0;
+  }
+
+  .username-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.6;
+  }
+
+  .hint {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  .error-msg {
+    font-size: 0.8rem;
+    color: #ef4444;
+    display: none;
+  }
+
+  /* Message Input */
+  .message-input {
+    background: var(--bg-input);
+    border: 1.5px solid var(--border-color);
+    border-radius: 12px;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    outline: none;
+    resize: vertical;
+    min-height: 60px;
+    transition: border-color 0.15s;
+  }
+
+  .message-input:focus {
+    border-color: #2AABEE;
+  }
+
+  .message-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.6;
+  }
+
+  /* Submit Button — Telegram blue */
+  .submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    background: #2AABEE;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s;
+    box-shadow: 0 4px 14px rgba(42, 171, 238, 0.3);
+  }
+
+  .submit-btn:hover {
+    background: #0088cc;
+    box-shadow: 0 6px 20px rgba(42, 171, 238, 0.4);
+  }
+
+  .submit-btn:active {
+    transform: scale(0.98);
+  }
+
+  .btn-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Result Section */
+  .result-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding-top: 1rem;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .result-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #2AABEE;
+  }
+
+  /* Link Box */
+  .link-box {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--bg-input);
+    border: 1.5px solid var(--border-color);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    overflow: hidden;
+  }
+
+  .link-text {
+    flex: 1;
+    font-size: 0.85rem;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    color: #2AABEE;
+    word-break: break-all;
+    white-space: normal;
+    line-height: 1.4;
+  }
+
+  .copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 8px;
+    background: #2AABEE;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+
+  .copy-btn:hover {
+    background: #0088cc;
+  }
+
+  .copy-icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* QR Code Section */
+  .qr-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: var(--bg-input);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+  }
+
+  .qr-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .qr-canvas {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+  }
+
+  .qr-canvas canvas,
+  .qr-canvas img {
+    border-radius: 8px;
+  }
+
+  .download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    background: var(--bg-secondary);
+    border: 1.5px solid var(--border-color);
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .download-btn:hover {
+    border-color: #2AABEE;
+    color: #2AABEE;
+  }
+
+  /* Share Buttons */
+  .share-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .share-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+  }
+
+  .share-buttons {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .share-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border-color);
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .share-btn:hover {
+    transform: scale(1.1);
+  }
+
+  .wa-share:hover {
+    border-color: #25D366;
+    color: #25D366;
+    background: rgba(37, 211, 102, 0.1);
+  }
+
+  .tg-share:hover {
+    border-color: #0088cc;
+    color: #0088cc;
+    background: rgba(0, 136, 204, 0.1);
+  }
+
+  .copy-share:hover {
+    border-color: #2AABEE;
+    color: #2AABEE;
+    background: rgba(42, 171, 238, 0.1);
+  }
+
+  /* Preview Card — Telegram style */
+  .preview-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .preview-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+  }
+
+  .preview-card {
+    width: 100%;
+    max-width: 280px;
+    padding: 0.75rem;
+    background: var(--bg-input);
+    border-radius: 12px;
+  }
+
+  .preview-bubble {
+    display: inline-block;
+    padding: 0.5rem 0.75rem;
+    background: #2AABEE;
+    color: #fff;
+    border-radius: 12px 12px 12px 0;
+    font-size: 0.85rem;
+    max-width: 85%;
+    position: relative;
+  }
+
+  .preview-message {
+    word-break: break-word;
+  }
+
+  .preview-time {
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.7);
+    text-align: right;
+    margin-top: 0.2rem;
+  }
+
+  /* SEO Section */
+  .seo-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .seo-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .seo-heading {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+  }
+
+  .seo-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  /* Feature Grid */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 0.75rem;
+  }
+
+  @media (max-width: 480px) {
+    .feature-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .feature-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+  }
+
+  .tg-feature-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(42, 171, 238, 0.1);
+    color: #2AABEE;
+  }
+
+  .tg-feature-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .feature-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .feature-desc {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  /* FAQ List */
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .faq-item {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .faq-q {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .faq-q::-webkit-details-marker { display: none; }
+
+  .faq-a {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    padding: 0 1rem 0.75rem;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .footer-tagline {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-align: center;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 1rem;
+  }
+
+  .footer-link {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .footer-link:hover {
+    color: var(--opn-primary);
+  }
+
+  .disclaimer-brief {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    opacity: 0.7;
+    text-align: center;
+  }
+</style>
