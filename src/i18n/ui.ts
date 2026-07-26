@@ -131,6 +131,10 @@ export const ui = {
     'footer.tglink.link': 'Telegram Link Generator',
     'footer.formatter.link': 'Text Formatter',
     'footer.widget.link': 'Chat Widget',
+    'footer.section.whatsapp': 'WhatsApp',
+    'footer.section.telegram': 'Telegram',
+    'footer.section.texttools': 'Text Tools',
+    'footer.section.utilities': 'Utilities',
 
     // Unit Converter
     'cv.meta.title': 'Unit Converter — Free & Instant | OPN Chat',

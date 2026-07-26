@@ -1,0 +1,238 @@
+---
+import { useTranslations, getLocalizedPath } from '../i18n/utils';
+import { type Lang } from '../i18n/ui';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const footerSections = [
+  {
+    title: 'footer.section.whatsapp',
+    links: [
+      { slug: 'whatsapp', key: 'hub.service.whatsapp.title' },
+      { slug: 'wa-link', key: 'hub.service.walink.title' },
+      { slug: 'wa-widget', key: 'hub.service.widget.title' },
+      { slug: 'whatsapp-text-formatter', key: 'hub.service.formatter.title' },
+    ]
+  },
+  {
+    title: 'footer.section.telegram',
+    links: [
+      { slug: 'telegram', key: 'hub.service.telegram.title' },
+      { slug: 'tg-link', key: 'hub.service.tglink.title' },
+    ]
+  },
+  {
+    title: 'footer.section.texttools',
+    links: [
+      { slug: 'fancy-text', key: 'hub.service.fancytext.title' },
+      { slug: 'word-counter', key: 'hub.service.wordcounter.title' },
+      { slug: 'notepad', key: 'hub.service.notepad.title' },
+    ]
+  },
+  {
+    title: 'footer.section.utilities',
+    links: [
+      { slug: 'qr-code', key: 'hub.service.qr.title' },
+      { slug: 'password', key: 'hub.service.password.title' },
+      { slug: 'unit-converter', key: 'hub.service.converter.title' },
+      { slug: 'emoji-picker', key: 'hub.service.emojipicker.title' },
+    ]
+  },
+];
+
+const legalLinks = [
+  { slug: 'privacy', key: 'footer.privacy.link' },
+  { slug: 'disclaimer', key: 'footer.disclaimer.link' },
+];
+---
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="footer-logo">OPN Chat</span>
+      <p class="footer-tagline">{t('footer.tagline')}</p>
+    </div>
+
+    <div class="footer-columns">
+      {footerSections.map((section) => (
+        <div class="footer-col">
+          <h4 class="footer-col-title">{t(section.title)}</h4>
+          <ul class="footer-col-links">
+            {section.links.map((link) => (
+              <li>
+                <a href={getLocalizedPath(lang, link.slug)} class="footer-link">{t(link.key)}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-legal">
+        {legalLinks.map((link) => (
+          <a href={getLocalizedPath(lang, link.slug)} class="footer-legal-link">{t(link.key)}</a>
+        ))}
+      </div>
+      <p class="footer-disclaimer">{t('footer.disclaimer.brief')}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: linear-gradient(135deg, #0c1a3a 0%, #152242 40%, #1a2d52 100%);
+    border-radius: 16px;
+    margin-top: 2rem;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Subtle shimmer overlay */
+  .site-footer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 20% 0%, rgba(37, 211, 102, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 100%, rgba(56, 189, 248, 0.06) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .footer-inner {
+    position: relative;
+    z-index: 1;
+    padding: 2rem 1.5rem 1.25rem;
+  }
+
+  .footer-brand {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .footer-logo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #e9edf5;
+    letter-spacing: -0.02em;
+  }
+
+  .footer-tagline {
+    font-size: 0.72rem;
+    color: rgba(159, 179, 200, 0.8);
+    line-height: 1.45;
+    margin-top: 0.35rem;
+  }
+
+  .footer-columns {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .footer-col-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: rgba(159, 179, 200, 0.9);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .footer-col-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .footer-link {
+    font-size: 0.78rem;
+    color: rgba(37, 211, 102, 0.85);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .footer-link:hover {
+    color: #25D366;
+    text-decoration: underline;
+  }
+
+  .footer-link:focus-visible {
+    outline: 2px solid rgba(37, 211, 102, 0.5);
+    outline-offset: 2px;
+  }
+
+  .footer-bottom {
+    text-align: center;
+  }
+
+  .footer-legal {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-legal-link {
+    font-size: 0.78rem;
+    color: rgba(159, 179, 200, 0.7);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .footer-legal-link:hover {
+    color: #e9edf5;
+    text-decoration: underline;
+  }
+
+  .footer-legal-link:focus-visible {
+    outline: 2px solid rgba(37, 211, 102, 0.5);
+    outline-offset: 2px;
+  }
+
+  .footer-disclaimer {
+    font-size: 0.68rem;
+    color: rgba(159, 179, 200, 0.5);
+    line-height: 1.4;
+  }
+
+  @media (max-width: 700px) {
+    .footer-columns {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .footer-columns {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+    .footer-inner {
+      padding: 1.5rem 1rem 1rem;
+    }
+  }
+
+  /* RTL support */
+  [dir="rtl"] .footer-columns {
+    text-align: right;
+  }
+  [dir="rtl"] .footer-brand {
+    text-align: right;
+  }
+  [dir="rtl"] .footer-bottom {
+    text-align: right;
+  }
+</style>
