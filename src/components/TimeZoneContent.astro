@@ -1,0 +1,868 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { useTranslations, getLocalizedPath, getAlternateUrl } from '../i18n/utils';
+import { languages, langCodes, type Lang } from '../i18n/ui';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import ToolSidebar from './ToolSidebar.astro';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const otherLangs = (Object.keys(languages) as Lang[]).filter(l => l !== lang);
+
+const localeMap: Record<Lang, string> = { en: 'en_US', es: 'es_ES', pt: 'pt_BR', id: 'id_ID', ru: 'ru_RU', ar: 'ar_SA', de: 'de_DE' };
+const alternateLocales = otherLangs.map(l => localeMap[l]);
+
+const tzSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": t('tz.heading'),
+      "url": getAlternateUrl(lang, 'timezone'),
+      "description": t('tz.meta.description'),
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "OPN Chat",
+        "url": "https://opnchat.net/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "OPN Chat",
+          "item": getAlternateUrl(lang, '')
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": t('tz.heading'),
+          "item": getAlternateUrl(lang, 'timezone')
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": t('tz.faq.q1'), "acceptedAnswer": { "@type": "Answer", "text": t('tz.faq.a1') } },
+        { "@type": "Question", "name": t('tz.faq.q2'), "acceptedAnswer": { "@type": "Answer", "text": t('tz.faq.a2') } },
+        { "@type": "Question", "name": t('tz.faq.q3'), "acceptedAnswer": { "@type": "Answer", "text": t('tz.faq.a3') } },
+        { "@type": "Question", "name": t('tz.faq.q4'), "acceptedAnswer": { "@type": "Answer", "text": t('tz.faq.a4') } },
+        { "@type": "Question", "name": t('tz.faq.q5'), "acceptedAnswer": { "@type": "Answer", "text": t('tz.faq.a5') } }
+      ]
+    }
+  ]
+};
+---
+
+<Layout title={t('tz.meta.title')} lang={lang} service="timezone">
+  <Fragment slot="meta">
+    <meta name="description" content={t('tz.meta.description')} />
+    <meta name="keywords" content={t('tz.meta.keywords')} />
+    <link rel="canonical" href={getAlternateUrl(lang, 'timezone')} />
+    <meta property="og:title" content={t('tz.meta.og.title')} />
+    <meta property="og:description" content={t('tz.meta.og.description')} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={t('tz.meta.twitter.title')} />
+    <meta name="twitter:description" content={t('tz.meta.twitter.description')} />
+    <script type="application/ld+json" set:html={JSON.stringify(tzSchema)} />
+  </Fragment>
+
+  <div class="page-layout">
+    <ToolSidebar lang={lang} activeTool="timezone" accentColor="#25D366" />
+
+    <main class="container">
+      <!-- Header -->
+      <header class="site-header">
+        <a href={getLocalizedPath(lang, '')} class="logo" aria-label="OPN Chat — Home">
+          <span class="logo-text">OPN Chat</span>
+          <svg viewBox="0 0 24 24" fill="currentColor" class="logo-icon" aria-hidden="true">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+          </svg>
+        </a>
+        <LanguageSwitcher lang={lang} path="timezone" />
+        <button type="button" class="theme-toggle" aria-label="Toggle theme" id="theme-toggle">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </header>
+
+      <!-- Breadcrumbs -->
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href={getLocalizedPath(lang)} class="bc-link">{t('bc.home')}</a>
+        <span class="bc-sep">›</span>
+        <span class="bc-current">{t('bc.timezone')}</span>
+      </nav>
+
+      <!-- Hero -->
+      <div class="hero">
+        <h1 class="title">{t('tz.heading')}</h1>
+        <p class="subtitle">{t('tz.subtitle')}</p>
+        <div class="privacy-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          {t('tz.privacy.badge')}
+        </div>
+      </div>
+
+      <!-- Base timezone selector -->
+      <div class="tz-base-card">
+        <label class="tz-base-label" for="base-tz">{t('tz.base.label')}</label>
+        <select id="base-tz" class="tz-select">
+          <option value="Europe/Moscow">Moscow (UTC+3)</option>
+          <option value="Asia/Dubai">Dubai (UTC+4)</option>
+          <option value="America/New_York">New York (UTC-5/-4)</option>
+          <option value="America/Los_Angeles">Los Angeles (UTC-8/-7)</option>
+          <option value="Europe/London">London (UTC+0/+1)</option>
+          <option value="Europe/Berlin">Berlin (UTC+1/+2)</option>
+          <option value="Asia/Kolkata">Mumbai (UTC+5:30)</option>
+          <option value="Asia/Shanghai">Shanghai (UTC+8)</option>
+          <option value="Asia/Tokyo">Tokyo (UTC+9)</option>
+          <option value="Asia/Singapore">Singapore (UTC+8)</option>
+          <option value="Asia/Jakarta">Jakarta (UTC+7)</option>
+          <option value="Asia/Riyadh">Riyadh (UTC+3)</option>
+          <option value="America/Sao_Paulo">São Paulo (UTC-3)</option>
+          <option value="America/Chicago">Chicago (UTC-6/-5)</option>
+          <option value="America/Denver">Denver (UTC-7/-6)</option>
+          <option value="Australia/Sydney">Sydney (UTC+10/+11)</option>
+          <option value="Pacific/Auckland">Auckland (UTC+12/+13)</option>
+          <option value="Africa/Cairo">Cairo (UTC+2)</option>
+          <option value="Africa/Lagos">Lagos (UTC+1)</option>
+          <option value="Asia/Karachi">Karachi (UTC+5)</option>
+          <option value="Asia/Bangkok">Bangkok (UTC+7)</option>
+          <option value="Europe/Istanbul">Istanbul (UTC+3)</option>
+          <option value="Europe/Paris">Paris (UTC+1/+2)</option>
+          <option value="America/Toronto">Toronto (UTC-5/-4)</option>
+          <option value="America/Mexico_City">Mexico City (UTC-6/-5)</option>
+          <option value="America/Bogota">Bogotá (UTC-5)</option>
+          <option value="Asia/Kuala_Lumpur">Kuala Lumpur (UTC+8)</option>
+          <option value="Asia/Seoul">Seoul (UTC+9)</option>
+          <option value="Asia/Taipei">Taipei (UTC+8)</option>
+          <option value="Asia/Hong_Kong">Hong Kong (UTC+8)</option>
+          <option value="Europe/Madrid">Madrid (UTC+1/+2)</option>
+          <option value="Europe/Rome">Rome (UTC+1/+2)</option>
+          <option value="Europe/Amsterdam">Amsterdam (UTC+1/+2)</option>
+          <option value="Europe/Warsaw">Warsaw (UTC+1/+2)</option>
+          <option value="Europe/Kiev">Kyiv (UTC+2/+3)</option>
+          <option value="Europe/Lisbon">Lisbon (UTC+0/+1)</option>
+          <option value="Europe/Zurich">Zurich (UTC+1/+2)</option>
+          <option value="Asia/Dhaka">Dhaka (UTC+6)</option>
+          <option value="Asia/Tehran">Tehran (UTC+3:30)</option>
+          <option value="Asia/Kabul">Kabul (UTC+4:30)</option>
+          <option value="Asia/Yangon">Yangon (UTC+6:30)</option>
+          <option value="Pacific/Honolulu">Honolulu (UTC-10)</option>
+        </select>
+        <div class="base-time-display" id="base-time-display">
+          <span class="base-time-value" id="base-time-value">--:--:--</span>
+          <span class="base-time-offset" id="base-time-offset">UTC+3</span>
+          <span class="base-time-date" id="base-time-date"></span>
+        </div>
+      </div>
+
+      <!-- Custom time input -->
+      <div class="custom-time-card">
+        <label class="custom-time-label" for="custom-time">{t('tz.custom.label')}</label>
+        <input type="time" id="custom-time" class="custom-time-input" value="14:00" />
+        <p class="custom-time-hint">{t('tz.custom.hint')}</p>
+      </div>
+
+      <!-- World Clock Grid -->
+      <div class="clocks-grid" id="clocks-grid">
+        <!-- Cards injected by JS -->
+      </div>
+
+      <!-- Add city button -->
+      <button class="add-city-btn" id="add-city-btn" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        {t('tz.add.city')}
+      </button>
+
+      <!-- Add city modal -->
+      <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-card">
+          <h3 class="modal-title">{t('tz.modal.title')}</h3>
+          <select id="modal-tz-select" class="tz-select modal-select">
+            <option value="Europe/Moscow">Moscow (UTC+3)</option>
+            <option value="Asia/Dubai">Dubai (UTC+4)</option>
+            <option value="America/New_York">New York (UTC-5/-4)</option>
+            <option value="America/Los_Angeles">Los Angeles (UTC-8/-7)</option>
+            <option value="Europe/London">London (UTC+0/+1)</option>
+            <option value="Europe/Berlin">Berlin (UTC+1/+2)</option>
+            <option value="Asia/Kolkata">Mumbai (UTC+5:30)</option>
+            <option value="Asia/Shanghai">Shanghai (UTC+8)</option>
+            <option value="Asia/Tokyo">Tokyo (UTC+9)</option>
+            <option value="Asia/Singapore">Singapore (UTC+8)</option>
+            <option value="Asia/Jakarta">Jakarta (UTC+7)</option>
+            <option value="Asia/Riyadh">Riyadh (UTC+3)</option>
+            <option value="America/Sao_Paulo">São Paulo (UTC-3)</option>
+            <option value="America/Chicago">Chicago (UTC-6/-5)</option>
+            <option value="America/Denver">Denver (UTC-7/-6)</option>
+            <option value="Australia/Sydney">Sydney (UTC+10/+11)</option>
+            <option value="Pacific/Auckland">Auckland (UTC+12/+13)</option>
+            <option value="Africa/Cairo">Cairo (UTC+2)</option>
+            <option value="Africa/Lagos">Lagos (UTC+1)</option>
+            <option value="Asia/Karachi">Karachi (UTC+5)</option>
+            <option value="Asia/Bangkok">Bangkok (UTC+7)</option>
+            <option value="Europe/Istanbul">Istanbul (UTC+3)</option>
+            <option value="Europe/Paris">Paris (UTC+1/+2)</option>
+            <option value="America/Toronto">Toronto (UTC-5/-4)</option>
+            <option value="America/Mexico_City">Mexico City (UTC-6/-5)</option>
+            <option value="America/Bogota">Bogotá (UTC-5)</option>
+            <option value="Asia/Kuala_Lumpur">Kuala Lumpur (UTC+8)</option>
+            <option value="Asia/Seoul">Seoul (UTC+9)</option>
+            <option value="Asia/Taipei">Taipei (UTC+8)</option>
+            <option value="Asia/Hong_Kong">Hong Kong (UTC+8)</option>
+            <option value="Europe/Madrid">Madrid (UTC+1/+2)</option>
+            <option value="Europe/Rome">Rome (UTC+1/+2)</option>
+            <option value="Europe/Amsterdam">Amsterdam (UTC+1/+2)</option>
+            <option value="Europe/Warsaw">Warsaw (UTC+1/+2)</option>
+            <option value="Europe/Kiev">Kyiv (UTC+2/+3)</option>
+            <option value="Europe/Lisbon">Lisbon (UTC+0/+1)</option>
+            <option value="Europe/Zurich">Zurich (UTC+1/+2)</option>
+            <option value="Asia/Dhaka">Dhaka (UTC+6)</option>
+            <option value="Asia/Tehran">Tehran (UTC+3:30)</option>
+            <option value="Asia/Kabul">Kabul (UTC+4:30)</option>
+            <option value="Asia/Yangon">Yangon (UTC+6:30)</option>
+            <option value="Pacific/Honolulu">Honolulu (UTC-10)</option>
+          </select>
+          <div class="modal-actions">
+            <button type="button" class="modal-add-btn" id="modal-add-btn">{t('tz.modal.add')}</button>
+            <button type="button" class="modal-cancel-btn" id="modal-cancel-btn">{t('tz.modal.cancel')}</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Business Use Case -->
+      <section class="business-section">
+        <h2 class="section-title">{t('tz.business.title')}</h2>
+        <div class="business-grid">
+          <div class="business-card">
+            <div class="business-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </div>
+            <h3 class="business-card-title">{t('tz.business.wa.title')}</h3>
+            <p class="business-card-desc">{t('tz.business.wa.desc')}</p>
+          </div>
+          <div class="business-card">
+            <div class="business-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+            </div>
+            <h3 class="business-card-title">{t('tz.business.tg.title')}</h3>
+            <p class="business-card-desc">{t('tz.business.tg.desc')}</p>
+          </div>
+          <div class="business-card">
+            <div class="business-icon schedule-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
+            </div>
+            <h3 class="business-card-title">{t('tz.business.schedule.title')}</h3>
+            <p class="business-card-desc">{t('tz.business.schedule.desc')}</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="faq-section">
+        <h2 class="section-title">{t('tz.faq.title')}</h2>
+        {[
+          { q: t('tz.faq.q1'), a: t('tz.faq.a1') },
+          { q: t('tz.faq.q2'), a: t('tz.faq.a2') },
+          { q: t('tz.faq.q3'), a: t('tz.faq.a3') },
+          { q: t('tz.faq.q4'), a: t('tz.faq.a4') },
+          { q: t('tz.faq.q5'), a: t('tz.faq.a5') },
+        ].map((item) => (
+          <details class="faq-item">
+            <summary class="faq-q">{item.q}</summary>
+            <p class="faq-a">{item.a}</p>
+          </details>
+        ))}
+      </section>
+
+      <!-- SEO -->
+      <section class="seo-section">
+        <h2 class="section-title">{t('tz.seo.title')}</h2>
+        <div class="seo-grid">
+          <div class="seo-card">
+            <h3>{t('tz.seo.feature1.title')}</h3>
+            <p>{t('tz.seo.feature1.desc')}</p>
+          </div>
+          <div class="seo-card">
+            <h3>{t('tz.seo.feature2.title')}</h3>
+            <p>{t('tz.seo.feature2.desc')}</p>
+          </div>
+          <div class="seo-card">
+            <h3>{t('tz.seo.feature3.title')}</h3>
+            <p>{t('tz.seo.feature3.desc')}</p>
+          </div>
+          <div class="seo-card">
+            <h3>{t('tz.seo.feature4.title')}</h3>
+            <p>{t('tz.seo.feature4.desc')}</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</Layout>
+
+<script>
+  // ===== Time Zone Converter Logic =====
+  const baseTzSelect = document.getElementById('base-tz');
+  const baseTimeValue = document.getElementById('base-time-value');
+  const baseTimeOffset = document.getElementById('base-time-offset');
+  const baseTimeDate = document.getElementById('base-time-date');
+  const customTimeInput = document.getElementById('custom-time');
+  const clocksGrid = document.getElementById('clocks-grid');
+  const addCityBtn = document.getElementById('add-city-btn');
+  const modalOverlay = document.getElementById('modal-overlay');
+  const modalTzSelect = document.getElementById('modal-tz-select');
+  const modalAddBtn = document.getElementById('modal-add-btn');
+  const modalCancelBtn = document.getElementById('modal-cancel-btn');
+
+  // Default comparison cities
+  const defaultCities = [
+    'Europe/Moscow', 'Asia/Dubai', 'America/New_York',
+    'Europe/London', 'Asia/Kolkata', 'Asia/Shanghai',
+    'Asia/Tokyo', 'America/Los_Angeles', 'Australia/Sydney',
+    'Asia/Singapore', 'Asia/Jakarta', 'America/Sao_Paulo'
+  ];
+
+  // City display names
+  const cityNames: Record<string, string> = {
+    'Europe/Moscow': 'Moscow',
+    'Asia/Dubai': 'Dubai',
+    'America/New_York': 'New York',
+    'America/Los_Angeles': 'Los Angeles',
+    'Europe/London': 'London',
+    'Europe/Berlin': 'Berlin',
+    'Asia/Kolkata': 'Mumbai',
+    'Asia/Shanghai': 'Shanghai',
+    'Asia/Tokyo': 'Tokyo',
+    'Asia/Singapore': 'Singapore',
+    'Asia/Jakarta': 'Jakarta',
+    'Asia/Riyadh': 'Riyadh',
+    'America/Sao_Paulo': 'São Paulo',
+    'America/Chicago': 'Chicago',
+    'America/Denver': 'Denver',
+    'Australia/Sydney': 'Sydney',
+    'Pacific/Auckland': 'Auckland',
+    'Africa/Cairo': 'Cairo',
+    'Africa/Lagos': 'Lagos',
+    'Asia/Karachi': 'Karachi',
+    'Asia/Bangkok': 'Bangkok',
+    'Europe/Istanbul': 'Istanbul',
+    'Europe/Paris': 'Paris',
+    'America/Toronto': 'Toronto',
+    'America/Mexico_City': 'Mexico City',
+    'America/Bogota': 'Bogotá',
+    'Asia/Kuala_Lumpur': 'Kuala Lumpur',
+    'Asia/Seoul': 'Seoul',
+    'Asia/Taipei': 'Taipei',
+    'Asia/Hong_Kong': 'Hong Kong',
+    'Europe/Madrid': 'Madrid',
+    'Europe/Rome': 'Rome',
+    'Europe/Amsterdam': 'Amsterdam',
+    'Europe/Warsaw': 'Warsaw',
+    'Europe/Kiev': 'Kyiv',
+    'Europe/Lisbon': 'Lisbon',
+    'Europe/Zurich': 'Zurich',
+    'Asia/Dhaka': 'Dhaka',
+    'Asia/Tehran': 'Tehran',
+    'Asia/Kabul': 'Kabul',
+    'Asia/Yangon': 'Yangon',
+    'Pacific/Honolulu': 'Honolulu',
+  };
+
+  // Track added cities (avoid duplicates)
+  let addedCities: string[] = [];
+
+  function getOffsetLabel(tz: string, date?: Date): string {
+    try {
+      const d = date || new Date();
+      const formatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: tz,
+        timeZoneName: 'shortOffset'
+      });
+      const parts = formatter.formatToParts(d);
+      const offsetPart = parts.find(p => p.type === 'timeZoneName');
+      return offsetPart?.value || tz;
+    } catch {
+      return tz;
+    }
+  }
+
+  function getTimeInTz(tz: string, baseTz: string, customTime?: string): { time: string; date: string; diff: string } {
+    try {
+      // Create a date with the base timezone's current or custom time
+      const now = new Date();
+
+      if (customTime) {
+        // Parse custom time and create date in base timezone
+        const [hours, minutes] = customTime.split(':').map(Number);
+        // Get current date in base timezone, then set the custom time
+        const baseFormatter = new Intl.DateTimeFormat('en-US', {
+          timeZone: baseTz,
+          year: 'numeric', month: '2-digit', day: '2-digit',
+          hour: '2-digit', minute: '2-digit', second: '2-digit',
+          hour12: false
+        });
+        const baseParts = baseFormatter.formatToParts(now);
+        const year = parseInt(baseParts.find(p => p.type === 'year')?.value || '0');
+        const month = parseInt(baseParts.find(p => p.type === 'month')?.value || '0') - 1;
+        const day = parseInt(baseParts.find(p => p.type === 'day')?.value || '0');
+
+        // Create a date in UTC that represents the custom time in the base timezone
+        // First, find the UTC offset for the base timezone at that time
+        const utcDate = new Date(Date.UTC(year, month, day, hours, minutes, 0));
+
+        // Calculate offset for base timezone
+        const baseOffset = getBaseOffset(baseTz, utcDate);
+
+        // Adjust to UTC
+        utcDate.setUTCMinutes(utcDate.getUTCMinutes() - baseOffset);
+
+        // Now format this UTC date in the target timezone
+        const targetFormatter = new Intl.DateTimeFormat('en-US', {
+          timeZone: tz,
+          hour: '2-digit', minute: '2-digit',
+          hour12: false
+        });
+        const dateFormatter = new Intl.DateTimeFormat('en-US', {
+          timeZone: tz,
+          weekday: 'short', month: 'short', day: 'numeric'
+        });
+
+        const time = targetFormatter.format(utcDate);
+        const dateStr = dateFormatter.format(utcDate);
+
+        // Calculate difference
+        const targetOffset = getBaseOffset(tz, utcDate);
+        const diffHours = (targetOffset - baseOffset) / 60;
+        const diffStr = formatDiff(diffHours);
+
+        return { time, date: dateStr, diff: diffStr };
+      } else {
+        // Current time mode
+        const timeFormatter = new Intl.DateTimeFormat('en-US', {
+          timeZone: tz,
+          hour: '2-digit', minute: '2-digit', second: '2-digit',
+          hour12: false
+        });
+        const dateFormatter = new Intl.DateTimeFormat('en-US', {
+          timeZone: tz,
+          weekday: 'short', month: 'short', day: 'numeric'
+        });
+
+        const time = timeFormatter.format(now);
+        const dateStr = dateFormatter.format(now);
+
+        // Calculate offset difference
+        const baseOffset = getBaseOffset(baseTz, now);
+        const targetOffset = getBaseOffset(tz, now);
+        const diffHours = (targetOffset - baseOffset) / 60;
+        const diffStr = formatDiff(diffHours);
+
+        return { time, date: dateStr, diff: diffStr };
+      }
+    } catch {
+      return { time: '--:--', date: '', diff: '' };
+    }
+  }
+
+  function getBaseOffset(tz: string, date: Date): number {
+    // Returns offset in minutes (positive = ahead of UTC)
+    const utcDate = new Date(date.getTime());
+    const tzString = date.toLocaleString('en-US', { timeZone: tz });
+    const tzDate = new Date(tzString);
+    return (tzDate.getTime() - utcDate.getTime()) / 60000;
+  }
+
+  function formatDiff(diffHours: number): string {
+    if (diffHours === 0) return 'Same time';
+    const sign = diffHours > 0 ? '+' : '-';
+    const abs = Math.abs(diffHours);
+    const h = Math.floor(abs);
+    const m = Math.round((abs - h) * 60);
+    if (m === 0) return sign + h + 'h';
+    if (m === 30) return sign + h + ':30h';
+    return sign + h + 'h ' + m + 'm';
+  }
+
+  function isNightTime(tz: string): boolean {
+    try {
+      const now = new Date();
+      const formatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: tz,
+        hour: 'numeric',
+        hour12: false
+      });
+      const hour = parseInt(formatter.format(now));
+      return hour < 6 || hour >= 21;
+    } catch {
+      return false;
+    }
+  }
+
+  function renderClocks() {
+    const baseTz = baseTzSelect?.value || 'Europe/Moscow';
+    const customTime = customTimeInput?.value || '';
+
+    // Update base time display
+    if (baseTimeValue) {
+      const formatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: baseTz,
+        hour: '2-digit', minute: '2-digit', second: '2-digit',
+        hour12: false
+      });
+      baseTimeValue.textContent = formatter.format(new Date());
+    }
+    if (baseTimeOffset) {
+      baseTimeOffset.textContent = getOffsetLabel(baseTz);
+    }
+    if (baseTimeDate) {
+      const df = new Intl.DateTimeFormat('en-US', {
+        timeZone: baseTz,
+        weekday: 'short', month: 'short', day: 'numeric'
+      });
+      baseTimeDate.textContent = df.format(new Date());
+    }
+
+    // Render comparison clocks
+    if (!clocksGrid) return;
+    const allCities = [...defaultCities.filter(c => c !== baseTz), ...addedCities.filter(c => c !== baseTz && !defaultCities.includes(c))];
+    clocksGrid.innerHTML = '';
+
+    allCities.forEach(tz => {
+      const result = getTimeInTz(tz, baseTz, customTime || undefined);
+      const isNight = isNightTime(tz);
+      const name = cityNames[tz] || tz.split('/').pop() || tz;
+      const offsetLabel = getOffsetLabel(tz);
+
+      const card = document.createElement('div');
+      card.className = 'clock-card' + (isNight ? ' night' : '');
+      card.innerHTML = `
+        <div class="clock-city">${name}</div>
+        <div class="clock-offset">${offsetLabel}</div>
+        <div class="clock-time">${result.time}</div>
+        <div class="clock-date">${result.date}</div>
+        <div class="clock-diff">${result.diff}</div>
+        <button class="clock-remove" data-tz="${tz}" title="Remove">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      `;
+      clocksGrid.appendChild(card);
+    });
+
+    // Attach remove buttons
+    clocksGrid.querySelectorAll('.clock-remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tz = btn.getAttribute('data-tz') || '';
+        addedCities = addedCities.filter(c => c !== tz);
+        // Also allow removing from defaults
+        const idx = defaultCities.indexOf(tz);
+        if (idx > -1) defaultCities.splice(idx, 1);
+        renderClocks();
+      });
+    });
+  }
+
+  // Modal logic
+  addCityBtn?.addEventListener('click', () => {
+    modalOverlay?.classList.add('active');
+  });
+
+  modalCancelBtn?.addEventListener('click', () => {
+    modalOverlay?.classList.remove('active');
+  });
+
+  modalOverlay?.addEventListener('click', (e) => {
+    if (e.target === modalOverlay) modalOverlay.classList.remove('active');
+  });
+
+  modalAddBtn?.addEventListener('click', () => {
+    const tz = modalTzSelect?.value || '';
+    if (tz && !addedCities.includes(tz) && !defaultCities.includes(tz)) {
+      addedCities.push(tz);
+    } else if (tz && !defaultCities.includes(tz)) {
+      // Already added, skip
+    } else if (tz && defaultCities.includes(tz)) {
+      // Already in defaults, skip
+    }
+    modalOverlay?.classList.remove('active');
+    renderClocks();
+  });
+
+  // Live updates
+  baseTzSelect?.addEventListener('change', renderClocks);
+  customTimeInput?.addEventListener('input', renderClocks);
+
+  // Initial render + live clock
+  renderClocks();
+  setInterval(renderClocks, 1000);
+</script>
+
+<style>
+  .page-layout {
+    display: flex;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 960px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .container {
+    position: relative; z-index: 1; width: 100%; max-width: 640px;
+    padding: 2rem 1.25rem; display: flex; flex-direction: column; gap: 1.5rem;
+  }
+
+  @media (max-width: 900px) {
+    .page-layout { flex-direction: column; }
+    .container { max-width: 100%; }
+  }
+
+  /* Breadcrumbs */
+  .breadcrumbs {
+    display: flex; align-items: center; gap: 0.3rem;
+    font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.25rem;
+  }
+  .bc-link { color: var(--text-secondary); text-decoration: none; transition: color 0.15s; }
+  .bc-link:hover { color: var(--opn-primary); }
+  .bc-sep { color: var(--text-secondary); opacity: 0.5; }
+  .bc-current { font-weight: 600; color: var(--text-primary); }
+
+  /* Site Header */
+  .site-header { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 0.75rem; }
+  .logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--text-primary); }
+  @media (max-width: 640px) { .logo { display: none; } }
+  .logo-icon { width: 24px; height: 24px; color: var(--opn-primary); flex-shrink: 0; }
+  .logo-text { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text-primary); }
+
+  /* Hero */
+  .hero { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+  .title {
+    font-size: 1.6rem; font-weight: 800; color: var(--text-primary);
+    letter-spacing: -0.02em; line-height: 1.2;
+  }
+  .subtitle {
+    font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; max-width: 480px;
+  }
+  .privacy-badge {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-size: 0.72rem; color: var(--opn-primary); font-weight: 600;
+    background: rgba(37, 211, 102, 0.1); padding: 0.3rem 0.75rem;
+    border-radius: 20px; border: 1px solid rgba(37, 211, 102, 0.2);
+  }
+
+  /* Base timezone card */
+  .tz-base-card {
+    background: var(--bg-secondary); border: 1px solid var(--border-color);
+    border-radius: 12px; padding: 1.25rem; display: flex;
+    flex-direction: column; gap: 0.75rem;
+  }
+  .tz-base-label {
+    font-size: 0.8rem; font-weight: 600; color: var(--text-secondary);
+  }
+  .tz-select {
+    width: 100%; padding: 0.6rem 0.75rem; font-size: 0.85rem;
+    background: var(--bg-input); border: 1px solid var(--border-color);
+    color: var(--text-primary); border-radius: 8px;
+    appearance: none; cursor: pointer; transition: border 0.15s;
+  }
+  .tz-select:focus { outline: none; border-color: var(--opn-primary); }
+  .base-time-display {
+    display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+  }
+  .base-time-value {
+    font-size: 1.5rem; font-weight: 700; color: var(--opn-primary);
+    letter-spacing: -0.02em;
+  }
+  .base-time-offset {
+    font-size: 0.75rem; font-weight: 600; color: var(--text-secondary);
+    background: var(--bg-input); padding: 0.2rem 0.5rem; border-radius: 6px;
+  }
+  .base-time-date {
+    font-size: 0.75rem; color: var(--text-secondary);
+  }
+
+  /* Custom time card */
+  .custom-time-card {
+    background: var(--bg-secondary); border: 1px solid var(--border-color);
+    border-radius: 12px; padding: 1rem 1.25rem; display: flex;
+    flex-direction: column; gap: 0.5rem;
+  }
+  .custom-time-label {
+    font-size: 0.8rem; font-weight: 600; color: var(--text-secondary);
+  }
+  .custom-time-input {
+    width: 100%; padding: 0.5rem 0.75rem; font-size: 1rem;
+    background: var(--bg-input); border: 1px solid var(--border-color);
+    color: var(--text-primary); border-radius: 8px; transition: border 0.15s;
+  }
+  .custom-time-input:focus { outline: none; border-color: var(--opn-primary); }
+  .custom-time-hint {
+    font-size: 0.72rem; color: var(--text-secondary); line-height: 1.4;
+  }
+
+  /* Clocks grid */
+  .clocks-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .clock-card {
+    background: var(--bg-secondary); border: 1px solid var(--border-color);
+    border-radius: 10px; padding: 0.75rem; text-align: center;
+    position: relative; transition: transform 0.15s, border-color 0.15s;
+  }
+  .clock-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--opn-primary);
+  }
+  .clock-card.night {
+    background: linear-gradient(135deg, #0f172a 0%, #1a2332 100%);
+    border-color: rgba(56, 189, 248, 0.15);
+  }
+  .clock-city {
+    font-size: 0.8rem; font-weight: 700; color: var(--text-primary);
+    margin-bottom: 0.15rem;
+  }
+  .clock-offset {
+    font-size: 0.65rem; color: var(--text-secondary); margin-bottom: 0.35rem;
+  }
+  .clock-time {
+    font-size: 1.1rem; font-weight: 700; color: var(--opn-primary);
+    letter-spacing: -0.02em; margin-bottom: 0.15rem;
+  }
+  .clock-date {
+    font-size: 0.65rem; color: var(--text-secondary); margin-bottom: 0.25rem;
+  }
+  .clock-diff {
+    font-size: 0.7rem; font-weight: 600; color: #38bdf8;
+    background: rgba(56, 189, 248, 0.08); padding: 0.15rem 0.4rem;
+    border-radius: 6px; display: inline-block;
+  }
+  .clock-remove {
+    position: absolute; top: 4px; right: 4px;
+    width: 20px; height: 20px; background: none; border: none;
+    color: var(--text-secondary); cursor: pointer; opacity: 0.3;
+    transition: opacity 0.15s; display: flex; align-items: center;
+    justify-content: center; padding: 0;
+  }
+  .clock-remove:hover { opacity: 1; color: #ef4444; }
+
+  /* Add city button */
+  .add-city-btn {
+    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    padding: 0.6rem 1rem; font-size: 0.8rem; font-weight: 600;
+    color: var(--opn-primary); background: rgba(37, 211, 102, 0.08);
+    border: 1px solid rgba(37, 211, 102, 0.2); border-radius: 10px;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .add-city-btn:hover {
+    background: rgba(37, 211, 102, 0.15);
+    border-color: rgba(37, 211, 102, 0.4);
+  }
+
+  /* Modal */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px);
+    align-items: center; justify-content: center; padding: 1rem;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal-card {
+    background: var(--bg-secondary); border: 1px solid var(--border-color);
+    border-radius: 16px; padding: 1.5rem; max-width: 360px; width: 100%;
+  }
+  .modal-title {
+    font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1rem;
+  }
+  .modal-select { width: 100%; }
+  .modal-actions {
+    display: flex; gap: 0.75rem; margin-top: 1rem; justify-content: flex-end;
+  }
+  .modal-add-btn {
+    padding: 0.5rem 1rem; font-size: 0.8rem; font-weight: 600;
+    color: #fff; background: var(--opn-primary); border: none;
+    border-radius: 8px; cursor: pointer; transition: opacity 0.15s;
+  }
+  .modal-add-btn:hover { opacity: 0.85; }
+  .modal-cancel-btn {
+    padding: 0.5rem 1rem; font-size: 0.8rem; font-weight: 600;
+    color: var(--text-secondary); background: var(--bg-input);
+    border: 1px solid var(--border-color); border-radius: 8px;
+    cursor: pointer; transition: border-color 0.15s;
+  }
+  .modal-cancel-btn:hover { border-color: var(--text-secondary); }
+
+  /* Business section */
+  .business-section { display: flex; flex-direction: column; gap: 1rem; }
+  .business-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+  @media (max-width: 500px) { .business-grid { grid-template-columns: 1fr; } }
+  .business-card {
+    background: var(--bg-secondary); border: 1px solid var(--border-color);
+    border-radius: 10px; padding: 0.75rem; display: flex;
+    flex-direction: column; gap: 0.4rem;
+  }
+  .business-icon {
+    width: 28px; height: 28px; color: var(--opn-primary); flex-shrink: 0;
+  }
+  .business-icon.schedule-icon { color: #38bdf8; }
+  .business-card-title {
+    font-size: 0.8rem; font-weight: 700; color: var(--text-primary);
+  }
+  .business-card-desc {
+    font-size: 0.72rem; color: var(--text-secondary); line-height: 1.45;
+  }
+
+  /* Section title */
+  .section-title {
+    font-size: 1rem; font-weight: 700; color: var(--text-primary);
+    letter-spacing: -0.01em;
+  }
+
+  /* FAQ */
+  .faq-section { display: flex; flex-direction: column; gap: 0.5rem; }
+  .faq-item {
+    background: var(--bg-secondary); border: 1px solid var(--border-color);
+    border-radius: 10px; overflow: hidden;
+  }
+  .faq-q {
+    font-size: 0.82rem; font-weight: 600; color: var(--text-primary);
+    padding: 0.65rem 1rem; cursor: pointer; list-style: none;
+    transition: color 0.15s;
+  }
+  .faq-q::-webkit-details-marker { display: none; }
+  .faq-q::marker { content: ''; }
+  .faq-q:hover { color: var(--opn-primary); }
+  .faq-a {
+    font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5;
+    padding: 0 1rem 0.65rem;
+  }
+
+  /* SEO section */
+  .seo-section { display: flex; flex-direction: column; gap: 0.75rem; }
+  .seo-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+  @media (max-width: 500px) { .seo-grid { grid-template-columns: 1fr; } }
+  .seo-card {
+    background: var(--bg-secondary); border: 1px solid var(--border-color);
+    border-radius: 10px; padding: 0.75rem;
+  }
+  .seo-card h3 {
+    font-size: 0.82rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.3rem;
+  }
+  .seo-card p {
+    font-size: 0.72rem; color: var(--text-secondary); line-height: 1.45;
+  }
+</style>
