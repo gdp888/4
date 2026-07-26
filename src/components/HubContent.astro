@@ -317,6 +317,26 @@ const hubSchema = {
         </span>
       </a>
 
+      <!-- Emoji Picker Card -->
+      <a href={getLocalizedPath(lang, 'emoji-picker')} class="service-card emojipicker-card">
+        <div class="card-icon-wrapper ep-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="card-icon" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+            <line x1="9" y1="9" x2="9.01" y2="9"/>
+            <line x1="15" y1="9" x2="15.01" y2="9"/>
+          </svg>
+        </div>
+        <div class="card-content">
+          <h2 class="card-title">{t('hub.service.emojipicker.title')}</h2>
+          <p class="card-desc">{t('hub.service.emojipicker.desc')}</p>
+        </div>
+        <span class="card-cta">
+          {t('hub.service.emojipicker.cta')}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+
     </div>
 
     <!-- SEO Content Section -->
@@ -346,6 +366,8 @@ const hubSchema = {
         <a href={getLocalizedPath(lang, 'wa-link')} class="footer-link">{t('footer.walink.link')}</a>
         <a href={getLocalizedPath(lang, 'whatsapp-text-formatter')} class="footer-link">{t('footer.formatter.link')}</a>
         <a href={getLocalizedPath(lang, 'wa-widget')} class="footer-link">{t('footer.widget.link')}</a>
+        <a href={getLocalizedPath(lang, 'fancy-text')} class="footer-link">{t('footer.fancytext.link')}</a>
+        <a href={getLocalizedPath(lang, 'emoji-picker')} class="footer-link">{t('footer.emojipicker.link')}</a>
       </div>
       <p class="disclaimer-brief">{t('footer.disclaimer.brief')}</p>
     </footer>
@@ -516,6 +538,11 @@ const hubSchema = {
   .cw-icon {
     background: rgba(37, 211, 102, 0.12);
     color: #25D366;
+  }
+
+  .ep-icon {
+    background: rgba(251, 191, 36, 0.12);
+    color: #F59E0B;
   }
 
   .card-icon {
