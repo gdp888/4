@@ -409,25 +409,7 @@ const pageSchema = {
             </div>
           </article>
         </section>
-
-        <!-- Footer -->
-        <footer class="footer">
-          <p class="footer-tagline">opnchat.net — {t('footer.tagline')}</p>
-          <div class="footer-links">
-            <a href={getLocalizedPath(lang, 'whatsapp')} class="footer-link">{t('footer.whatsapp.link')}</a>
-            <a href={getLocalizedPath(lang, 'telegram')} class="footer-link">{t('footer.telegram')}</a>
-            <a href={getLocalizedPath(lang, 'qr-code')} class="footer-link">{t('footer.qr.link')}</a>
-            <a href={getLocalizedPath(lang, 'password')} class="footer-link">{t('footer.password.link')}</a>
-            <a href={getLocalizedPath(lang, 'notepad')} class="footer-link">{t('footer.notepad.link')}</a>
-            <a href={getLocalizedPath(lang, 'unit-converter')} class="footer-link">{t('footer.converter.link')}</a>
-            <a href={getLocalizedPath(lang, 'wa-link')} class="footer-link">{t('footer.walink.link')}</a>
-            <a href={getLocalizedPath(lang, 'tg-link')} class="footer-link">{t('footer.tglink.link')}</a>
-            <a href={getLocalizedPath(lang, 'disclaimer')} class="footer-link">{t('footer.disclaimer.link')}</a>
-            <a href={getLocalizedPath(lang, 'privacy')} class="footer-link">{t('footer.privacy.link')}</a>
-          </div>
-          <p class="disclaimer-brief">{t('footer.disclaimer.brief')}</p>
-        </footer>
-      </div>
+</div>
     </main>
   </div>
 </Layout>
@@ -1447,45 +1429,4 @@ const pageSchema = {
     padding: 0 1rem 0.75rem;
   }
 
-  /* Footer */
-  .footer {
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border-color);
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    align-items: center;
-  }
-
-  .footer-tagline {
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    text-align: center;
-  }
-
-  .footer-links {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5rem 1rem;
-  }
-
-  .footer-link {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    text-decoration: none;
-    transition: color 0.15s;
-  }
-
-  .footer-link:hover {
-    color: var(--opn-primary);
-  }
-
-  .disclaimer-brief {
-    font-size: 0.7rem;
-    color: var(--text-secondary);
-    opacity: 0.7;
-    text-align: center;
-  }
 </style>

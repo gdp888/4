@@ -1,6 +1,7 @@
 ---
 import { languages, type Lang } from '../i18n/ui';
 import { getAlternateUrl } from '../i18n/utils';
+import Footer from '../components/Footer.astro';
 
 export interface Props {
   title: string;
@@ -62,6 +63,7 @@ const websiteSchema = {
   </head>
   <body>
     <slot />
+    <Footer lang={lang} />
     <script is:inline>
       // Theme toggle: switch between dark and light
       document.addEventListener('click', function(e) {
