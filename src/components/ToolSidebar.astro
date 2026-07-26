@@ -12,17 +12,20 @@ const { lang, activeTool, accentColor = '#25D366' } = Astro.props;
 const t = useTranslations(lang);
 
 const tools = [
-  // Messaging
-  { category: 'sidebar.messaging', items: [
+  // WhatsApp
+  { category: 'sidebar.whatsapp', items: [
     { slug: 'whatsapp', key: 'hub.service.whatsapp.title', icon: 'wa', iconType: 'fill' },
+    { slug: 'wa-link', key: 'hub.service.walink.title', icon: 'wa', iconType: 'fill' },
+    { slug: 'wa-widget', key: 'hub.service.widget.title', icon: 'wa', iconType: 'fill' },
+    { slug: 'whatsapp-text-formatter', key: 'hub.service.formatter.title', icon: 'wa', iconType: 'fill' },
+  ]},
+  // Telegram
+  { category: 'sidebar.telegram', items: [
     { slug: 'telegram', key: 'hub.service.telegram.title', icon: 'tg', iconType: 'fill' },
-    { slug: 'wa-link', key: 'hub.service.walink.title', icon: 'link', iconType: 'stroke' },
     { slug: 'tg-link', key: 'hub.service.tglink.title', icon: 'tg', iconType: 'fill' },
-    { slug: 'wa-widget', key: 'hub.service.widget.title', icon: 'chat', iconType: 'fill' },
   ]},
   // Text Tools
   { category: 'sidebar.texttools', items: [
-    { slug: 'whatsapp-text-formatter', key: 'hub.service.formatter.title', icon: 'format', iconType: 'stroke' },
     { slug: 'fancy-text', key: 'hub.service.fancytext.title', icon: 'format', iconType: 'stroke' },
     { slug: 'word-counter', key: 'hub.service.wordcounter.title', icon: 'doc', iconType: 'stroke' },
     { slug: 'notepad', key: 'hub.service.notepad.title', icon: 'notepad', iconType: 'stroke' },
@@ -171,7 +174,7 @@ const icons = {
     background: rgba(42, 171, 238, 0.15);
   }
 
-  .sidebar-icon {
+  :global(.sidebar-icon) {
     width: 16px;
     height: 16px;
     flex-shrink: 0;

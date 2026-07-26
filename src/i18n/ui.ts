@@ -694,7 +694,8 @@ export const ui = {
     'tgl.linktype.bot.desc': 'Uses ?start= parameter — auto-starts a bot conversation',
     'tgl.linktype.personal.desc': 'Uses ?text= parameter — pre-fills a message in the chat (Telegram 2024 feature)',
     'tgl.open': 'Open in Telegram',
-    'sidebar.messaging': 'Messaging',
+    'sidebar.whatsapp': 'WhatsApp',
+    'sidebar.telegram': 'Telegram',
     'sidebar.texttools': 'Text Tools',
     'sidebar.utilities': 'Utilities',
 
@@ -1632,7 +1633,8 @@ export const ui = {
     'tgl.linktype.bot.desc': 'Usa parametro ?start= — inicia automaticamente una conversacion con bot',
     'tgl.linktype.personal.desc': 'Usa parametro ?text= — pre-rellena un mensaje en el chat (Telegram 2024)',
     'tgl.open': 'Abrir en Telegram',
-    'sidebar.messaging': 'Mensajeria',
+    'sidebar.whatsapp': 'WhatsApp',
+    'sidebar.telegram': 'Telegram',
     'sidebar.texttools': 'Herramientas de texto',
     'sidebar.utilities': 'Utilidades',
 
@@ -2570,7 +2572,8 @@ export const ui = {
     'tgl.linktype.bot.desc': 'Usa parametro ?start= — inicia automaticamente uma conversa com bot',
     'tgl.linktype.personal.desc': 'Usa parametro ?text= — pre-preenche uma mensagem no chat (Telegram 2024)',
     'tgl.open': 'Abrir no Telegram',
-    'sidebar.messaging': 'Mensagens',
+    'sidebar.whatsapp': 'WhatsApp',
+    'sidebar.telegram': 'Telegram',
     'sidebar.texttools': 'Ferramentas de texto',
     'sidebar.utilities': 'Utilidades',
 
@@ -3508,7 +3511,8 @@ export const ui = {
     'tgl.linktype.bot.desc': 'Menggunakan parameter ?start= — otomatis memulai percakapan bot',
     'tgl.linktype.personal.desc': 'Menggunakan parameter ?text= — mengisi pesan di chat (fitur Telegram 2024)',
     'tgl.open': 'Buka di Telegram',
-    'sidebar.messaging': 'Pesan',
+    'sidebar.whatsapp': 'WhatsApp',
+    'sidebar.telegram': 'Telegram',
     'sidebar.texttools': 'Alat Teks',
     'sidebar.utilities': 'Utilitas',
 
@@ -4373,7 +4377,8 @@ export const ui = {
     'tgl.linktype.bot.desc': 'Ispolzuet parametr ?start= — avtomaticheski zapuskaet conversaciyu s botom',
     'tgl.linktype.personal.desc': 'Ispolzuet parametr ?text= — predvaritelno zapolnyaet soobschenie (Telegram 2024)',
     'tgl.open': 'Otkryt v Telegram',
-    'sidebar.messaging': 'Soobscheniya',
+    'sidebar.whatsapp': 'WhatsApp',
+    'sidebar.telegram': 'Telegram',
     'sidebar.texttools': 'Tekstovye instrumenty',
     'sidebar.utilities': 'Utility',
 
@@ -5254,7 +5259,8 @@ export const ui = {
     'tgl.linktype.bot.desc': 'Verwendet ?start= Parameter — startet automatisch eine Bot-Konversation',
     'tgl.linktype.personal.desc': 'Verwendet ?text= Parameter — fuellt eine Nachricht im Chat vor (Telegram 2024)',
     'tgl.open': 'In Telegram oeffnen',
-    'sidebar.messaging': 'Nachrichten',
+    'sidebar.whatsapp': 'WhatsApp',
+    'sidebar.telegram': 'Telegram',
     'sidebar.texttools': 'Text-Tools',
     'sidebar.utilities': 'Werkzeuge',
 
@@ -6121,7 +6127,8 @@ export const ui = {
     'tgl.linktype.bot.desc': 'Yastakhdim muamil ?start= — yabda muhadatha al-bot bimuhat',
     'tgl.linktype.personal.desc': 'Yastakhdim muamil ?text= — yamil risalat fi al-chat (Telegram 2024)',
     'tgl.open': 'Iftah fi Telegram',
-    'sidebar.messaging': 'Al-rasail',
+    'sidebar.whatsapp': 'WhatsApp',
+    'sidebar.telegram': 'Telegram',
     'sidebar.texttools': 'Adawat al-nas',
     'sidebar.utilities': 'Al-murid',
 
