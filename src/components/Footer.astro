@@ -12,6 +12,7 @@ const t = useTranslations(lang);
 const footerSections = [
   {
     title: 'footer.section.whatsapp',
+    accent: '#25D366',
     links: [
       { slug: 'whatsapp', key: 'hub.service.whatsapp.title' },
       { slug: 'wa-link', key: 'hub.service.walink.title' },
@@ -21,6 +22,7 @@ const footerSections = [
   },
   {
     title: 'footer.section.telegram',
+    accent: '#2AABEE',
     links: [
       { slug: 'telegram', key: 'hub.service.telegram.title' },
       { slug: 'tg-link', key: 'hub.service.tglink.title' },
@@ -28,6 +30,7 @@ const footerSections = [
   },
   {
     title: 'footer.section.texttools',
+    accent: '#a78bfa',
     links: [
       { slug: 'fancy-text', key: 'hub.service.fancytext.title' },
       { slug: 'word-counter', key: 'hub.service.wordcounter.title' },
@@ -36,6 +39,7 @@ const footerSections = [
   },
   {
     title: 'footer.section.utilities',
+    accent: '#38bdf8',
     links: [
       { slug: 'qr-code', key: 'hub.service.qr.title' },
       { slug: 'password', key: 'hub.service.password.title' },
@@ -52,6 +56,9 @@ const legalLinks = [
 ---
 
 <footer class="site-footer">
+  <!-- Top shimmer border -->
+  <div class="footer-shimmer-border"></div>
+
   <div class="footer-inner">
     <div class="footer-brand">
       <span class="footer-logo">OPN Chat</span>
@@ -61,11 +68,11 @@ const legalLinks = [
     <div class="footer-columns">
       {footerSections.map((section) => (
         <div class="footer-col">
-          <h4 class="footer-col-title">{t(section.title)}</h4>
+          <h4 class="footer-col-title" data-accent={section.accent}>{t(section.title)}</h4>
           <ul class="footer-col-links">
             {section.links.map((link) => (
               <li>
-                <a href={getLocalizedPath(lang, link.slug)} class="footer-link">{t(link.key)}</a>
+                <a href={getLocalizedPath(lang, link.slug)} class="footer-link" data-section={section.accent}>{t(link.key)}</a>
               </li>
             ))}
           </ul>
@@ -86,67 +93,115 @@ const legalLinks = [
 
 <style>
   .site-footer {
-    background: linear-gradient(135deg, #0c1a3a 0%, #152242 40%, #1a2d52 100%);
-    border-radius: 16px;
-    margin-top: 2rem;
+    background: linear-gradient(160deg, #0a1628 0%, #0f1f3d 30%, #152a4a 60%, #1a3358 100%);
+    border-radius: 20px;
+    margin-top: 2.5rem;
     overflow: hidden;
     position: relative;
+    box-shadow: 0 -4px 30px rgba(10, 22, 40, 0.3),
+                0 0 60px rgba(26, 51, 88, 0.15);
   }
 
-  /* Subtle shimmer overlay */
+  /* Animated shimmer border at top */
+  .footer-shimmer-border {
+    height: 2px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(37, 211, 102, 0.4) 15%,
+      rgba(56, 189, 248, 0.4) 35%,
+      rgba(167, 139, 250, 0.3) 55%,
+      rgba(42, 171, 238, 0.4) 75%,
+      rgba(37, 211, 102, 0.4) 90%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmerSlide 6s ease-in-out infinite;
+  }
+
+  @keyframes shimmerSlide {
+    0% { background-position: 0% 0; }
+    50% { background-position: 100% 0; }
+    100% { background-position: 0% 0; }
+  }
+
+  /* Subtle inner glow overlays */
   .site-footer::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at 20% 0%, rgba(37, 211, 102, 0.06) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 100%, rgba(56, 189, 248, 0.06) 0%, transparent 50%);
+    background:
+      radial-gradient(ellipse at 15% 5%, rgba(37, 211, 102, 0.08) 0%, transparent 40%),
+      radial-gradient(ellipse at 85% 95%, rgba(42, 171, 238, 0.08) 0%, transparent 40%),
+      radial-gradient(ellipse at 50% 50%, rgba(167, 139, 250, 0.03) 0%, transparent 60%);
     pointer-events: none;
   }
 
   .footer-inner {
     position: relative;
     z-index: 1;
-    padding: 2rem 1.5rem 1.25rem;
+    padding: 2.25rem 2rem 1.5rem;
   }
 
+  /* Brand section */
   .footer-brand {
     text-align: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.75rem;
     padding-bottom: 1.25rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   }
 
   .footer-logo {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #e9edf5;
-    letter-spacing: -0.02em;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #f0f4fa;
+    letter-spacing: -0.03em;
+    display: inline-block;
   }
 
   .footer-tagline {
     font-size: 0.72rem;
-    color: rgba(159, 179, 200, 0.8);
+    color: rgba(148, 163, 184, 0.65);
     line-height: 1.45;
-    margin-top: 0.35rem;
+    margin-top: 0.4rem;
   }
 
+  /* Columns grid */
   .footer-columns {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
+    gap: 2rem;
+    margin-bottom: 1.75rem;
     padding-bottom: 1.25rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   }
 
   .footer-col-title {
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     font-weight: 700;
-    color: rgba(159, 179, 200, 0.9);
+    color: rgba(148, 163, 184, 0.7);
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin: 0 0 0.5rem 0;
+    letter-spacing: 0.08em;
+    margin: 0 0 0.6rem 0;
+    padding-bottom: 0.35rem;
+    position: relative;
   }
+
+  /* Accent underline for column titles */
+  .footer-col-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 18px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--col-accent, #25D366);
+  }
+
+  .footer-col-title[data-accent="#25D366"] { --col-accent: #25D366; }
+  .footer-col-title[data-accent="#2AABEE"] { --col-accent: #2AABEE; }
+  .footer-col-title[data-accent="#a78bfa"] { --col-accent: #a78bfa; }
+  .footer-col-title[data-accent="#38bdf8"] { --col-accent: #38bdf8; }
 
   .footer-col-links {
     list-style: none;
@@ -154,26 +209,30 @@ const legalLinks = [
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    gap: 0.35rem;
   }
 
   .footer-link {
-    font-size: 0.78rem;
-    color: rgba(37, 211, 102, 0.85);
+    font-size: 0.75rem;
+    color: rgba(203, 213, 225, 0.75);
     text-decoration: none;
-    transition: color 0.15s;
+    transition: all 0.2s;
+    line-height: 1.4;
+    display: inline-block;
   }
 
   .footer-link:hover {
-    color: #25D366;
-    text-decoration: underline;
+    color: #f0f4fa;
+    transform: translateX(2px);
   }
 
   .footer-link:focus-visible {
     outline: 2px solid rgba(37, 211, 102, 0.5);
     outline-offset: 2px;
+    border-radius: 2px;
   }
 
+  /* Bottom section */
   .footer-bottom {
     text-align: center;
   }
@@ -186,42 +245,46 @@ const legalLinks = [
   }
 
   .footer-legal-link {
-    font-size: 0.78rem;
-    color: rgba(159, 179, 200, 0.7);
+    font-size: 0.72rem;
+    color: rgba(148, 163, 184, 0.55);
     text-decoration: none;
-    transition: color 0.15s;
+    transition: color 0.2s;
   }
 
   .footer-legal-link:hover {
-    color: #e9edf5;
-    text-decoration: underline;
+    color: rgba(226, 232, 240, 0.85);
   }
 
   .footer-legal-link:focus-visible {
     outline: 2px solid rgba(37, 211, 102, 0.5);
     outline-offset: 2px;
+    border-radius: 2px;
   }
 
   .footer-disclaimer {
-    font-size: 0.68rem;
-    color: rgba(159, 179, 200, 0.5);
+    font-size: 0.65rem;
+    color: rgba(148, 163, 184, 0.4);
     line-height: 1.4;
   }
 
+  /* Responsive */
   @media (max-width: 700px) {
     .footer-columns {
       grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
+      gap: 1.25rem;
+    }
+    .footer-inner {
+      padding: 1.75rem 1.25rem 1.25rem;
     }
   }
 
   @media (max-width: 420px) {
     .footer-columns {
       grid-template-columns: 1fr;
-      gap: 0.75rem;
+      gap: 1rem;
     }
     .footer-inner {
-      padding: 1.5rem 1rem 1rem;
+      padding: 1.25rem 1rem 0.75rem;
     }
   }
 
@@ -234,5 +297,12 @@ const legalLinks = [
   }
   [dir="rtl"] .footer-bottom {
     text-align: right;
+  }
+  [dir="rtl"] .footer-link:hover {
+    transform: translateX(-2px);
+  }
+  [dir="rtl"] .footer-col-title::after {
+    left: auto;
+    right: 0;
   }
 </style>
