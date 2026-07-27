@@ -1,7 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
-import { useTranslations, getLocalizedPath, getAlternateUrl } from '../../i18n/utils';
+import { useTranslations } from '../../i18n/utils';
+import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
 import { defaultLang, type Lang } from '../../i18n/ui';
 import LanguageSwitcher from '../../components/LanguageSwitcher.astro';
 import ToolSidebar from '../../components/ToolSidebar.astro';
@@ -20,7 +21,7 @@ const blogSchema = {
       "@type": "CollectionPage",
       "name": t('blog.title'),
       "description": t('blog.description'),
-      "url": getAlternateUrl(lang, 'blog'),
+      "url": getAbsoluteLocaleUrl(lang, 'blog'),
       "isPartOf": {
         "@type": "WebSite",
         "name": "OPN Chat",
@@ -34,13 +35,13 @@ const blogSchema = {
           "@type": "ListItem",
           "position": 1,
           "name": "OPN Chat",
-          "item": getAlternateUrl(lang, '')
+          "item": getAbsoluteLocaleUrl(lang, '')
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": t('blog.title'),
-          "item": getAlternateUrl(lang, 'blog')
+          "item": getAbsoluteLocaleUrl(lang, 'blog')
         }
       ]
     }
@@ -52,7 +53,7 @@ const blogSchema = {
   <Fragment slot="meta">
     <meta name="description" content={t('blog.description')} />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href={getAlternateUrl(lang, 'blog')} />
+    <link rel="canonical" href={getAbsoluteLocaleUrl(lang, 'blog')} />
     <script type="application/ld+json" set:html={JSON.stringify(blogSchema)} />
   </Fragment>
 
@@ -62,7 +63,7 @@ const blogSchema = {
       <div class="container">
         <!-- Header with nav -->
         <header class="site-header">
-          <a href={getLocalizedPath(lang)} class="logo" aria-label="OPN Chat — Home">
+          <a href={getRelativeLocaleUrl(lang)} class="logo" aria-label="OPN Chat — Home">
             <span class="logo-text">OPN Chat</span>
             <svg viewBox="0 0 24 24" fill="currentColor" class="logo-icon" aria-hidden="true">
               <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
@@ -77,7 +78,7 @@ const blogSchema = {
 
         <!-- Breadcrumbs -->
         <nav class="breadcrumbs" aria-label="Breadcrumb">
-          <a href={getLocalizedPath(lang)} class="bc-link">{t('bc.home')}</a>
+          <a href={getRelativeLocaleUrl(lang)} class="bc-link">{t('bc.home')}</a>
           <span class="bc-sep">›</span>
           <span class="bc-current">{t('bc.blog')}</span>
         </nav>

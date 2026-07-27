@@ -1,5 +1,6 @@
 ---
-import { useTranslations, getLocalizedPath } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
+import { getRelativeLocaleUrl } from 'astro:i18n';
 import { type Lang } from '../i18n/ui';
 
 export interface Props {
@@ -73,7 +74,7 @@ const legalLinks = [
           <ul class="footer-col-links">
             {section.links.map((link) => (
               <li>
-                <a href={getLocalizedPath(lang, link.slug)} class="footer-link" data-section={section.accent}>{t(link.key)}</a>
+                <a href={getRelativeLocaleUrl(lang, link.slug)} class="footer-link" data-section={section.accent}>{t(link.key)}</a>
               </li>
             ))}
           </ul>
@@ -84,7 +85,7 @@ const legalLinks = [
     <div class="footer-bottom">
       <div class="footer-legal">
         {legalLinks.map((link) => (
-          <a href={getLocalizedPath(lang, link.slug)} class="footer-legal-link">{t(link.key)}</a>
+          <a href={getRelativeLocaleUrl(lang, link.slug)} class="footer-legal-link">{t(link.key)}</a>
         ))}
       </div>
       <p class="footer-disclaimer">{t('footer.disclaimer.brief')}</p>

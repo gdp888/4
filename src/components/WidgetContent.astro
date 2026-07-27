@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { useTranslations, getLocalizedPath, getAlternateUrl } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
+import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
 import { languages, langCodes, type Lang } from '../i18n/ui';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import ToolSidebar from './ToolSidebar.astro';
@@ -30,7 +31,7 @@ const pageSchema = {
     {
       "@type": "WebApplication",
       "name": t('cw.heading'),
-      "url": getAlternateUrl(lang, 'wa-widget'),
+      "url": getAbsoluteLocaleUrl(lang, 'wa-widget'),
       "description": t('cw.meta.description'),
       "applicationCategory": "UtilityApplication",
       "operatingSystem": "Any",
@@ -55,8 +56,8 @@ const pageSchema = {
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "OPN Chat", "item": getAlternateUrl(lang, '') },
-        { "@type": "ListItem", "position": 2, "name": t('bc.widget'), "item": getAlternateUrl(lang, 'wa-widget') }
+        { "@type": "ListItem", "position": 1, "name": "OPN Chat", "item": getAbsoluteLocaleUrl(lang, '') },
+        { "@type": "ListItem", "position": 2, "name": t('bc.widget'), "item": getAbsoluteLocaleUrl(lang, 'wa-widget') }
       ]
     }
   ]
@@ -67,10 +68,10 @@ const pageSchema = {
   <Fragment slot="meta">
     <meta name="description" content={t('cw.meta.description')} />
     <meta name="keywords" content={t('cw.meta.keywords')} />
-    <link rel="canonical" href={getAlternateUrl(lang, 'wa-widget')} />
+    <link rel="canonical" href={getAbsoluteLocaleUrl(lang, 'wa-widget')} />
     <meta property="og:title" content={t('cw.meta.og.title')} />
     <meta property="og:description" content={t('cw.meta.og.description')} />
-    <meta property="og:url" content={getAlternateUrl(lang, 'wa-widget')} />
+    <meta property="og:url" content={getAbsoluteLocaleUrl(lang, 'wa-widget')} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="OPN Chat" />
     <meta property="og:locale" content={localeMap[lang]} />
@@ -89,7 +90,7 @@ const pageSchema = {
       <div class="container">
     <!-- Header -->
     <header class="site-header">
-      <a href={getLocalizedPath(lang)} class="logo" aria-label="OPN Chat — Home">
+      <a href={getRelativeLocaleUrl(lang)} class="logo" aria-label="OPN Chat — Home">
         <span class="logo-text">OPN Chat</span>
         <svg viewBox="0 0 24 24" fill="currentColor" class="logo-icon" aria-hidden="true">
           <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
@@ -104,7 +105,7 @@ const pageSchema = {
 
     <!-- Breadcrumbs -->
     <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href={getLocalizedPath(lang)} class="bc-link">{t('bc.home')}</a>
+      <a href={getRelativeLocaleUrl(lang)} class="bc-link">{t('bc.home')}</a>
       <span class="bc-sep">›</span>
       <span class="bc-current">{t('bc.widget')}</span>
     </nav>

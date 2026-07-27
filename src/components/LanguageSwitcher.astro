@@ -1,6 +1,6 @@
 ---
 import { languages, langCodes, defaultLang, type Lang } from '../i18n/ui';
-import { getLocalizedPath } from '../i18n/utils';
+import { getRelativeLocaleUrl } from 'astro:i18n';
 
 export interface Props {
   lang: Lang;
@@ -29,7 +29,7 @@ const currentCode = langCodes[lang];
       {(Object.keys(languages) as Lang[]).map((l) => (
         <li>
           <a
-            href={getLocalizedPath(l, path)}
+            href={getRelativeLocaleUrl(l, path)}
             class:list={['lang-link', { active: l === lang }]}
             title={languages[l]}
             lang={l}

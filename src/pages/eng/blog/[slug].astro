@@ -1,7 +1,8 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
-import { useTranslations, getLocalizedPath, getAlternateUrl } from '../../../i18n/utils';
+import { useTranslations } from '../../../i18n/utils';
+import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
 import { defaultLang, type Lang } from '../../../i18n/ui';
 import LanguageSwitcher from '../../../components/LanguageSwitcher.astro';
 import ToolSidebar from '../../../components/ToolSidebar.astro';
@@ -23,7 +24,7 @@ const t = useTranslations(lang);
   <Fragment slot="meta">
     <meta name="description" content={post.data.description} />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href={getAlternateUrl(lang, `blog/${post.slug}`)} />
+    <link rel="canonical" href={getAbsoluteLocaleUrl(lang, `blog/${post.slug}`)} />
     <meta property="og:type" content="article" />
     <meta property="og:title" content={post.data.title} />
     <meta property="og:description" content={post.data.description} />
@@ -34,7 +35,7 @@ const t = useTranslations(lang);
     <main class="main-content">
       <div class="container">
         <header class="site-header">
-          <a href={getLocalizedPath(lang)} class="logo" aria-label="OPN Chat — Home">
+          <a href={getRelativeLocaleUrl(lang)} class="logo" aria-label="OPN Chat — Home">
             <span class="logo-text">OPN Chat</span>
             <svg viewBox="0 0 24 24" fill="currentColor" class="logo-icon" aria-hidden="true">
               <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
@@ -48,9 +49,9 @@ const t = useTranslations(lang);
         </header>
 
         <nav class="breadcrumbs" aria-label="Breadcrumb">
-          <a href={getLocalizedPath(lang)} class="bc-link">{t('bc.home')}</a>
+          <a href={getRelativeLocaleUrl(lang)} class="bc-link">{t('bc.home')}</a>
           <span class="bc-sep">›</span>
-          <a href={getLocalizedPath(lang, 'blog')} class="bc-link">{t('bc.blog')}</a>
+          <a href={getRelativeLocaleUrl(lang, 'blog')} class="bc-link">{t('bc.blog')}</a>
           <span class="bc-sep">›</span>
           <span class="bc-current">{post.data.title}</span>
         </nav>

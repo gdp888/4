@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { useTranslations, getLocalizedPath, getAlternateUrl } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
+import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
 import { languages, langCodes, type Lang } from '../i18n/ui';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import ToolSidebar from './ToolSidebar.astro';
@@ -22,7 +23,7 @@ const tzSchema = {
     {
       "@type": "WebApplication",
       "name": t('tz.heading'),
-      "url": getAlternateUrl(lang, 'timezone'),
+      "url": getAbsoluteLocaleUrl(lang, 'timezone'),
       "description": t('tz.meta.description'),
       "applicationCategory": "UtilityApplication",
       "operatingSystem": "Any",
@@ -44,13 +45,13 @@ const tzSchema = {
           "@type": "ListItem",
           "position": 1,
           "name": "OPN Chat",
-          "item": getAlternateUrl(lang, '')
+          "item": getAbsoluteLocaleUrl(lang, '')
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": t('tz.heading'),
-          "item": getAlternateUrl(lang, 'timezone')
+          "item": getAbsoluteLocaleUrl(lang, 'timezone')
         }
       ]
     },
@@ -72,7 +73,7 @@ const tzSchema = {
   <Fragment slot="meta">
     <meta name="description" content={t('tz.meta.description')} />
     <meta name="keywords" content={t('tz.meta.keywords')} />
-    <link rel="canonical" href={getAlternateUrl(lang, 'timezone')} />
+    <link rel="canonical" href={getAbsoluteLocaleUrl(lang, 'timezone')} />
     <meta property="og:title" content={t('tz.meta.og.title')} />
     <meta property="og:description" content={t('tz.meta.og.description')} />
     <meta name="twitter:card" content="summary" />
@@ -87,7 +88,7 @@ const tzSchema = {
     <main class="container">
       <!-- Header -->
       <header class="site-header">
-        <a href={getLocalizedPath(lang, '')} class="logo" aria-label="OPN Chat — Home">
+        <a href={getRelativeLocaleUrl(lang, '')} class="logo" aria-label="OPN Chat — Home">
           <span class="logo-text">OPN Chat</span>
           <svg viewBox="0 0 24 24" fill="currentColor" class="logo-icon" aria-hidden="true">
             <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
@@ -102,7 +103,7 @@ const tzSchema = {
 
       <!-- Breadcrumbs -->
       <nav class="breadcrumbs" aria-label="Breadcrumb">
-        <a href={getLocalizedPath(lang)} class="bc-link">{t('bc.home')}</a>
+        <a href={getRelativeLocaleUrl(lang)} class="bc-link">{t('bc.home')}</a>
         <span class="bc-sep">›</span>
         <span class="bc-current">{t('bc.timezone')}</span>
       </nav>

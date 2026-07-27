@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { useTranslations, getLocalizedPath, getAlternateUrl } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
+import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
 import { languages, langCodes, type Lang } from '../i18n/ui';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 
@@ -29,7 +30,7 @@ const pageSchema = {
     {
       "@type": "WebApplication",
       "name": t('ep.heading'),
-      "url": getAlternateUrl(lang, 'emoji-picker'),
+      "url": getAbsoluteLocaleUrl(lang, 'emoji-picker'),
       "description": t('ep.meta.description'),
       "applicationCategory": "UtilityApplication",
       "operatingSystem": "Any",
@@ -54,8 +55,8 @@ const pageSchema = {
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "OPN Chat", "item": getAlternateUrl(lang, '') },
-        { "@type": "ListItem", "position": 2, "name": t('bc.emojipicker'), "item": getAlternateUrl(lang, 'emoji-picker') }
+        { "@type": "ListItem", "position": 1, "name": "OPN Chat", "item": getAbsoluteLocaleUrl(lang, '') },
+        { "@type": "ListItem", "position": 2, "name": t('bc.emojipicker'), "item": getAbsoluteLocaleUrl(lang, 'emoji-picker') }
       ]
     }
   ]
@@ -66,10 +67,10 @@ const pageSchema = {
   <Fragment slot="meta">
     <meta name="description" content={t('ep.meta.description')} />
     <meta name="keywords" content={t('ep.meta.keywords')} />
-    <link rel="canonical" href={getAlternateUrl(lang, 'emoji-picker')} />
+    <link rel="canonical" href={getAbsoluteLocaleUrl(lang, 'emoji-picker')} />
     <meta property="og:title" content={t('ep.meta.og.title')} />
     <meta property="og:description" content={t('ep.meta.og.description')} />
-    <meta property="og:url" content={getAlternateUrl(lang, 'emoji-picker')} />
+    <meta property="og:url" content={getAbsoluteLocaleUrl(lang, 'emoji-picker')} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="OPN Chat" />
     <meta property="og:locale" content={localeMap[lang]} />
@@ -85,7 +86,7 @@ const pageSchema = {
   <main class="container">
     <!-- Header -->
     <header class="site-header">
-      <a href={getLocalizedPath(lang)} class="logo" aria-label="OPN Chat — Home">
+      <a href={getRelativeLocaleUrl(lang)} class="logo" aria-label="OPN Chat — Home">
         <span class="logo-text">OPN Chat</span>
         <svg viewBox="0 0 24 24" fill="currentColor" class="logo-icon" aria-hidden="true">
           <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
@@ -100,7 +101,7 @@ const pageSchema = {
 
     <!-- Breadcrumbs -->
     <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href={getLocalizedPath(lang)} class="bc-link">{t('bc.home')}</a>
+      <a href={getRelativeLocaleUrl(lang)} class="bc-link">{t('bc.home')}</a>
       <span class="bc-sep">›</span>
       <span class="bc-current">{t('bc.emojipicker')}</span>
     </nav>

@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { useTranslations, getLocalizedPath, getAlternateUrl } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
+import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
 import { languages, langCodes, type Lang } from '../i18n/ui';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 
@@ -20,7 +21,7 @@ const cvSchema = {
     {
       "@type": "WebApplication",
       "name": t('cv.heading'),
-      "url": getAlternateUrl(lang, 'unit-converter'),
+      "url": getAbsoluteLocaleUrl(lang, 'unit-converter'),
       "description": t('cv.meta.description'),
       "applicationCategory": "UtilityApplication",
       "operatingSystem": "Any",
@@ -42,13 +43,13 @@ const cvSchema = {
           "@type": "ListItem",
           "position": 1,
           "name": "OPN Chat",
-          "item": getAlternateUrl(lang, '')
+          "item": getAbsoluteLocaleUrl(lang, '')
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": t('cv.heading'),
-          "item": getAlternateUrl(lang, 'unit-converter')
+          "item": getAbsoluteLocaleUrl(lang, 'unit-converter')
         }
       ]
     },
@@ -70,7 +71,7 @@ const cvSchema = {
   <Fragment slot="meta">
     <meta name="description" content={t('cv.meta.description')} />
     <meta name="keywords" content={t('cv.meta.keywords')} />
-    <link rel="canonical" href={getAlternateUrl(lang, 'unit-converter')} />
+    <link rel="canonical" href={getAbsoluteLocaleUrl(lang, 'unit-converter')} />
     <meta property="og:title" content={t('cv.meta.og.title')} />
     <meta property="og:description" content={t('cv.meta.og.description')} />
     <meta name="twitter:card" content="summary" />
@@ -82,7 +83,7 @@ const cvSchema = {
   <main class="container">
     <!-- Header -->
     <header class="site-header">
-      <a href={getLocalizedPath(lang, '')} class="logo" aria-label="OPN Chat — Home">
+      <a href={getRelativeLocaleUrl(lang, '')} class="logo" aria-label="OPN Chat — Home">
         <span class="logo-text">OPN Chat</span>
         <svg viewBox="0 0 24 24" fill="currentColor" class="logo-icon" aria-hidden="true">
           <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
@@ -97,7 +98,7 @@ const cvSchema = {
 
     <!-- Breadcrumbs -->
     <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href={getLocalizedPath(lang)} class="bc-link">{t('bc.home')}</a>
+      <a href={getRelativeLocaleUrl(lang)} class="bc-link">{t('bc.home')}</a>
       <span class="bc-sep">›</span>
       <span class="bc-current">{t('bc.converter')}</span>
     </nav>

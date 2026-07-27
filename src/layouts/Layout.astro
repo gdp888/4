@@ -1,6 +1,6 @@
 ---
 import { languages, type Lang } from '../i18n/ui';
-import { getAlternateUrl } from '../i18n/utils';
+import { getAbsoluteLocaleUrl } from 'astro:i18n';
 import Footer from '../components/Footer.astro';
 
 export interface Props {
@@ -43,9 +43,9 @@ const websiteSchema = {
     <meta name="apple-mobile-web-app-title" content="OPN Chat" />
     <link rel="apple-touch-icon" href="/icon-192.svg" />
     {allLangs.map((l) => (
-      <link rel="alternate" hreflang={l} href={getAlternateUrl(l, service)} />
+      <link rel="alternate" hreflang={l} href={getAbsoluteLocaleUrl(l, service)} />
     ))}
-    <link rel="alternate" hreflang="x-default" href={getAlternateUrl('en', service)} />
+    <link rel="alternate" hreflang="x-default" href={getAbsoluteLocaleUrl('en', service)} />
     <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
     <slot name="meta" />
     <meta name="robots" content="index, follow" />

@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { useTranslations, getLocalizedPath, getAlternateUrl } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
+import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
 import { languages, langCodes, type Lang } from '../i18n/ui';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 
@@ -20,7 +21,7 @@ const qrSchema = {
     {
       "@type": "WebApplication",
       "name": t('qr.heading'),
-      "url": getAlternateUrl(lang, 'qr-code'),
+      "url": getAbsoluteLocaleUrl(lang, 'qr-code'),
       "description": t('qr.meta.description'),
       "applicationCategory": "UtilityApplication",
       "operatingSystem": "Any",
@@ -42,13 +43,13 @@ const qrSchema = {
           "@type": "ListItem",
           "position": 1,
           "name": "OPN Chat",
-          "item": getAlternateUrl(lang, '')
+          "item": getAbsoluteLocaleUrl(lang, '')
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": t('qr.heading'),
-          "item": getAlternateUrl(lang, 'qr-code')
+          "item": getAbsoluteLocaleUrl(lang, 'qr-code')
         }
       ]
     },
@@ -71,7 +72,7 @@ const qrSchema = {
   <Fragment slot="meta">
     <meta name="description" content={t('qr.meta.description')} />
     <meta name="keywords" content={t('qr.meta.keywords')} />
-    <link rel="canonical" href={getAlternateUrl(lang, 'qr-code')} />
+    <link rel="canonical" href={getAbsoluteLocaleUrl(lang, 'qr-code')} />
     <meta property="og:title" content={t('qr.meta.og.title')} />
     <meta property="og:description" content={t('qr.meta.og.description')} />
     <meta name="twitter:card" content="summary_large_image" />
@@ -83,7 +84,7 @@ const qrSchema = {
   <main class="container">
     <!-- Header -->
     <header class="site-header">
-      <a href={getLocalizedPath(lang, '')} class="logo" aria-label="OPN Chat — Home">
+      <a href={getRelativeLocaleUrl(lang, '')} class="logo" aria-label="OPN Chat — Home">
         <span class="logo-text">OPN Chat</span>
         <svg viewBox="0 0 24 24" fill="currentColor" class="logo-icon" aria-hidden="true">
           <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
@@ -98,7 +99,7 @@ const qrSchema = {
 
     <!-- Breadcrumbs -->
     <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href={getLocalizedPath(lang)} class="bc-link">{t('bc.home')}</a>
+      <a href={getRelativeLocaleUrl(lang)} class="bc-link">{t('bc.home')}</a>
       <span class="bc-sep">›</span>
       <span class="bc-current">{t('bc.qr')}</span>
     </nav>

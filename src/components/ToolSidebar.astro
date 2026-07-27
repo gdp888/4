@@ -1,5 +1,6 @@
 ---
-import { useTranslations, getLocalizedPath } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
+import { getRelativeLocaleUrl } from 'astro:i18n';
 import { type Lang } from '../i18n/ui';
 
 export interface Props {
@@ -59,7 +60,7 @@ const icons = {
 
 <aside class="sidebar" aria-label="Tools navigation" data-accent={accentColor}>
   <div class="sidebar-header">
-    <a href={getLocalizedPath(lang)} class="sidebar-logo">OPN Chat</a>
+    <a href={getRelativeLocaleUrl(lang)} class="sidebar-logo">OPN Chat</a>
   </div>
 
   {tools.map((cat) => (
@@ -67,7 +68,7 @@ const icons = {
       <h3 class="sidebar-cat-title">{t(cat.category)}</h3>
       {cat.items.map((item) => (
         <a
-          href={getLocalizedPath(lang, item.slug)}
+          href={getRelativeLocaleUrl(lang, item.slug)}
           class:list={['sidebar-link', { 'sidebar-link-active': item.slug === activeTool }]}
           data-accent={accentColor}
         >
