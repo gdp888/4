@@ -3,6 +3,8 @@ import Layout from '../../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { useTranslations, getLocalizedPath, getAlternateUrl } from '../../../i18n/utils';
 import { languages, defaultLang, type Lang } from '../../../i18n/ui';
+import LanguageSwitcher from '../../../components/LanguageSwitcher.astro';
+import ToolSidebar from '../../../components/ToolSidebar.astro';
 
 export function getStaticPaths() {
   return (Object.keys(languages) as Lang[])
@@ -65,59 +67,123 @@ const blogSchema = {
     <script type="application/ld+json" set:html={JSON.stringify(blogSchema)} />
   </Fragment>
 
-  <main class="blog-container">
-    <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href={getLocalizedPath(lang)} class="bc-link">{t('bc.home')}</a>
-      <span class="bc-sep">›</span>
-      <span class="bc-current">{t('bc.blog')}</span>
-    </nav>
+  <div class="page-layout">
+    <ToolSidebar lang={lang} activeTool="blog" />
+    <main class="main-content">
+      <div class="container">
+        <!-- Header with nav -->
+        <header class="site-header">
+          <a href={getLocalizedPath(lang)} class="logo" aria-label="OPN Chat — Home">
+            <span class="logo-text">OPN Chat</span>
+            <svg viewBox="0 0 24 24" fill="currentColor" class="logo-icon" aria-hidden="true">
+              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+            </svg>
+          </a>
+          <LanguageSwitcher lang={lang} path="blog" />
+          <button type="button" class="theme-toggle" aria-label="Toggle theme" id="theme-toggle">
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+        </header>
 
-    <header class="blog-header">
-      <a href={getLocalizedPath(lang)} class="back-home">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="back-icon">
-          <path d="M19 12H5M12 19l-7-7 7-7"/>
-        </svg>
-        OPN Chat
-      </a>
-      <button type="button" class="theme-toggle" aria-label="Toggle theme" id="theme-toggle">
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      </button>
-    </header>
+        <!-- Breadcrumbs -->
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <a href={getLocalizedPath(lang)} class="bc-link">{t('bc.home')}</a>
+          <span class="bc-sep">›</span>
+          <span class="bc-current">{t('bc.blog')}</span>
+        </nav>
 
-    <h1 class="blog-title">{t('blog.title')}</h1>
-    <p class="blog-subtitle">{t('blog.description')}</p>
+        <h1 class="blog-title">{t('blog.title')}</h1>
+        <p class="blog-subtitle">{t('blog.description')}</p>
 
-    <div class="posts-list">
-      {posts.map((post) => (
-        <a href={getLocalizedPath(lang, `blog/${post.slug}`)} class="post-card">
-          <span class="post-date">
-            {post.data.pubDate.toLocaleDateString(dateLocale, { year: 'numeric', month: 'long', day: 'numeric' })}
-          </span>
-          <h2 class="post-title">{post.data.title}</h2>
-          <p class="post-excerpt">{post.data.description}</p>
-        </a>
-      ))}
-    </div>
+        <div class="posts-list">
+          {posts.map((post) => (
+            <a href={getLocalizedPath(lang, `blog/${post.slug}`)} class="post-card">
+              <span class="post-date">
+                {post.data.pubDate.toLocaleDateString(dateLocale, { year: 'numeric', month: 'long', day: 'numeric' })}
+              </span>
+              <h2 class="post-title">{post.data.title}</h2>
+              <p class="post-excerpt">{post.data.description}</p>
+            </a>
+          ))}
+        </div>
 
-    {posts.length === 0 && (
-      <p class="no-posts">{t('blog.noPosts')}</p>
-    )}
-
-    <footer class="blog-footer">
-      <p class="disclaimer-brief">OPN Chat is not affiliated with Meta, WhatsApp, or OpenChat DAO.</p>
-    </footer>
-  </main>
+        {posts.length === 0 && (
+          <p class="no-posts">{t('blog.noPosts')}</p>
+        )}
+      </div>
+    </main>
+  </div>
 </Layout>
 
 <style>
+  .page-layout {
+    display: flex;
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem;
+    min-height: 100vh;
+  }
+
+  .main-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    margin: 0 auto;
+    max-width: 680px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* Site Header */
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 0.75rem;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+
+  .logo:hover {
+    color: var(--opn-primary);
+  }
+
+  .logo-text {
+    color: var(--text-primary);
+  }
+
+  .logo-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--opn-primary);
+  }
+
+  /* Breadcrumbs */
   .breadcrumbs {
     display: flex;
     align-items: center;
     gap: 0.3rem;
     font-size: 0.75rem;
     color: var(--text-secondary);
-    margin-bottom: 1rem;
   }
 
   .bc-link {
@@ -138,41 +204,6 @@ const blogSchema = {
   .bc-current {
     font-weight: 600;
     color: var(--text-primary);
-  }
-
-  .blog-container {
-    max-width: 680px;
-    width: 100%;
-    padding: 1.5rem;
-    margin: 0 auto;
-  }
-
-  .blog-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    margin-bottom: 2rem;
-  }
-
-  .back-home {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
-  .back-home:hover {
-    color: var(--opn-primary);
-  }
-
-  .back-icon {
-    width: 18px;
-    height: 18px;
   }
 
   .blog-title {
@@ -239,23 +270,19 @@ const blogSchema = {
     padding: 3rem 0;
   }
 
-  .blog-footer {
-    text-align: center;
-    margin-top: 3rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border-color);
-  }
-
-  .disclaimer-brief {
-    font-size: 0.7rem;
-    color: var(--text-secondary);
-    opacity: 0.5;
-    line-height: 1.45;
+  @media (max-width: 768px) {
+    .page-layout {
+      flex-direction: column;
+      max-width: 680px;
+    }
   }
 
   @media (max-width: 520px) {
-    .blog-container {
+    .page-layout {
       padding: 1.25rem 1rem;
+    }
+    .site-header {
+      justify-content: center;
     }
     .blog-title {
       font-size: 1.5rem;
