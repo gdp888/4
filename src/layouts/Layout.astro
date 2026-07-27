@@ -27,7 +27,7 @@ const websiteSchema = {
 ---
 
 <!doctype html>
-<html lang={lang} dir={lang === 'ar' ? 'rtl' : 'ltr'} data-theme="dark">
+<html lang={lang} dir={lang === 'ar' ? 'rtl' : 'ltr'}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -55,7 +55,7 @@ const websiteSchema = {
 
     <!-- Critical: theme MUST run before DOM renders to prevent FOUC -->
     <script is:inline>
-      // Theme: apply early to avoid flash
+      // Theme: apply early to avoid flash (runs on initial full page load)
       (function() {
         var saved = localStorage.getItem('opnchat-theme');
         var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -104,6 +104,21 @@ const websiteSchema = {
           }).catch(function() {});
         });
       }
+    </script>
+
+    <!-- View Transitions: re-apply theme after SPA navigation -->
+    <!-- Regular <script> (not is:inline) is re-executed after each ClientRouter swap -->
+    <script>
+      function applyTheme() {
+        const saved = localStorage.getItem('opnchat-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = saved || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      }
+      // Apply on initial load
+      applyTheme();
+      // Re-apply after every View Transitions page swap
+      document.addEventListener('astro:after-swap', applyTheme);
     </script>
   </body>
 </html>
