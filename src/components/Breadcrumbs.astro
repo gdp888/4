@@ -25,3 +25,34 @@ const { lang, items } = Astro.props;
     i < items.length - 1 && <span class="bc-sep">›</span>
   ))}
 </nav>
+
+<style>
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+  }
+
+  .bc-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .bc-link:hover {
+    color: var(--opn-primary);
+  }
+
+  .bc-sep {
+    color: var(--text-secondary);
+    opacity: 0.5;
+  }
+
+  .bc-current {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+</style>
