@@ -64,7 +64,7 @@ const privacySchema = {
 />
 </Fragment>
 
-  <main class="container">
+  <div class="container">
     <SiteHeader lang={lang} path="privacy" />
 
     <Breadcrumbs lang={lang} items={[{ label: t('bc.home'), href: getRelativeLocaleUrl(lang) }, { label: t('privacy.heading') }]} />
@@ -150,7 +150,7 @@ const privacySchema = {
     <a href={getRelativeLocaleUrl(lang, 'unit-converter')} class="back-link">
       {t('footer.converter.link')}
     </a>
-  </main>
+  </div>
 </Layout>
 
 <style>

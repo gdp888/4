@@ -2,17 +2,27 @@
 import { languages, type Lang } from '../i18n/ui';
 import { getAbsoluteLocaleUrl } from 'astro:i18n';
 import Footer from '../components/Footer.astro';
+import ToolSidebar from '../components/ToolSidebar.astro';
 import { ClientRouter } from 'astro:transitions';
 
 export interface Props {
   title: string;
   lang: Lang;
   service?: string;
+  /** Accent color for sidebar active link highlight */
+  accentColor?: string;
 }
 
-const { title, lang, service = 'whatsapp' } = Astro.props;
+const { title, lang, service = 'whatsapp', accentColor = '#25D366' } = Astro.props;
 
 const allLangs = Object.keys(languages) as Lang[];
+
+// Accent color per service (Telegram tools use blue, rest uses WhatsApp green)
+const accentColorMap: Record<string, string> = {
+  'telegram': '#2AABEE',
+  'tg-link': '#2AABEE',
+};
+const resolvedAccent = accentColorMap[service] || accentColor;
 
 // Lang codes are already ISO 639-1 (en, es, pt, id) — used directly as hreflang
 
@@ -65,7 +75,12 @@ const websiteSchema = {
     </script>
   </head>
   <body>
-    <slot />
+    <div class="page-layout">
+      <ToolSidebar lang={lang} activeTool={service} accentColor={resolvedAccent} />
+      <main class="main-content">
+        <slot />
+      </main>
+    </div>
     <Footer lang={lang} />
     <script is:inline>
       // Theme toggle: switch between dark and light
@@ -279,6 +294,34 @@ const websiteSchema = {
     overflow-y: auto;
     position: relative;
     transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  /* Unified page layout: sidebar + content — owned by Layout, not Content components */
+  .page-layout {
+    display: flex;
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem;
+    min-height: 100vh;
+  }
+
+  .main-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  @media (max-width: 900px) {
+    .page-layout {
+      flex-direction: column;
+      max-width: 640px;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .page-layout {
+      padding: 1.25rem 1rem;
+    }
   }
 
   /* Arabic pages: use Cairo as primary font */

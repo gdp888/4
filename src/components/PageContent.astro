@@ -3,7 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import { useTranslations } from '../i18n/utils';
 import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
 import { languages, type Lang } from '../i18n/ui';
-import ToolSidebar from './ToolSidebar.astro';
 import SiteHeader from './SiteHeader.astro';
 import Breadcrumbs from './Breadcrumbs.astro';
 import SEOHead from './SEOHead.astro';
@@ -95,10 +94,7 @@ const pageSchema = {
 />
 </Fragment>
 
-  <div class="page-layout">
-    <ToolSidebar lang={lang} activeTool="whatsapp" accentColor="#25D366" />
-    <main class="main-content">
-      <div class="container">
+  <div class="container">
     <SiteHeader lang={lang} path="whatsapp" />
 
     <Breadcrumbs lang={lang} items={[{ label: t('bc.home'), href: getRelativeLocaleUrl(lang) }, { label: t('bc.whatsapp') }]} />
@@ -251,26 +247,9 @@ const pageSchema = {
       </article>
     </section>
 </div>
-    </main>
-  </div>
 </Layout>
 
 <style>
-  /* Page Layout — Sidebar + Main */
-  .page-layout {
-    display: flex;
-    gap: 1.5rem;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2rem 1.25rem;
-    min-height: 100vh;
-  }
-
-  .main-content {
-    flex: 1;
-    min-width: 0;
-  }
-
   .container {
     position: relative;
     z-index: 1;
@@ -281,10 +260,6 @@ const pageSchema = {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-  }
-
-  @media (max-width: 640px) {
-
   }
 
   .hero {
@@ -718,17 +693,9 @@ const pageSchema = {
     font-size: 0.85rem;
     line-height: 1.65;
     color: var(--text-secondary);
-  }  @media (max-width: 900px) {
-    .page-layout {
-      flex-direction: column;
-      max-width: 640px;
-    }
   }
 
   @media (max-width: 520px) {
-    .page-layout {
-      padding: 1.25rem 1rem;
-    }
     .title {
       font-size: 1.75rem;
     }

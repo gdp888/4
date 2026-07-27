@@ -4,7 +4,6 @@ import { getCollection } from 'astro:content';
 import { useTranslations } from '../../../i18n/utils';
 import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
 import { languages, defaultLang, type Lang } from '../../../i18n/ui';
-import ToolSidebar from '../../../components/ToolSidebar.astro';
 import SiteHeader from '../../../components/SiteHeader.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import SEOHead from '../../../components/SEOHead.astro';
@@ -89,10 +88,7 @@ const postSchema = {
 />
 </Fragment>
 
-  <div class="page-layout">
-    <ToolSidebar lang={lang} activeTool="blog" />
-    <main class="main-content">
-      <div class="container">
+  <div class="container">
             <SiteHeader lang={lang} path="blog" />
 
             <Breadcrumbs lang={lang} items={[{ label: t('bc.home'), href: getRelativeLocaleUrl(lang) }, { label: t('bc.blog'), href: getRelativeLocaleUrl(lang, 'blog') }, { label: post.data.title }]} />
@@ -106,26 +102,10 @@ const postSchema = {
             <Content />
           </div>
         </article>
-      </div>
-    </main>
   </div>
 </Layout>
 
 <style>
-  .page-layout {
-    display: flex;
-    gap: 1.5rem;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2rem 1.25rem;
-    min-height: 100vh;
-  }
-
-  .main-content {
-    flex: 1;
-    min-width: 0;
-  }
-
   .container {
     position: relative;
     z-index: 1;
@@ -237,18 +217,7 @@ const postSchema = {
     padding: 0;
   }
 
-  @media (max-width: 768px) {
-    .page-layout {
-      flex-direction: column;
-      max-width: 680px;
-    }
-  }
-
   @media (max-width: 520px) {
-    .page-layout {
-      padding: 1.25rem 1rem;
-    }
-
     .post-title {
       font-size: 1.5rem;
     }
