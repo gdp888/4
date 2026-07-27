@@ -4,8 +4,11 @@ import { getCollection } from 'astro:content';
 import { useTranslations } from '../../i18n/utils';
 import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
 import { defaultLang, type Lang } from '../../i18n/ui';
-import LanguageSwitcher from '../../components/LanguageSwitcher.astro';
 import ToolSidebar from '../../components/ToolSidebar.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SEOHead from '../../components/SEOHead.astro';
+import { localeMap } from '../../i18n/localeMap';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -63,42 +66,26 @@ const postSchema = {
 
 <Layout title={`${post.data.title} | OPN Chat`} lang={lang}>
   <Fragment slot="meta">
-    <meta name="description" content={post.data.description} />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href={getAbsoluteLocaleUrl(lang, `blog/${post.slug}`)} />
-    <meta property="og:type" content="article" />
-    <meta property="og:title" content={post.data.title} />
-    <meta property="og:description" content={post.data.description} />
-    <script type="application/ld+json" set:html={JSON.stringify(postSchema)} />
-  </Fragment>
+  <SEOHead
+  lang={lang}
+  description={post.data.description}
+  canonicalUrl={getAbsoluteLocaleUrl(lang, `blog/${post.slug}`)}
+  ogTitle={post.data.title}
+  ogDescription={post.data.description}
+  ogUrl={getAbsoluteLocaleUrl(lang, `blog/${post.slug}`)}
+  ogType="article"
+  schema={postSchema}
+  extraMeta={`<meta name="robots" content="index, follow" />`}
+/>
+</Fragment>
 
   <div class="page-layout">
     <ToolSidebar lang={lang} activeTool="blog" />
     <main class="main-content">
       <div class="container">
-        <!-- Header with nav -->
-        <header class="site-header">
-          <a href={getRelativeLocaleUrl(lang)} class="logo" aria-label="OPN Chat — Home">
-            <span class="logo-text">OPN Chat</span>
-            <svg viewBox="0 0 24 24" fill="currentColor" class="logo-icon" aria-hidden="true">
-              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-            </svg>
-          </a>
-          <LanguageSwitcher lang={lang} path="blog" />
-          <button type="button" class="theme-toggle" aria-label="Toggle theme" id="theme-toggle">
-            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-          </button>
-        </header>
+            <SiteHeader lang={lang} path="blog" />
 
-        <!-- Breadcrumbs -->
-        <nav class="breadcrumbs" aria-label="Breadcrumb">
-          <a href={getRelativeLocaleUrl(lang)} class="bc-link">{t('bc.home')}</a>
-          <span class="bc-sep">›</span>
-          <a href={getRelativeLocaleUrl(lang, 'blog')} class="bc-link">{t('bc.blog')}</a>
-          <span class="bc-sep">›</span>
-          <span class="bc-current">{post.data.title}</span>
-        </nav>
+            <Breadcrumbs lang={lang} items={[{ label: t('bc.home'), href: getRelativeLocaleUrl(lang) }, { label: t('bc.blog'), href: getRelativeLocaleUrl(lang, 'blog') }, { label: post.data.title }]} />
 
         <article class="post-article">
           <span class="post-date">
@@ -139,69 +126,6 @@ const postSchema = {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-  }
-
-  /* Site Header */
-  .site-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    gap: 0.75rem;
-  }
-
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    font-size: 0.95rem;
-    font-weight: 800;
-    color: var(--text-primary);
-    text-decoration: none;
-    letter-spacing: -0.02em;
-  }
-
-  .logo:hover {
-    color: var(--opn-primary);
-  }
-
-  .logo-text {
-    color: var(--text-primary);
-  }
-
-  .logo-icon {
-    width: 18px;
-    height: 18px;
-    color: var(--opn-primary);
-  }
-
-  /* Breadcrumbs */
-  .breadcrumbs {
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-  }
-
-  .bc-link {
-    color: var(--text-secondary);
-    text-decoration: none;
-    transition: color 0.15s;
-  }
-
-  .bc-link:hover {
-    color: var(--opn-primary);
-  }
-
-  .bc-sep {
-    color: var(--text-secondary);
-    opacity: 0.5;
-  }
-
-  .bc-current {
-    font-weight: 600;
-    color: var(--text-primary);
   }
 
   .post-article {
@@ -314,9 +238,7 @@ const postSchema = {
     .page-layout {
       padding: 1.25rem 1rem;
     }
-    .site-header {
-      justify-content: center;
-    }
+
     .post-title {
       font-size: 1.5rem;
     }

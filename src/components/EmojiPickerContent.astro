@@ -2,8 +2,11 @@
 import Layout from '../layouts/Layout.astro';
 import { useTranslations } from '../i18n/utils';
 import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
-import { languages, langCodes, type Lang } from '../i18n/ui';
-import LanguageSwitcher from './LanguageSwitcher.astro';
+import { languages, type Lang } from '../i18n/ui';
+import SiteHeader from './SiteHeader.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import SEOHead from './SEOHead.astro';
+import { localeMap } from '../i18n/localeMap';
 
 export interface Props {
   lang: Lang;
@@ -11,10 +14,6 @@ export interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-const otherLangs = (Object.keys(languages) as Lang[]).filter(l => l !== lang);
-
-const localeMap: Record<Lang, string> = { en: 'en_US', es: 'es_ES', pt: 'pt_BR', id: 'id_ID', ru: 'ru_RU', ar: 'ar_SA', de: 'de_DE' };
-const alternateLocales = otherLangs.map(l => localeMap[l]);
 
 const faqItems = [
   { q: t('ep.faq.q1'), a: t('ep.faq.a1') },
@@ -65,46 +64,23 @@ const pageSchema = {
 
 <Layout title={t('ep.meta.title')} lang={lang} service="emoji-picker">
   <Fragment slot="meta">
-    <meta name="description" content={t('ep.meta.description')} />
-    <meta name="keywords" content={t('ep.meta.keywords')} />
-    <link rel="canonical" href={getAbsoluteLocaleUrl(lang, 'emoji-picker')} />
-    <meta property="og:title" content={t('ep.meta.og.title')} />
-    <meta property="og:description" content={t('ep.meta.og.description')} />
-    <meta property="og:url" content={getAbsoluteLocaleUrl(lang, 'emoji-picker')} />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="OPN Chat" />
-    <meta property="og:locale" content={localeMap[lang]} />
-    {alternateLocales.map(loc => (
-      <meta property="og:locale:alternate" content={loc} />
-    ))}
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content={t('ep.meta.twitter.title')} />
-    <meta name="twitter:description" content={t('ep.meta.twitter.description')} />
-    <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
-  </Fragment>
+  <SEOHead
+  lang={lang}
+  description={t('ep.meta.description')}
+  canonicalUrl={getAbsoluteLocaleUrl(lang, 'emoji-picker')}
+  ogTitle={t('ep.meta.og.title')}
+  ogDescription={t('ep.meta.og.description')}
+  ogUrl={getAbsoluteLocaleUrl(lang, 'emoji-picker')}
+  schema={pageSchema}
+  extraMeta={`<meta name="keywords" content="${t('ep.meta.keywords')}" /><meta name="twitter:card" content="summary" /><meta name="twitter:title" content="${t('ep.meta.twitter.title')}" /><meta name="twitter:description" content="${t('ep.meta.twitter.description')}" />`}
+/>
+</Fragment>
 
   <main class="container">
     <!-- Header -->
-    <header class="site-header">
-      <a href={getRelativeLocaleUrl(lang)} class="logo" aria-label="OPN Chat — Home">
-        <span class="logo-text">OPN Chat</span>
-        <svg viewBox="0 0 24 24" fill="currentColor" class="logo-icon" aria-hidden="true">
-          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-        </svg>
-      </a>
-      <LanguageSwitcher lang={lang} path="emoji-picker" />
-      <button type="button" class="theme-toggle" aria-label="Toggle theme" id="theme-toggle">
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      </button>
-    </header>
+    <SiteHeader lang={lang} path="emoji-picker" />
 
-    <!-- Breadcrumbs -->
-    <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href={getRelativeLocaleUrl(lang)} class="bc-link">{t('bc.home')}</a>
-      <span class="bc-sep">›</span>
-      <span class="bc-current">{t('bc.emojipicker')}</span>
-    </nav>
+    <Breadcrumbs lang={lang} items={[{ label: t('bc.home'), href: getRelativeLocaleUrl(lang) }, { label: t('bc.emojipicker') }]} />
 
     <!-- Hero -->
     <div class="hero">
@@ -262,50 +238,6 @@ const pageSchema = {
     flex-direction: column;
     gap: 1.5rem;
   }
-
-  /* Site Header */
-  .site-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    gap: 0.75rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    font-weight: 700;
-    font-size: 1.1rem;
-    color: var(--text-primary);
-    text-decoration: none;
-  }
-
-  .logo-text { color: var(--opn-primary); }
-  .logo-icon { width: 0.9rem; height: 0.9rem; color: var(--opn-primary); }
-
-  /* Breadcrumbs */
-  .breadcrumbs { display: flex; align-items: center; gap: 0.3rem; font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 1rem; }
-  .bc-link { color: var(--text-secondary); text-decoration: none; transition: color 0.15s; }
-  .bc-link:hover { color: var(--opn-primary); }
-  .bc-sep { color: var(--text-secondary); opacity: 0.5; }
-  .bc-current { font-weight: 600; color: var(--text-primary); }
-
-  /* Theme Toggle */
-  .theme-toggle {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.25rem;
-    color: var(--text-secondary);
-    display: flex;
-    align-items: center;
-  }
-  .theme-toggle:hover { color: var(--opn-primary); }
-  :root:not([data-theme="dark"]) .icon-moon { display: none; }
-  :root[data-theme="dark"] .icon-sun { display: none; }
 
   /* Hero */
   .hero {
@@ -667,9 +599,7 @@ const pageSchema = {
     .ep-grid {
       grid-template-columns: repeat(auto-fill, minmax(2.1rem, 1fr));
     }
-    .site-header {
-      justify-content: center;
-    }
+
   }
 </style>
 

@@ -2,9 +2,12 @@
 import Layout from '../layouts/Layout.astro';
 import { useTranslations } from '../i18n/utils';
 import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
-import { languages, langCodes, type Lang } from '../i18n/ui';
-import LanguageSwitcher from './LanguageSwitcher.astro';
+import { languages, type Lang } from '../i18n/ui';
 import ToolSidebar from './ToolSidebar.astro';
+import SiteHeader from './SiteHeader.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import SEOHead from './SEOHead.astro';
+import { localeMap } from '../i18n/localeMap';
 
 export interface Props {
   lang: Lang;
@@ -12,10 +15,6 @@ export interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-const otherLangs = (Object.keys(languages) as Lang[]).filter(l => l !== lang);
-
-const localeMap: Record<Lang, string> = { en: 'en_US', es: 'es_ES', pt: 'pt_BR', id: 'id_ID', ru: 'ru_RU', ar: 'ar_SA', de: 'de_DE' };
-const alternateLocales = otherLangs.map(l => localeMap[l]);
 
 const faqItems = [
   { q: t('cw.faq.q1'), a: t('cw.faq.a1') },
@@ -66,49 +65,26 @@ const pageSchema = {
 
 <Layout title={t('cw.meta.title')} lang={lang} service="wa-widget">
   <Fragment slot="meta">
-    <meta name="description" content={t('cw.meta.description')} />
-    <meta name="keywords" content={t('cw.meta.keywords')} />
-    <link rel="canonical" href={getAbsoluteLocaleUrl(lang, 'wa-widget')} />
-    <meta property="og:title" content={t('cw.meta.og.title')} />
-    <meta property="og:description" content={t('cw.meta.og.description')} />
-    <meta property="og:url" content={getAbsoluteLocaleUrl(lang, 'wa-widget')} />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="OPN Chat" />
-    <meta property="og:locale" content={localeMap[lang]} />
-    {alternateLocales.map(loc => (
-      <meta property="og:locale:alternate" content={loc} />
-    ))}
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content={t('cw.meta.twitter.title')} />
-    <meta name="twitter:description" content={t('cw.meta.twitter.description')} />
-    <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
-  </Fragment>
+  <SEOHead
+  lang={lang}
+  description={t('cw.meta.description')}
+  canonicalUrl={getAbsoluteLocaleUrl(lang, 'wa-widget')}
+  ogTitle={t('cw.meta.og.title')}
+  ogDescription={t('cw.meta.og.description')}
+  ogUrl={getAbsoluteLocaleUrl(lang, 'wa-widget')}
+  schema={pageSchema}
+  extraMeta={`<meta name="keywords" content="${t('cw.meta.keywords')}" /><meta name="twitter:card" content="summary" /><meta name="twitter:title" content="${t('cw.meta.twitter.title')}" /><meta name="twitter:description" content="${t('cw.meta.twitter.description')}" />`}
+/>
+</Fragment>
 
   <div class="page-layout">
     <ToolSidebar lang={lang} activeTool="wa-widget" accentColor="#25D366" />
     <main class="main-content">
       <div class="container">
     <!-- Header -->
-    <header class="site-header">
-      <a href={getRelativeLocaleUrl(lang)} class="logo" aria-label="OPN Chat — Home">
-        <span class="logo-text">OPN Chat</span>
-        <svg viewBox="0 0 24 24" fill="currentColor" class="logo-icon" aria-hidden="true">
-          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-        </svg>
-      </a>
-      <LanguageSwitcher lang={lang} path="wa-widget" />
-      <button type="button" class="theme-toggle" aria-label="Toggle theme" id="theme-toggle">
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      </button>
-    </header>
+    <SiteHeader lang={lang} path="wa-widget" />
 
-    <!-- Breadcrumbs -->
-    <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href={getRelativeLocaleUrl(lang)} class="bc-link">{t('bc.home')}</a>
-      <span class="bc-sep">›</span>
-      <span class="bc-current">{t('bc.widget')}</span>
-    </nav>
+    <Breadcrumbs lang={lang} items={[{ label: t('bc.home'), href: getRelativeLocaleUrl(lang) }, { label: t('bc.widget') }]} />
 
     <!-- Hero -->
     <div class="hero">
@@ -306,64 +282,6 @@ const pageSchema = {
     flex-direction: column;
     gap: 1.5rem;
   }
-
-  /* Breadcrumbs */
-  .breadcrumbs {
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    margin-bottom: 0.5rem;
-  }
-  .bc-link { color: var(--text-secondary); text-decoration: none; transition: color 0.15s; }
-  .bc-link:hover { color: var(--opn-primary); }
-  .bc-sep { color: var(--text-secondary); opacity: 0.5; }
-  .bc-current { font-weight: 600; color: var(--text-primary); }
-
-  /* Header */
-  .site-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    gap: 0.75rem;
-  }
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    text-decoration: none;
-    color: var(--text-primary);
-    font-weight: 700;
-  }
-  .logo-text { font-size: 1.15rem; }
-  .logo-icon {
-    width: 20px;
-    height: 20px;
-    fill: var(--opn-primary);
-    transform: rotate(-45deg);
-    transition: transform 0.3s ease;
-  }
-  .logo:hover .logo-icon { transform: rotate(0deg); }
-
-  /* Theme toggle */
-  .theme-toggle {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.5rem;
-    display: flex;
-    align-items: center;
-    color: var(--text-secondary);
-    transition: color 0.2s;
-  }
-  .theme-toggle:hover { color: var(--text-primary); }
-  .icon-sun, .icon-moon { width: 20px; height: 20px; }
-  :global([data-theme="dark"]) .icon-sun { display: none; }
-  :global([data-theme="light"]) .icon-moon { display: none; }
-  :global([data-theme="dark"]) .icon-moon { display: block; }
-  :global([data-theme="light"]) .icon-sun { display: block; }
 
   /* Hero */
   .hero {

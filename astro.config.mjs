@@ -4,6 +4,9 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://opnchat.net',
   output: 'static',
+  prefetch: {
+    defaultStrategy: 'viewport',
+  },
   trailingSlash: 'always',
   i18n: {
     defaultLocale: 'en',

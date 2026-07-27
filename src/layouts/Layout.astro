@@ -2,6 +2,7 @@
 import { languages, type Lang } from '../i18n/ui';
 import { getAbsoluteLocaleUrl } from 'astro:i18n';
 import Footer from '../components/Footer.astro';
+import { ClientRouter } from 'astro:transitions';
 
 export interface Props {
   title: string;
@@ -38,6 +39,8 @@ const websiteSchema = {
     <!-- Performance: preconnect to self-hosted fonts origin -->
     <link rel="preconnect" href="/" />
     <meta name="theme-color" content="#25D366" />
+    <!-- View Transitions: SPA-like navigation without full page reloads -->
+    <ClientRouter />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="OPN Chat" />
