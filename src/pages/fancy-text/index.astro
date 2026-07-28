@@ -2,5 +2,6 @@
 import FancyTextContent from '../../components/FancyTextContent.astro';
 import { defaultLang } from '../../i18n/ui';
 const lang = defaultLang;
+export const prerender = true;
 ---
 <FancyTextContent lang={lang} />

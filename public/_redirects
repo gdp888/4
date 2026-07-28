@@ -1,2 +1,50 @@
-# No redirects needed — site is new, all URLs are canonical from day one
-# Variant B: EN at root, other locales with /{lang}/ prefix
+# 301 Redirects — legacy URLs that Google found as 404
+
+# Old "converter" slug → correct "unit-converter"
+/converter/ /unit-converter/ 301
+/es/converter/ /es/unit-converter/ 301
+/pt/converter/ /pt/unit-converter/ 301
+/id/converter/ /id/unit-converter/ 301
+/ru/converter/ /ru/unit-converter/ 301
+/de/converter/ /de/unit-converter/ 301
+/ar/converter/ /ar/unit-converter/ 301
+
+# Old "eng" prefix → default locale (no prefix)
+/eng/ / 301
+/eng/whatsapp/ /whatsapp/ 301
+/eng/wa-link/ /wa-link/ 301
+/eng/wa-widget/ /wa-widget/ 301
+/eng/telegram/ /telegram/ 301
+/eng/tg-link/ /tg-link/ 301
+/eng/qr-code/ /qr-code/ 301
+/eng/password/ /password/ 301
+/eng/unit-converter/ /unit-converter/ 301
+/eng/whatsapp-text-formatter/ /whatsapp-text-formatter/ 301
+/eng/fancy-text/ /fancy-text/ 301
+/eng/word-counter/ /word-counter/ 301
+/eng/notepad/ /notepad/ 301
+/eng/timezone/ /timezone/ 301
+/eng/emoji-picker/ /emoji-picker/ 301
+/eng/disclaimer/ /disclaimer/ 301
+/eng/privacy/ /privacy/ 301
+/eng/blog/ /blog/ 301
+
+# Old "en" prefix (en is default, should be at root without prefix)
+/en/ / 301
+/en/whatsapp/ /whatsapp/ 301
+/en/wa-link/ /wa-link/ 301
+/en/wa-widget/ /wa-widget/ 301
+/en/telegram/ /telegram/ 301
+/en/tg-link/ /tg-link/ 301
+/en/qr-code/ /qr-code/ 301
+/en/password/ /password/ 301
+/en/unit-converter/ /unit-converter/ 301
+/en/whatsapp-text-formatter/ /whatsapp-text-formatter/ 301
+/en/fancy-text/ /fancy-text/ 301
+/en/word-counter/ /word-counter/ 301
+/en/notepad/ /notepad/ 301
+/en/timezone/ /timezone/ 301
+/en/emoji-picker/ /emoji-picker/ 301
+/en/disclaimer/ /disclaimer/ 301
+/en/privacy/ /privacy/ 301
+/en/blog/ /blog/ 301

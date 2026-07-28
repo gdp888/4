@@ -3,6 +3,7 @@ import LinkContent from '../../components/LinkContent.astro';
 import { defaultLang } from '../../i18n/ui';
 
 const lang = defaultLang;
+export const prerender = true;
 ---
 
 <LinkContent lang={lang} />

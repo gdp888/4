@@ -8,9 +8,20 @@
     "preview": "astro preview --host 0.0.0.0 --port 3000"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^12.2.1",
     "@astrojs/sitemap": "^3.7.3",
     "astro": "^5.7.10",
     "easyqrcodejs": "^4.6.2",
     "jspdf": "^4.2.1"
+  },
+  "allowScripts": {
+    "@astrojs/cloudflare@14.1.5": true,
+    "esbuild@0.27.7": true,
+    "esbuild@0.25.12": true,
+    "esbuild@0.24.2": true,
+    "esbuild@0.17.19": true,
+    "sharp@0.34.5": true,
+    "sharp@0.33.5": true,
+    "workerd@1.20250718.0": true
   }
 }

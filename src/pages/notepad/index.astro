@@ -3,6 +3,7 @@ import NotepadContent from '../../components/NotepadContent.astro';
 import { defaultLang } from '../../i18n/ui';
 
 const lang = defaultLang;
+export const prerender = true;
 ---
 
 <NotepadContent lang={lang} />

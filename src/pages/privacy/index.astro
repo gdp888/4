@@ -3,6 +3,7 @@ import PrivacyContent from '../../components/PrivacyContent.astro';
 import { defaultLang } from '../../i18n/ui';
 
 const lang = defaultLang;
+export const prerender = true;
 ---
 
 <PrivacyContent lang={lang} />

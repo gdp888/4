@@ -3,6 +3,7 @@ import PasswordContent from '../../components/PasswordContent.astro';
 import { defaultLang } from '../../i18n/ui';
 
 const lang = defaultLang;
+export const prerender = true;
 ---
 
 <PasswordContent lang={lang} />
