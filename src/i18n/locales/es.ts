@@ -987,6 +987,81 @@ export default {
     'tz.seo.feature4.title': 'Programación de negocios',
     'tz.seo.feature4.desc': 'Encuentra la ventana de tiempo adecuada para mensajería internacional en WhatsApp y Telegram. Nunca más envíes un mensaje a las 3 de la madrugada.',
 
+    // Quick Reply Templates
+    'bc.quickreplies': 'Respuestas rápidas',
+
+    'qre.heading': 'Plantillas de respuestas rápidas de WhatsApp',
+    'qre.subtitle': 'Guarda tus mensajes de WhatsApp más usados como plantillas. Copia al portapapeles o genera un enlace wa.me — en un clic.',
+    'qre.privacy.badge': '100% Privado — almacenado en tu navegador, no se envían datos a servidores',
+
+    'qre.form.title.label': 'Nombre de la plantilla',
+    'qre.form.title.placeholder': 'Ej. Horario de atención',
+    'qre.form.text.label': 'Texto del mensaje',
+    'qre.form.text.placeholder': 'Ej. ¡Hola! Estamos abiertos de Lun–Vie, 9:00–18:00. Sáb–Dom cerrado.',
+    'qre.form.phone.label': 'Número de WhatsApp',
+    'qre.form.phone.optional': '(opcional)',
+    'qre.form.phone.placeholder': '7 951 899 4988',
+    'qre.form.category.label': 'Categoría',
+    'qre.form.category.optional': '(opcional)',
+    'qre.form.category.placeholder': 'Ej. Saludos',
+    'qre.form.save': 'Guardar plantilla',
+
+    'qre.cat.greetings': 'Saludos',
+    'qre.cat.delivery': 'Envío',
+    'qre.cat.payment': 'Pago',
+    'qre.cat.hours': 'Horario de atención',
+    'qre.cat.thanks': 'Agradecimiento',
+
+    'qre.search.placeholder': 'Buscar plantillas...',
+    'qre.filter.all': 'Todas las categorías',
+    'qre.empty.text': 'Aún no hay plantillas. ¡Crea tu primera respuesta rápida arriba!',
+
+    'qre.export': 'Exportar JSON',
+    'qre.import': 'Importar JSON',
+
+    'qre.faq.q1': '¿Qué son las plantillas de respuestas rápidas?',
+    'qre.faq.a1': 'Las plantillas de respuestas rápidas son mensajes preescritos que puedes guardar y reutilizar en WhatsApp. En lugar de escribir la misma respuesta una y otra vez — como tu horario de atención, información de envío o detalles de pago — la guardas una vez y la copias o envías con un solo clic.',
+    'qre.faq.q2': '¿Se almacenan mis datos en un servidor?',
+    'qre.faq.a2': 'No. Todas las plantillas se almacenan en el localStorage de tu navegador. No se envía nada a ningún servidor. Tus datos permanecen en tu dispositivo, completamente privados.',
+    'qre.faq.q3': '¿Puedo usar las plantillas en varios dispositivos?',
+    'qre.faq.a3': 'Las plantillas se almacenan por navegador. Para moverlas a otro dispositivo, usa el botón Exportar para descargar un archivo JSON y luego usa Importar en el otro dispositivo para cargarlas.',
+    'qre.faq.q4': '¿Cómo funciona el enlace de WhatsApp?',
+    'qre.faq.a4': 'Al hacer clic en el icono de WhatsApp en una plantilla, se genera un enlace wa.me con tu mensaje prellenado. El destinatario hace clic en el enlace y su WhatsApp se abre con tu mensaje listo para enviar. Si agregaste un número de teléfono, el enlace abre un chat con ese número.',
+    'qre.faq.q5': '¿Esta herramienta es gratuita?',
+    'qre.faq.a5': 'Sí, completamente gratuita. Sin registro, sin niveles premium, sin anuncios, sin límites. Crea tantas plantillas como necesites.',
+
+    'qre.seo.what.heading': '¿Qué son las plantillas de respuestas rápidas de WhatsApp?',
+    'qre.seo.what.text': 'Las plantillas de respuestas rápidas de WhatsApp son una herramienta de productividad gratuita para cualquier persona que use WhatsApp para negocios o atención al cliente. En lugar de escribir las mismas respuestas a preguntas frecuentes — horarios de atención, políticas de envío, métodos de pago, confirmaciones de pedidos — las guardas como plantillas una vez y las reutilizas con un solo clic. Cada plantilla se puede copiar al portapapeles al instante, o convertirse en un enlace wa.me que abre WhatsApp con el mensaje prellenado. Esto es especialmente útil para propietarios de pequeños negocios, gerentes de ventas, servicios de entrega y cualquier persona que se comunique con clientes por WhatsApp diariamente. La herramienta funciona completamente en tu navegador sin interacción con servidores, garantizando privacidad total.',
+
+    'qre.seo.why.heading': '¿Por qué usar plantillas de respuestas rápidas?',
+    'qre.seo.why.feature1.title': 'Ahorra tiempo',
+    'qre.seo.why.feature1.desc': 'Deja de escribir los mismos mensajes 20 veces al día. Guarda tus respuestas más usadas como plantillas y cópialas o envíalas con un clic.',
+    'qre.seo.why.feature2.title': 'Reduce errores',
+    'qre.seo.why.feature2.desc': 'Las plantillas preescritas garantizan consistencia. Ya no olvidarás incluir tu dirección, número de teléfono o detalles importantes en las respuestas.',
+    'qre.seo.why.feature3.title': 'Integración con WhatsApp',
+    'qre.seo.why.feature3.desc': 'Genera enlaces wa.me con tu mensaje y número de teléfono prellenados. Los clientes hacen clic en el enlace y WhatsApp se abre con tu texto listo para enviar.',
+    'qre.seo.why.feature4.title': '100% Privado',
+    'qre.seo.why.feature4.desc': 'Todas las plantillas se almacenan en tu navegador. No se suben datos, no se necesitan cuentas, no se usan cookies. Tus mensajes permanecen en tu dispositivo.',
+
+    'qre.seo.how.heading': 'Cómo usar las plantillas de respuestas rápidas',
+    'qre.seo.how.text': 'Crear una plantilla toma segundos. Ingresa un nombre para tu plantilla (ej. "Horario de atención"), escribe el texto del mensaje y, opcionalmente, agrega un número de WhatsApp y una categoría. Haz clic en Guardar plantilla. Tu plantilla ahora aparece en la lista de abajo. Para usarla, haz clic en el botón Copiar para copiar el texto al portapapeles y pegarlo en WhatsApp, o haz clic en el icono de WhatsApp para generar un enlace wa.me. También puedes buscar plantillas por palabra clave, filtrar por categoría y exportar o importar tus plantillas como archivos JSON para respaldo o transferencia a otro dispositivo.',
+
+    'qre.seo.faq.heading': 'Preguntas frecuentes',
+
+    'qre.meta.title': 'Plantillas de respuestas rápidas de WhatsApp — Gratis y Privado | OPN Chat',
+    'qre.meta.description': 'Guarda tus mensajes de WhatsApp más usados como plantillas. Copia al portapapeles o genera enlaces wa.me en un clic. Gratis, privado, sin registro. Perfecto para negocios y atención al cliente.',
+    'qre.meta.keywords': 'whatsapp quick reply, whatsapp templates, whatsapp saved messages, quick reply templates, whatsapp business templates, whatsapp message templates, wa.me link generator, whatsapp pre-filled message, opnchat, respuestas rápidas whatsapp, plantillas whatsapp, mensajes guardados whatsapp',
+    'qre.meta.og.title': 'Plantillas de respuestas rápidas de WhatsApp — Gratis y Privado',
+    'qre.meta.og.description': 'Guarda tus mensajes de WhatsApp más usados como plantillas. Copia o envía por enlace wa.me en un clic. Gratis y privado.',
+    'qre.meta.twitter.title': 'Plantillas de respuestas rápidas de WhatsApp — OPN Chat',
+    'qre.meta.twitter.description': 'Guarda mensajes de WhatsApp como plantillas. Copia o envía en un clic. Gratis y privado.',
+
+    'hub.service.quickreplies.title': 'Plantillas de respuestas rápidas',
+    'hub.service.quickreplies.desc': 'Guarda tus mensajes de WhatsApp más usados como plantillas. Copia al portapapeles o genera enlaces wa.me en un clic. Gratis, privado, sin registro.',
+    'hub.service.quickreplies.cta': 'Crear plantilla',
+
+    'footer.quickreplies.link': 'Respuestas rápidas',
+
     // Language switcher
     'lang.switch': 'English',
     'lang.current': 'Español',

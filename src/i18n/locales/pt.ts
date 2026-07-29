@@ -987,6 +987,81 @@ export default {
     'tz.seo.feature4.title': 'Agendamento de negócios',
     'tz.seo.feature4.desc': 'Encontre a janela de horário certa para mensagens internacionais de WhatsApp e Telegram. Nunca envie uma mensagem às 3 da manhã novamente.',
 
+    // Quick Reply Templates
+    'bc.quickreplies': 'Respostas rápidas',
+
+    'qre.heading': 'Modelos de respostas rápidas do WhatsApp',
+    'qre.subtitle': 'Salve suas mensagens mais usadas do WhatsApp como modelos. Copie para a área de transferência ou gere um link wa.me — em um clique.',
+    'qre.privacy.badge': '100% Privado — armazenado no seu navegador, nenhum dado enviado a servidores',
+
+    'qre.form.title.label': 'Nome do modelo',
+    'qre.form.title.placeholder': 'Ex. Horário de funcionamento',
+    'qre.form.text.label': 'Texto da mensagem',
+    'qre.form.text.placeholder': 'Ex. Olá! Funcionamos de Seg–Sex, 9:00–18:00. Sáb–Dom fechado.',
+    'qre.form.phone.label': 'Número do WhatsApp',
+    'qre.form.phone.optional': '(opcional)',
+    'qre.form.phone.placeholder': '7 951 899 4988',
+    'qre.form.category.label': 'Categoria',
+    'qre.form.category.optional': '(opcional)',
+    'qre.form.category.placeholder': 'Ex. Saudações',
+    'qre.form.save': 'Salvar modelo',
+
+    'qre.cat.greetings': 'Saudações',
+    'qre.cat.delivery': 'Entrega',
+    'qre.cat.payment': 'Pagamento',
+    'qre.cat.hours': 'Horário de funcionamento',
+    'qre.cat.thanks': 'Agradecimento',
+
+    'qre.search.placeholder': 'Buscar modelos...',
+    'qre.filter.all': 'Todas as categorias',
+    'qre.empty.text': 'Nenhum modelo ainda. Crie sua primeira resposta rápida acima!',
+
+    'qre.export': 'Exportar JSON',
+    'qre.import': 'Importar JSON',
+
+    'qre.faq.q1': 'O que são modelos de respostas rápidas?',
+    'qre.faq.a1': 'Modelos de respostas rápidas são mensagens pré-escritas que você pode salvar e reutilizar no WhatsApp. Em vez de digitar a mesma resposta várias vezes — como horário de funcionamento, informações de entrega ou detalhes de pagamento — você salva uma vez e copia ou envia com um único clique.',
+    'qre.faq.q2': 'Meus dados são armazenados em um servidor?',
+    'qre.faq.a2': 'Não. Todos os modelos são armazenados no localStorage do seu navegador. Nada é enviado a nenhum servidor. Seus dados ficam no seu dispositivo, completamente privados.',
+    'qre.faq.q3': 'Posso usar os modelos em vários dispositivos?',
+    'qre.faq.a3': 'Os modelos são armazenados por navegador. Para movê-los para outro dispositivo, use o botão Exportar para baixar um arquivo JSON e depois use Importar no outro dispositivo para carregá-los.',
+    'qre.faq.q4': 'Como funciona o link do WhatsApp?',
+    'qre.faq.a4': 'Ao clicar no ícone do WhatsApp em um modelo, é gerado um link wa.me com sua mensagem preenchida. O destinatário clica no link e o WhatsApp abre com sua mensagem pronta para enviar. Se você adicionou um número de telefone, o link abre um chat com esse número.',
+    'qre.faq.q5': 'Esta ferramenta é gratuita?',
+    'qre.faq.a5': 'Sim, totalmente gratuita. Sem cadastro, sem planos premium, sem anúncios, sem limites. Crie quantos modelos precisar.',
+
+    'qre.seo.what.heading': 'O que são modelos de respostas rápidas do WhatsApp?',
+    'qre.seo.what.text': 'Modelos de respostas rápidas do WhatsApp são uma ferramenta de produtividade gratuita para qualquer pessoa que usa WhatsApp para negócios ou atendimento ao cliente. Em vez de digitar as mesmas respostas a perguntas frequentes — horário de funcionamento, políticas de entrega, formas de pagamento, confirmações de pedidos — você as salva como modelos uma vez e reutiliza com um único clique. Cada modelo pode ser copiado para a área de transferência instantaneamente ou convertido em um link wa.me que abre o WhatsApp com a mensagem preenchida. Isso é especialmente útil para pequenos empresários, gerentes de vendas, serviços de entrega e qualquer pessoa que se comunica com clientes pelo WhatsApp diariamente. A ferramenta funciona inteiramente no seu navegador sem interação com servidores, garantindo privacidade total.',
+
+    'qre.seo.why.heading': 'Por que usar modelos de respostas rápidas?',
+    'qre.seo.why.feature1.title': 'Economize tempo',
+    'qre.seo.why.feature1.desc': 'Pare de digitar as mesmas mensagens 20 vezes por dia. Salve suas respostas mais usadas como modelos e copie ou envie com um clique.',
+    'qre.seo.why.feature2.title': 'Reduza erros',
+    'qre.seo.why.feature2.desc': 'Modelos pré-escritos garantem consistência. Chega de esquecer de incluir seu endereço, número de telefone ou detalhes importantes nas respostas.',
+    'qre.seo.why.feature3.title': 'Integração com WhatsApp',
+    'qre.seo.why.feature3.desc': 'Gere links wa.me com sua mensagem e número de telefone preenchidos. Os clientes clicam no link e o WhatsApp abre com seu texto pronto para enviar.',
+    'qre.seo.why.feature4.title': '100% Privado',
+    'qre.seo.why.feature4.desc': 'Todos os modelos são armazenados no seu navegador. Nenhum dado é enviado, nenhuma conta é necessária, nenhum cookie é usado. Suas mensagens ficam no seu dispositivo.',
+
+    'qre.seo.how.heading': 'Como usar modelos de respostas rápidas',
+    'qre.seo.how.text': 'Criar um modelo leva segundos. Digite um nome para o seu modelo (ex. "Horário de funcionamento"), escreva o texto da mensagem e, opcionalmente, adicione um número do WhatsApp e uma categoria. Clique em Salvar modelo. Seu modelo agora aparece na lista abaixo. Para usá-lo, clique no botão Copiar para copiar o texto para a área de transferência e colar no WhatsApp, ou clique no ícone do WhatsApp para gerar um link wa.me. Você também pode buscar modelos por palavra-chave, filtrar por categoria e exportar ou importar seus modelos como arquivos JSON para backup ou transferência para outro dispositivo.',
+
+    'qre.seo.faq.heading': 'Perguntas frequentes',
+
+    'qre.meta.title': 'Modelos de respostas rápidas do WhatsApp — Grátis e Privado | OPN Chat',
+    'qre.meta.description': 'Salve suas mensagens mais usadas do WhatsApp como modelos. Copie para a área de transferência ou gere links wa.me em um clique. Grátis, privado, sem cadastro. Perfeito para negócios e atendimento ao cliente.',
+    'qre.meta.keywords': 'whatsapp quick reply, whatsapp templates, whatsapp saved messages, quick reply templates, whatsapp business templates, whatsapp message templates, wa.me link generator, whatsapp pre-filled message, opnchat, respostas rápidas whatsapp, modelos whatsapp, mensagens salvas whatsapp',
+    'qre.meta.og.title': 'Modelos de respostas rápidas do WhatsApp — Grátis e Privado',
+    'qre.meta.og.description': 'Salve suas mensagens mais usadas do WhatsApp como modelos. Copie ou envie por link wa.me em um clique. Grátis e privado.',
+    'qre.meta.twitter.title': 'Modelos de respostas rápidas do WhatsApp — OPN Chat',
+    'qre.meta.twitter.description': 'Salve mensagens do WhatsApp como modelos. Copie ou envie em um clique. Grátis e privado.',
+
+    'hub.service.quickreplies.title': 'Modelos de respostas rápidas',
+    'hub.service.quickreplies.desc': 'Salve suas mensagens mais usadas do WhatsApp como modelos. Copie para a área de transferência ou gere links wa.me em um clique. Grátis, privado, sem cadastro.',
+    'hub.service.quickreplies.cta': 'Criar modelo',
+
+    'footer.quickreplies.link': 'Respostas rápidas',
+
     // Language switcher
     'lang.switch': 'English',
     'lang.current': 'Português',

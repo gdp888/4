@@ -931,6 +931,81 @@ export default {
     'tz.seo.feature4.title': 'Business-Terminplanung',
     'tz.seo.feature4.desc': 'Finden Sie das richtige Zeitfenster für internationale WhatsApp- und Telegram-Nachrichten. Nie wieder um 3 Uhr morgens senden.',
 
+    // Quick Reply Templates
+    'bc.quickreplies': 'Schnellantworten',
+
+    'qre.heading': 'WhatsApp-Schnellantwort-Vorlagen',
+    'qre.subtitle': 'Speichern Sie Ihre häufig verwendeten WhatsApp-Nachrichten als Vorlagen. In die Zwischenablage kopieren oder einen wa.me-Link generieren — mit einem Klick.',
+    'qre.privacy.badge': '100% Privat — in Ihrem Browser gespeichert, keine Daten an Server gesendet',
+
+    'qre.form.title.label': 'Vorlagenname',
+    'qre.form.title.placeholder': 'z.B. Geschäftszeiten',
+    'qre.form.text.label': 'Nachrichtentext',
+    'qre.form.text.placeholder': 'z.B. Hallo! Wir sind Mo–Fr, 9:00–18:00 geöffnet. Sa–So geschlossen.',
+    'qre.form.phone.label': 'WhatsApp-Nummer',
+    'qre.form.phone.optional': '(optional)',
+    'qre.form.phone.placeholder': '7 951 899 4988',
+    'qre.form.category.label': 'Kategorie',
+    'qre.form.category.optional': '(optional)',
+    'qre.form.category.placeholder': 'z.B. Begrüßung',
+    'qre.form.save': 'Vorlage speichern',
+
+    'qre.cat.greetings': 'Begrüßung',
+    'qre.cat.delivery': 'Lieferung',
+    'qre.cat.payment': 'Zahlung',
+    'qre.cat.hours': 'Geschäftszeiten',
+    'qre.cat.thanks': 'Dankeschön',
+
+    'qre.search.placeholder': 'Vorlagen suchen...',
+    'qre.filter.all': 'Alle Kategorien',
+    'qre.empty.text': 'Noch keine Vorlagen. Erstellen Sie oben Ihre erste Schnellantwort!',
+
+    'qre.export': 'JSON exportieren',
+    'qre.import': 'JSON importieren',
+
+    'qre.faq.q1': 'Was sind Schnellantwort-Vorlagen?',
+    'qre.faq.a1': 'Schnellantwort-Vorlagen sind vorab geschriebene Nachrichten, die Sie für WhatsApp speichern und wiederverwenden können. Anstatt dieselbe Antwort immer wieder zu tippen — wie Ihre Geschäftszeiten, Lieferinformationen oder Zahlungsdetails — speichern Sie sie einmal und kopieren oder senden sie mit einem einzigen Klick.',
+    'qre.faq.q2': 'Werden meine Daten auf einem Server gespeichert?',
+    'qre.faq.a2': 'Nein. Alle Vorlagen werden im localStorage Ihres Browsers gespeichert. Nichts wird an einen Server gesendet. Ihre Daten bleiben auf Ihrem Gerät, vollständig privat.',
+    'qre.faq.q3': 'Kann ich Vorlagen auf mehreren Geräten verwenden?',
+    'qre.faq.a3': 'Vorlagen werden pro Browser gespeichert. Um sie auf ein anderes Gerät zu übertragen, verwenden Sie die Schaltfläche Exportieren, um eine JSON-Datei herunterzuladen, und dann Importieren auf dem anderen Gerät, um sie zu laden.',
+    'qre.faq.q4': 'Wie funktioniert der WhatsApp-Link?',
+    'qre.faq.a4': 'Wenn Sie auf das WhatsApp-Symbol in einer Vorlage klicken, wird ein wa.me-Link mit Ihrer vorausgefüllten Nachricht generiert. Der Empfänger klickt auf den Link und WhatsApp öffnet sich mit Ihrer Nachricht, die gesendet werden kann. Wenn Sie eine Telefonnummer hinzugefügt haben, öffnet der Link einen Chat mit dieser Nummer.',
+    'qre.faq.q5': 'Ist dieses Tool kostenlos?',
+    'qre.faq.a5': 'Ja, völlig kostenlos. Keine Anmeldung, keine Premium-Stufen, keine Werbung, keine Limits. Erstellen Sie so viele Vorlagen, wie Sie benötigen.',
+
+    'qre.seo.what.heading': 'Was sind WhatsApp-Schnellantwort-Vorlagen?',
+    'qre.seo.what.text': 'WhatsApp-Schnellantwort-Vorlagen sind ein kostenloses Produktivitätstool für alle, die WhatsApp für Geschäft oder Kundenservice nutzen. Anstatt immer wieder dieselben Antworten auf häufig gestellte Fragen zu tippen — Geschäftszeiten, Lieferbedingungen, Zahlungsmethoden, Bestellbestätigungen — speichern Sie diese einmal als Vorlagen und verwenden sie mit einem einzigen Klick wieder. Jede Vorlage kann sofort in die Zwischenablage kopiert oder in einen wa.me-Link umgewandelt werden, der WhatsApp mit der vorausgefüllten Nachricht öffnet. Dies ist besonders nützlich für Kleinunternehmer, Vertriebsleiter, Lieferservices und alle, die täglich über WhatsApp mit Kunden kommunizieren. Das Tool läuft vollständig in Ihrem Browser ohne Server-Interaktion und gewährleistet so vollständige Privatsphäre.',
+
+    'qre.seo.why.heading': 'Warum Schnellantwort-Vorlagen verwenden?',
+    'qre.seo.why.feature1.title': 'Zeit sparen',
+    'qre.seo.why.feature1.desc': 'Hören Sie auf, dieselben Nachrichten 20 Mal am Tag zu tippen. Speichern Sie Ihre häufigsten Antworten als Vorlagen und kopieren oder senden Sie sie mit einem Klick.',
+    'qre.seo.why.feature2.title': 'Fehler reduzieren',
+    'qre.seo.why.feature2.desc': 'Vorgeschriebene Vorlagen sorgen für Konsistenz. Kein Vergessen mehr, Ihre Adresse, Telefonnummer oder wichtige Details in Antworten einzufügen.',
+    'qre.seo.why.feature3.title': 'WhatsApp-Integration',
+    'qre.seo.why.feature3.desc': 'Generieren Sie wa.me-Links mit Ihrer vorausgefüllten Nachricht und Telefonnummer. Kunden klicken auf den Link und WhatsApp öffnet sich mit Ihrem Text, der gesendet werden kann.',
+    'qre.seo.why.feature4.title': '100% Privat',
+    'qre.seo.why.feature4.desc': 'Alle Vorlagen werden in Ihrem Browser gespeichert. Es werden keine Daten hochgeladen, keine Konten benötigt, keine Cookies verwendet. Ihre Nachrichten bleiben auf Ihrem Gerät.',
+
+    'qre.seo.how.heading': 'So verwenden Sie Schnellantwort-Vorlagen',
+    'qre.seo.how.text': 'Eine Vorlage zu erstellen dauert nur Sekunden. Geben Sie einen Namen für Ihre Vorlage ein (z.B. „Geschäftszeiten"), tippen Sie den Nachrichtentext und fügen Sie optional eine WhatsApp-Nummer und Kategorie hinzu. Klicken Sie auf Vorlage speichern. Ihre Vorlage erscheint nun in der Liste unten. Um sie zu verwenden, klicken Sie auf die Schaltfläche Kopieren, um den Text in die Zwischenablage zu kopieren und in WhatsApp einzufügen, oder klicken Sie auf das WhatsApp-Symbol, um einen wa.me-Link zu generieren. Sie können Vorlagen auch nach Schlüsselwort suchen, nach Kategorie filtern und Ihre Vorlagen als JSON-Dateien für Backup oder Übertragung auf ein anderes Gerät exportieren oder importieren.',
+
+    'qre.seo.faq.heading': 'Häufig gestellte Fragen',
+
+    'qre.meta.title': 'WhatsApp-Schnellantwort-Vorlagen — Kostenlos & Privat | OPN Chat',
+    'qre.meta.description': 'Speichern Sie häufig verwendete WhatsApp-Nachrichten als Vorlagen. In die Zwischenablage kopieren oder wa.me-Links mit einem Klick generieren. Kostenlos, privat, ohne Anmeldung. Perfekt für Geschäft und Kundenservice.',
+    'qre.meta.keywords': 'whatsapp quick reply, whatsapp templates, whatsapp saved messages, quick reply templates, whatsapp business templates, whatsapp message templates, wa.me link generator, whatsapp pre-filled message, opnchat, whatsapp schnellantwort, whatsapp vorlagen, gespeicherte nachrichten whatsapp',
+    'qre.meta.og.title': 'WhatsApp-Schnellantwort-Vorlagen — Kostenlos & Privat',
+    'qre.meta.og.description': 'Speichern Sie häufig verwendete WhatsApp-Nachrichten als Vorlagen. Kopieren oder senden Sie per wa.me-Link mit einem Klick. Kostenlos & privat.',
+    'qre.meta.twitter.title': 'WhatsApp-Schnellantwort-Vorlagen — OPN Chat',
+    'qre.meta.twitter.description': 'Speichern Sie WhatsApp-Nachrichten als Vorlagen. Kopieren oder senden in einem Klick. Kostenlos & privat.',
+
+    'hub.service.quickreplies.title': 'Schnellantwort-Vorlagen',
+    'hub.service.quickreplies.desc': 'Speichern Sie häufig verwendete WhatsApp-Nachrichten als Vorlagen. In die Zwischenablage kopieren oder wa.me-Links mit einem Klick generieren. Kostenlos, privat, ohne Anmeldung.',
+    'hub.service.quickreplies.cta': 'Vorlage erstellen',
+
+    'footer.quickreplies.link': 'Schnellantworten',
+
     // Language switcher
     'lang.switch': 'Sprache',
     'lang.current': 'DEU',

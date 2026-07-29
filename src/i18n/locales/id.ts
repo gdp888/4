@@ -987,6 +987,81 @@ export default {
     'tz.seo.feature4.title': 'Penjadwalan bisnis',
     'tz.seo.feature4.desc': 'Temukan jendela waktu yang tepat untuk pesan WhatsApp dan Telegram internasional. Tidak pernah lagi mengirim pesan di jam 3 pagi.',
 
+    // Quick Reply Templates
+    'bc.quickreplies': 'Balasan Cepat',
+
+    'qre.heading': 'Template Balasan Cepat WhatsApp',
+    'qre.subtitle': 'Simpan pesan WhatsApp yang sering digunakan sebagai template. Salin ke clipboard atau buat link wa.me — dalam satu klik.',
+    'qre.privacy.badge': '100% Privat — disimpan di browser Anda, tidak ada data yang dikirim ke server',
+
+    'qre.form.title.label': 'Nama template',
+    'qre.form.title.placeholder': 'Contoh Jam kerja',
+    'qre.form.text.label': 'Teks pesan',
+    'qre.form.text.placeholder': 'Contoh Halo! Kami buka Sen–Jum, 09:00–18:00. Sab–Min tutup.',
+    'qre.form.phone.label': 'Nomor WhatsApp',
+    'qre.form.phone.optional': '(opsional)',
+    'qre.form.phone.placeholder': '7 951 899 4988',
+    'qre.form.category.label': 'Kategori',
+    'qre.form.category.optional': '(opsional)',
+    'qre.form.category.placeholder': 'Contoh Sapaan',
+    'qre.form.save': 'Simpan Template',
+
+    'qre.cat.greetings': 'Sapaan',
+    'qre.cat.delivery': 'Pengiriman',
+    'qre.cat.payment': 'Pembayaran',
+    'qre.cat.hours': 'Jam kerja',
+    'qre.cat.thanks': 'Terima kasih',
+
+    'qre.search.placeholder': 'Cari template...',
+    'qre.filter.all': 'Semua kategori',
+    'qre.empty.text': 'Belum ada template. Buat balasan cepat pertama Anda di atas!',
+
+    'qre.export': 'Ekspor JSON',
+    'qre.import': 'Impor JSON',
+
+    'qre.faq.q1': 'Apa itu Template Balasan Cepat?',
+    'qre.faq.a1': 'Template Balasan Cepat adalah pesan yang sudah ditulis sebelumnya yang dapat Anda simpan dan gunakan kembali di WhatsApp. Daripada mengetik respons yang sama berulang kali — seperti jam kerja, info pengiriman, atau detail pembayaran — Anda menyimpannya sekali dan menyalin atau mengirimnya dengan satu klik.',
+    'qre.faq.q2': 'Apakah data saya disimpan di server?',
+    'qre.faq.a2': 'Tidak. Semua template disimpan di localStorage browser Anda. Tidak ada yang dikirim ke server mana pun. Data Anda tetap di perangkat Anda, sepenuhnya privat.',
+    'qre.faq.q3': 'Bisakah saya menggunakan template di beberapa perangkat?',
+    'qre.faq.a3': 'Template disimpan per browser. Untuk memindahkannya ke perangkat lain, gunakan tombol Ekspor untuk mengunduh file JSON, lalu gunakan Impor di perangkat lain untuk memuatnya.',
+    'qre.faq.q4': 'Bagaimana cara kerja link WhatsApp?',
+    'qre.faq.a4': 'Saat Anda mengklik ikon WhatsApp pada template, akan dibuat link wa.me dengan pesan yang sudah diisi. Penerima mengklik link dan WhatsApp mereka terbuka dengan pesan Anda siap dikirim. Jika Anda menambahkan nomor telepon, link membuka chat dengan nomor tersebut.',
+    'qre.faq.q5': 'Apakah alat ini gratis?',
+    'qre.faq.a5': 'Ya, sepenuhnya gratis. Tanpa daftar, tanpa paket premium, tanpa iklan, tanpa batasan. Buat template sebanyak yang Anda butuhkan.',
+
+    'qre.seo.what.heading': 'Apa Itu Template Balasan Cepat WhatsApp?',
+    'qre.seo.what.text': 'Template Balasan Cepat WhatsApp adalah alat produktivitas gratis untuk siapa saja yang menggunakan WhatsApp untuk bisnis atau dukungan pelanggan. Daripada mengetik jawaban yang sama untuk pertanyaan yang sering diajukan — jam kerja, kebijakan pengiriman, metode pembayaran, konfirmasi pesanan — Anda menyimpannya sebagai template sekali dan menggunakannya kembali dengan satu klik. Setiap template dapat disalin ke clipboard secara instan, atau diubah menjadi link wa.me yang membuka WhatsApp dengan pesan yang sudah diisi. Ini sangat berguna untuk pemilik usaha kecil, manajer penjualan, jasa pengiriman, dan siapa saja yang berkomunikasi dengan pelanggan di WhatsApp setiap hari. Alat ini berjalan sepenuhnya di browser Anda tanpa interaksi server, memastikan privasi lengkap.',
+
+    'qre.seo.why.heading': 'Mengapa Menggunakan Template Balasan Cepat?',
+    'qre.seo.why.feature1.title': 'Hemat Waktu',
+    'qre.seo.why.feature1.desc': 'Berhenti mengetik pesan yang sama 20 kali sehari. Simpan respons yang paling sering digunakan sebagai template dan salin atau kirim dengan satu klik.',
+    'qre.seo.why.feature2.title': 'Kurangi Kesalahan',
+    'qre.seo.why.feature2.desc': 'Template yang sudah ditulis memastikan konsistensi. Tidak ada lagi lupa menyertakan alamat, nomor telepon, atau detail penting dalam respons.',
+    'qre.seo.why.feature3.title': 'Integrasi WhatsApp',
+    'qre.seo.why.feature3.desc': 'Buat link wa.me dengan pesan dan nomor telepon yang sudah diisi. Pelanggan mengklik link dan WhatsApp terbuka dengan teks Anda siap dikirim.',
+    'qre.seo.why.feature4.title': '100% Privat',
+    'qre.seo.why.feature4.desc': 'Semua template disimpan di browser Anda. Tidak ada data yang diunggah, tidak perlu akun, tidak ada cookie yang digunakan. Pesan Anda tetap di perangkat Anda.',
+
+    'qre.seo.how.heading': 'Cara Menggunakan Template Balasan Cepat',
+    'qre.seo.how.text': 'Membuat template hanya butuh beberapa detik. Masukkan nama untuk template Anda (contoh "Jam Kerja"), ketik teks pesan, dan secara opsional tambahkan nomor WhatsApp dan kategori. Klik Simpan Template. Template Anda sekarang muncul di daftar di bawah. Untuk menggunakannya, klik tombol Salin untuk menyalin teks ke clipboard dan menempelkannya ke WhatsApp, atau klik ikon WhatsApp untuk membuat link wa.me. Anda juga dapat mencari template berdasarkan kata kunci, memfilter berdasarkan kategori, serta mengekspor atau mengimpor template Anda sebagai file JSON untuk cadangan atau transfer ke perangkat lain.',
+
+    'qre.seo.faq.heading': 'Pertanyaan yang Sering Diajukan',
+
+    'qre.meta.title': 'Template Balasan Cepat WhatsApp — Gratis & Privat | OPN Chat',
+    'qre.meta.description': 'Simpan pesan WhatsApp yang sering digunakan sebagai template. Salin ke clipboard atau buat link wa.me dalam satu klik. Gratis, privat, tanpa daftar. Cocok untuk bisnis dan dukungan pelanggan.',
+    'qre.meta.keywords': 'whatsapp quick reply, whatsapp templates, whatsapp saved messages, quick reply templates, whatsapp business templates, whatsapp message templates, wa.me link generator, whatsapp pre-filled message, opnchat, balasan cepat whatsapp, template whatsapp, pesan tersimpan whatsapp',
+    'qre.meta.og.title': 'Template Balasan Cepat WhatsApp — Gratis & Privat',
+    'qre.meta.og.description': 'Simpan pesan WhatsApp yang sering digunakan sebagai template. Salin atau kirim via link wa.me dalam satu klik. Gratis & privat.',
+    'qre.meta.twitter.title': 'Template Balasan Cepat WhatsApp — OPN Chat',
+    'qre.meta.twitter.description': 'Simpan pesan WhatsApp sebagai template. Salin atau kirim dalam satu klik. Gratis & privat.',
+
+    'hub.service.quickreplies.title': 'Template Balasan Cepat',
+    'hub.service.quickreplies.desc': 'Simpan pesan WhatsApp yang sering digunakan sebagai template. Salin ke clipboard atau buat link wa.me dalam satu klik. Gratis, privat, tanpa daftar.',
+    'hub.service.quickreplies.cta': 'Buat Template',
+
+    'footer.quickreplies.link': 'Balasan Cepat',
+
     // Language switcher
     'lang.switch': 'English',
     'lang.current': 'Bahasa Indonesia',

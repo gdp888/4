@@ -1012,6 +1012,81 @@ export default {
     'tz.seo.feature4.title': 'Business scheduling',
     'tz.seo.feature4.desc': 'Find the right time window for international WhatsApp and Telegram messaging. Never send a message at 3 AM again.',
 
+    // Quick Reply Templates
+    'bc.quickreplies': 'Quick Replies',
+
+    'qre.heading': 'WhatsApp Quick Reply Templates',
+    'qre.subtitle': 'Save your frequently used WhatsApp messages as templates. Copy to clipboard or generate a wa.me link — in one click.',
+    'qre.privacy.badge': '100% Private — stored in your browser, no data sent to servers',
+
+    'qre.form.title.label': 'Template name',
+    'qre.form.title.placeholder': 'e.g. Business hours',
+    'qre.form.text.label': 'Message text',
+    'qre.form.text.placeholder': 'e.g. Hi! We are open Mon–Fri, 9:00–18:00. Sat–Sun closed.',
+    'qre.form.phone.label': 'WhatsApp number',
+    'qre.form.phone.optional': '(optional)',
+    'qre.form.phone.placeholder': '7 951 899 4988',
+    'qre.form.category.label': 'Category',
+    'qre.form.category.optional': '(optional)',
+    'qre.form.category.placeholder': 'e.g. Greetings',
+    'qre.form.save': 'Save Template',
+
+    'qre.cat.greetings': 'Greetings',
+    'qre.cat.delivery': 'Delivery',
+    'qre.cat.payment': 'Payment',
+    'qre.cat.hours': 'Business hours',
+    'qre.cat.thanks': 'Thank you',
+
+    'qre.search.placeholder': 'Search templates...',
+    'qre.filter.all': 'All categories',
+    'qre.empty.text': 'No templates yet. Create your first quick reply above!',
+
+    'qre.export': 'Export JSON',
+    'qre.import': 'Import JSON',
+
+    'qre.faq.q1': 'What are Quick Reply Templates?',
+    'qre.faq.a1': 'Quick Reply Templates are pre-written messages that you can save and reuse for WhatsApp. Instead of typing the same response over and over — like your business hours, delivery info, or payment details — you save it once and copy or send it with a single click.',
+    'qre.faq.q2': 'Is my data stored on a server?',
+    'qre.faq.a2': 'No. All templates are stored in your browser localStorage. Nothing is sent to any server. Your data stays on your device, completely private.',
+    'qre.faq.q3': 'Can I use templates on multiple devices?',
+    'qre.faq.a3': 'Templates are stored per browser. To move them to another device, use the Export button to download a JSON file, then use Import on the other device to load them.',
+    'qre.faq.q4': 'How does the WhatsApp link work?',
+    'qre.faq.a4': 'When you click the WhatsApp icon on a template, it generates a wa.me link with your pre-filled message. The recipient clicks the link and their WhatsApp opens with your message ready to send. If you added a phone number, the link opens a chat with that number.',
+    'qre.faq.q5': 'Is this tool free?',
+    'qre.faq.a5': 'Yes, completely free. No sign-up, no premium tiers, no ads, no limits. Create as many templates as you need.',
+
+    'qre.seo.what.heading': 'What Are WhatsApp Quick Reply Templates?',
+    'qre.seo.what.text': 'WhatsApp Quick Reply Templates are a free productivity tool for anyone who uses WhatsApp for business or customer support. Instead of typing the same answers to frequently asked questions — business hours, delivery policies, payment methods, order confirmations — you save them as templates once and reuse them with a single click. Each template can be copied to your clipboard instantly, or converted into a wa.me link that opens WhatsApp with the message pre-filled. This is especially useful for small business owners, sales managers, delivery services, and anyone who communicates with customers on WhatsApp daily. The tool runs entirely in your browser with zero server interaction, ensuring complete privacy.',
+
+    'qre.seo.why.heading': 'Why Use Quick Reply Templates?',
+    'qre.seo.why.feature1.title': 'Save Time',
+    'qre.seo.why.feature1.desc': 'Stop typing the same messages 20 times a day. Save your most-used responses as templates and copy or send them in one click.',
+    'qre.seo.why.feature2.title': 'Reduce Errors',
+    'qre.seo.why.feature2.desc': 'Pre-written templates ensure consistency. No more forgetting to include your address, phone number, or important details in responses.',
+    'qre.seo.why.feature3.title': 'WhatsApp Integration',
+    'qre.seo.why.feature3.desc': 'Generate wa.me links with your pre-filled message and phone number. Customers click the link and WhatsApp opens with your text ready to send.',
+    'qre.seo.why.feature4.title': '100% Private',
+    'qre.seo.why.feature4.desc': 'All templates are stored in your browser. No data is uploaded, no accounts are needed, no cookies are used. Your messages stay on your device.',
+
+    'qre.seo.how.heading': 'How to Use Quick Reply Templates',
+    'qre.seo.how.text': 'Creating a template takes seconds. Enter a name for your template (e.g. "Business Hours"), type the message text, and optionally add a WhatsApp number and category. Click Save Template. Your template now appears in the list below. To use it, click the Copy button to copy the text to your clipboard and paste it into WhatsApp, or click the WhatsApp icon to generate a wa.me link. You can also search templates by keyword, filter by category, and export or import your templates as JSON files for backup or transfer to another device.',
+
+    'qre.seo.faq.heading': 'Frequently Asked Questions',
+
+    'qre.meta.title': 'WhatsApp Quick Reply Templates — Free & Private | OPN Chat',
+    'qre.meta.description': 'Save frequently used WhatsApp messages as templates. Copy to clipboard or generate wa.me links in one click. Free, private, no sign-up. Perfect for business and customer support.',
+    'qre.meta.keywords': 'whatsapp quick reply, whatsapp templates, whatsapp saved messages, quick reply templates, whatsapp business templates, whatsapp message templates, wa.me link generator, whatsapp pre-filled message, opnchat',
+    'qre.meta.og.title': 'WhatsApp Quick Reply Templates — Free & Private',
+    'qre.meta.og.description': 'Save frequently used WhatsApp messages as templates. Copy or send via wa.me link in one click. Free & private.',
+    'qre.meta.twitter.title': 'WhatsApp Quick Reply Templates — OPN Chat',
+    'qre.meta.twitter.description': 'Save WhatsApp messages as templates. Copy or send in one click. Free & private.',
+
+    'hub.service.quickreplies.title': 'Quick Reply Templates',
+    'hub.service.quickreplies.desc': 'Save frequently used WhatsApp messages as templates. Copy to clipboard or generate wa.me links in one click. Free, private, no sign-up.',
+    'hub.service.quickreplies.cta': 'Create Template',
+
+    'footer.quickreplies.link': 'Quick Replies',
+
     // Language switcher
     'lang.switch': 'Español',
     'lang.current': 'English',
