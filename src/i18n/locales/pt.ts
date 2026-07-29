@@ -1062,6 +1062,77 @@ export default {
 
     'footer.quickreplies.link': 'Respostas rápidas',
 
+    // Meeting Scheduler
+    'bc.meetingscheduler': 'Agendador de reuniões',
+
+    'ms.meta.title': 'Agendador de reuniões por fuso horário — Encontre o melhor horário | OPN Chat',
+    'ms.meta.description': 'Encontre o melhor horário para uma chamada entre fusos horários. Linha do tempo visual de sobreposição, link de reunião por WhatsApp com um clique. Grátis, privado, sem cadastro.',
+    'ms.meta.keywords': 'agendador de reuniões, reunião por fuso horário, agendar chamada entre fusos horários, melhor horário de reunião, sobreposição de fusos horários, reunião por whatsapp, agendador de chamadas internacionais',
+    'ms.meta.og.title': 'Agendador de reuniões por fuso horário — OPN Chat',
+    'ms.meta.og.description': 'Encontre o melhor horário para uma chamada entre fusos horários. Sobreposição visual, link de WhatsApp. Grátis e privado.',
+    'ms.meta.twitter.title': 'Agendador de reuniões por fuso horário — OPN Chat',
+    'ms.meta.twitter.description': 'Encontre o melhor horário para uma chamada entre fusos horários. Grátis e privado.',
+
+    'ms.heading': 'Agendador de reuniões por fuso horário',
+    'ms.subtitle': 'Encontre o horário perfeito para uma chamada quando você e seu contato estão em fusos horários diferentes. Sobreposição visual, link de WhatsApp com um clique.',
+    'ms.privacy.badge': '100% privado — funciona no seu navegador',
+
+    'ms.your.tz': 'Seu fuso horário',
+    'ms.their.tz': 'Fuso horário do contato',
+
+    'ms.workhours.title': 'Horário de trabalho (ambos)',
+    'ms.workhours.start': 'Início',
+    'ms.workhours.end': 'Fim',
+
+    'ms.timeline.title': 'Linha do tempo de sobreposição',
+    'ms.timeline.work': 'Trabalho',
+    'ms.timeline.sleep': 'Sono',
+    'ms.timeline.overlap': 'Sobreposição',
+
+    'ms.best.title': 'Melhor janela de reunião',
+    'ms.result.title': 'Horário de reunião selecionado',
+    'ms.result.wa': 'Enviar por WhatsApp',
+    'ms.result.copy': 'Copiar',
+
+    'ms.picker.title': 'Escolha um horário',
+    'ms.picker.hint': 'Clique em qualquer horário abaixo para selecioná-lo e gerar uma mensagem de reunião por WhatsApp.',
+
+    'ms.business.title': 'Feito para equipes internacionais',
+    'ms.business.wa.title': 'Agendamento por WhatsApp',
+    'ms.business.wa.desc': 'Agende chamadas de WhatsApp com clientes em qualquer fuso horário. Envie um convite de reunião com um clique — eles veem o horário no próprio fuso.',
+    'ms.business.remote.title': 'Equipes remotas',
+    'ms.business.remote.desc': 'Encontre a janela de sobreposição quando todos da sua equipe distribuída estão acordados. Essencial para standups, sincronizações e reuniões individuais.',
+    'ms.business.global.title': 'Clientes globais',
+    'ms.business.global.desc': 'Nunca mais agende uma chamada às 3 da manhã por acidente. A linha do tempo visual mostra exatamente quando ambas as partes estão disponíveis.',
+
+    'ms.faq.title': 'Perguntas frequentes',
+    'ms.faq.q1': 'Como funciona o Agendador de reuniões?',
+    'ms.faq.a1': 'Selecione seu fuso horário e o do seu contato. A ferramenta calcula a sobreposição dos horários de trabalho e mostra os melhores horários para uma chamada. Escolha um horário e envie uma mensagem de WhatsApp com o horário da reunião em ambos os fusos.',
+    'ms.faq.q2': 'Ele lida com horário de verão?',
+    'ms.faq.a2': 'Sim. O agendador usa o Intl.DateTimeFormat do navegador que lida automaticamente com as transições de horário de verão para cada fuso horário. Você sempre vê o deslocamento atual correto.',
+    'ms.faq.q3': 'Posso personalizar o horário de trabalho?',
+    'ms.faq.a3': 'Sim. Por padrão, a ferramenta assume horário de trabalho das 9:00–18:00, mas você pode alterar os horários de início e fim para corresponder ao seu horário real. A sobreposição é recalculada instantaneamente.',
+    'ms.faq.q4': 'Como funciona o link do WhatsApp?',
+    'ms.faq.a4': 'Quando você escolhe um horário, a ferramenta gera uma mensagem de WhatsApp pré-preenchida como "Reunião às 15:00 (Moscou) / 07:00 (Nova York)". Você pode enviar para qualquer contato do WhatsApp com um clique ou copiar para colar em outro lugar.',
+    'ms.faq.q5': 'Meus dados são enviados para algum servidor?',
+    'ms.faq.a5': 'Não. Tudo funciona inteiramente no seu navegador usando a API Intl do JavaScript. Nenhum dado é enviado a qualquer servidor. Suas escolhas de fuso horário e horários de reunião nunca são armazenados em nenhum lugar.',
+
+    'ms.seo.title': 'Por que usar um agendador de reuniões por fuso horário?',
+    'ms.seo.feature1.title': 'Sobreposição visual',
+    'ms.seo.feature1.desc': 'Veja os horários de trabalho e sono de ambos os fusos horários de um relance. A sobreposição verde mostra exatamente quando ambas as partes estão disponíveis.',
+    'ms.seo.feature2.title': 'Sugestões inteligentes',
+    'ms.seo.feature2.desc': 'A ferramenta encontra automaticamente a melhor janela de reunião com base nos seus horários de trabalho configurados. Sem cálculos manuais.',
+    'ms.seo.feature3.title': 'Integração com WhatsApp',
+    'ms.seo.feature3.desc': 'Escolha um horário e envie uma mensagem de WhatsApp com o horário da reunião em ambos os fusos horários. Um clique, sem erros.',
+    'ms.seo.feature4.title': 'Compatível com horário de verão',
+    'ms.seo.feature4.desc': 'Ajusta automaticamente para o horário de verão. O horário da sua reunião é sempre preciso, mesmo durante as transições de horário de verão.',
+
+    'hub.service.meetingscheduler.title': 'Agendador de reuniões',
+    'hub.service.meetingscheduler.desc': 'Encontre o melhor horário para uma chamada entre fusos horários. Linha do tempo visual de sobreposição, link de reunião por WhatsApp com um clique. Grátis e privado.',
+    'hub.service.meetingscheduler.cta': 'Agendar reunião',
+
+    'footer.meetingscheduler.link': 'Agendador de reuniões',
+
     // Language switcher
     'lang.switch': 'English',
     'lang.current': 'Português',

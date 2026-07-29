@@ -1062,6 +1062,77 @@ export default {
 
     'footer.quickreplies.link': 'Respuestas rápidas',
 
+    // Meeting Scheduler
+    'bc.meetingscheduler': 'Programador de reuniones',
+
+    'ms.meta.title': 'Programador de reuniones por zona horaria — Encuentra el mejor horario | OPN Chat',
+    'ms.meta.description': 'Encuentra el mejor horario para una llamada entre zonas horarias. Línea de tiempo visual de superposición, enlace de reunión por WhatsApp con un clic. Gratis, privado, sin registro.',
+    'ms.meta.keywords': 'programador de reuniones, reunión por zona horaria, programar llamada entre zonas horarias, mejor horario de reunión, superposición de zonas horarias, reunión por whatsapp, programador de llamadas internacionales',
+    'ms.meta.og.title': 'Programador de reuniones por zona horaria — OPN Chat',
+    'ms.meta.og.description': 'Encuentra el mejor horario para una llamada entre zonas horarias. Superposición visual, enlace de WhatsApp. Gratis y privado.',
+    'ms.meta.twitter.title': 'Programador de reuniones por zona horaria — OPN Chat',
+    'ms.meta.twitter.description': 'Encuentra el mejor horario para una llamada entre zonas horarias. Gratis y privado.',
+
+    'ms.heading': 'Programador de reuniones por zona horaria',
+    'ms.subtitle': 'Encuentra el horario perfecto para una llamada cuando tú y tu contacto están en diferentes zonas horarias. Superposición visual, enlace de WhatsApp con un clic.',
+    'ms.privacy.badge': '100% privado — funciona en tu navegador',
+
+    'ms.your.tz': 'Tu zona horaria',
+    'ms.their.tz': 'Su zona horaria',
+
+    'ms.workhours.title': 'Horario laboral (ambos)',
+    'ms.workhours.start': 'Inicio',
+    'ms.workhours.end': 'Fin',
+
+    'ms.timeline.title': 'Línea de tiempo de superposición',
+    'ms.timeline.work': 'Trabajo',
+    'ms.timeline.sleep': 'Sueño',
+    'ms.timeline.overlap': 'Superposición',
+
+    'ms.best.title': 'Mejor ventana de reunión',
+    'ms.result.title': 'Hora de reunión seleccionada',
+    'ms.result.wa': 'Enviar por WhatsApp',
+    'ms.result.copy': 'Copiar',
+
+    'ms.picker.title': 'Elige un horario',
+    'ms.picker.hint': 'Haz clic en cualquier horario para seleccionarlo y generar un mensaje de reunión por WhatsApp.',
+
+    'ms.business.title': 'Diseñado para equipos internacionales',
+    'ms.business.wa.title': 'Programación por WhatsApp',
+    'ms.business.wa.desc': 'Programa llamadas de WhatsApp con clientes en cualquier zona horaria. Envía una invitación de reunión con un clic — ellos ven la hora en su propia zona.',
+    'ms.business.remote.title': 'Equipos remotos',
+    'ms.business.remote.desc': 'Encuentra la ventana de superposición cuando todos en tu equipo distribuido están despiertos. Esencial para standups, sincronizaciones y reuniones uno a uno.',
+    'ms.business.global.title': 'Clientes globales',
+    'ms.business.global.desc': 'Nunca más programes una llamada a las 3 AM por accidente. La línea de tiempo visual muestra exactamente cuándo ambas partes están disponibles.',
+
+    'ms.faq.title': 'Preguntas frecuentes',
+    'ms.faq.q1': '¿Cómo funciona el Programador de reuniones?',
+    'ms.faq.a1': 'Selecciona tu zona horaria y la de tu contacto. La herramienta calcula la superposición de sus horarios laborales y te muestra los mejores horarios para una llamada. Elige un horario y envía un mensaje de WhatsApp con la hora de la reunión en ambas zonas.',
+    'ms.faq.q2': '¿Maneja el horario de verano?',
+    'ms.faq.a2': 'Sí. El programador utiliza Intl.DateTimeFormat del navegador que maneja automáticamente las transiciones de horario de verano para cada zona horaria. Siempre ves el desplazamiento actual correcto.',
+    'ms.faq.q3': '¿Puedo personalizar el horario laboral?',
+    'ms.faq.a3': 'Sí. Por defecto la herramienta asume un horario laboral de 9:00–18:00, pero puedes cambiar las horas de inicio y fin para que coincidan con tu horario real. La superposición se recalcula al instante.',
+    'ms.faq.q4': '¿Cómo funciona el enlace de WhatsApp?',
+    'ms.faq.a4': 'Cuando eliges un horario, la herramienta genera un mensaje de WhatsApp prellenado como "Reunión a las 15:00 (Moscú) / 07:00 (Nueva York)". Puedes enviarlo a cualquier contacto de WhatsApp con un clic, o copiarlo para pegarlo en otro lugar.',
+    'ms.faq.q5': '¿Se envían mis datos a algún servidor?',
+    'ms.faq.a5': 'No. Todo funciona completamente en tu navegador usando la API Intl de JavaScript. No se envían datos a ningún servidor. Tus elecciones de zona horaria y horarios de reunión nunca se almacenan en ningún lugar.',
+
+    'ms.seo.title': '¿Por qué usar un programador de reuniones por zona horaria?',
+    'ms.seo.feature1.title': 'Superposición visual',
+    'ms.seo.feature1.desc': 'Ve los horarios laborales y de sueño de ambas zonas horarias de un vistazo. La superposición verde muestra exactamente cuándo ambas partes están disponibles.',
+    'ms.seo.feature2.title': 'Sugerencias inteligentes',
+    'ms.seo.feature2.desc': 'La herramienta encuentra automáticamente la mejor ventana de reunión basada en tus horarios laborales configurados. Sin cálculos manuales.',
+    'ms.seo.feature3.title': 'Integración con WhatsApp',
+    'ms.seo.feature3.desc': 'Elige un horario y envía un mensaje de WhatsApp con la hora de la reunión en ambas zonas horarias. Un clic, sin errores.',
+    'ms.seo.feature4.title': 'Compatible con horario de verano',
+    'ms.seo.feature4.desc': 'Se ajusta automáticamente al horario de verano. Tu hora de reunión siempre es precisa, incluso durante las transiciones de horario de verano.',
+
+    'hub.service.meetingscheduler.title': 'Programador de reuniones',
+    'hub.service.meetingscheduler.desc': 'Encuentra el mejor horario para una llamada entre zonas horarias. Línea de tiempo visual de superposición, enlace de reunión por WhatsApp con un clic. Gratis y privado.',
+    'hub.service.meetingscheduler.cta': 'Programar reunión',
+
+    'footer.meetingscheduler.link': 'Programador de reuniones',
+
     // Language switcher
     'lang.switch': 'English',
     'lang.current': 'Español',

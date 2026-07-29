@@ -1006,6 +1006,77 @@ export default {
 
     'footer.quickreplies.link': 'Schnellantworten',
 
+    // Meeting Scheduler
+    'bc.meetingscheduler': 'Meeting-Planer',
+
+    'ms.meta.title': 'Zeitzonen-Meetingplaner — Finden Sie die beste Uhrzeit | OPN Chat',
+    'ms.meta.description': 'Finden Sie die beste Uhrzeit für einen Anruf über Zeitzonen hinweg. Visuelle Überschneidungszeitleiste, WhatsApp-Meetinglink mit einem Klick. Kostenlos, privat, ohne Anmeldung.',
+    'ms.meta.keywords': 'Meetingplaner, Zeitzonen-Meeting, Anruf über Zeitzonen planen, beste Meetingzeit, Zeitzonenüberschneidung, WhatsApp-Meeting, internationaler Anrufplaner',
+    'ms.meta.og.title': 'Zeitzonen-Meetingplaner — OPN Chat',
+    'ms.meta.og.description': 'Finden Sie die beste Uhrzeit für einen Anruf über Zeitzonen hinweg. Visuelle Überschneidung, WhatsApp-Link. Kostenlos & privat.',
+    'ms.meta.twitter.title': 'Zeitzonen-Meetingplaner — OPN Chat',
+    'ms.meta.twitter.description': 'Finden Sie die beste Uhrzeit für einen Anruf über Zeitzonen hinweg. Kostenlos & privat.',
+
+    'ms.heading': 'Zeitzonen-Meetingplaner',
+    'ms.subtitle': 'Finden Sie die perfekte Uhrzeit für einen Anruf, wenn Sie und Ihr Kontakt in verschiedenen Zeitzonen sind. Visuelle Überschneidung, WhatsApp-Link mit einem Klick.',
+    'ms.privacy.badge': '100% privat — läuft in Ihrem Browser',
+
+    'ms.your.tz': 'Ihre Zeitzone',
+    'ms.their.tz': 'Zeitzone des Kontakts',
+
+    'ms.workhours.title': 'Arbeitszeiten (beide)',
+    'ms.workhours.start': 'Beginn',
+    'ms.workhours.end': 'Ende',
+
+    'ms.timeline.title': 'Zeitleiste der Überschneidung',
+    'ms.timeline.work': 'Arbeit',
+    'ms.timeline.sleep': 'Schlaf',
+    'ms.timeline.overlap': 'Überschneidung',
+
+    'ms.best.title': 'Bestes Meeting-Fenster',
+    'ms.result.title': 'Gewählte Meetingzeit',
+    'ms.result.wa': 'Per WhatsApp senden',
+    'ms.result.copy': 'Kopieren',
+
+    'ms.picker.title': 'Wählen Sie einen Zeitraum',
+    'ms.picker.hint': 'Klicken Sie auf einen beliebigen Zeitraum unten, um ihn auszuwählen und eine WhatsApp-Meetingnachricht zu erstellen.',
+
+    'ms.business.title': 'Für internationale Teams entwickelt',
+    'ms.business.wa.title': 'WhatsApp-Terminplanung',
+    'ms.business.wa.desc': 'Planen Sie WhatsApp-Anrufe mit Kunden in jeder Zeitzone. Senden Sie eine Meeting-Einladung mit einem Klick — sie sehen die Zeit in ihrer eigenen Zone.',
+    'ms.business.remote.title': 'Remote-Teams',
+    'ms.business.remote.desc': 'Finden Sie das Überschneidungsfenster, wenn alle in Ihrem verteilten Team wach sind. Unverzichtbar für Standups, Syncs und 1-zu-1-Meetings.',
+    'ms.business.global.title': 'Globale Kunden',
+    'ms.business.global.desc': 'Planen Sie nie wieder versehentlich einen Anruf um 3 Uhr morgens. Die visuelle Zeitleiste zeigt genau, wann beide Parteien verfügbar sind.',
+
+    'ms.faq.title': 'Häufig gestellte Fragen',
+    'ms.faq.q1': 'Wie funktioniert der Meeting-Planer?',
+    'ms.faq.a1': 'Wählen Sie Ihre Zeitzone und die Ihres Kontakts. Das Tool berechnet die Überschneidung Ihrer Arbeitszeiten und zeigt Ihnen die besten Zeitfenster für einen Anruf. Wählen Sie ein Fenster und senden Sie eine WhatsApp-Nachricht mit der Meetingzeit in beiden Zonen.',
+    'ms.faq.q2': 'Wird die Sommerzeit berücksichtigt?',
+    'ms.faq.a2': 'Ja. Der Planer verwendet das integrierte Intl.DateTimeFormat des Browsers, das automatisch Sommerzeitumstellungen für jede Zeitzone verarbeitet. Sie sehen immer den korrekten aktuellen Offset.',
+    'ms.faq.q3': 'Kann ich die Arbeitszeiten anpassen?',
+    'ms.faq.a3': 'Ja. Standardmäßig geht das Tool von 9:00–18:00 Arbeitszeiten aus, aber Sie können Start- und Endzeiten an Ihren tatsächlichen Zeitplan anpassen. Die Überschneidung wird sofort neu berechnet.',
+    'ms.faq.q4': 'Wie funktioniert der WhatsApp-Link?',
+    'ms.faq.a4': 'Wenn Sie ein Zeitfenster auswählen, generiert das Tool eine vorausgefüllte WhatsApp-Nachricht wie „Meeting um 15:00 (Moskau) / 07:00 (New York)". Sie können sie mit einem Klick an jeden WhatsApp-Kontakt senden oder kopieren, um sie woanders einzufügen.',
+    'ms.faq.q5': 'Werden meine Daten an einen Server gesendet?',
+    'ms.faq.a5': 'Nein. Alles läuft vollständig in Ihrem Browser unter Verwendung der JavaScript Intl-API. Keine Daten werden an einen Server gesendet. Ihre Zeitzonenauswahlen und Meetingzeiten werden nirgends gespeichert.',
+
+    'ms.seo.title': 'Warum einen Zeitzonen-Meetingplaner verwenden?',
+    'ms.seo.feature1.title': 'Visuelle Überschneidung',
+    'ms.seo.feature1.desc': 'Sehen Sie Arbeits- und Schlafzeiten für beide Zeitzonen auf einen Blick. Die grüne Überschneidung zeigt genau, wann beide Parteien verfügbar sind.',
+    'ms.seo.feature2.title': 'Intelligente Vorschläge',
+    'ms.seo.feature2.desc': 'Das Tool findet automatisch das beste Meeting-Fenster basierend auf Ihren konfigurierten Arbeitszeiten. Keine manuellen Berechnungen nötig.',
+    'ms.seo.feature3.title': 'WhatsApp-Integration',
+    'ms.seo.feature3.desc': 'Wählen Sie ein Zeitfenster und senden Sie eine WhatsApp-Nachricht mit der Meetingzeit in beiden Zeitzonen. Ein Klick, keine Tippfehler.',
+    'ms.seo.feature4.title': 'Sommerzeit-kompatibel',
+    'ms.seo.feature4.desc': 'Automatische Anpassung an die Sommerzeit. Ihre Meetingzeit ist immer korrekt, auch bei Sommerzeitumstellungen.',
+
+    'hub.service.meetingscheduler.title': 'Meeting-Planer',
+    'hub.service.meetingscheduler.desc': 'Finden Sie die beste Uhrzeit für einen Anruf über Zeitzonen hinweg. Visuelle Überschneidungszeitleiste, WhatsApp-Meetinglink mit einem Klick. Kostenlos & privat.',
+    'hub.service.meetingscheduler.cta': 'Meeting planen',
+
+    'footer.meetingscheduler.link': 'Meeting-Planer',
+
     // Language switcher
     'lang.switch': 'Sprache',
     'lang.current': 'DEU',

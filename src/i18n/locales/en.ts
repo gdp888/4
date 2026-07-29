@@ -1087,6 +1087,77 @@ export default {
 
     'footer.quickreplies.link': 'Quick Replies',
 
+    // Meeting Scheduler
+    'bc.meetingscheduler': 'Meeting Scheduler',
+
+    'ms.meta.title': 'Meeting Time Zone Scheduler — Find the Best Call Time | OPN Chat',
+    'ms.meta.description': 'Find the best time for a call across time zones. Visual overlap timeline, one-click WhatsApp meeting link. Free, private, no sign-up.',
+    'ms.meta.keywords': 'meeting scheduler, timezone meeting, schedule call across time zones, best meeting time, timezone overlap, whatsapp meeting, international call scheduler',
+    'ms.meta.og.title': 'Meeting Time Zone Scheduler — OPN Chat',
+    'ms.meta.og.description': 'Find the best time for a call across time zones. Visual overlap, WhatsApp link. Free & private.',
+    'ms.meta.twitter.title': 'Meeting Time Zone Scheduler — OPN Chat',
+    'ms.meta.twitter.description': 'Find the best time for a call across time zones. Free and private.',
+
+    'ms.heading': 'Meeting Time Zone Scheduler',
+    'ms.subtitle': 'Find the perfect time for a call when you and your contact are in different time zones. Visual overlap, one-click WhatsApp link.',
+    'ms.privacy.badge': '100% private — runs in your browser',
+
+    'ms.your.tz': 'Your time zone',
+    'ms.their.tz': 'Their time zone',
+
+    'ms.workhours.title': 'Working hours (both)',
+    'ms.workhours.start': 'Start',
+    'ms.workhours.end': 'End',
+
+    'ms.timeline.title': 'Time overlap timeline',
+    'ms.timeline.work': 'Working',
+    'ms.timeline.sleep': 'Sleep',
+    'ms.timeline.overlap': 'Overlap',
+
+    'ms.best.title': 'Best meeting window',
+    'ms.result.title': 'Selected meeting time',
+    'ms.result.wa': 'Send via WhatsApp',
+    'ms.result.copy': 'Copy',
+
+    'ms.picker.title': 'Pick a time slot',
+    'ms.picker.hint': 'Click any slot below to select it and generate a WhatsApp meeting message.',
+
+    'ms.business.title': 'Built for international teams',
+    'ms.business.wa.title': 'WhatsApp scheduling',
+    'ms.business.wa.desc': 'Schedule WhatsApp calls with clients in any time zone. Send a meeting invite with one click — they see the time in their own zone.',
+    'ms.business.remote.title': 'Remote teams',
+    'ms.business.remote.desc': 'Find the overlap window when everyone on your distributed team is awake. Essential for standups, syncs, and 1-on-1s.',
+    'ms.business.global.title': 'Global clients',
+    'ms.business.global.desc': 'Never accidentally schedule a call at 3 AM again. The visual timeline shows exactly when both parties are available.',
+
+    'ms.faq.title': 'FAQ',
+    'ms.faq.q1': 'How does the Meeting Scheduler work?',
+    'ms.faq.a1': 'Select your time zone and your contact\'s time zone. The tool calculates the overlap of your working hours and shows you the best time slots for a call. Pick a slot, then send a WhatsApp message with the meeting time in both zones.',
+    'ms.faq.q2': 'Does it handle daylight saving time?',
+    'ms.faq.a2': 'Yes. The scheduler uses your browser\'s built-in Intl.DateTimeFormat which automatically handles DST transitions for every timezone. You always see the correct current offset.',
+    'ms.faq.q3': 'Can I customize working hours?',
+    'ms.faq.a3': 'Yes. By default the tool assumes 9:00–18:00 working hours, but you can change the start and end times to match your actual schedule. The overlap is recalculated instantly.',
+    'ms.faq.q4': 'How does the WhatsApp link work?',
+    'ms.faq.a4': 'When you pick a time slot, the tool generates a pre-filled WhatsApp message like "Meeting at 15:00 (Moscow) / 07:00 (New York)". You can send it to any WhatsApp contact with one click, or copy it to paste elsewhere.',
+    'ms.faq.q5': 'Is my data sent to any server?',
+    'ms.faq.a5': 'No. Everything runs entirely in your browser using the JavaScript Intl API. No data is sent to any server. Your timezone choices and meeting times are never stored anywhere.',
+
+    'ms.seo.title': 'Why use a meeting time zone scheduler?',
+    'ms.seo.feature1.title': 'Visual overlap',
+    'ms.seo.feature1.desc': 'See working hours and sleep hours for both time zones at a glance. The green overlap shows exactly when both parties are available.',
+    'ms.seo.feature2.title': 'Smart suggestions',
+    'ms.seo.feature2.desc': 'The tool automatically finds the best meeting window based on your configured working hours. No manual calculations needed.',
+    'ms.seo.feature3.title': 'WhatsApp integration',
+    'ms.seo.feature3.desc': 'Pick a time slot and send a WhatsApp message with the meeting time in both time zones. One click, no typos.',
+    'ms.seo.feature4.title': 'DST-aware',
+    'ms.seo.feature4.desc': 'Automatically adjusts for daylight saving time. Your meeting time is always accurate, even during DST transitions.',
+
+    'hub.service.meetingscheduler.title': 'Meeting Scheduler',
+    'hub.service.meetingscheduler.desc': 'Find the best time for a call across time zones. Visual overlap timeline, one-click WhatsApp meeting link. Free & private.',
+    'hub.service.meetingscheduler.cta': 'Schedule Meeting',
+
+    'footer.meetingscheduler.link': 'Meeting Scheduler',
+
     // Language switcher
     'lang.switch': 'Español',
     'lang.current': 'English',

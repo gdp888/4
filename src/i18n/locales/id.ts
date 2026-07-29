@@ -1062,6 +1062,77 @@ export default {
 
     'footer.quickreplies.link': 'Balasan Cepat',
 
+    // Meeting Scheduler
+    'bc.meetingscheduler': 'Penjadwal Rapat',
+
+    'ms.meta.title': 'Penjadwal Rapat Zona Waktu — Temukan Waktu Terbaik | OPN Chat',
+    'ms.meta.description': 'Temukan waktu terbaik untuk panggilan lintas zona waktu. Timeline visual tumpang tindih, tautan rapat WhatsApp satu klik. Gratis, pribadi, tanpa daftar.',
+    'ms.meta.keywords': 'penjadwal rapat, rapat zona waktu, jadwal panggilan lintas zona waktu, waktu rapat terbaik, tumpang tindih zona waktu, rapat whatsapp, penjadwal panggilan internasional',
+    'ms.meta.og.title': 'Penjadwal Rapat Zona Waktu — OPN Chat',
+    'ms.meta.og.description': 'Temukan waktu terbaik untuk panggilan lintas zona waktu. Tumpang tindih visual, tautan WhatsApp. Gratis & pribadi.',
+    'ms.meta.twitter.title': 'Penjadwal Rapat Zona Waktu — OPN Chat',
+    'ms.meta.twitter.description': 'Temukan waktu terbaik untuk panggilan lintas zona waktu. Gratis & pribadi.',
+
+    'ms.heading': 'Penjadwal Rapat Zona Waktu',
+    'ms.subtitle': 'Temukan waktu yang sempurna untuk panggilan saat Anda dan kontak berada di zona waktu yang berbeda. Tumpang tindih visual, tautan WhatsApp satu klik.',
+    'ms.privacy.badge': '100% pribadi — berjalan di browser Anda',
+
+    'ms.your.tz': 'Zona waktu Anda',
+    'ms.their.tz': 'Zona waktu mereka',
+
+    'ms.workhours.title': 'Jam kerja (keduanya)',
+    'ms.workhours.start': 'Mulai',
+    'ms.workhours.end': 'Selesai',
+
+    'ms.timeline.title': 'Timeline tumpang tindih',
+    'ms.timeline.work': 'Kerja',
+    'ms.timeline.sleep': 'Tidur',
+    'ms.timeline.overlap': 'Tumpang tindih',
+
+    'ms.best.title': 'Jendela rapat terbaik',
+    'ms.result.title': 'Waktu rapat yang dipilih',
+    'ms.result.wa': 'Kirim via WhatsApp',
+    'ms.result.copy': 'Salin',
+
+    'ms.picker.title': 'Pilih slot waktu',
+    'ms.picker.hint': 'Klik slot mana saja di bawah untuk memilihnya dan membuat pesan rapat WhatsApp.',
+
+    'ms.business.title': 'Dirancang untuk tim internasional',
+    'ms.business.wa.title': 'Penjadwalan WhatsApp',
+    'ms.business.wa.desc': 'Jadwalkan panggilan WhatsApp dengan klien di zona waktu mana pun. Kirim undangan rapat dengan satu klik — mereka melihat waktu di zona mereka sendiri.',
+    'ms.business.remote.title': 'Tim jarak jauh',
+    'ms.business.remote.desc': 'Temukan jendela tumpang tindih saat semua anggota tim terdistribusi Anda terjaga. Penting untuk standup, sinkronisasi, dan pertemuan satu lawan satu.',
+    'ms.business.global.title': 'Klien global',
+    'ms.business.global.desc': 'Jangan pernah lagi menjadwalkan panggilan pukul 3 pagi secara tidak sengaja. Timeline visual menunjukkan dengan tepat kapan kedua pihak tersedia.',
+
+    'ms.faq.title': 'FAQ',
+    'ms.faq.q1': 'Bagaimana cara kerja Penjadwal Rapat?',
+    'ms.faq.a1': 'Pilih zona waktu Anda dan zona waktu kontak Anda. Alat ini menghitung tumpang tindih jam kerja Anda dan menampilkan slot waktu terbaik untuk panggilan. Pilih slot, lalu kirim pesan WhatsApp dengan waktu rapat di kedua zona.',
+    'ms.faq.q2': 'Apakah menangani waktu musim panas (DST)?',
+    'ms.faq.a2': 'Ya. Penjadwal menggunakan Intl.DateTimeFormat bawaan browser yang secara otomatis menangani transisi DST untuk setiap zona waktu. Anda selalu melihat offset saat ini yang benar.',
+    'ms.faq.q3': 'Bisakah saya menyesuaikan jam kerja?',
+    'ms.faq.a3': 'Ya. Secara default alat mengasumsikan jam kerja 9:00–18:00, tetapi Anda dapat mengubah waktu mulai dan selesai sesuai jadwal aktual Anda. Tumpang tindih dihitung ulang secara instan.',
+    'ms.faq.q4': 'Bagaimana cara kerja tautan WhatsApp?',
+    'ms.faq.a4': 'Saat Anda memilih slot waktu, alat ini menghasilkan pesan WhatsApp yang sudah diisi seperti "Rapat pukul 15:00 (Moskow) / 07:00 (New York)". Anda dapat mengirimnya ke kontak WhatsApp mana pun dengan satu klik, atau menyalinnya untuk ditempelkan di tempat lain.',
+    'ms.faq.q5': 'Apakah data saya dikirim ke server mana pun?',
+    'ms.faq.a5': 'Tidak. Semuanya berjalan sepenuhnya di browser Anda menggunakan API Intl JavaScript. Tidak ada data yang dikirim ke server mana pun. Pilihan zona waktu dan waktu rapat Anda tidak pernah disimpan di mana pun.',
+
+    'ms.seo.title': 'Mengapa menggunakan penjadwal rapat zona waktu?',
+    'ms.seo.feature1.title': 'Tumpang tindih visual',
+    'ms.seo.feature1.desc': 'Lihat jam kerja dan jam tidur untuk kedua zona waktu dalam sekejap. Tumpang tindih hijau menunjukkan dengan tepat kapan kedua pihak tersedia.',
+    'ms.seo.feature2.title': 'Saran cerdas',
+    'ms.seo.feature2.desc': 'Alat ini secara otomatis menemukan jendela rapat terbaik berdasarkan jam kerja yang Anda konfigurasi. Tanpa perhitungan manual.',
+    'ms.seo.feature3.title': 'Integrasi WhatsApp',
+    'ms.seo.feature3.desc': 'Pilih slot waktu dan kirim pesan WhatsApp dengan waktu rapat di kedua zona waktu. Satu klik, tanpa salah ketik.',
+    'ms.seo.feature4.title': 'Mendukung DST',
+    'ms.seo.feature4.desc': 'Secara otomatis menyesuaikan untuk waktu musim panas. Waktu rapat Anda selalu akurat, bahkan selama transisi DST.',
+
+    'hub.service.meetingscheduler.title': 'Penjadwal Rapat',
+    'hub.service.meetingscheduler.desc': 'Temukan waktu terbaik untuk panggilan lintas zona waktu. Timeline visual tumpang tindih, tautan rapat WhatsApp satu klik. Gratis & pribadi.',
+    'hub.service.meetingscheduler.cta': 'Jadwalkan Rapat',
+
+    'footer.meetingscheduler.link': 'Penjadwal Rapat',
+
     // Language switcher
     'lang.switch': 'English',
     'lang.current': 'Bahasa Indonesia',
