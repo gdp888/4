@@ -15,7 +15,6 @@ function getLangFromPath(pathname: string): Lang {
 
 const lang = getLangFromPath(Astro.url.pathname);
 const t = useTranslations(lang);
-export const prerender = true;
 ---
 
 <Layout title={`404 — ${t('404.title')} | OPN Chat`} lang={lang}>

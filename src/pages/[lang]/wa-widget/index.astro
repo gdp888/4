@@ -8,6 +8,5 @@ export function getStaticPaths() {
     .map((lang) => ({ params: { lang }, props: { lang } }));
 }
 const { lang } = Astro.props;
-export const prerender = true;
 ---
 <WidgetContent lang={lang} />
