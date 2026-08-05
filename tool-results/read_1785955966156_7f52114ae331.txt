@@ -1,0 +1,1675 @@
+     1→     1→---
+     2→     2→import Layout from '../layouts/Layout.astro';
+     3→     3→import { useTranslations } from '../i18n/utils';
+     4→     4→import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
+     5→     5→import { languages, type Lang } from '../i18n/ui';
+     6→     6→import SiteHeader from './SiteHeader.astro';
+     7→     7→import Breadcrumbs from './Breadcrumbs.astro';
+     8→     8→import SEOHead from './SEOHead.astro';
+     9→     9→import { localeMap } from '../i18n/localeMap';
+    10→    10→import { timezones } from '../data/timezones';
+    11→    11→
+    12→    12→export interface Props {
+    13→    13→  lang: Lang;
+    14→    14→}
+    15→    15→
+    16→    16→const { lang } = Astro.props;
+    17→    17→const t = useTranslations(lang);
+    18→    18→
+    19→    19→// Localized city name map for client-side JS
+    20→    20→const cityTranslations: Record<string, string> = {};
+    21→    21→const offsetMap: Record<string, string> = {};
+    22→    22→timezones.forEach(tz => {
+    23→    23→  cityTranslations[tz.value] = t(tz.cityKey);
+    24→    24→  offsetMap[tz.value] = tz.offset;
+    25→    25→});
+    26→    26→
+    27→    27→const tzSchema = {
+    28→    28→  "@context": "https://schema.org",
+    29→    29→  "@graph": [
+    30→    30→    {
+    31→    31→      "@type": "WebApplication",
+    32→    32→      "name": t('tz.heading'),
+    33→    33→      "url": getAbsoluteLocaleUrl(lang, 'timezone'),
+    34→    34→      "description": t('tz.meta.description'),
+    35→    35→      "applicationCategory": "UtilityApplication",
+    36→    36→      "operatingSystem": "Any",
+    37→    37→      "offers": {
+    38→    38→        "@type": "Offer",
+    39→    39→        "price": "0",
+    40→    40→        "priceCurrency": "USD"
+    41→    41→      },
+    42→    42→      "isPartOf": {
+    43→    43→        "@type": "WebSite",
+    44→    44→        "name": "OPN Chat",
+    45→    45→        "url": "https://opnchat.net/"
+    46→    46→      }
+    47→    47→    },
+    48→    48→    {
+    49→    49→      "@type": "BreadcrumbList",
+    50→    50→      "itemListElement": [
+    51→    51→        {
+    52→    52→          "@type": "ListItem",
+    53→    53→          "position": 1,
+    54→    54→          "name": "OPN Chat",
+    55→    55→          "item": getAbsoluteLocaleUrl(lang, '')
+    56→    56→        },
+    57→    57→        {
+    58→    58→          "@type": "ListItem",
+    59→    59→          "position": 2,
+    60→    60→          "name": t('tz.heading'),
+    61→    61→          "item": getAbsoluteLocaleUrl(lang, 'timezone')
+    62→    62→        }
+    63→    63→      ]
+    64→    64→    },
+    65→    65→    {
+    66→    66→      "@type": "FAQPage",
+    67→    67→      "mainEntity": [
+    68→    68→        { "@type": "Question", "name": t('tz.faq.q1'), "acceptedAnswer": { "@type": "Answer", "text": t('tz.faq.a1') } },
+    69→    69→        { "@type": "Question", "name": t('tz.faq.q2'), "acceptedAnswer": { "@type": "Answer", "text": t('tz.faq.a2') } },
+    70→    70→        { "@type": "Question", "name": t('tz.faq.q3'), "acceptedAnswer": { "@type": "Answer", "text": t('tz.faq.a3') } },
+    71→    71→        { "@type": "Question", "name": t('tz.faq.q4'), "acceptedAnswer": { "@type": "Answer", "text": t('tz.faq.a4') } },
+    72→    72→        { "@type": "Question", "name": t('tz.faq.q5'), "acceptedAnswer": { "@type": "Answer", "text": t('tz.faq.a5') } }
+    73→    73→      ]
+    74→    74→    }
+    75→    75→  ]
+    76→    76→};
+    77→    77→---
+    78→    78→
+    79→    79→<Layout title={t('tz.meta.title')} lang={lang} service="timezone">
+    80→    80→  <Fragment slot="meta">
+    81→    81→  <SEOHead
+    82→    82→  lang={lang}
+    83→    83→  description={t('tz.meta.description')}
+    84→    84→  canonicalUrl={getAbsoluteLocaleUrl(lang, 'timezone')}
+    85→    85→  ogTitle={t('tz.meta.og.title')}
+    86→    86→  ogDescription={t('tz.meta.og.description')}
+    87→    87→  ogUrl={getAbsoluteLocaleUrl(lang, 'timezone')}
+    88→    88→  schema={tzSchema}
+    89→    89→  extraMeta={`<meta name="keywords" content="${t('tz.meta.keywords')}" /><meta name="twitter:card" content="summary" /><meta name="twitter:title" content="${t('tz.meta.twitter.title')}" /><meta name="twitter:description" content="${t('tz.meta.twitter.description')}" />`}
+    90→    90→/>
+    91→    91→</Fragment>
+    92→    92→
+    93→    93→  <div class="container">
+    94→    94→      <!-- Header -->
+    95→    95→      <SiteHeader lang={lang} path="timezone" activeTool="timezone" />
+    96→    96→
+    97→    97→        <Breadcrumbs lang={lang} items={[{ label: t('bc.home'), href: getRelativeLocaleUrl(lang) }, { label: t('bc.timezone') }]} />
+    98→    98→
+    99→    99→      <!-- Hero -->
+   100→   100→      <div class="hero">
+   101→   101→        <h1 class="title"><span class="title-full">{t('tz.heading')}</span><span class="title-short">{t('tz.heading.short')}</span></h1>
+   102→   102→        <p class="subtitle">{t('tz.subtitle')}</p>
+   103→   103→        <div class="privacy-badge">
+   104→   104→          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+   105→   105→          {t('tz.privacy.badge')}
+   106→   106→        </div>
+   107→   107→      </div>
+   108→   108→
+   109→   109→      <!-- ===== Guided Step-by-Step UX ===== -->
+   110→   110→
+   111→   111→      <!-- Pass localized city names + offsets + i18n strings to client-side JS -->
+   112→   112→      <div id="tz-city-data" data-cities={JSON.stringify(cityTranslations)} data-offsets={JSON.stringify(offsetMap)} style="display:none"></div>
+   113→   113→      <div id="tz-i18n" data-lang={lang} data-same-time={t('tz.diff.same')} data-already-added={t('tz.modal.search.already_added')} data-no-results={t('tz.modal.search.no_results')} data-copy-time={t('tz.copy.time')} data-copy-done={t('tz.copy.done')} data-tl-title={t('tz.timeline.title')} data-tl-work={t('tz.timeline.legend.work')} data-tl-night={t('tz.timeline.legend.night')} data-tl-now={t('tz.timeline.now')} data-tl-best={t('tz.timeline.best')} data-bt-title={t('tz.besttime.title')} data-bt-no-overlap={t('tz.besttime.no_overlap')} data-bt-no-overlap-desc={t('tz.besttime.no_overlap.desc')} data-bt-in={t('tz.besttime.in')} data-bt-badge={t('tz.besttime.badge')} data-bt-now={t('tz.besttime.now')} data-bt-explain={t('tz.besttime.explain')} data-bt-explain-no-overlap={t('tz.besttime.explain.no_overlap')} data-step1-label={t('tz.step1.label')} data-step1-placeholder={t('tz.step1.placeholder')} data-step1-selected={t('tz.step1.selected')} data-step2-label={t('tz.step2.label')} data-step2-hint={t('tz.step2.hint')} data-step2-example={t('tz.step2.example')} data-step2-now={t('tz.step2.now')} data-step2-custom={t('tz.step2.custom')} data-step3-label={t('tz.step3.label')} data-step3-hint={t('tz.step3.hint')} data-step3-placeholder={t('tz.step3.placeholder')} data-result-add-more={t('tz.result.add_more')} data-result-in={t('tz.result.in')} data-modal-placeholder={t('tz.modal.search.placeholder')} data-modal-title={t('tz.modal.title')} data-modal-cancel={t('tz.modal.cancel')} data-modal-no-results={t('tz.modal.search.no_results')} data-add-city={t('tz.add.city')} style="display:none"></div>
+   114→   114→
+   115→   115→      <!-- Hidden select for base TZ value (JS reads .value) -->
+   116→   116→      <select id="base-tz" style="display:none">
+   117→   117→        {timezones.map(tz => (
+   118→   118→          <option value={tz.value}>{t(tz.cityKey)} ({tz.offset})</option>
+   119→   119→        ))}
+   120→   120→      </select>
+   121→   121→
+   122→   122→      <!-- STEP 1: Choose your timezone -->
+   123→   123→      <div class="step-card" id="step1-card">
+   124→   124→        <div class="step-number">1</div>
+   125→   125→        <div class="step-body">
+   126→   126→          <label class="step-label" for="step1-search">{t('tz.step1.label')}</label>
+   127→   127→          <p class="step-hint">{t('tz.step1.placeholder')}</p>
+   128→   128→          <div class="step-search-wrap">
+   129→   129→            <svg class="step-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+   130→   130→            <input type="search" id="step1-search" class="step-search-input" placeholder={t('tz.step1.placeholder')} autocomplete="off" />
+   131→   131→          </div>
+   132→   132→          <ul class="step-results" id="step1-results" role="listbox"></ul>
+   133→   133→          <!-- Selected timezone display (shown after selection) -->
+   134→   134→          <div class="step1-selected" id="step1-selected" style="display:none">
+   135→   135→            <span class="step1-selected-label">{t('tz.step1.selected')}</span>
+   136→   136→            <span class="step1-selected-value" id="step1-selected-value"></span>
+   137→   137→            <span class="step1-selected-offset" id="step1-selected-offset"></span>
+   138→   138→            <button type="button" class="step1-change-btn" id="step1-change-btn" aria-label={t('tz.step1.label')}>
+   139→   139→              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+   140→   140→            </button>
+   141→   141→          </div>
+   142→   142→        </div>
+   143→   143→      </div>
+   144→   144→
+   145→   145→      <!-- STEP 2: Specify time -->
+   146→   146→      <div class="step-card step-inactive" id="step2-card">
+   147→   147→        <div class="step-number">2</div>
+   148→   148→        <div class="step-body">
+   149→   149→          <label class="step-label">{t('tz.step2.label')}</label>
+   150→   150→          <p class="step-hint" id="step2-hint">{t('tz.step2.hint')}</p>
+   151→   151→          <p class="step-example" id="step2-example">{t('tz.step2.example')}</p>
+   152→   152→          <div class="step2-time-toggle" id="step2-time-toggle">
+   153→   153→            <button class="step2-toggle-btn active" data-mode="now" type="button">{t('tz.step2.now')}</button>
+   154→   154→            <button class="step2-toggle-btn" data-mode="custom" type="button">{t('tz.step2.custom')}</button>
+   155→   155→          </div>
+   156→   156→          <div class="step2-custom-wrap" id="step2-custom-wrap" style="display:none">
+   157→   157→            <input type="time" id="custom-time" class="step2-time-input" value="12:00" />
+   158→   158→          </div>
+   159→   159→          <div class="base-time-display" id="base-time-display">
+   160→   160→            <span class="base-time-value" id="base-time-value">--:--:--</span>
+   161→   161→            <span class="base-time-offset" id="base-time-offset"></span>
+   162→   162→            <span class="base-time-date" id="base-time-date"></span>
+   163→   163→          </div>
+   164→   164→          <div class="time-format-toggle" id="time-format-toggle">
+   165→   165→            <button class="format-btn active" data-format="24" type="button" aria-label={t('tz.timeformat.24h')}>{t('tz.timeformat.24h')}</button>
+   166→   166→            <button class="format-btn" data-format="12" type="button" aria-label={t('tz.timeformat.12h')}>{t('tz.timeformat.12h')}</button>
+   167→   167→          </div>
+   168→   168→        </div>
+   169→   169→      </div>
+   170→   170→
+   171→   171→      <!-- STEP 3: Add contact city -->
+   172→   172→      <div class="step-card step-inactive" id="step3-card">
+   173→   173→        <div class="step-number">3</div>
+   174→   174→        <div class="step-body">
+   175→   175→          <label class="step-label">{t('tz.step3.label')}</label>
+   176→   176→          <p class="step-hint">{t('tz.step3.hint')}</p>
+   177→   177→          <div class="step-search-wrap">
+   178→   178→            <svg class="step-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+   179→   179→            <input type="search" id="step3-search" class="step-search-input" placeholder={t('tz.step3.placeholder')} autocomplete="off" />
+   180→   180→          </div>
+   181→   181→          <ul class="step-results" id="step3-results" role="listbox"></ul>
+   182→   182→          <button class="add-city-btn" id="add-city-btn" type="button" style="display:none">
+   183→   183→            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+   184→   184→            <span id="add-city-btn-text">{t('tz.result.add_more')}</span>
+   185→   185→          </button>
+   186→   186→        </div>
+   187→   187→      </div>
+   188→   188→
+   189→   189→      <!-- Conversion Result: Clock Grid -->
+   190→   190→      <div class="result-section" id="result-section" style="display:none">
+   191→   191→        <div class="clocks-grid" id="clocks-grid">
+   192→   192→          <!-- Cards injected by JS -->
+   193→   193→        </div>
+   194→   194→      </div>
+   195→   195→
+   196→   196→      <!-- Visual 24h Timeline -->
+   197→   197→      <section class="timeline-section" id="timeline-section">
+   198→   198→        <h2 class="section-title">{t('tz.timeline.title')}</h2>
+   199→   199→        <div class="timeline-legend">
+   200→   200→          <span class="legend-item legend-work"><span class="legend-swatch"></span>{t('tz.timeline.legend.work')}</span>
+   201→   201→          <span class="legend-item legend-night"><span class="legend-swatch"></span>{t('tz.timeline.legend.night')}</span>
+   202→   202→        </div>
+   203→   203→        <div class="timeline-wrapper" id="timeline-wrapper">
+   204→   204→          <!-- Hour header row -->
+   205→   205→          <div class="timeline-header" id="timeline-header"></div>
+   206→   206→          <!-- City rows injected by JS -->
+   207→   207→          <div class="timeline-rows" id="timeline-rows"></div>
+   208→   208→          <!-- Now marker -->
+   209→   209→          <div class="timeline-now" id="timeline-now"></div>
+   210→   210→          <!-- Best time badges -->
+   211→   211→          <div class="timeline-best" id="timeline-best"></div>
+   212→   212→        </div>
+   213→   213→      </section>
+   214→   214→
+   215→   215→      <!-- Best Time Recommendation Card -->
+   216→   216→      <div class="besttime-card" id="besttime-card">
+   217→   217→        <div class="besttime-header">
+   218→   218→          <div class="besttime-icon-wrap">
+   219→   219→            <svg class="besttime-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+   220→   220→          </div>
+   221→   221→          <h2 class="besttime-title">{t('tz.besttime.title')}</h2>
+   222→   222→        </div>
+   223→   223→        <div class="besttime-body" id="besttime-body">
+   224→   224→          <!-- Injected by JS -->
+   225→   225→        </div>
+   226→   226→      </div>
+   227→   227→
+   228→   228→      <!-- Business Use Case -->
+   229→   229→      <section class="business-section">
+   230→   230→        <h2 class="section-title">{t('tz.business.title')}</h2>
+   231→   231→        <div class="business-grid">
+   232→   232→          <div class="business-card">
+   233→   233→            <div class="business-icon">
+   234→   234→              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+   235→   235→            </div>
+   236→   236→            <h3 class="business-card-title">{t('tz.business.wa.title')}</h3>
+   237→   237→            <p class="business-card-desc">{t('tz.business.wa.desc')}</p>
+   238→   238→          </div>
+   239→   239→          <div class="business-card">
+   240→   240→            <div class="business-icon">
+   241→   241→              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+   242→   242→            </div>
+   243→   243→            <h3 class="business-card-title">{t('tz.business.tg.title')}</h3>
+   244→   244→            <p class="business-card-desc">{t('tz.business.tg.desc')}</p>
+   245→   245→          </div>
+   246→   246→          <div class="business-card">
+   247→   247→            <div class="business-icon schedule-icon">
+   248→   248→              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
+   249→   249→            </div>
+   250→   250→            <h3 class="business-card-title">{t('tz.business.schedule.title')}</h3>
+   251→   251→            <p class="business-card-desc">{t('tz.business.schedule.desc')}</p>
+   252→   252→          </div>
+   253→   253→        </div>
+   254→   254→      </section>
+   255→   255→
+   256→   256→      <!-- FAQ -->
+   257→   257→      <section class="faq-section">
+   258→   258→        <h2 class="section-title">{t('tz.faq.title')}</h2>
+   259→   259→        {[
+   260→   260→          { q: t('tz.faq.q1'), a: t('tz.faq.a1') },
+   261→   261→          { q: t('tz.faq.q2'), a: t('tz.faq.a2') },
+   262→   262→          { q: t('tz.faq.q3'), a: t('tz.faq.a3') },
+   263→   263→          { q: t('tz.faq.q4'), a: t('tz.faq.a4') },
+   264→   264→          { q: t('tz.faq.q5'), a: t('tz.faq.a5') },
+   265→   265→        ].map((item) => (
+   266→   266→          <details class="faq-item">
+   267→   267→            <summary class="faq-q">{item.q}</summary>
+   268→   268→            <p class="faq-a">{item.a}</p>
+   269→   269→          </details>
+   270→   270→        ))}
+   271→   271→      </section>
+   272→   272→
+   273→   273→      <!-- SEO -->
+   274→   274→      <section class="seo-section">
+   275→   275→        <h2 class="section-title">{t('tz.seo.title')}</h2>
+   276→   276→        <div class="seo-grid">
+   277→   277→          <div class="seo-card">
+   278→   278→            <h3>{t('tz.seo.feature1.title')}</h3>
+   279→   279→            <p>{t('tz.seo.feature1.desc')}</p>
+   280→   280→          </div>
+   281→   281→          <div class="seo-card">
+   282→   282→            <h3>{t('tz.seo.feature2.title')}</h3>
+   283→   283→            <p>{t('tz.seo.feature2.desc')}</p>
+   284→   284→          </div>
+   285→   285→          <div class="seo-card">
+   286→   286→            <h3>{t('tz.seo.feature3.title')}</h3>
+   287→   287→            <p>{t('tz.seo.feature3.desc')}</p>
+   288→   288→          </div>
+   289→   289→          <div class="seo-card">
+   290→   290→            <h3>{t('tz.seo.feature4.title')}</h3>
+   291→   291→            <p>{t('tz.seo.feature4.desc')}</p>
+   292→   292→          </div>
+   293→   293→        </div>
+   294→   294→      </section>
+   295→   295→</div>
+   296→   296→</Layout>
+   297→   297→
+   298→   298→<script>
+   299→   299→  // ===== Guided Step-by-Step Timezone Converter =====
+   300→   300→
+   301→   301→  // --- DOM refs ---
+   302→   302→  const baseTzSelect = document.getElementById('base-tz') as HTMLSelectElement | null;
+   303→   303→  const baseTimeValue = document.getElementById('base-time-value');
+   304→   304→  const baseTimeOffset = document.getElementById('base-time-offset');
+   305→   305→  const baseTimeDate = document.getElementById('base-time-date');
+   306→   306→  const customTimeInput = document.getElementById('custom-time') as HTMLInputElement | null;
+   307→   307→  const clocksGrid = document.getElementById('clocks-grid');
+   308→   308→  const addCityBtn = document.getElementById('add-city-btn');
+   309→   309→
+   310→   310→  // Step cards
+   311→   311→  const step1Card = document.getElementById('step1-card');
+   312→   312→  const step2Card = document.getElementById('step2-card');
+   313→   313→  const step3Card = document.getElementById('step3-card');
+   314→   314→  const step1Search = document.getElementById('step1-search') as HTMLInputElement | null;
+   315→   315→  const step1Results = document.getElementById('step1-results');
+   316→   316→  const step1Selected = document.getElementById('step1-selected');
+   317→   317→  const step1SelectedValue = document.getElementById('step1-selected-value');
+   318→   318→  const step1SelectedOffset = document.getElementById('step1-selected-offset');
+   319→   319→  const step1ChangeBtn = document.getElementById('step1-change-btn');
+   320→   320→  const step2TimeToggle = document.getElementById('step2-time-toggle');
+   321→   321→  const step2CustomWrap = document.getElementById('step2-custom-wrap');
+   322→   322→  const step3Search = document.getElementById('step3-search') as HTMLInputElement | null;
+   323→   323→  const step3Results = document.getElementById('step3-results');
+   324→   324→  const resultSection = document.getElementById('result-section');
+   325→   325→  const timelineSection = document.getElementById('timeline-section');
+   326→   326→  const besttimeCard = document.getElementById('besttime-card');
+   327→   327→
+   328→   328→  // --- i18n data ---
+   329→   329→  const tzI18nEl = document.getElementById('tz-i18n');
+   330→   330→  const pageLocale = tzI18nEl?.dataset?.lang || 'en';
+   331→   331→  const i18nAlreadyAdded = tzI18nEl?.dataset?.alreadyAdded || 'Added';
+   332→   332→  const i18nNoResults = tzI18nEl?.dataset?.noResults || 'No cities found';
+   333→   333→  const i18nCopyTime = tzI18nEl?.dataset?.copyTime || 'Copy time';
+   334→   334→  const i18nCopyDone = tzI18nEl?.dataset?.copyDone || 'Copied!';
+   335→   335→  const i18nTlNow = tzI18nEl?.dataset?.tlNow || 'now';
+   336→   336→  const i18nTlBest = tzI18nEl?.dataset?.tlBest || 'Best time';
+   337→   337→  const i18nBtTitle = tzI18nEl?.dataset?.btTitle || 'Best time to meet';
+   338→   338→  const i18nBtNoOverlap = tzI18nEl?.dataset?.btNoOverlap || 'No working-hour overlap found';
+   339→   339→  const i18nBtNoOverlapDesc = tzI18nEl?.dataset?.btNoOverlapDesc || 'The selected cities have no common working hours.';
+   340→   340→  const i18nBtIn = tzI18nEl?.dataset?.btIn || 'in';
+   341→   341→  const i18nBtBadge = tzI18nEl?.dataset?.btBadge || 'Best time';
+   342→   342→  const i18nBtNow = tzI18nEl?.dataset?.btNow || 'now';
+   343→   343→  const i18nBtExplain = tzI18nEl?.dataset?.btExplain || '';
+   344→   344→  const i18nBtExplainNoOverlap = tzI18nEl?.dataset?.btExplainNoOverlap || '';
+   345→   345→  const i18nStep2Example = tzI18nEl?.dataset?.step2Example || '';
+   346→   346→  const i18nResultIn = tzI18nEl?.dataset?.resultIn || 'in';
+   347→   347→  const i18nAddCity = tzI18nEl?.dataset?.addCity || 'Add city';
+   348→   348→
+   349→   349→  // --- Localized city data ---
+   350→   350→  const cityDataEl = document.getElementById('tz-city-data');
+   351→   351→  const dataset = cityDataEl?.dataset || {};
+   352→   352→  const cityNames: Record<string, string> = dataset.cities ? JSON.parse(dataset.cities) : {};
+   353→   353→  const offsetMap: Record<string, string> = dataset.offsets ? JSON.parse(dataset.offsets) : {};
+   354→   354→
+   355→   355→  // English fallback names for cross-locale search
+   356→   356→  const englishNames: Record<string, string> = {
+   357→   357→    'Europe/Moscow': 'Moscow', 'Asia/Dubai': 'Dubai', 'America/New_York': 'New York',
+   358→   358→    'America/Los_Angeles': 'Los Angeles', 'Europe/London': 'London', 'Europe/Berlin': 'Berlin',
+   359→   359→    'Asia/Kolkata': 'Mumbai', 'Asia/Shanghai': 'Shanghai', 'Asia/Tokyo': 'Tokyo',
+   360→   360→    'Asia/Singapore': 'Singapore', 'Asia/Jakarta': 'Jakarta', 'Asia/Riyadh': 'Riyadh',
+   361→   361→    'America/Sao_Paulo': 'Sao Paulo', 'America/Chicago': 'Chicago', 'America/Denver': 'Denver',
+   362→   362→    'Australia/Sydney': 'Sydney', 'Pacific/Auckland': 'Auckland', 'Africa/Cairo': 'Cairo',
+   363→   363→    'Africa/Lagos': 'Lagos', 'Asia/Karachi': 'Karachi', 'Asia/Bangkok': 'Bangkok',
+   364→   364→    'Europe/Istanbul': 'Istanbul', 'Europe/Paris': 'Paris', 'America/Toronto': 'Toronto',
+   365→   365→    'America/Mexico_City': 'Mexico City', 'America/Bogota': 'Bogota',
+   366→   366→    'Asia/Kuala_Lumpur': 'Kuala Lumpur', 'Asia/Seoul': 'Seoul', 'Asia/Taipei': 'Taipei',
+   367→   367→    'Asia/Hong_Kong': 'Hong Kong', 'Europe/Madrid': 'Madrid', 'Europe/Rome': 'Rome',
+   368→   368→    'Europe/Amsterdam': 'Amsterdam', 'Europe/Warsaw': 'Warsaw', 'Europe/Kiev': 'Kyiv',
+   369→   369→    'Europe/Lisbon': 'Lisbon', 'Europe/Zurich': 'Zurich', 'Asia/Dhaka': 'Dhaka',
+   370→   370→    'Asia/Tehran': 'Tehran', 'Asia/Kabul': 'Kabul', 'Asia/Yangon': 'Yangon',
+   371→   371→    'Pacific/Honolulu': 'Honolulu',
+   372→   372→  };
+   373→   373→
+   374→   374→  // Build search index
+   375→   375→  type SearchEntry = { tz: string; localizedName: string; englishName: string; offset: string; searchStr: string; };
+   376→   376→  const searchIndex: SearchEntry[] = Object.keys(cityNames).map(tz => {
+   377→   377→    const localizedName = cityNames[tz] || tz.split('/').pop()!.replace(/_/g, ' ');
+   378→   378→    const englishName = englishNames[tz] || tz.split('/').pop()!.replace(/_/g, ' ');
+   379→   379→    const offset = offsetMap[tz] || '';
+   380→   380→    const searchStr = (localizedName + ' ' + englishName + ' ' + tz + ' ' + offset)
+   381→   381→      .toLowerCase().replace(/[^a-zа-яё0-9+\-:_/\s]/giu, ' ');
+   382→   382→    return { tz, localizedName, englishName, offset, searchStr };
+   383→   383→  });
+   384→   384→
+   385→   385→  // --- State ---
+   386→   386→  let addedCities: string[] = [];
+   387→   387→  let use12h = localStorage.getItem('tz-use12h') === '12';
+   388→   388→  let timeMode: 'now' | 'custom' = 'now';
+   389→   389→  let currentBestHours: number[] = [];
+   390→   390→  let step1Highlighted = -1;
+   391→   391→  let step3Highlighted = -1;
+   392→   392→
+   393→   393→  // --- 12h/24h format toggle ---
+   394→   394→  const formatToggle = document.getElementById('time-format-toggle');
+   395→   395→  const formatBtns = formatToggle?.querySelectorAll('.format-btn');
+   396→   396→  formatBtns?.forEach(btn => {
+   397→   397→    btn.classList.toggle('active', btn.getAttribute('data-format') === (use12h ? '12' : '24'));
+   398→   398→  });
+   399→   399→  formatBtns?.forEach(btn => {
+   400→   400→    btn.addEventListener('click', () => {
+   401→   401→      const fmt = btn.getAttribute('data-format');
+   402→   402→      use12h = fmt === '12';
+   403→   403→      localStorage.setItem('tz-use12h', use12h ? '12' : '24');
+   404→   404→      formatBtns.forEach(b => b.classList.toggle('active', b.getAttribute('data-format') === fmt));
+   405→   405→      updateAll();
+   406→   406→    });
+   407→   407→  });
+   408→   408→
+   409→   409→  // --- Time mode toggle (Step 2) ---
+   410→   410→  step2TimeToggle?.querySelectorAll('.step2-toggle-btn').forEach(btn => {
+   411→   411→    btn.addEventListener('click', () => {
+   412→   412→      const mode = btn.getAttribute('data-mode');
+   413→   413→      timeMode = mode === 'custom' ? 'custom' : 'now';
+   414→   414→      step2TimeToggle.querySelectorAll('.step2-toggle-btn').forEach(b =>
+   415→   415→        b.classList.toggle('active', b.getAttribute('data-mode') === mode));
+   416→   416→      if (step2CustomWrap) step2CustomWrap.style.display = timeMode === 'custom' ? 'block' : 'none';
+   417→   417→      updateAll();
+   418→   418→    });
+   419→   419→  });
+   420→   420→
+   421→   421→  customTimeInput?.addEventListener('input', () => updateAll());
+   422→   422→
+   423→   423→  // --- Utility functions ---
+   424→   424→  function getOffsetLabel(tz: string, date?: Date): string {
+   425→   425→    try {
+   426→   426→      const d = date || new Date();
+   427→   427→      const formatter = new Intl.DateTimeFormat(pageLocale, { timeZone: tz, timeZoneName: 'shortOffset' });
+   428→   428→      const parts = formatter.formatToParts(d);
+   429→   429→      return parts.find(p => p.type === 'timeZoneName')?.value || tz;
+   430→   430→    } catch { return tz; }
+   431→   431→  }
+   432→   432→
+   433→   433→  function getBaseOffset(tz: string, date: Date): number {
+   434→   434→    const utcDate = new Date(date.getTime());
+   435→   435→    const tzString = date.toLocaleString('en-US', { timeZone: tz });
+   436→   436→    const tzDate = new Date(tzString);
+   437→   437→    return (tzDate.getTime() - utcDate.getTime()) / 60000;
+   438→   438→  }
+   439→   439→
+   440→   440→  function formatDiff(diffHours: number): string {
+   441→   441→    if (isNaN(diffHours)) return '';
+   442→   442→    if (diffHours === 0) return tzI18nEl?.dataset?.sameTime || 'Same time';
+   443→   443→    const sign = diffHours > 0 ? '+' : '-';
+   444→   444→    const abs = Math.abs(diffHours);
+   445→   445→    const h = Math.floor(abs);
+   446→   446→    const m = Math.round((abs - h) * 60);
+   447→   447→    if (m === 0) return sign + h + 'h';
+   448→   448→    if (m === 30) return sign + h + ':30h';
+   449→   449→    return sign + h + 'h ' + m + 'm';
+   450→   450→  }
+   451→   451→
+   452→   452→  function getTimeInTz(tz: string, baseTz: string, customTime?: string): { time: string; date: string; diff: string } {
+   453→   453→    try {
+   454→   454→      const now = new Date();
+   455→   455→      if (customTime) {
+   456→   456→        const [hours, minutes] = customTime.split(':').map(Number);
+   457→   457→        const baseFormatter = new Intl.DateTimeFormat(pageLocale, {
+   458→   458→          timeZone: baseTz, year: 'numeric', month: '2-digit', day: '2-digit',
+   459→   459→          hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: use12h ? true : false
+   460→   460→        });
+   461→   461→        const baseParts = baseFormatter.formatToParts(now);
+   462→   462→        const year = parseInt(baseParts.find(p => p.type === 'year')?.value || '0');
+   463→   463→        const month = parseInt(baseParts.find(p => p.type === 'month')?.value || '0') - 1;
+   464→   464→        const day = parseInt(baseParts.find(p => p.type === 'day')?.value || '0');
+   465→   465→        const utcDate = new Date(Date.UTC(year, month, day, hours, minutes, 0));
+   466→   466→        const baseOff = getBaseOffset(baseTz, utcDate);
+   467→   467→        utcDate.setUTCMinutes(utcDate.getUTCMinutes() - baseOff);
+   468→   468→        const targetFormatter = new Intl.DateTimeFormat(pageLocale, { timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: use12h ? true : false });
+   469→   469→        const dateFormatter = new Intl.DateTimeFormat(pageLocale, { timeZone: tz, weekday: 'short', month: 'short', day: 'numeric' });
+   470→   470→        const time = targetFormatter.format(utcDate);
+   471→   471→        const dateStr = dateFormatter.format(utcDate);
+   472→   472→        const targetOffset = getBaseOffset(tz, utcDate);
+   473→   473→        const diffHours = (targetOffset - baseOff) / 60;
+   474→   474→        return { time, date: dateStr, diff: formatDiff(diffHours) };
+   475→   475→      } else {
+   476→   476→        const timeFormatter = new Intl.DateTimeFormat(pageLocale, { timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: use12h ? true : false });
+   477→   477→        const dateFormatter = new Intl.DateTimeFormat(pageLocale, { timeZone: tz, weekday: 'short', month: 'short', day: 'numeric' });
+   478→   478→        const time = timeFormatter.format(now);
+   479→   479→        const dateStr = dateFormatter.format(now);
+   480→   480→        const baseOff = getBaseOffset(baseTz, now);
+   481→   481→        const targetOffset = getBaseOffset(tz, now);
+   482→   482→        const diffHours = (targetOffset - baseOff) / 60;
+   483→   483→        return { time, date: dateStr, diff: formatDiff(diffHours) };
+   484→   484→      }
+   485→   485→    } catch { return { time: '--:--', date: '', diff: '' }; }
+   486→   486→  }
+   487→   487→
+   488→   488→  function isNightTime(tz: string): boolean {
+   489→   489→    try {
+   490→   490→      const now = new Date();
+   491→   491→      const formatter = new Intl.DateTimeFormat('en-US', { timeZone: tz, hour: 'numeric', hour12: false });
+   492→   492→      const hour = parseInt(formatter.format(now));
+   493→   493→      return hour < 6 || hour >= 21;
+   494→   494→    } catch { return false; }
+   495→   495→  }
+   496→   496→
+   497→   497→  function getHourInTz(tz: string): number {
+   498→   498→    try {
+   499→   499→      const now = new Date();
+   500→   500→      const formatter = new Intl.DateTimeFormat('en-US', { timeZone: tz, hour: 'numeric', hour12: false });
+   501→   501→      return parseInt(formatter.format(now));
+   502→   502→    } catch { return 0; }
+   503→   503→  }
+   504→   504→
+   505→   505→  function getMinuteInTz(tz: string): number {
+   506→   506→    try {
+   507→   507→      const now = new Date();
+   508→   508→      const formatter = new Intl.DateTimeFormat('en-US', { timeZone: tz, minute: 'numeric' });
+   509→   509→      return parseInt(formatter.format(now));
+   510→   510→    } catch { return 0; }
+   511→   511→  }
+   512→   512→
+   513→   513→  const WORK_START = 9, WORK_END = 18, NIGHT_START = 21, NIGHT_END = 6;
+   514→   514→  function isWorkHour(h: number): boolean { return h >= WORK_START && h < WORK_END; }
+   515→   515→  function isNightHour(h: number): boolean { return h >= NIGHT_START || h < NIGHT_END; }
+   516→   516→
+   517→   517→  function getBestHours(baseTz: string, allCities: string[]): number[] {
+   518→   518→    const bestHours: number[] = [];
+   519→   519→    for (let h = 0; h < 24; h++) {
+   520→   520→      const allWork = allCities.every(tz => {
+   521→   521→        const baseOffset = getBaseOffset(baseTz, new Date());
+   522→   522→        const targetOffset = getBaseOffset(tz, new Date());
+   523→   523→        const diffHours = (targetOffset - baseOffset) / 60;
+   524→   524→        let targetHour = (h + diffHours) % 24;
+   525→   525→        if (targetHour < 0) targetHour += 24;
+   526→   526→        return isWorkHour(Math.floor(targetHour));
+   527→   527→      });
+   528→   528→      if (allWork) bestHours.push(h);
+   529→   529→    }
+   530→   530→    return bestHours;
+   531→   531→  }
+   532→   532→
+   533→   533→  function mergeHoursToRanges(hours: number[]): { start: number; end: number }[] {
+   534→   534→    if (hours.length === 0) return [];
+   535→   535→    const ranges: { start: number; end: number }[] = [];
+   536→   536→    let rangeStart = hours[0], prev = hours[0];
+   537→   537→    for (let i = 1; i < hours.length; i++) {
+   538→   538→      if (hours[i] === prev + 1) { prev = hours[i]; }
+   539→   539→      else { ranges.push({ start: rangeStart, end: prev + 1 }); rangeStart = hours[i]; prev = hours[i]; }
+   540→   540→    }
+   541→   541→    ranges.push({ start: rangeStart, end: prev + 1 });
+   542→   542→    return ranges;
+   543→   543→  }
+   544→   544→
+   545→   545→  function formatHour(h: number): string {
+   546→   546→    if (use12h) { const h12 = h % 12 || 12; return `${h12}${h < 12 ? 'AM' : 'PM'}`; }
+   547→   547→    return `${String(h).padStart(2, '0')}:00`;
+   548→   548→  }
+   549→   549→
+   550→   550→  // --- Search rendering (shared for Step 1 & Step 3) ---
+   551→   551→  function filterSearchIndex(query: string): SearchEntry[] {
+   552→   552→    const q = query.trim().toLowerCase();
+   553→   553→    if (!q) return searchIndex.slice().sort((a, b) => a.localizedName.localeCompare(b.localizedName, undefined, { sensitivity: 'base' }));
+   554→   554→    const startsWith: SearchEntry[] = [], contains: SearchEntry[] = [];
+   555→   555→    for (const entry of searchIndex) {
+   556→   556→      if (entry.searchStr.includes(q)) {
+   557→   557→        if (entry.localizedName.toLowerCase().startsWith(q) || entry.englishName.toLowerCase().startsWith(q)) startsWith.push(entry);
+   558→   558→        else contains.push(entry);
+   559→   559→      }
+   560→   560→    }
+   561→   561→    const sortFn = (a: SearchEntry, b: SearchEntry) => a.localizedName.localeCompare(b.localizedName, undefined, { sensitivity: 'base' });
+   562→   562→    startsWith.sort(sortFn); contains.sort(sortFn);
+   563→   563→    return [...startsWith, ...contains];
+   564→   564→  }
+   565→   565→
+   566→   566→  function renderStepResults(container: HTMLElement | null, results: SearchEntry[], options: { excludeTz?: string; maxVisible?: number; onSelect: (tz: string) => void; highlightedRef: { value: number } }) {
+   567→   567→    if (!container) return;
+   568→   568→    const excludeTz = options.excludeTz;
+   569→   569→    const maxVisible = options.maxVisible || 8;
+   570→   570→    const filtered = excludeTz ? results.filter(r => r.tz !== excludeTz) : results;
+   571→   571→    const visible = filtered.slice(0, maxVisible);
+   572→   572→
+   573→   573→    if (visible.length === 0) {
+   574→   574→      container.innerHTML = `<li class="step-no-results">${i18nNoResults}</li>`;
+   575→   575→      options.highlightedRef.value = -1;
+   576→   576→      return;
+   577→   577→    }
+   578→   578→
+   579→   579→    if (options.highlightedRef.value >= visible.length) options.highlightedRef.value = 0;
+   580→   580→    if (options.highlightedRef.value < 0) options.highlightedRef.value = 0;
+   581→   581→
+   582→   582→    container.innerHTML = visible.map((r, i) => `
+   583→   583→      <li class="step-result${i === options.highlightedRef.value ? ' highlighted' : ''}" role="option" data-tz="${r.tz}" data-idx="${i}">
+   584→   584→        <span class="step-result-name">${r.localizedName}</span>
+   585→   585→        <span class="step-result-offset">${r.offset}</span>
+   586→   586→      </li>
+   587→   587→    `).join('');
+   588→   588→
+   589→   589→    container.querySelectorAll('.step-result').forEach(li => {
+   590→   590→      li.addEventListener('click', () => {
+   591→   591→        const tz = li.getAttribute('data-tz') || '';
+   592→   592→        options.onSelect(tz);
+   593→   593→      });
+   594→   594→    });
+   595→   595→  }
+   596→   596→
+   597→   597→  function stepKeyboardNav(e: KeyboardEvent, container: HTMLElement | null, highlightedRef: { value: number }, onSelect: (tz: string) => void) {
+   598→   598→    if (!container) return;
+   599→   599→    const items = Array.from(container.querySelectorAll('.step-result')) as HTMLElement[];
+   600→   600→    if (e.key === 'ArrowDown') {
+   601→   601→      e.preventDefault();
+   602→   602→      if (highlightedRef.value < items.length - 1) highlightedRef.value++;
+   603→   603→      updateStepHighlight(container, highlightedRef.value);
+   604→   604→    } else if (e.key === 'ArrowUp') {
+   605→   605→      e.preventDefault();
+   606→   606→      if (highlightedRef.value > 0) highlightedRef.value--;
+   607→   607→      updateStepHighlight(container, highlightedRef.value);
+   608→   608→    } else if (e.key === 'Enter') {
+   609→   609→      e.preventDefault();
+   610→   610→      const item = items[highlightedRef.value];
+   611→   611→      if (item) onSelect(item.getAttribute('data-tz') || '');
+   612→   612→    } else if (e.key === 'Escape') {
+   613→   613→      e.preventDefault();
+   614→   614→      container.innerHTML = '';
+   615→   615→      highlightedRef.value = -1;
+   616→   616→    }
+   617→   617→  }
+   618→   618→
+   619→   619→  function updateStepHighlight(container: HTMLElement, idx: number) {
+   620→   620→    container.querySelectorAll('.step-result').forEach((li, i) => {
+   621→   621→      li.classList.toggle('highlighted', i === idx);
+   622→   622→    });
+   623→   623→    const target = container.querySelectorAll('.step-result')[idx] as HTMLElement | undefined;
+   624→   624→    target?.scrollIntoView({ block: 'nearest' });
+   625→   625→  }
+   626→   626→
+   627→   627→  // --- Step 1: Select base timezone ---
+   628→   628→  const step1HighlightRef = { value: -1 };
+   629→   629→
+   630→   630→  function selectBaseTz(tz: string) {
+   631→   631→    if (baseTzSelect) baseTzSelect.value = tz;
+   632→   632→    // Show selected display
+   633→   633→    if (step1Search) step1Search.style.display = 'none';
+   634→   634→    if (step1Results) step1Results.innerHTML = '';
+   635→   635→    if (step1Selected) step1Selected.style.display = 'flex';
+   636→   636→    if (step1SelectedValue) step1SelectedValue.textContent = cityNames[tz] || tz.split('/').pop() || tz;
+   637→   637→    if (step1SelectedOffset) step1SelectedOffset.textContent = getOffsetLabel(tz);
+   638→   638→    step1Card?.classList.add('step-done');
+   639→   639→    // Activate step 2
+   640→   640→    step2Card?.classList.remove('step-inactive');
+   641→   641→    step2Card?.classList.add('step-active');
+   642→   642→    // Update step 2 example text
+   643→   643→    const step2Example = document.getElementById('step2-example');
+   644→   644→    if (step2Example && i18nStep2Example) {
+   645→   645→      const cityName = cityNames[tz] || tz.split('/').pop() || tz;
+   646→   646→      step2Example.textContent = i18nStep2Example.replace(/Moscow|Москв/gi, cityName);
+   647→   647→    }
+   648→   648→    updateAll();
+   649→   649→  }
+   650→   650→
+   651→   651→  step1ChangeBtn?.addEventListener('click', () => {
+   652→   652→    if (step1Search) { step1Search.style.display = 'block'; step1Search.value = ''; step1Search.focus(); }
+   653→   653→    if (step1Selected) step1Selected.style.display = 'none';
+   654→   654→    step1Card?.classList.remove('step-done');
+   655→   655→    // Deactivate steps 2, 3
+   656→   656→    step2Card?.classList.add('step-inactive');
+   657→   657→    step2Card?.classList.remove('step-active');
+   658→   658→    step3Card?.classList.add('step-inactive');
+   659→   659→    step3Card?.classList.remove('step-active');
+   660→   660→    if (resultSection) resultSection.style.display = 'none';
+   661→   661→  });
+   662→   662→
+   663→   663→  step1Search?.addEventListener('input', () => {
+   664→   664→    const q = step1Search.value;
+   665→   665→    const results = filterSearchIndex(q);
+   666→   666→    step1HighlightRef.value = -1;
+   667→   667→    renderStepResults(step1Results, results, { onSelect: selectBaseTz, highlightedRef: step1HighlightRef });
+   668→   668→  });
+   669→   669→
+   670→   670→  step1Search?.addEventListener('keydown', (e) => {
+   671→   671→    stepKeyboardNav(e, step1Results, step1HighlightRef, selectBaseTz);
+   672→   672→  });
+   673→   673→
+   674→   674→  step1Search?.addEventListener('focus', () => {
+   675→   675→    if (!step1Search.value) {
+   676→   676→      const results = filterSearchIndex('');
+   677→   677→      step1HighlightRef.value = -1;
+   678→   678→      renderStepResults(step1Results, results, { onSelect: selectBaseTz, highlightedRef: step1HighlightRef, maxVisible: 8 });
+   679→   679→    }
+   680→   680→  });
+   681→   681→
+   682→   682→  // --- Step 3: Add contact city ---
+   683→   683→  const step3HighlightRef = { value: -1 };
+   684→   684→
+   685→   685→  function addContactCity(tz: string) {
+   686→   686→    if (!addedCities.includes(tz)) {
+   687→   687→      addedCities.push(tz);
+   688→   688→    }
+   689→   689→    if (step3Search) step3Search.value = '';
+   690→   690→    if (step3Results) step3Results.innerHTML = '';
+   691→   691→    step3HighlightRef.value = -1;
+   692→   692→    // Show add more button
+   693→   693→    if (addCityBtn) addCityBtn.style.display = 'flex';
+   694→   694→    updateAll();
+   695→   695→  }
+   696→   696→
+   697→   697→  step3Search?.addEventListener('input', () => {
+   698→   698→    const baseTz = baseTzSelect?.value || '';
+   699→   699→    const q = step3Search.value;
+   700→   700→    const results = filterSearchIndex(q);
+   701→   701→    step3HighlightRef.value = -1;
+   702→   702→    renderStepResults(step3Results, results, { excludeTz: baseTz, onSelect: addContactCity, highlightedRef: step3HighlightRef });
+   703→   703→  });
+   704→   704→
+   705→   705→  step3Search?.addEventListener('keydown', (e) => {
+   706→   706→    stepKeyboardNav(e, step3Results, step3HighlightRef, addContactCity);
+   707→   707→  });
+   708→   708→
+   709→   709→  step3Search?.addEventListener('focus', () => {
+   710→   710→    const baseTz = baseTzSelect?.value || '';
+   711→   711→    if (!step3Search.value) {
+   712→   712→      const results = filterSearchIndex('');
+   713→   713→      step3HighlightRef.value = -1;
+   714→   714→      renderStepResults(step3Results, results, { excludeTz: baseTz, onSelect: addContactCity, highlightedRef: step3HighlightRef, maxVisible: 8 });
+   715→   715→    }
+   716→   716→  });
+   717→   717→
+   718→   718→  addCityBtn?.addEventListener('click', () => {
+   719→   719→    if (step3Search) { step3Search.focus(); }
+   720→   720→  });
+   721→   721→
+   722→   722→  // --- Clocks grid rendering ---
+   723→   723→  function renderClocks() {
+   724→   724→    const baseTz = baseTzSelect?.value || 'Europe/Moscow';
+   725→   725→    const customTime = timeMode === 'custom' ? (customTimeInput?.value || '') : '';
+   726→   726→
+   727→   727→    // Update base time display
+   728→   728→    if (baseTimeValue) {
+   729→   729→      const formatter = new Intl.DateTimeFormat(pageLocale, { timeZone: baseTz, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: use12h ? true : false });
+   730→   730→      baseTimeValue.textContent = formatter.format(new Date());
+   731→   731→    }
+   732→   732→    if (baseTimeOffset) baseTimeOffset.textContent = getOffsetLabel(baseTz);
+   733→   733→    if (baseTimeDate) {
+   734→   734→      const df = new Intl.DateTimeFormat(pageLocale, { timeZone: baseTz, weekday: 'short', month: 'short', day: 'numeric' });
+   735→   735→      baseTimeDate.textContent = df.format(new Date());
+   736→   736→    }
+   737→   737→
+   738→   738→    if (!clocksGrid) return;
+   739→   739→    const allCities = [...addedCities.filter(c => c !== baseTz)];
+   740→   740→    clocksGrid.innerHTML = '';
+   741→   741→
+   742→   742→    allCities.forEach(tz => {
+   743→   743→      const result = getTimeInTz(tz, baseTz, customTime || undefined);
+   744→   744→      const isNight = isNightTime(tz);
+   745→   745→      const name = cityNames[tz] || tz.split('/').pop() || tz;
+   746→   746→      const offsetLabel = getOffsetLabel(tz);
+   747→   747→      const isBestNow = currentBestHours.length > 0 && (() => {
+   748→   748→        const h = getHourInTz(baseTz);
+   749→   749→        return currentBestHours.includes(h);
+   750→   750→      })();
+   751→   751→
+   752→   752→      const card = document.createElement('div');
+   753→   753→      card.className = 'clock-card' + (isNight ? ' night' : '') + (isBestNow ? ' best-now' : '');
+   754→   754→      card.innerHTML = `
+   755→   755→        ${isBestNow ? '<div class="clock-best-badge">' + i18nBtBadge + '</div>' : ''}
+   756→   756→        <div class="clock-city">${name}</div>
+   757→   757→        <div class="clock-offset">${offsetLabel}</div>
+   758→   758→        <div class="clock-time" data-tz="${tz}">${result.time}</div>
+   759→   759→        <div class="clock-date">${result.date}</div>
+   760→   760→        <div class="clock-diff">${result.diff}</div>
+   761→   761→        <button class="clock-copy" data-tz="${tz}" title="${i18nCopyTime}" aria-label="${i18nCopyTime}">
+   762→   762→          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+   763→   763→        </button>
+   764→   764→        <button class="clock-remove" data-tz="${tz}" title="Remove" aria-label="Remove">
+   765→   765→          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+   766→   766→        </button>
+   767→   767→      `;
+   768→   768→      clocksGrid.appendChild(card);
+   769→   769→    });
+   770→   770→
+   771→   771→    // Attach copy buttons
+   772→   772→    clocksGrid.querySelectorAll('.clock-copy').forEach(btn => {
+   773→   773→      btn.addEventListener('click', async () => {
+   774→   774→        const tz = btn.getAttribute('data-tz') || '';
+   775→   775→        const timeEl = clocksGrid?.querySelector(`.clock-time[data-tz="${tz}"]`);
+   776→   776→        const text = timeEl?.textContent || '';
+   777→   777→        try { await navigator.clipboard.writeText(text); } catch {
+   778→   778→          const ta = document.createElement('textarea'); ta.value = text;
+   779→   779→          ta.style.position = 'fixed'; ta.style.opacity = '0';
+   780→   780→          document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+   781→   781→        }
+   782→   782→        const origTitle = btn.getAttribute('title') || '';
+   783→   783→        btn.setAttribute('title', i18nCopyDone); btn.classList.add('copied');
+   784→   784→        setTimeout(() => { btn.setAttribute('title', origTitle); btn.classList.remove('copied'); }, 1500);
+   785→   785→      });
+   786→   786→    });
+   787→   787→
+   788→   788→    // Attach remove buttons
+   789→   789→    clocksGrid.querySelectorAll('.clock-remove').forEach(btn => {
+   790→   790→      btn.addEventListener('click', () => {
+   791→   791→        const tz = btn.getAttribute('data-tz') || '';
+   792→   792→        addedCities = addedCities.filter(c => c !== tz);
+   793→   793→        if (addedCities.length === 0 && addCityBtn) addCityBtn.style.display = 'none';
+   794→   794→        updateAll();
+   795→   795→      });
+   796→   796→    });
+   797→   797→  }
+   798→   798→
+   799→   799→  // --- Timeline rendering ---
+   800→   800→  const timelineHeader = document.getElementById('timeline-header');
+   801→   801→  const timelineRows = document.getElementById('timeline-rows');
+   802→   802→  const timelineNow = document.getElementById('timeline-now');
+   803→   803→  const timelineBest = document.getElementById('timeline-best');
+   804→   804→  const timelineWrapper = document.getElementById('timeline-wrapper');
+   805→   805→
+   806→   806→  function renderTimeline() {
+   807→   807→    if (!timelineHeader || !timelineRows || !timelineNow || !timelineBest || !timelineWrapper) return;
+   808→   808→    const baseTz = baseTzSelect?.value || 'Europe/Moscow';
+   809→   809→    const allCities = [baseTz, ...addedCities.filter(c => c !== baseTz)];
+   810→   810→    if (allCities.length < 2) { timelineSection && (timelineSection.style.display = 'none'); return; }
+   811→   811→    timelineSection && (timelineSection.style.display = '');
+   812→   812→
+   813→   813→    const hourLabels = [0, 3, 6, 9, 12, 15, 18, 21];
+   814→   814→    timelineHeader.innerHTML = '<div class="tl-header-spacer"></div>' +
+   815→   815→      hourLabels.map(h => `<div class="tl-hour-label" style="left:${(h / 24) * 100}%">${h}</div>`).join('');
+   816→   816→
+   817→   817→    timelineRows.innerHTML = allCities.map((tz, idx) => {
+   818→   818→      const name = idx === 0 ? (cityNames[tz] || tz.split('/').pop() || tz) + ' ★' : cityNames[tz] || tz.split('/').pop() || tz;
+   819→   819→      const offsetLabel = getOffsetLabel(tz);
+   820→   820→      const segments = Array.from({ length: 24 }, (_, h) => {
+   821→   821→        let cls = 'tl-seg';
+   822→   822→        if (isWorkHour(h)) cls += ' work'; else if (isNightHour(h)) cls += ' night'; else cls += ' day';
+   823→   823→        return `<div class="${cls}"></div>`;
+   824→   824→      }).join('');
+   825→   825→      return `<div class="tl-row" data-tz="${tz}"><div class="tl-city-label"><span class="tl-city-name">${name}</span><span class="tl-city-offset">${offsetLabel}</span></div><div class="tl-bar">${segments}</div></div>`;
+   826→   826→    }).join('');
+   827→   827→
+   828→   828→    const baseHour = getHourInTz(baseTz), baseMinute = getMinuteInTz(baseTz);
+   829→   829→    const nowPercent = ((baseHour + baseMinute / 60) / 24) * 100;
+   830→   830→    timelineNow.style.left = `${nowPercent}%`;
+   831→   831→    timelineNow.innerHTML = `<span class="tl-now-label">${i18nTlNow}</span>`;
+   832→   832→
+   833→   833→    const bestHours = getBestHours(baseTz, allCities);
+   834→   834→    currentBestHours = bestHours;
+   835→   835→
+   836→   836→    if (bestHours.length > 0 && bestHours.length < 24) {
+   837→   837→      const ranges = mergeHoursToRanges(bestHours);
+   838→   838→      timelineBest.innerHTML = ranges.map(r => {
+   839→   839→        const left = (r.start / 24) * 100, width = ((r.end - r.start) / 24) * 100;
+   840→   840→        return `<div class="tl-best-badge" style="left:${left}%;width:${width}%"><span>${i18nTlBest}</span></div>`;
+   841→   841→      }).join('');
+   842→   842→    } else { timelineBest.innerHTML = ''; }
+   843→   843→  }
+   844→   844→
+   845→   845→  // --- Best Time rendering ---
+   846→   846→  const besttimeBody = document.getElementById('besttime-body');
+   847→   847→
+   848→   848→  function renderBestTime() {
+   849→   849→    if (!besttimeBody || !besttimeCard) return;
+   850→   850→    const baseTz = baseTzSelect?.value || 'Europe/Moscow';
+   851→   851→    const allCities = [baseTz, ...addedCities.filter(c => c !== baseTz)];
+   852→   852→    if (allCities.length < 2) { besttimeCard.style.display = 'none'; return; }
+   853→   853→    besttimeCard.style.display = '';
+   854→   854→
+   855→   855→    const bestHours = getBestHours(baseTz, allCities);
+   856→   856→    currentBestHours = bestHours;
+   857→   857→
+   858→   858→    if (bestHours.length === 0) {
+   859→   859→      besttimeCard.classList.add('no-overlap');
+   860→   860→      besttimeBody.innerHTML = `
+   861→   861→        <div class="besttime-no-overlap">
+   862→   862→          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+   863→   863→          <div>
+   864→   864→            <p class="besttime-no-overlap-title">${i18nBtNoOverlap}</p>
+   865→   865→            <p class="besttime-no-overlap-desc">${i18nBtNoOverlapDesc}</p>
+   866→   866→            ${i18nBtExplainNoOverlap ? '<p class="besttime-explain">' + i18nBtExplainNoOverlap + '</p>' : ''}
+   867→   867→          </div>
+   868→   868→        </div>
+   869→   869→      `;
+   870→   870→      return;
+   871→   871→    }
+   872→   872→
+   873→   873→    if (bestHours.length >= 24) { besttimeCard.classList.add('no-overlap'); besttimeBody.innerHTML = ''; return; }
+   874→   874→    besttimeCard.classList.remove('no-overlap');
+   875→   875→
+   876→   876→    const ranges = mergeHoursToRanges(bestHours);
+   877→   877→    const primary = ranges.reduce((a, b) => (b.end - b.start) > (a.end - a.start) ? b : a, ranges[0]);
+   878→   878→    const baseHour = getHourInTz(baseTz);
+   879→   879→    const isNowBest = bestHours.includes(baseHour);
+   880→   880→
+   881→   881→    const cityRows = allCities.map(tz => {
+   882→   882→      const baseOff = getBaseOffset(baseTz, new Date());
+   883→   883→      const targetOff = getBaseOffset(tz, new Date());
+   884→   884→      const diffH = (targetOff - baseOff) / 60;
+   885→   885→      let startH = (primary.start + diffH) % 24; if (startH < 0) startH += 24;
+   886→   886→      let endH = (primary.end + diffH) % 24; if (endH < 0) endH += 24;
+   887→   887→      const name = cityNames[tz] || tz.split('/').pop() || tz;
+   888→   888→      const isBase = tz === baseTz;
+   889→   889→      return `<div class="bt-city-row${isBase ? ' base' : ''}"><span class="bt-city-name">${name}${isBase ? ' ★' : ''}</span><span class="bt-city-time">${formatHour(Math.floor(startH))} — ${formatHour(Math.floor(endH))}</span></div>`;
+   890→   890→    }).join('');
+   891→   891→
+   892→   892→    const extraRanges = ranges.filter(r => r !== primary);
+   893→   893→
+   894→   894→    besttimeBody.innerHTML = `
+   895→   895→      <div class="bt-primary-row">
+   896→   896→        <div class="bt-range-badge${isNowBest ? ' active-now' : ''}">${formatHour(primary.start)} — ${formatHour(primary.end)}</div>
+   897→   897→        <span class="bt-range-in">${i18nBtIn} ${cityNames[baseTz] || baseTz.split('/').pop()}</span>
+   898→   898→        ${isNowBest ? '<span class="bt-now-badge">' + i18nBtNow + '</span>' : ''}
+   899→   899→      </div>
+   900→   900→      ${extraRanges.length > 0 ? '<div class="bt-extra-ranges">' + extraRanges.map(r => `<span class="bt-extra-badge">${formatHour(r.start)} — ${formatHour(r.end)}</span>`).join('') + '</div>' : ''}
+   901→   901→      ${i18nBtExplain ? '<p class="besttime-explain">' + i18nBtExplain + '</p>' : ''}
+   902→   902→      <div class="bt-cities-grid">${cityRows}</div>
+   903→   903→    `;
+   904→   904→  }
+   905→   905→
+   906→   906→  // --- Master update ---
+   907→   907→  function updateAll() {
+   908→   908→    const baseTz = baseTzSelect?.value;
+   909→   909→    const hasBase = !!baseTz;
+   910→   910→    const hasCities = addedCities.length > 0;
+   911→   911→
+   912→   912→    // Show result section & activate step 3 when base is set
+   913→   913→    if (hasBase) {
+   914→   914→      step3Card?.classList.remove('step-inactive');
+   915→   915→      step3Card?.classList.add('step-active');
+   916→   916→    }
+   917→   917→
+   918→   918→    // Show results when we have at least one contact city
+   919→   919→    if (hasBase && hasCities) {
+   920→   920→      if (resultSection) resultSection.style.display = '';
+   921→   921→    } else {
+   922→   922→      if (resultSection) resultSection.style.display = 'none';
+   923→   923→    }
+   924→   924→
+   925→   925→    renderClocks();
+   926→   926→    renderTimeline();
+   927→   927→    renderBestTime();
+   928→   928→  }
+   929→   929→
+   930→   930→  // --- Initial state: pre-select base timezone from browser ---
+   931→   931→  function detectBaseTz(): string {
+   932→   932→    try {
+   933→   933→      const intlTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+   934→   934→      // Check if it's in our list
+   935→   935→      if (searchIndex.some(e => e.tz === intlTz)) return intlTz;
+   936→   936→      // Fallback: try common mappings
+   937→   937→      const fallbacks: Record<string, string> = {
+   938→   938→        'US/Eastern': 'America/New_York', 'US/Pacific': 'America/Los_Angeles',
+   939→   939→        'US/Central': 'America/Chicago', 'US/Mountain': 'America/Denver',
+   940→   940→      };
+   941→   941→      if (fallbacks[intlTz]) return fallbacks[intlTz];
+   942→   942→    } catch {}
+   943→   943→    return 'Europe/Moscow';
+   944→   944→  }
+   945→   945→
+   946→   946→  // Auto-select the detected timezone on load
+   947→   947→  const detectedTz = detectBaseTz();
+   948→   948→  selectBaseTz(detectedTz);
+   949→   949→
+   950→   950→  // Live clock update
+   951→   951→  setInterval(() => updateAll(), 1000);
+   952→   952→</script>
+   953→   953→
+   954→   954→<style>
+   955→   955→  .container {
+   956→   956→    position: relative; z-index: 1; width: 100%; margin: 0 auto; max-width: 780px;
+   957→   957→    padding: 2rem 1.25rem; display: flex; flex-direction: column; gap: 1.5rem;
+   958→   958→  }
+   959→   959→
+   960→   960→  @media (max-width: 900px) {
+   961→   961→    .container { max-width: 100%; }
+   962→   962→  }
+   963→   963→
+   964→   964→  @media (max-width: 520px) {
+   965→   965→    .container {
+   966→   966→      padding: 1.25rem 0.75rem;
+   967→   967→      gap: 1rem;
+   968→   968→    }
+   969→   969→    .title {
+   970→   970→      font-size: 1.1rem;
+   971→   971→    }
+   972→   972→    .subtitle {
+   973→   973→      font-size: 0.8rem;
+   974→   974→    }
+   975→   975→    .base-time-value {
+   976→   976→      font-size: 1.2rem;
+   977→   977→    }
+   978→   978→    .clock-card {
+   979→   979→      padding: 0.6rem;
+   980→   980→    }
+   981→   981→    .clock-city {
+   982→   982→      font-size: 0.75rem;
+   983→   983→    }
+   984→   984→    .clock-time {
+   985→   985→      font-size: 0.95rem;
+   986→   986→    }
+   987→   987→    .section-title {
+   988→   988→      font-size: 0.9rem;
+   989→   989→    }
+   990→   990→  }
+   991→   991→
+   992→   992→  /* Hero */
+   993→   993→  .hero { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+   994→   994→  .title {
+   995→   995→    font-size: 1.6rem; font-weight: 800; color: var(--text-primary);
+   996→   996→    letter-spacing: -0.02em; line-height: 1.2;
+   997→   997→  }
+   998→   998→  .title-short { display: none; }
+   999→   999→  .title-full { display: inline; }
+  1000→  1000→  @media (max-width: 520px) {
+  1001→  1001→    .title-short { display: inline; }
+  1002→  1002→    .title-full { display: none; }
+  1003→  1003→  }
+  1004→  1004→  .subtitle {
+  1005→  1005→    font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; max-width: 480px;
+  1006→  1006→  }
+  1007→  1007→  .privacy-badge {
+  1008→  1008→    display: inline-flex; align-items: center; gap: 0.35rem;
+  1009→  1009→    font-size: 0.72rem; color: var(--opn-primary); font-weight: 600;
+  1010→  1010→    background: rgba(37, 211, 102, 0.1); padding: 0.3rem 0.75rem;
+  1011→  1011→    border-radius: 20px; border: 1px solid rgba(37, 211, 102, 0.2);
+  1012→  1012→  }
+  1013→  1013→
+  1014→  1014→  /* ===== Step-by-Step Cards ===== */
+  1015→  1015→  .step-card {
+  1016→  1016→    background: var(--bg-secondary); border: 1px solid var(--border-color);
+  1017→  1017→    border-radius: 12px; padding: 1.25rem; display: flex;
+  1018→  1018→    gap: 1rem; transition: opacity 0.3s, border-color 0.3s;
+  1019→  1019→  }
+  1020→  1020→  .step-card.step-inactive {
+  1021→  1021→    opacity: 0.45; pointer-events: none;
+  1022→  1022→  }
+  1023→  1023→  .step-card.step-active {
+  1024→  1024→    border-color: rgba(37, 211, 102, 0.3);
+  1025→  1025→  }
+  1026→  1026→  .step-card.step-done {
+  1027→  1027→    border-color: rgba(37, 211, 102, 0.4);
+  1028→  1028→  }
+  1029→  1029→  .step-number {
+  1030→  1030→    display: flex; align-items: center; justify-content: center;
+  1031→  1031→    width: 32px; height: 32px; border-radius: 50%;
+  1032→  1032→    background: var(--opn-primary); color: #fff;
+  1033→  1033→    font-size: 0.85rem; font-weight: 700; flex-shrink: 0;
+  1034→  1034→  }
+  1035→  1035→  .step-inactive .step-number {
+  1036→  1036→    background: var(--text-secondary); opacity: 0.5;
+  1037→  1037→  }
+  1038→  1038→  .step-done .step-number {
+  1039→  1039→    background: #128C7E;
+  1040→  1040→  }
+  1041→  1041→  .step-body {
+  1042→  1042→    flex: 1; display: flex; flex-direction: column; gap: 0.5rem;
+  1043→  1043→  }
+  1044→  1044→  .step-label {
+  1045→  1045→    font-size: 0.95rem; font-weight: 700; color: var(--text-primary);
+  1046→  1046→  }
+  1047→  1047→  .step-hint {
+  1048→  1048→    font-size: 0.78rem; color: var(--text-secondary); line-height: 1.4;
+  1049→  1049→  }
+  1050→  1050→  .step-example {
+  1051→  1051→    font-size: 0.72rem; color: var(--opn-primary); font-weight: 500;
+  1052→  1052→    font-style: italic; opacity: 0.8;
+  1053→  1053→  }
+  1054→  1054→
+  1055→  1055→  /* Step search input */
+  1056→  1056→  .step-search-wrap {
+  1057→  1057→    position: relative; display: flex; align-items: center;
+  1058→  1058→  }
+  1059→  1059→  .step-search-icon {
+  1060→  1060→    position: absolute; left: 0.75rem; color: var(--text-secondary);
+  1061→  1061→    pointer-events: none;
+  1062→  1062→  }
+  1063→  1063→  [dir="rtl"] .step-search-icon { left: auto; right: 0.75rem; }
+  1064→  1064→  .step-search-input {
+  1065→  1065→    width: 100%; padding: 0.6rem 0.75rem 0.6rem 2.25rem;
+  1066→  1066→    font-size: 0.88rem; background: var(--bg-input);
+  1067→  1067→    border: 1px solid var(--border-color); color: var(--text-primary);
+  1068→  1068→    border-radius: 10px; transition: border-color 0.15s;
+  1069→  1069→    font-family: inherit;
+  1070→  1070→  }
+  1071→  1071→  [dir="rtl"] .step-search-input { padding: 0.6rem 2.25rem 0.6rem 0.75rem; }
+  1072→  1072→  .step-search-input:focus { outline: none; border-color: var(--opn-primary); }
+  1073→  1073→  .step-search-input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
+  1074→  1074→
+  1075→  1075→  /* Step search results (inline, limited) */
+  1076→  1076→  .step-results {
+  1077→  1077→    list-style: none; margin: 0; padding: 0;
+  1078→  1078→    max-height: 240px; overflow-y: auto;
+  1079→  1079→    border: 1px solid var(--border-color); border-radius: 10px;
+  1080→  1080→    background: var(--bg-input);
+  1081→  1081→  }
+  1082→  1082→  .step-results::-webkit-scrollbar { width: 6px; }
+  1083→  1083→  .step-results::-webkit-scrollbar-track { background: transparent; }
+  1084→  1084→  .step-results::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+  1085→  1085→
+  1086→  1086→  .step-result {
+  1087→  1087→    display: flex; align-items: center; gap: 0.5rem;
+  1088→  1088→    padding: 0.55rem 0.75rem; cursor: pointer;
+  1089→  1089→    border-bottom: 1px solid var(--border-color);
+  1090→  1090→    transition: background 0.12s;
+  1091→  1091→  }
+  1092→  1092→  .step-result:last-child { border-bottom: none; }
+  1093→  1093→  .step-result:hover { background: rgba(37, 211, 102, 0.06); }
+  1094→  1094→  .step-result.highlighted {
+  1095→  1095→    background: rgba(37, 211, 102, 0.12);
+  1096→  1096→    box-shadow: inset 3px 0 0 var(--opn-primary);
+  1097→  1097→  }
+  1098→  1098→  .step-result-name {
+  1099→  1099→    font-size: 0.85rem; font-weight: 600; color: var(--text-primary);
+  1100→  1100→    flex: 1; min-width: 0;
+  1101→  1101→  }
+  1102→  1102→  .step-result-offset {
+  1103→  1103→    font-size: 0.68rem; color: var(--text-secondary); font-weight: 500;
+  1104→  1104→    background: var(--bg-secondary); padding: 0.12rem 0.4rem;
+  1105→  1105→    border-radius: 5px; flex-shrink: 0;
+  1106→  1106→  }
+  1107→  1107→  .step-no-results {
+  1108→  1108→    padding: 0.75rem; text-align: center; font-size: 0.82rem;
+  1109→  1109→    color: var(--text-secondary);
+  1110→  1110→  }
+  1111→  1111→
+  1112→  1112→  /* Step 1 selected display */
+  1113→  1113→  .step1-selected {
+  1114→  1114→    display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
+  1115→  1115→    padding: 0.5rem 0;
+  1116→  1116→  }
+  1117→  1117→  .step1-selected-label {
+  1118→  1118→    font-size: 0.78rem; font-weight: 600; color: var(--text-secondary);
+  1119→  1119→  }
+  1120→  1120→  .step1-selected-value {
+  1121→  1121→    font-size: 1rem; font-weight: 700; color: var(--opn-primary);
+  1122→  1122→  }
+  1123→  1123→  .step1-selected-offset {
+  1124→  1124→    font-size: 0.72rem; font-weight: 600; color: var(--text-secondary);
+  1125→  1125→    background: var(--bg-input); padding: 0.2rem 0.5rem; border-radius: 6px;
+  1126→  1126→  }
+  1127→  1127→  .step1-change-btn {
+  1128→  1128→    background: none; border: none; color: var(--text-secondary);
+  1129→  1129→    cursor: pointer; padding: 0.25rem; border-radius: 6px;
+  1130→  1130→    transition: color 0.15s; display: flex; align-items: center;
+  1131→  1131→  }
+  1132→  1132→  .step1-change-btn:hover { color: var(--opn-primary); }
+  1133→  1133→
+  1134→  1134→  /* Step 2 time toggle */
+  1135→  1135→  .step2-time-toggle {
+  1136→  1136→    display: flex; gap: 0; border: 1px solid var(--border-color);
+  1137→  1137→    border-radius: 8px; overflow: hidden; width: fit-content;
+  1138→  1138→  }
+  1139→  1139→  .step2-toggle-btn {
+  1140→  1140→    padding: 0.4rem 1rem; font-size: 0.78rem; font-weight: 600;
+  1141→  1141→    color: var(--text-secondary); background: var(--bg-input);
+  1142→  1142→    border: none; cursor: pointer; transition: all 0.15s;
+  1143→  1143→    font-family: inherit;
+  1144→  1144→  }
+  1145→  1145→  .step2-toggle-btn:hover { color: var(--text-primary); }
+  1146→  1146→  .step2-toggle-btn.active {
+  1147→  1147→    color: var(--opn-primary); background: rgba(37, 211, 102, 0.1);
+  1148→  1148→  }
+  1149→  1149→  .step2-custom-wrap {
+  1150→  1150→    margin-top: 0.25rem;
+  1151→  1151→  }
+  1152→  1152→  .step2-time-input {
+  1153→  1153→    width: 100%; max-width: 200px; padding: 0.5rem 0.75rem; font-size: 1rem;
+  1154→  1154→    background: var(--bg-input); border: 1px solid var(--border-color);
+  1155→  1155→    color: var(--text-primary); border-radius: 8px; transition: border 0.15s;
+  1156→  1156→  }
+  1157→  1157→  .step2-time-input:focus { outline: none; border-color: var(--opn-primary); }
+  1158→  1158→
+  1159→  1159→  /* Base time display (in Step 2) */
+  1160→  1160→  .base-time-display {
+  1161→  1161→    display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+  1162→  1162→  }
+  1163→  1163→  .base-time-value {
+  1164→  1164→    font-size: 1.5rem; font-weight: 700; color: var(--opn-primary);
+  1165→  1165→    letter-spacing: -0.02em;
+  1166→  1166→  }
+  1167→  1167→  .base-time-offset {
+  1168→  1168→    font-size: 0.75rem; font-weight: 600; color: var(--text-secondary);
+  1169→  1169→    background: var(--bg-input); padding: 0.2rem 0.5rem; border-radius: 6px;
+  1170→  1170→  }
+  1171→  1171→  .base-time-date {
+  1172→  1172→    font-size: 0.78rem; color: var(--text-primary); opacity: 0.65;
+  1173→  1173→  }
+  1174→  1174→
+  1175→  1175→  /* 12h/24h format toggle */
+  1176→  1176→  .time-format-toggle {
+  1177→  1177→    display: flex; gap: 0; border: 1px solid var(--border-color);
+  1178→  1178→    border-radius: 8px; overflow: hidden; width: fit-content;
+  1179→  1179→  }
+  1180→  1180→  .format-btn {
+  1181→  1181→    padding: 0.3rem 0.75rem; font-size: 0.72rem; font-weight: 600;
+  1182→  1182→    color: var(--text-secondary); background: var(--bg-input);
+  1183→  1183→    border: none; cursor: pointer; transition: all 0.15s;
+  1184→  1184→    font-family: inherit;
+  1185→  1185→  }
+  1186→  1186→  .format-btn:hover { color: var(--text-primary); }
+  1187→  1187→  .format-btn.active {
+  1188→  1188→    color: var(--opn-primary); background: rgba(37, 211, 102, 0.1);
+  1189→  1189→  }
+  1190→  1190→  .format-btn:focus-visible {
+  1191→  1191→    outline: 2px solid var(--opn-primary); outline-offset: -2px;
+  1192→  1192→  }
+  1193→  1193→
+  1194→  1194→  /* Result section */
+  1195→  1195→  .result-section {
+  1196→  1196→    display: flex; flex-direction: column; gap: 0.75rem;
+  1197→  1197→  }
+  1198→  1198→
+  1199→  1199→  /* Clocks grid */
+  1200→  1200→  .clocks-grid {
+  1201→  1201→    display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  1202→  1202→    gap: 0.75rem;
+  1203→  1203→  }
+  1204→  1204→
+  1205→  1205→  .clock-card {
+  1206→  1206→    background: var(--bg-secondary); border: 1px solid var(--border-color);
+  1207→  1207→    border-radius: 10px; padding: 0.75rem; text-align: center;
+  1208→  1208→    position: relative; transition: transform 0.15s, border-color 0.15s;
+  1209→  1209→  }
+  1210→  1210→  .clock-card:hover {
+  1211→  1211→    transform: translateY(-2px);
+  1212→  1212→    border-color: var(--opn-primary);
+  1213→  1213→  }
+  1214→  1214→  .clock-card.night {
+  1215→  1215→    background: linear-gradient(135deg, #0f172a 0%, #1a2332 100%);
+  1216→  1216→    border-color: rgba(56, 189, 248, 0.15);
+  1217→  1217→  }
+  1218→  1218→  .clock-city {
+  1219→  1219→    font-size: 0.8rem; font-weight: 700; color: var(--text-primary);
+  1220→  1220→    margin-bottom: 0.15rem;
+  1221→  1221→  }
+  1222→  1222→  .clock-offset {
+  1223→  1223→    font-size: 0.65rem; color: var(--text-secondary); margin-bottom: 0.35rem;
+  1224→  1224→  }
+  1225→  1225→  .clock-time {
+  1226→  1226→    font-size: 1.1rem; font-weight: 700; color: var(--opn-primary);
+  1227→  1227→    letter-spacing: -0.02em; margin-bottom: 0.15rem;
+  1228→  1228→  }
+  1229→  1229→  .clock-date {
+  1230→  1230→    font-size: 0.72rem; color: var(--text-primary); opacity: 0.65; margin-bottom: 0.25rem;
+  1231→  1231→  }
+  1232→  1232→  .clock-diff {
+  1233→  1233→    font-size: 0.7rem; font-weight: 600; color: #38bdf8;
+  1234→  1234→    background: rgba(56, 189, 248, 0.08); padding: 0.15rem 0.4rem;
+  1235→  1235→    border-radius: 6px; display: inline-block;
+  1236→  1236→  }
+  1237→  1237→  .clock-remove {
+  1238→  1238→    position: absolute; top: 0; right: 0;
+  1239→  1239→    width: 44px; height: 44px; background: none; border: none;
+  1240→  1240→    color: var(--text-secondary); cursor: pointer; opacity: 0.3;
+  1241→  1241→    transition: opacity 0.15s, color 0.15s; display: flex; align-items: center;
+  1242→  1242→    justify-content: center; padding: 0; border-radius: 8px;
+  1243→  1243→  }
+  1244→  1244→  .clock-remove:hover { opacity: 1; color: #ef4444; background: rgba(239,68,68,0.08); }
+  1245→  1245→  .clock-remove:focus-visible {
+  1246→  1246→    outline: 2px solid var(--opn-primary); outline-offset: -2px;
+  1247→  1247→  }
+  1248→  1248→  .clock-remove svg { width: 14px; height: 14px; }
+  1249→  1249→
+  1250→  1250→  /* Copy time button */
+  1251→  1251→  .clock-copy {
+  1252→  1252→    position: absolute; bottom: 4px; right: 4px;
+  1253→  1253→    width: 44px; height: 44px; background: none; border: none;
+  1254→  1254→    color: var(--text-secondary); cursor: pointer; opacity: 0.25;
+  1255→  1255→    transition: opacity 0.15s, color 0.15s; display: flex; align-items: center;
+  1256→  1256→    justify-content: center; padding: 0; border-radius: 8px;
+  1257→  1257→  }
+  1258→  1258→  .clock-copy:hover { opacity: 1; color: var(--opn-primary); background: rgba(37,211,102,0.08); }
+  1259→  1259→  .clock-copy:focus-visible {
+  1260→  1260→    outline: 2px solid var(--opn-primary); outline-offset: -2px;
+  1261→  1261→  }
+  1262→  1262→  .clock-copy.copied {
+  1263→  1263→    opacity: 1; color: var(--opn-primary);
+  1264→  1264→    animation: copyPulse 0.4s ease;
+  1265→  1265→  }
+  1266→  1266→  .clock-copy svg { width: 14px; height: 14px; }
+  1267→  1267→  @keyframes copyPulse {
+  1268→  1268→    0% { transform: scale(1); }
+  1269→  1269→    50% { transform: scale(1.2); }
+  1270→  1270→    100% { transform: scale(1); }
+  1271→  1271→  }
+  1272→  1272→
+  1273→  1273→  /* Add city button */
+  1274→  1274→  .add-city-btn {
+  1275→  1275→    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  1276→  1276→    padding: 0.6rem 1rem; font-size: 0.8rem; font-weight: 600;
+  1277→  1277→    color: var(--opn-primary); background: rgba(37, 211, 102, 0.08);
+  1278→  1278→    border: 1px solid rgba(37, 211, 102, 0.2); border-radius: 10px;
+  1279→  1279→    cursor: pointer; transition: all 0.15s;
+  1280→  1280→  }
+  1281→  1281→  .add-city-btn:hover {
+  1282→  1282→    background: rgba(37, 211, 102, 0.15);
+  1283→  1283→    border-color: rgba(37, 211, 102, 0.4);
+  1284→  1284→  }
+  1285→  1285→
+  1286→  1286→  /* Business section */
+  1287→  1287→  .business-section { display: flex; flex-direction: column; gap: 1rem; }
+  1288→  1288→  .business-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+  1289→  1289→  @media (max-width: 500px) { .business-grid { grid-template-columns: 1fr; } }
+  1290→  1290→  .business-card {
+  1291→  1291→    background: var(--bg-secondary); border: 1px solid var(--border-color);
+  1292→  1292→    border-radius: 10px; padding: 0.75rem; display: flex;
+  1293→  1293→    flex-direction: column; gap: 0.4rem;
+  1294→  1294→  }
+  1295→  1295→  .business-icon {
+  1296→  1296→    width: 28px; height: 28px; color: var(--opn-primary); flex-shrink: 0;
+  1297→  1297→  }
+  1298→  1298→  .business-icon.schedule-icon { color: #38bdf8; }
+  1299→  1299→  .business-card-title {
+  1300→  1300→    font-size: 0.8rem; font-weight: 700; color: var(--text-primary);
+  1301→  1301→  }
+  1302→  1302→  .business-card-desc {
+  1303→  1303→    font-size: 0.72rem; color: var(--text-secondary); line-height: 1.45;
+  1304→  1304→  }
+  1305→  1305→
+  1306→  1306→  /* Section title */
+  1307→  1307→  .section-title {
+  1308→  1308→    font-size: 1rem; font-weight: 700; color: var(--text-primary);
+  1309→  1309→    letter-spacing: -0.01em;
+  1310→  1310→  }
+  1311→  1311→
+  1312→  1312→  /* FAQ */
+  1313→  1313→  .faq-section { display: flex; flex-direction: column; gap: 0.5rem; }
+  1314→  1314→  .faq-item {
+  1315→  1315→    background: var(--bg-secondary); border: 1px solid var(--border-color);
+  1316→  1316→    border-radius: 10px; overflow: hidden;
+  1317→  1317→  }
+  1318→  1318→  .faq-q {
+  1319→  1319→    font-size: 0.82rem; font-weight: 600; color: var(--text-primary);
+  1320→  1320→    padding: 0.65rem 1rem; cursor: pointer; list-style: none;
+  1321→  1321→    transition: color 0.15s;
+  1322→  1322→  }
+  1323→  1323→  .faq-q::-webkit-details-marker { display: none; }
+  1324→  1324→  .faq-q::marker { content: ''; }
+  1325→  1325→  .faq-q:hover { color: var(--opn-primary); }
+  1326→  1326→  .faq-a {
+  1327→  1327→    font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5;
+  1328→  1328→    padding: 0 1rem 0.65rem;
+  1329→  1329→  }
+  1330→  1330→
+  1331→  1331→  /* SEO section */
+  1332→  1332→  .seo-section { display: flex; flex-direction: column; gap: 0.75rem; }
+  1333→  1333→  .seo-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+  1334→  1334→  @media (max-width: 500px) { .seo-grid { grid-template-columns: 1fr; } }
+  1335→  1335→  .seo-card {
+  1336→  1336→    background: var(--bg-secondary); border: 1px solid var(--border-color);
+  1337→  1337→    border-radius: 10px; padding: 0.75rem;
+  1338→  1338→  }
+  1339→  1339→  .seo-card h3 {
+  1340→  1340→    font-size: 0.82rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.3rem;
+  1341→  1341→  }
+  1342→  1342→  .seo-card p {
+  1343→  1343→    font-size: 0.72rem; color: var(--text-secondary); line-height: 1.45;
+  1344→  1344→  }
+  1345→  1345→
+  1346→  1346→  /* ===== Best Time Recommendation Card ===== */
+  1347→  1347→  .besttime-card {
+  1348→  1348→    background: var(--bg-secondary);
+  1349→  1349→    border: 1px solid rgba(37, 211, 102, 0.25);
+  1350→  1350→    border-left: 3px solid rgba(37, 211, 102, 0.7);
+  1351→  1351→    border-radius: 12px; padding: 1rem 1.25rem;
+  1352→  1352→    box-shadow: 0 2px 16px rgba(37, 211, 102, 0.08);
+  1353→  1353→    animation: besttime-glow 3s ease-in-out infinite;
+  1354→  1354→  }
+  1355→  1355→  @keyframes besttime-glow {
+  1356→  1356→    0%, 100% { box-shadow: 0 2px 16px rgba(37, 211, 102, 0.08); }
+  1357→  1357→    50% { box-shadow: 0 2px 20px rgba(37, 211, 102, 0.15); }
+  1358→  1358→  }
+  1359→  1359→  .besttime-card.no-overlap {
+  1360→  1360→    border-color: rgba(239, 68, 68, 0.2);
+  1361→  1361→    border-left-color: rgba(239, 68, 68, 0.5);
+  1362→  1362→    box-shadow: 0 2px 12px rgba(239, 68, 68, 0.04);
+  1363→  1363→    animation: none;
+  1364→  1364→  }
+  1365→  1365→  .besttime-header {
+  1366→  1366→    display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;
+  1367→  1367→  }
+  1368→  1368→  .besttime-icon-wrap {
+  1369→  1369→    display: flex; align-items: center; justify-content: center;
+  1370→  1370→    width: 28px; height: 28px; border-radius: 8px;
+  1371→  1371→    background: rgba(37, 211, 102, 0.12); flex-shrink: 0;
+  1372→  1372→  }
+  1373→  1373→  .besttime-icon {
+  1374→  1374→    color: var(--opn-primary);
+  1375→  1375→  }
+  1376→  1376→  .besttime-card.no-overlap .besttime-icon-wrap {
+  1377→  1377→    background: rgba(239, 68, 68, 0.1);
+  1378→  1378→  }
+  1379→  1379→  .besttime-card.no-overlap .besttime-icon {
+  1380→  1380→    color: #ef4444;
+  1381→  1381→  }
+  1382→  1382→  .besttime-title {
+  1383→  1383→    font-size: 0.92rem; font-weight: 700; color: var(--text-primary);
+  1384→  1384→    letter-spacing: -0.01em;
+  1385→  1385→  }
+  1386→  1386→
+  1387→  1387→  /* Primary range row */
+  1388→  1388→  .bt-primary-row {
+  1389→  1389→    display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
+  1390→  1390→    margin-bottom: 0.5rem;
+  1391→  1391→  }
+  1392→  1392→
+  1393→  1393→  /* Best time range badge — enhanced */
+  1394→  1394→  .bt-range-badge {
+  1395→  1395→    display: inline-flex; align-items: center; gap: 0.35rem;
+  1396→  1396→    font-size: 0.9rem; font-weight: 700; color: #fff;
+  1397→  1397→    background: linear-gradient(135deg, #25d366 0%, #128C7E 100%);
+  1398→  1398→    padding: 0.4rem 1rem; border-radius: 8px;
+  1399→  1399→    box-shadow: 0 2px 8px rgba(37, 211, 102, 0.25);
+  1400→  1400→  }
+  1401→  1401→  .bt-range-badge.active-now {
+  1402→  1402→    animation: badge-pulse 2s ease-in-out infinite;
+  1403→  1403→  }
+  1404→  1404→  @keyframes badge-pulse {
+  1405→  1405→    0%, 100% { box-shadow: 0 2px 8px rgba(37, 211, 102, 0.25); }
+  1406→  1406→    50% { box-shadow: 0 2px 16px rgba(37, 211, 102, 0.45); }
+  1407→  1407→  }
+  1408→  1408→  .bt-range-in {
+  1409→  1409→    font-size: 0.75rem; color: var(--text-secondary); font-weight: 500;
+  1410→  1410→  }
+  1411→  1411→  .bt-now-badge {
+  1412→  1412→    display: inline-flex; align-items: center; gap: 0.2rem;
+  1413→  1413→    font-size: 0.62rem; font-weight: 700; color: #fff;
+  1414→  1414→    background: #ef4444; padding: 0.15rem 0.45rem;
+  1415→  1415→    border-radius: 4px; text-transform: uppercase; letter-spacing: 0.04em;
+  1416→  1416→    animation: now-blink 1.5s ease-in-out infinite;
+  1417→  1417→  }
+  1418→  1418→  @keyframes now-blink {
+  1419→  1419→    0%, 100% { opacity: 1; }
+  1420→  1420→    50% { opacity: 0.6; }
+  1421→  1421→  }
+  1422→  1422→
+  1423→  1423→  /* Extra ranges (secondary overlaps) */
+  1424→  1424→  .bt-extra-ranges {
+  1425→  1425→    display: flex; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0.5rem;
+  1426→  1426→  }
+  1427→  1427→  .bt-extra-badge {
+  1428→  1428→    font-size: 0.68rem; font-weight: 600; color: var(--opn-primary);
+  1429→  1429→    background: rgba(37, 211, 102, 0.08); padding: 0.2rem 0.55rem;
+  1430→  1430→    border-radius: 6px; border: 1px solid rgba(37, 211, 102, 0.15);
+  1431→  1431→  }
+  1432→  1432→
+  1433→  1433→  /* Best time explanation text */
+  1434→  1434→  .besttime-explain {
+  1435→  1435→    font-size: 0.72rem; color: var(--text-secondary); line-height: 1.45;
+  1436→  1436→    margin: 0.35rem 0 0.25rem; padding: 0.4rem 0.6rem;
+  1437→  1437→    background: rgba(37, 211, 102, 0.04); border-radius: 6px;
+  1438→  1438→    border-left: 2px solid rgba(37, 211, 102, 0.3);
+  1439→  1439→  }
+  1440→  1440→  .besttime-card.no-overlap .besttime-explain {
+  1441→  1441→    background: rgba(239, 68, 68, 0.04);
+  1442→  1442→    border-left-color: rgba(239, 68, 68, 0.3);
+  1443→  1443→  }
+  1444→  1444→
+  1445→  1445→  /* Cities grid — 2 columns on desktop */
+  1446→  1446→  .bt-cities-grid {
+  1447→  1447→    display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.35rem 1rem;
+  1448→  1448→    padding-top: 0.5rem; border-top: 1px solid rgba(37, 211, 102, 0.1);
+  1449→  1449→  }
+  1450→  1450→  .bt-city-row {
+  1451→  1451→    display: flex; align-items: center; justify-content: space-between;
+  1452→  1452→    padding: 0.2rem 0; gap: 0.5rem;
+  1453→  1453→  }
+  1454→  1454→  .bt-city-name {
+  1455→  1455→    font-size: 0.72rem; font-weight: 600; color: var(--text-primary);
+  1456→  1456→    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  1457→  1457→  }
+  1458→  1458→  .bt-city-row.base .bt-city-name {
+  1459→  1459→    color: var(--opn-primary);
+  1460→  1460→  }
+  1461→  1461→  .bt-city-time {
+  1462→  1462→    font-size: 0.72rem; font-weight: 700; color: #38bdf8;
+  1463→  1463→    white-space: nowrap; font-variant-numeric: tabular-nums;
+  1464→  1464→  }
+  1465→  1465→
+  1466→  1466→  /* No overlap state */
+  1467→  1467→  .besttime-no-overlap {
+  1468→  1468→    display: flex; align-items: flex-start; gap: 0.75rem;
+  1469→  1469→    padding: 0.5rem 0;
+  1470→  1470→  }
+  1471→  1471→  .besttime-no-overlap svg {
+  1472→  1472→    color: #ef4444; flex-shrink: 0; margin-top: 0.1rem;
+  1473→  1473→  }
+  1474→  1474→  .besttime-no-overlap-title {
+  1475→  1475→    font-size: 0.82rem; font-weight: 700; color: #ef4444; margin-bottom: 0.25rem;
+  1476→  1476→  }
+  1477→  1477→  .besttime-no-overlap-desc {
+  1478→  1478→    font-size: 0.72rem; color: var(--text-secondary); line-height: 1.45;
+  1479→  1479→  }
+  1480→  1480→
+  1481→  1481→  /* Clock card Best Time badge */
+  1482→  1482→  .clock-card.best-now {
+  1483→  1483→    border-color: rgba(37, 211, 102, 0.4);
+  1484→  1484→    box-shadow: 0 0 0 1px rgba(37, 211, 102, 0.15), 0 2px 8px rgba(37, 211, 102, 0.08);
+  1485→  1485→  }
+  1486→  1486→  .clock-best-badge {
+  1487→  1487→    position: absolute; top: -6px; left: 50%; transform: translateX(-50%);
+  1488→  1488→    font-size: 0.52rem; font-weight: 700; color: #fff;
+  1489→  1489→    background: linear-gradient(135deg, #25d366, #128C7E);
+  1490→  1490→    padding: 0.12rem 0.45rem; border-radius: 4px;
+  1491→  1491→    white-space: nowrap; letter-spacing: 0.03em; text-transform: uppercase;
+  1492→  1492→    box-shadow: 0 1px 4px rgba(37, 211, 102, 0.3);
+  1493→  1493→    animation: clock-badge-pulse 2.5s ease-in-out infinite;
+  1494→  1494→    z-index: 2;
+  1495→  1495→  }
+  1496→  1496→  @keyframes clock-badge-pulse {
+  1497→  1497→    0%, 100% { box-shadow: 0 1px 4px rgba(37, 211, 102, 0.3); }
+  1498→  1498→    50% { box-shadow: 0 1px 8px rgba(37, 211, 102, 0.5); }
+  1499→  1499→  }
+  1500→  1500→
+  1501→  1501→  /* Responsive best time */
+  1502→  1502→  @media (max-width: 520px) {
+  1503→  1503→    .besttime-card { padding: 0.75rem; }
+  1504→  1504→    .bt-cities-grid { grid-template-columns: 1fr; }
+  1505→  1505→    .bt-range-badge { font-size: 0.82rem; padding: 0.35rem 0.8rem; }
+  1506→  1506→    .bt-primary-row { gap: 0.35rem; }
+  1507→  1507→    .clock-best-badge { font-size: 0.48rem; }
+  1508→  1508→    .step-card { padding: 0.85rem; gap: 0.75rem; }
+  1509→  1509→    .step-number { width: 26px; height: 26px; font-size: 0.75rem; }
+  1510→  1510→    .step-label { font-size: 0.85rem; }
+  1511→  1511→  }
+  1512→  1512→
+  1513→  1513→  /* RTL support for best time card */
+  1514→  1514→  [dir="rtl"] .besttime-card {
+  1515→  1515→    border-left: 1px solid rgba(37, 211, 102, 0.25);
+  1516→  1516→    border-right: 3px solid rgba(37, 211, 102, 0.7);
+  1517→  1517→  }
+  1518→  1518→  [dir="rtl"] .besttime-card.no-overlap {
+  1519→  1519→    border-right-color: rgba(239, 68, 68, 0.5);
+  1520→  1520→  }
+  1521→  1521→
+  1522→  1522→  /* ===== Visual 24h Timeline ===== */
+  1523→  1523→  .timeline-section {
+  1524→  1524→    display: flex; flex-direction: column; gap: 0.75rem;
+  1525→  1525→    background: var(--bg-secondary); border: 1px solid var(--border-color);
+  1526→  1526→    border-radius: 12px; padding: 1rem 1.25rem;
+  1527→  1527→  }
+  1528→  1528→
+  1529→  1529→  .timeline-legend {
+  1530→  1530→    display: flex; align-items: center; gap: 1rem; margin-bottom: 0.25rem;
+  1531→  1531→  }
+  1532→  1532→  .legend-item {
+  1533→  1533→    display: inline-flex; align-items: center; gap: 0.35rem;
+  1534→  1534→    font-size: 0.7rem; color: var(--text-secondary); font-weight: 500;
+  1535→  1535→  }
+  1536→  1536→  .legend-swatch {
+  1537→  1537→    width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0;
+  1538→  1538→  }
+  1539→  1539→  .legend-work .legend-swatch {
+  1540→  1540→    background: rgba(37, 211, 102, 0.35); border: 1px solid rgba(37, 211, 102, 0.5);
+  1541→  1541→  }
+  1542→  1542→  .legend-night .legend-swatch {
+  1543→  1543→    background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(56, 189, 248, 0.2);
+  1544→  1544→  }
+  1545→  1545→
+  1546→  1546→  .timeline-wrapper {
+  1547→  1547→    position: relative; overflow-x: auto; overflow-y: visible;
+  1548→  1548→    -webkit-overflow-scrolling: touch;
+  1549→  1549→  }
+  1550→  1550→
+  1551→  1551→  /* Hour header row */
+  1552→  1552→  .timeline-header {
+  1553→  1553→    position: relative; height: 1.4rem;
+  1554→  1554→    margin-left: 90px;
+  1555→  1555→    border-bottom: 1px solid var(--border-color);
+  1556→  1556→  }
+  1557→  1557→  .tl-header-spacer {
+  1558→  1558→    position: absolute; left: -90px; top: 0; width: 90px; height: 100%;
+  1559→  1559→  }
+  1560→  1560→  .tl-hour-label {
+  1561→  1561→    position: absolute; top: 0;
+  1562→  1562→    font-size: 0.65rem; font-weight: 600; color: var(--text-secondary);
+  1563→  1563→    transform: translateX(-50%); line-height: 1.4rem;
+  1564→  1564→  }
+  1565→  1565→
+  1566→  1566→  /* City rows */
+  1567→  1567→  .timeline-rows {
+  1568→  1568→    display: flex; flex-direction: column; gap: 0;
+  1569→  1569→  }
+  1570→  1570→  .tl-row {
+  1571→  1571→    display: flex; align-items: stretch; min-height: 26px;
+  1572→  1572→    border-bottom: 1px solid rgba(128,128,128,0.06);
+  1573→  1573→  }
+  1574→  1574→  .tl-row:last-child { border-bottom: none; }
+  1575→  1575→  .tl-city-label {
+  1576→  1576→    width: 90px; flex-shrink: 0; display: flex; flex-direction: column;
+  1577→  1577→    justify-content: center; padding-right: 0.5rem;
+  1578→  1578→    overflow: hidden;
+  1579→  1579→  }
+  1580→  1580→  .tl-city-name {
+  1581→  1581→    font-size: 0.68rem; font-weight: 700; color: var(--text-primary);
+  1582→  1582→    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  1583→  1583→    line-height: 1.2;
+  1584→  1584→  }
+  1585→  1585→  .tl-city-offset {
+  1586→  1586→    font-size: 0.58rem; color: var(--text-secondary); line-height: 1.2;
+  1587→  1587→  }
+  1588→  1588→  .tl-bar {
+  1589→  1589→    flex: 1; display: grid; grid-template-columns: repeat(24, 1fr);
+  1590→  1590→    min-width: 360px;
+  1591→  1591→    border-radius: 0;
+  1592→  1592→  }
+  1593→  1593→  .tl-seg {
+  1594→  1594→    height: 100%; min-height: 26px;
+  1595→  1595→    border-right: 1px solid rgba(128,128,128,0.06);
+  1596→  1596→    transition: opacity 0.15s;
+  1597→  1597→  }
+  1598→  1598→  .tl-seg.day {
+  1599→  1599→    background: rgba(128,128,128,0.06);
+  1600→  1600→  }
+  1601→  1601→  .tl-seg.work {
+  1602→  1602→    background: rgba(37, 211, 102, 0.2);
+  1603→  1603→    border-right-color: rgba(37, 211, 102, 0.08);
+  1604→  1604→  }
+  1605→  1605→  .tl-seg.night {
+  1606→  1606→    background: rgba(15, 23, 42, 0.25);
+  1607→  1607→    border-right-color: rgba(56, 189, 248, 0.04);
+  1608→  1608→  }
+  1609→  1609→  .tl-row:first-child .tl-seg.work {
+  1610→  1610→    background: rgba(37, 211, 102, 0.3);
+  1611→  1611→  }
+  1612→  1612→
+  1613→  1613→  /* "Now" marker */
+  1614→  1614→  .timeline-now {
+  1615→  1615→    position: absolute; top: 0; bottom: 0; width: 2px;
+  1616→  1616→    background: #ef4444; z-index: 10; pointer-events: none;
+  1617→  1617→    margin-left: 90px;
+  1618→  1618→    box-shadow: 0 0 6px rgba(239, 68, 68, 0.4);
+  1619→  1619→  }
+  1620→  1620→  .tl-now-label {
+  1621→  1621→    position: absolute; top: -1.3rem; left: 50%;
+  1622→  1622→    transform: translateX(-50%);
+  1623→  1623→    font-size: 0.6rem; font-weight: 700; color: #ef4444;
+  1624→  1624→    background: var(--bg-secondary); padding: 0 0.3rem;
+  1625→  1625→    border-radius: 3px; white-space: nowrap;
+  1626→  1626→    line-height: 1.3rem;
+  1627→  1627→  }
+  1628→  1628→
+  1629→  1629→  /* "Best time" badges */
+  1630→  1630→  .timeline-best {
+  1631→  1631→    position: absolute; top: -0.15rem; bottom: auto; height: auto;
+  1632→  1632→    margin-left: 90px; z-index: 9; pointer-events: none;
+  1633→  1633→  }
+  1634→  1634→  .tl-best-badge {
+  1635→  1635→    position: absolute; top: 0;
+  1636→  1636→    height: 1.15rem;
+  1637→  1637→    background: rgba(37, 211, 102, 0.12);
+  1638→  1638→    border: 1px solid rgba(37, 211, 102, 0.3);
+  1639→  1639→    border-radius: 4px; display: flex; align-items: center; justify-content: center;
+  1640→  1640→  }
+  1641→  1641→  .tl-best-badge span {
+  1642→  1642→    font-size: 0.58rem; font-weight: 700; color: var(--opn-primary);
+  1643→  1643→    white-space: nowrap; letter-spacing: 0.02em;
+  1644→  1644→  }
+  1645→  1645→
+  1646→  1646→  /* Responsive timeline */
+  1647→  1647→  @media (max-width: 520px) {
+  1648→  1648→    .timeline-section { padding: 0.75rem 0.75rem; }
+  1649→  1649→    .timeline-header { margin-left: 70px; }
+  1650→  1650→    .tl-city-label { width: 70px; }
+  1651→  1651→    .tl-city-name { font-size: 0.62rem; }
+  1652→  1652→    .tl-city-offset { font-size: 0.52rem; }
+  1653→  1653→    .tl-bar { min-width: 280px; }
+  1654→  1654→    .tl-seg { min-height: 22px; }
+  1655→  1655→    .timeline-now { margin-left: 70px; }
+  1656→  1656→    .timeline-best { margin-left: 70px; }
+  1657→  1657→    .tl-hour-label { font-size: 0.58rem; }
+  1658→  1658→    .tl-now-label { font-size: 0.55rem; top: -1.2rem; }
+  1659→  1659→    .tl-best-badge span { font-size: 0.52rem; }
+  1660→  1660→  }
+  1661→  1661→
+  1662→  1662→  /* RTL support */
+  1663→  1663→  [dir="rtl"] .timeline-header { margin-left: 0; margin-right: 90px; }
+  1664→  1664→  [dir="rtl"] .tl-city-label { padding-right: 0; padding-left: 0.5rem; text-align: right; }
+  1665→  1665→  [dir="rtl"] .timeline-now { margin-left: 0; margin-right: 90px; }
+  1666→  1666→  [dir="rtl"] .timeline-best { margin-left: 0; margin-right: 90px; }
+  1667→  1667→  [dir="rtl"] .besttime-explain { border-left: none; border-right: 2px solid rgba(37, 211, 102, 0.3); }
+  1668→  1668→  @media (max-width: 520px) {
+  1669→  1669→    [dir="rtl"] .timeline-header { margin-right: 70px; }
+  1670→  1670→    [dir="rtl"] .tl-city-label { width: 70px; }
+  1671→  1671→    [dir="rtl"] .timeline-now { margin-right: 70px; }
+  1672→  1672→    [dir="rtl"] .timeline-best { margin-right: 70px; }
+  1673→  1673→  }
+  1674→  1674→</style>
+  1675→  1675→
