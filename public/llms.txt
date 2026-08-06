@@ -1,0 +1,68 @@
+# OPN Chat
+
+> Free privacy-first online tools that run entirely in your browser. No sign-up, no data stored on servers. Private and instant.
+
+OPN Chat (Online Privacy Network) is a collection of free privacy-first web tools. Every tool processes data locally in the browser using official link protocols (wa.me for WhatsApp, t.me for Telegram, viber://chat for Viber, signal.me for Signal). No data is ever sent to servers, intercepted, stored, or tracked.
+
+## Messengers
+
+- [WhatsApp](/whatsapp/): Message any WhatsApp number without saving it to your contacts. Enter a phone number with country code, optionally add a pre-filled message, and open a chat directly. Uses the official wa.me link protocol.
+- [WhatsApp Link Generator](/wa-link/): Generate wa.me links with pre-filled message — shareable, no app required to click. QR-code + copy button included.
+- [WhatsApp Chat Widget](/wa-widget/): Embeddable floating WhatsApp chat widget for any website. Configurable position, color, pre-filled message. Copy-paste install.
+- [WhatsApp Text Formatter](/whatsapp-text-formatter/): Format WhatsApp messages with bold, italic, strikethrough, monospace. Live preview, copy ready-to-paste text.
+- [Quick Reply Templates](/quick-replies/): Save frequently-used WhatsApp messages as templates. Generate wa.me links with one click. localStorage only.
+- [Broadcast Link Generator](/broadcast/): Create wa.me broadcast links for mass messaging without saving contacts.
+- [Telegram](/telegram/): Message any Telegram username or phone number without adding contacts. Smart input auto-detects @username vs phone number. Uses the official t.me link protocol.
+- [Telegram Link Generator](/tg-link/): Generate t.me links with optional message. Shareable, no app required to click.
+- [Viber](/viber/): Message any Viber number without saving it to your contacts. Uses the official viber://chat deep link. Desktop users get a download hint.
+- [Signal](/signal/): Open a Signal chat without adding a contact. Uses the official signal.me/#p/ link protocol.
+
+## Text Tools
+
+- [Fancy Text Generator](/fancy-text/): Convert plain text into Unicode styles (bold, italic, gothic, cursive, circled, etc.). Copy-paste ready for WhatsApp, Instagram, TikTok.
+- [Word Counter](/word-counter/): Real-time word, character, sentence, paragraph count. Reading time estimate. Keyword density analysis.
+- [Online Notepad](/notepad/): Write and save notes in your browser. Auto-saves to localStorage. No account, no cloud sync.
+
+## Utilities
+
+- [QR Code Generator](/qr-code/): Create QR codes for URLs, WiFi credentials, vCard, plain text. Download as PNG, SVG, or JPEG. No watermark.
+- [Password Generator](/password/): Generate cryptographically secure passwords via `crypto.getRandomValues`. Customizable length, character sets, strength meter.
+- [Unit Converter](/unit-converter/): Convert between metric and imperial units. Length, weight, temperature, volume, area, speed, time, data.
+- [World Clock & Time Zone Converter](/timezone/): Compare time across 40+ world cities. Custom time input, DST-aware, searchable city list, WhatsApp integration for sharing meeting times.
+- [Meeting Scheduler](/meeting-scheduler/): Find the best meeting time across time zones. Visual overlap timeline, working hours filter, one-click WhatsApp meeting link.
+- [Emoji Picker & Keyboard](/emoji-picker/): Search and copy emojis by keyword, category, or skin tone. Recent emojis, copy-to-clipboard.
+
+## Languages
+
+Available in 7 languages: English (default, at root `/`), Español (`/es/`), Português (`/pt/`), Bahasa Indonesia (`/id/`), Русский (`/ru/`), Deutsch (`/de/`), العربية (`/ar/`, RTL).
+
+## Blog
+
+- [WhatsApp without Saving Number](/blog/whatsapp-without-saving-number/) — Complete guide
+- [WhatsApp Direct Message Guide](/blog/whatsapp-direct-message/)
+- [WhatsApp Click to Chat Guide](/blog/whatsapp-click-to-chat-guide/)
+- [WhatsApp Link Generator Guide](/blog/whatsapp-link-generator/)
+- [WhatsApp Text Formatting Guide](/blog/whatsapp-text-formatting/)
+- [WhatsApp Widget for Website Guide](/blog/whatsapp-widget-website/)
+- [Telegram without Saving Number](/blog/telegram-without-saving-number/)
+- [Viber without Saving Number](/blog/viber-without-saving-number/)
+- [Signal without Saving Number](/blog/signal-without-saving-number/)
+
+Blog posts are translated into all 7 languages — append `-ru`, `-es`, `-pt`, `-id`, `-de`, `-ar` to the slug, or visit `/ru/blog/`, `/es/blog/`, etc.
+
+## Legal
+
+- [Legal Disclaimer](/disclaimer/): OPN Chat is not affiliated with Meta, WhatsApp, Telegram, Viber, Signal, or OpenChat DAO.
+- [Privacy Policy](/privacy/): 100% client-side. No analytics, no cookies, no tracking.
+
+## Key Facts
+
+- **URL**: https://opnchat.net
+- **Privacy**: 100% client-side. No server processing. localStorage only for recent numbers and preferences (clearable via UI).
+- **Cost**: Completely free. No ads, no premium tiers, no sign-up.
+- **Protocols**: Uses official `wa.me` (WhatsApp), `t.me` (Telegram), `viber://chat` (Viber), and `signal.me/#p/` (Signal) link protocols. Messages go directly through official apps — never intercepted or stored.
+- **PWA**: Installable as a Progressive Web App with offline support via Service Worker.
+- **Open source**: Available on GitHub.
+- **Built with**: Astro 5, static output, deployed on Vercel edge network. ~150 prerendered pages, sub-second TTFB.
+- **i18n**: 7 locales, with `hreflang` alternates and `x-default` for English. RTL-aware for Arabic.
+- **SEO**: Schema.org JSON-LD (WebApplication, FAQPage, BreadcrumbList) on every tool page. sitemap.xml with locale alternates. llms.txt for AI crawlers.

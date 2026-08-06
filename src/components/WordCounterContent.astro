@@ -1,0 +1,952 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { useTranslations } from '../i18n/utils';
+import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
+import { languages, type Lang } from '../i18n/ui';
+import SiteHeader from './SiteHeader.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import SEOHead from './SEOHead.astro';
+import { localeMap } from '../i18n/localeMap';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const wcSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": t('wc.heading'),
+      "description": t('wc.meta.description'),
+      "url": getAbsoluteLocaleUrl(lang, 'word-counter'),
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "OPN Chat", "item": "https://opnchat.net" },
+        { "@type": "ListItem", "position": 2, "name": t('bc.wordcounter'), "item": getAbsoluteLocaleUrl(lang, 'word-counter') }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": t('wc.faq.q1'), "acceptedAnswer": { "@type": "Answer", "text": t('wc.faq.a1') } },
+        { "@type": "Question", "name": t('wc.faq.q2'), "acceptedAnswer": { "@type": "Answer", "text": t('wc.faq.a2') } },
+        { "@type": "Question", "name": t('wc.faq.q3'), "acceptedAnswer": { "@type": "Answer", "text": t('wc.faq.a3') } },
+        { "@type": "Question", "name": t('wc.faq.q4'), "acceptedAnswer": { "@type": "Answer", "text": t('wc.faq.a4') } },
+        { "@type": "Question", "name": t('wc.faq.q5'), "acceptedAnswer": { "@type": "Answer", "text": t('wc.faq.a5') } }
+      ]
+    }
+  ]
+};
+---
+
+<Layout title={t('wc.meta.title')} lang={lang} service="word-counter">
+  <Fragment slot="meta">
+  <SEOHead
+  lang={lang}
+  description={t('wc.meta.description')}
+  canonicalUrl={getAbsoluteLocaleUrl(lang, 'word-counter')}
+  ogTitle={t('wc.meta.og.title')}
+  ogDescription={t('wc.meta.og.description')}
+  ogUrl={getAbsoluteLocaleUrl(lang, 'word-counter')}
+  schema={wcSchema}
+  extraMeta={`<meta name="keywords" content="${t('wc.meta.keywords')}" /><meta name="twitter:card" content="summary" /><meta name="twitter:title" content="${t('wc.meta.twitter.title')}" /><meta name="twitter:description" content="${t('wc.meta.twitter.description')}" />`}
+/>
+</Fragment>
+
+  <div class="container">
+    <!-- Header -->
+    <SiteHeader lang={lang} path="word-counter" activeTool="word-counter" />
+
+    <Breadcrumbs lang={lang} items={[{ label: t('bc.home'), href: getRelativeLocaleUrl(lang) }, { label: t('bc.wordcounter') }]} />
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1 class="title">{t('wc.heading')}</h1>
+      <p class="subtitle">{t('wc.subtitle')}</p>
+      <div class="privacy-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        {t('wc.privacy.badge')}
+      </div>
+    </div>
+
+    <!-- Counter Tool -->
+    <div class="counter-box">
+      <!-- Stats Bar -->
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span class="stat-value" id="stat-words">0</span>
+          <span class="stat-label">{t('wc.words')}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="stat-chars">0</span>
+          <span class="stat-label">{t('wc.characters')}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="stat-chars-no-space">0</span>
+          <span class="stat-label">{t('wc.chars.no.spaces')}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="stat-sentences">0</span>
+          <span class="stat-label">{t('wc.sentences')}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="stat-paragraphs">0</span>
+          <span class="stat-label">{t('wc.paragraphs')}</span>
+        </div>
+        <div class="stat-item stat-reading">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="stat-icon"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span class="stat-value" id="stat-reading">{t('wc.reading.time.less')}</span>
+          <span class="stat-label">{t('wc.reading.time')}</span>
+        </div>
+      </div>
+
+      <!-- Social Media Limits -->
+      <div class="limits-section">
+        <h3 class="limits-heading">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="limits-icon"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+          {t('wc.limits.heading')}
+        </h3>
+        <div class="limits-grid">
+          <!-- Twitter/X -->
+          <div class="limit-item" id="limit-twitter-item">
+            <div class="limit-header">
+              <span class="limit-platform">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" class="limit-platform-icon" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.8L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                {t('wc.limits.twitter')}
+              </span>
+              <span class="limit-count" id="limit-twitter-count">0 / 280</span>
+            </div>
+            <div class="limit-bar-track">
+              <div class="limit-bar-fill" id="limit-twitter-bar" style="width:0%"></div>
+            </div>
+            <span class="limit-status" id="limit-twitter-status" data-remaining={t('wc.limits.remaining')} data-over={t('wc.limits.over')}>{t('wc.limits.remaining')}: 280</span>
+          </div>
+          <!-- Instagram -->
+          <div class="limit-item" id="limit-instagram-item">
+            <div class="limit-header">
+              <span class="limit-platform">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="limit-platform-icon" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                {t('wc.limits.instagram')}
+              </span>
+              <span class="limit-count" id="limit-instagram-count">0 / 2&nbsp;200</span>
+            </div>
+            <div class="limit-bar-track">
+              <div class="limit-bar-fill" id="limit-instagram-bar" style="width:0%"></div>
+            </div>
+            <span class="limit-status" id="limit-instagram-status" data-remaining={t('wc.limits.remaining')} data-over={t('wc.limits.over')}>{t('wc.limits.remaining')}: 2&nbsp;200</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Textarea with micro-buttons overlay -->
+      <div class="wc-textarea-wrap">
+        <textarea id="wc-textarea" class="wc-textarea" placeholder={t('wc.placeholder')} aria-label="Text input for word counting"></textarea>
+        <div class="wc-micro-btns">
+          <button type="button" class="wc-micro-btn" id="wc-clear" title={t('wc.clear')} aria-label={t('wc.clear')}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          </button>
+          <button type="button" class="wc-micro-btn" id="wc-copy" title={t('wc.copy')} aria-label={t('wc.copy')} data-label-copy={t('wc.copy')} data-label-copied={t('wc.copied')}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Keyword Density -->
+      <div class="density-section" id="density-section">
+        <h3 class="density-heading">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="density-icon"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          {t('wc.keyword.density')}
+        </h3>
+        <p class="density-sub">{t('wc.keyword.density.top')}</p>
+        <table class="density-table" id="density-table">
+          <thead>
+            <tr>
+              <th>{t('wc.keyword.density.word')}</th>
+              <th>{t('wc.keyword.density.count')}</th>
+              <th>{t('wc.keyword.density.percent')}</th>
+            </tr>
+          </thead>
+          <tbody id="density-body">
+            <tr class="density-empty"><td colspan="3">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <section class="features-section">
+      <h2 class="section-heading">{t('wc.features.heading')}</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3 class="feature-title">{t('wc.features.private.title')}</h3>
+          <p class="feature-desc">{t('wc.features.private.desc')}</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10"/></svg>
+          </div>
+          <h3 class="feature-title">{t('wc.features.instant.title')}</h3>
+          <p class="feature-desc">{t('wc.features.instant.desc')}</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <h3 class="feature-title">{t('wc.features.seo.title')}</h3>
+          <p class="feature-desc">{t('wc.features.seo.desc')}</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+          </div>
+          <h3 class="feature-title">{t('wc.features.everyday.title')}</h3>
+          <p class="feature-desc">{t('wc.features.everyday.desc')}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section">
+      <h2 class="section-heading">{t('wc.faq.heading')}</h2>
+      <div class="faq-list">
+        <details class="faq-item"><summary>{t('wc.faq.q1')}</summary><p>{t('wc.faq.a1')}</p></details>
+        <details class="faq-item"><summary>{t('wc.faq.q2')}</summary><p>{t('wc.faq.a2')}</p></details>
+        <details class="faq-item"><summary>{t('wc.faq.q3')}</summary><p>{t('wc.faq.a3')}</p></details>
+        <details class="faq-item"><summary>{t('wc.faq.q4')}</summary><p>{t('wc.faq.a4')}</p></details>
+        <details class="faq-item"><summary>{t('wc.faq.q5')}</summary><p>{t('wc.faq.a5')}</p></details>
+      </div>
+    </section>
+</div>
+</Layout>
+
+<style>
+  .container {
+    max-width: 720px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .hero {
+    text-align: center;
+    padding: 0.5rem 0;
+  }
+
+  .title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.5;
+  }
+
+  .privacy-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+    padding: 0.4rem 0.85rem;
+    border-radius: 24px;
+    background: rgba(37, 211, 102, 0.1);
+    border: 1px solid rgba(37, 211, 102, 0.25);
+    color: var(--opn-primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  /* Counter Tool */
+  .counter-box {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  /* Stats Bar */
+  .stats-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    border-radius: 10px;
+    background: rgba(128, 128, 128, 0.08);
+    border: 1px solid rgba(128, 128, 128, 0.12);
+    min-width: 80px;
+  }
+
+  .stat-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .stat-reading {
+    flex-direction: row;
+    gap: 0.3rem;
+    align-items: center;
+    min-width: 120px;
+  }
+
+  .stat-reading .stat-value {
+    font-size: 0.95rem;
+  }
+
+  .stat-reading .stat-label {
+    font-size: 0.75rem;
+  }
+
+  .stat-icon {
+    color: var(--opn-primary);
+    flex-shrink: 0;
+  }
+
+  /* Textarea wrapper + micro-buttons */
+  .wc-textarea-wrap {
+    position: relative;
+  }
+
+  .wc-textarea {
+    width: 100%;
+    min-height: 200px;
+    padding: 1rem;
+    padding-top: 2.5rem;
+    border-radius: 12px;
+    border: 1.5px solid var(--border-color);
+    background: var(--bg-input);
+    color: var(--text-primary);
+    font-size: 1rem;
+    line-height: 1.6;
+    resize: vertical;
+    font-family: inherit;
+    transition: border-color 0.2s;
+  }
+
+  .wc-textarea:focus {
+    outline: none;
+    border-color: var(--opn-primary);
+  }
+
+  .wc-textarea::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.6;
+  }
+
+  /* Social Media Limits */
+  .limits-section {
+    margin-top: 0.25rem;
+  }
+
+  .limits-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .limits-icon {
+    color: var(--opn-primary);
+  }
+
+  .limits-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .limit-item {
+    background: rgba(128, 128, 128, 0.06);
+    border: 1px solid rgba(128, 128, 128, 0.12);
+    border-radius: 10px;
+    padding: 0.65rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .limit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .limit-platform {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+  }
+
+  .limit-platform-icon {
+    flex-shrink: 0;
+  }
+
+  .limit-count {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .limit-bar-track {
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(128, 128, 128, 0.15);
+    overflow: hidden;
+  }
+
+  .limit-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.3s ease, background-color 0.3s ease;
+    background: var(--opn-primary);
+  }
+
+  .limit-bar-fill.warning {
+    background: #F59E0B;
+  }
+
+  .limit-bar-fill.danger {
+    background: #EF4444;
+  }
+
+  .limit-bar-fill.over {
+    background: #DC2626;
+  }
+
+  .limit-status {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+  }
+
+  .limit-status.over {
+    color: #EF4444;
+    font-weight: 600;
+  }
+
+  /* Micro-buttons overlay */
+  .wc-micro-btns {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    gap: 0.35rem;
+    z-index: 2;
+  }
+
+  .wc-micro-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 0;
+  }
+
+  .wc-micro-btn:hover {
+    border-color: var(--opn-primary);
+    color: var(--opn-primary);
+    background: rgba(37, 211, 102, 0.1);
+  }
+
+  .wc-micro-btn.copied {
+    border-color: var(--opn-primary);
+    color: var(--opn-primary);
+    background: rgba(37, 211, 102, 0.15);
+  }
+
+  /* Keyword Density */
+  .density-section {
+    margin-top: 0.25rem;
+  }
+
+  .density-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+  }
+
+  .density-icon {
+    color: var(--opn-primary);
+  }
+
+  .density-sub {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+  }
+
+  .density-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+
+  .density-table th {
+    text-align: left;
+    padding: 0.4rem 0.6rem;
+    border-bottom: 1.5px solid var(--border-color);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.8rem;
+  }
+
+  .density-table td {
+    padding: 0.4rem 0.6rem;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+    color: var(--text-primary);
+  }
+
+  .density-table tr:hover td {
+    background: rgba(128, 128, 128, 0.05);
+  }
+
+  .density-empty td {
+    color: var(--text-secondary);
+    text-align: center;
+    font-style: italic;
+  }
+
+  .density-word {
+    font-weight: 600;
+    color: var(--opn-primary);
+  }
+
+  .density-bar {
+    display: inline-block;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--opn-primary);
+    min-width: 4px;
+    margin-right: 0.3rem;
+    vertical-align: middle;
+  }
+
+  /* Features */
+  .features-section {
+    padding: 1rem 0;
+  }
+
+  .section-heading {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .feature-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .feature-icon {
+    color: var(--opn-primary);
+    display: flex;
+    align-items: center;
+  }
+
+  .feature-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .feature-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .feature-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  /* FAQ */
+  .faq-section {
+    padding: 1rem 0;
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .faq-item {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+  }
+
+  .faq-item summary {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    list-style: none;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item[open] summary {
+    color: var(--opn-primary);
+  }
+
+  .faq-item p {
+    margin-top: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    .container {
+      padding: 0.75rem;
+      gap: 1rem;
+    }
+    .title {
+      font-size: 1.6rem;
+    }
+    .subtitle {
+      font-size: 0.95rem;
+    }
+    .stat-item {
+      min-width: 65px;
+      padding: 0.4rem 0.5rem;
+    }
+    .stat-value {
+      font-size: 1.1rem;
+    }
+    .stat-reading {
+      min-width: 100px;
+    }
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+    .wc-textarea {
+      min-height: 150px;
+    }
+    .limits-grid {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+  }
+</style>
+
+<script>
+  const textarea = document.getElementById('wc-textarea') as HTMLTextAreaElement;
+  const statWords = document.getElementById('stat-words');
+  const statChars = document.getElementById('stat-chars');
+  const statCharsNoSpace = document.getElementById('stat-chars-no-space');
+  const statSentences = document.getElementById('stat-sentences');
+  const statParagraphs = document.getElementById('stat-paragraphs');
+  const statReading = document.getElementById('stat-reading');
+  const densityBody = document.getElementById('density-body');
+  const clearBtn = document.getElementById('wc-clear');
+  const copyBtn = document.getElementById('wc-copy');
+
+  // Social media limit elements
+  const twitterCountEl = document.getElementById('limit-twitter-count');
+  const twitterBarEl = document.getElementById('limit-twitter-bar');
+  const twitterStatusEl = document.getElementById('limit-twitter-status');
+  const twitterItemEl = document.getElementById('limit-twitter-item');
+  const instagramCountEl = document.getElementById('limit-instagram-count');
+  const instagramBarEl = document.getElementById('limit-instagram-bar');
+  const instagramStatusEl = document.getElementById('limit-instagram-status');
+  const instagramItemEl = document.getElementById('limit-instagram-item');
+
+  const TWITTER_LIMIT = 280;
+  const INSTAGRAM_LIMIT = 2200;
+
+  const WORDS_PER_MIN = 200;
+
+  // Read i18n labels from the DOM (they're already rendered)
+  const lblLess = statReading?.textContent || '< 1 min';
+  const lblMin = 'min'; // simple suffix
+
+  // Read i18n labels for social limits from data attributes (rendered server-side)
+  const lblRemaining = twitterStatusEl?.dataset.remaining || 'remaining';
+  const lblOverBy = twitterStatusEl?.dataset.over || 'over by';
+
+  function countWords(text: string): number {
+    if (!text.trim()) return 0;
+    // Split by whitespace for Latin scripts, handle CJK characters individually
+    const words = text.trim().split(/\s+/).filter(w => w.length > 0);
+    return words.length;
+  }
+
+  function countChars(text: string): number {
+    return text.length;
+  }
+
+  function countCharsNoSpaces(text: string): number {
+    return text.replace(/\s/g, '').length;
+  }
+
+  function countSentences(text: string): number {
+    if (!text.trim()) return 0;
+    const matches = text.match(/[.!?؟。！？]+/g);
+    return matches ? matches.length : 0;
+  }
+
+  function countParagraphs(text: string): number {
+    if (!text.trim()) return 0;
+    return text.split(/\n+/).filter(p => p.trim().length > 0).length;
+  }
+
+  function readingTime(words: number): string {
+    if (words === 0) return lblLess;
+    const mins = Math.ceil(words / WORDS_PER_MIN);
+    if (mins < 1) return lblLess;
+    return mins + ' ' + lblMin;
+  }
+
+  // Stop words — Russian + English prepositions, conjunctions, pronouns, particles
+  const STOP_WORDS: Set<string> = new Set([
+    // Russian prepositions, conjunctions, particles, pronouns
+    'и', 'в', 'на', 'с', 'к', 'по', 'от', 'из', 'за', 'под', 'над', 'о', 'об', 'у',
+    'но', 'а', 'же', 'ли', 'бы', 'то', 'вот', 'ведь', 'даже', 'уже', 'ещё', 'еще',
+    'или', 'потому', 'поэтому', 'также', 'так', 'как', 'что', 'это', 'который',
+    'которая', 'которое', 'которые', 'всё', 'все', 'только', 'не', 'нет', 'ни',
+    'был', 'была', 'было', 'будут', 'быть', 'есть', 'будет', 'может', 'могут',
+    'его', 'её', 'её', 'их', 'мой', 'моя', 'моё', 'мои', 'наш', 'наша', 'наше',
+    'наши', 'этот', 'эта', 'это', 'эти', 'тот', 'та', 'то', 'те', 'сам', 'сама',
+    'само', 'сами', 'один', 'одна', 'одно', 'два', 'три', 'для', 'при', 'через',
+    'между', 'без', 'до', 'после', 'во', 'со', 'то', 'чем', 'тоже', 'там', 'тут',
+    'где', 'когда', 'зачем', 'почему', 'лишь', 'впрочем', 'однако', 'хотя', 'если',
+    'чтоб', 'чтобы', 'пусть', 'пускай', 'наконец', 'итак', 'значит', 'видимо',
+    'кажется', 'вероятно', 'возможно', 'наверное', 'очень', 'довольно', 'весь',
+    'целый', 'каждый', 'любой', 'самый', 'какой', 'какая', 'какое', 'какие',
+    'чей', 'чья', 'чьё', 'чьи', 'кто', 'кого', 'кому', 'кем', 'чем', 'чего',
+    'котором', 'которой', 'которым', 'которых', 'мне', 'меня', 'мной', 'тебе',
+    'тебя', 'тобой', 'нам', 'нами', 'вам', 'вами', 'ним', 'ними', 'ней', 'ею',
+    // English stop words
+    'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of',
+    'with', 'by', 'from', 'is', 'are', 'was', 'were', 'be', 'been', 'being',
+    'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should',
+    'can', 'may', 'might', 'must', 'shall', 'that', 'this', 'these', 'those',
+    'it', 'its', 'he', 'she', 'they', 'we', 'you', 'i', 'me', 'my', 'your',
+    'our', 'their', 'him', 'her', 'us', 'them', 'not', 'no', 'nor', 'if', 'then',
+    'than', 'so', 'as', 'just', 'also', 'very', 'too', 'much', 'more', 'most',
+    'some', 'any', 'all', 'each', 'every', 'both', 'few', 'many', 'several',
+    'such', 'own', 'same', 'other', 'another', 'which', 'what', 'who', 'whom',
+    'where', 'when', 'why', 'how', 'there', 'here', 'up', 'down', 'out', 'off',
+    'over', 'under', 'again', 'further', 'once', 'about', 'into', 'through',
+    'during', 'before', 'after', 'above', 'below', 'between', 'under', 'until',
+    'while', 'because', 'since', 'although', 'though', 'yet', 'still', 'even',
+    'only', 'just', 'already', 'always', 'never', 'often', 'sometimes', 'usually',
+    // Arabic common stop words
+    'في', 'من', 'إلى', 'على', 'عن', 'مع', 'هذا', 'هذه', 'ذلك', 'تلك',
+    'الذي', 'التي', 'الذين', 'اللاتي', 'هو', 'هي', 'هم', 'هن', 'نحن',
+    'أنا', 'أنت', 'أنتم', 'كان', 'كانت', 'يكون', 'تكون', 'ليس', 'ليست',
+    'أن', 'لا', 'لم', 'لن', 'ما', 'قد', 'بل', 'ثم', 'أو', 'و',
+    'حتى', 'إذ', 'إذا', 'لو', 'لأن', 'بعد', 'قبل', 'بين', 'دون', 'غير',
+    'كل', 'بعض', 'أي', 'أيضا', 'كذلك', 'هنا', 'هناك', 'أين', 'كيف', 'عند',
+  ]);
+
+  function getKeywordDensity(text: string, totalWords: number): { word: string; count: number; percent: string }[] {
+    if (totalWords === 0) return [];
+    // Extract words, lowercase, remove punctuation
+    const words = text.toLowerCase().replace(/[^\w\s\u0600-\u06FF]/g, '').split(/\s+/)
+      .filter(w => w.length > 1)
+      .filter(w => !STOP_WORDS.has(w));
+    // Count frequency
+    const freq: Record<string, number> = {};
+    for (const w of words) {
+      freq[w] = (freq[w] || 0) + 1;
+    }
+    // Sort by frequency, take top 5
+    const sorted = Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, 5);
+    return sorted.map(([word, count]) => ({
+      word,
+      count,
+      percent: ((count / totalWords) * 100).toFixed(1) + '%'
+    }));
+  }
+
+  function updateStats() {
+    const text = textarea?.value || '';
+    const words = countWords(text);
+    const chars = countChars(text);
+    const charsNoSpace = countCharsNoSpaces(text);
+    const sentences = countSentences(text);
+    const paragraphs = countParagraphs(text);
+    const readTime = readingTime(words);
+
+    if (statWords) statWords.textContent = String(words);
+    if (statChars) statChars.textContent = String(chars);
+    if (statCharsNoSpace) statCharsNoSpace.textContent = String(charsNoSpace);
+    if (statSentences) statSentences.textContent = String(sentences);
+    if (statParagraphs) statParagraphs.textContent = String(paragraphs);
+    if (statReading) statReading.textContent = readTime;
+
+    // Keyword density
+    const density = getKeywordDensity(text, words);
+    if (densityBody) {
+      if (density.length === 0) {
+        densityBody.innerHTML = '<tr class="density-empty"><td colspan="3">—</td></tr>';
+      } else {
+        densityBody.innerHTML = density.map(d => {
+          const barWidth = Math.min(parseFloat(d.percent) * 10, 100);
+          return `<tr>
+            <td class="density-word">${d.word}</td>
+            <td>${d.count}</td>
+            <td><span class="density-bar" style="width:${barWidth}px"></span>${d.percent}</td>
+          </tr>`;
+        }).join('');
+      }
+    }
+
+    // Social media character limits
+    updateLimits(chars);
+  }
+
+  function updateLimits(chars: number) {
+    updateSingleLimit(chars, TWITTER_LIMIT, twitterCountEl, twitterBarEl, twitterStatusEl, twitterItemEl);
+    updateSingleLimit(chars, INSTAGRAM_LIMIT, instagramCountEl, instagramBarEl, instagramStatusEl, instagramItemEl);
+  }
+
+  function updateSingleLimit(
+    chars: number,
+    limit: number,
+    countEl: HTMLElement | null,
+    barEl: HTMLElement | null,
+    statusEl: HTMLElement | null,
+    itemEl: HTMLElement | null
+  ) {
+    const pct = Math.min((chars / limit) * 100, 100);
+    const remaining = limit - chars;
+
+    if (countEl) {
+      const limitDisplay = limit >= 1000
+        ? (limit / 1000).toFixed(1).replace('.0', '') + '&nbsp;' + String(limit).slice(-3)
+        : String(limit);
+      countEl.innerHTML = `${chars} / ${limitDisplay}`;
+    }
+
+    if (barEl) {
+      barEl.style.width = pct + '%';
+      barEl.classList.remove('warning', 'danger', 'over');
+      if (chars > limit) {
+        barEl.classList.add('over');
+      } else if (pct >= 90) {
+        barEl.classList.add('danger');
+      } else if (pct >= 70) {
+        barEl.classList.add('warning');
+      }
+    }
+
+    if (statusEl) {
+      statusEl.classList.remove('over');
+      if (chars > limit) {
+        const overBy = chars - limit;
+        statusEl.textContent = `${lblOverBy} ${overBy}`;
+        statusEl.classList.add('over');
+      } else {
+        statusEl.textContent = `${lblRemaining}: ${remaining}`;
+      }
+    }
+  }
+
+  textarea?.addEventListener('input', updateStats);
+
+  clearBtn?.addEventListener('click', () => {
+    if (textarea) textarea.value = '';
+    updateStats();
+  });
+
+  copyBtn?.addEventListener('click', async () => {
+    if (!textarea) return;
+    try {
+      await navigator.clipboard.writeText(textarea.value);
+      if (copyBtn) {
+        const lblCopied = copyBtn.dataset.labelCopied || 'Copied!';
+        copyBtn.classList.add('copied');
+        // Swap SVG icon to a checkmark temporarily
+        const svgCheck = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
+        const origSvg = copyBtn.innerHTML;
+        copyBtn.innerHTML = svgCheck;
+        copyBtn.title = lblCopied;
+        setTimeout(() => {
+          if (copyBtn) {
+            copyBtn.innerHTML = origSvg;
+            copyBtn.classList.remove('copied');
+            copyBtn.title = copyBtn.dataset.labelCopy || 'Copy';
+          }
+        }, 1500);
+      }
+    } catch {
+      textarea.select();
+      document.execCommand('copy');
+    }
+  });
+
+  // Initial state
+  updateStats();
+</script>

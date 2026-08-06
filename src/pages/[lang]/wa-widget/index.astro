@@ -1,0 +1,12 @@
+---
+import WidgetContent from '../../../components/WidgetContent.astro';
+import { languages, defaultLang, type Lang } from '../../../i18n/ui';
+
+export function getStaticPaths() {
+  return (Object.keys(languages) as Lang[])
+    .filter((lang) => lang !== defaultLang)
+    .map((lang) => ({ params: { lang }, props: { lang } }));
+}
+const { lang } = Astro.props;
+---
+<WidgetContent lang={lang} />

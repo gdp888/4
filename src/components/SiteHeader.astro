@@ -1,0 +1,435 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { useTranslations } from '../i18n/utils';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import { type Lang } from '../i18n/ui';
+
+export interface Props {
+  lang: Lang;
+  /** Service slug for LanguageSwitcher (e.g. 'telegram', 'qr-code'). Empty string = hub. */
+  path?: string;
+  /** Active tool slug for highlighting in the mobile menu (e.g. 'whatsapp', 'telegram') */
+  activeTool?: string;
+}
+
+const { lang, path = '', activeTool = '' } = Astro.props;
+const t = useTranslations(lang);
+
+// Tool categories — same structure as ToolSidebar
+const tools = [
+  { category: 'sidebar.whatsapp', items: [
+    { slug: 'whatsapp', key: 'hub.service.whatsapp.title', icon: 'wa' },
+    { slug: 'wa-link', key: 'hub.service.walink.title', icon: 'wa' },
+    { slug: 'wa-widget', key: 'hub.service.widget.title', icon: 'wa' },
+    { slug: 'whatsapp-text-formatter', key: 'hub.service.formatter.title', icon: 'format' },
+    { slug: 'quick-replies', key: 'hub.service.quickreplies.title', icon: 'reply' },
+    { slug: 'broadcast', key: 'hub.service.broadcast.title', icon: 'broadcast' },
+  ]},
+  { category: 'sidebar.telegram', items: [
+    { slug: 'telegram', key: 'hub.service.telegram.title', icon: 'tg' },
+    { slug: 'tg-link', key: 'hub.service.tglink.title', icon: 'tg' },
+  ]},
+  { category: 'sidebar.viber', items: [
+    { slug: 'viber', key: 'hub.service.viber.title', icon: 'vb' },
+  ]},
+  { category: 'sidebar.signal', items: [
+    { slug: 'signal', key: 'hub.service.signal.title', icon: 'sg' },
+  ]},
+  { category: 'sidebar.kakaotalk', items: [
+    { slug: 'kakaotalk', key: 'hub.service.kakaotalk.title', icon: 'kt' },
+  ]},
+  { category: 'sidebar.instagram', items: [
+    { slug: 'instagram', key: 'hub.service.instagram.title', icon: 'ig' },
+  ]},
+  { category: 'sidebar.texttools', items: [
+    { slug: 'fancy-text', key: 'hub.service.fancytext.title', icon: 'format' },
+    { slug: 'word-counter', key: 'hub.service.wordcounter.title', icon: 'doc' },
+    { slug: 'notepad', key: 'hub.service.notepad.title', icon: 'notepad' },
+  ]},
+  { category: 'sidebar.utilities', items: [
+    { slug: 'qr-code', key: 'hub.service.qr.title', icon: 'qr' },
+    { slug: 'password', key: 'hub.service.password.title', icon: 'lock' },
+    { slug: 'unit-converter', key: 'hub.service.converter.title', icon: 'convert' },
+    { slug: 'emoji-picker', key: 'hub.service.emojipicker.title', icon: 'emoji' },
+  ]},
+  { category: 'sidebar.beta', items: [
+    { slug: 'timezone', key: 'hub.service.timezone.title', icon: 'clock' },
+    { slug: 'meeting-scheduler', key: 'hub.service.meetingscheduler.title', icon: 'calendar' },
+  ]},
+];
+
+// SVG icon map (same as ToolSidebar)
+const icons: Record<string, string> = {
+  wa: `<svg viewBox="0 0 24 24" fill="currentColor" class="nav-icon" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`,
+  tg: `<svg viewBox="0 0 24 24" fill="currentColor" class="nav-icon" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>`,
+  vb: `<svg viewBox="0 0 24 24" fill="currentColor" class="nav-icon" aria-hidden="true"><path d="M11.4 0C5.1 0 0 5.1 0 11.4c0 2.4.7 4.6 2 6.5L.1 23.5l5.8-1.9c1.8 1.1 3.9 1.7 6.1 1.7 6.3 0 11.4-5.1 11.4-11.4S17.7 0 11.4 0zm6.7 16.1c-.3.8-1.6 1.6-2.2 1.7-.6.1-1.2.2-4-1.1-3.3-1.5-5.4-4.9-5.6-5.1-.2-.3-1.5-2-1.5-3.8 0-1.8.9-2.7 1.3-3.1.4-.4.8-.5 1.1-.5h.8c.3 0 .6 0 .9.6.3.7 1.1 2.7 1.2 2.9.1.2.1.4 0 .6-.1.2-.1.4-.3.6-.2.2-.4.5-.6.7-.2.2-.4.4-.2.7.2.3.9 1 1.3 1.9 2.2.9.7.1.8.4.6.7-.2.3-.3.5-.5.8-.2.3-.4.6-.2.9.2.3 1 1.1 1.2 2.3 1.8s1.8.8 2.1.9c.3.1.5.1.7-.1.2-.2.8-1 1-1.3.2-.3.4-.3.7-.1.2.1.5.3.7.4.2.1.5.3.7.1.2.1.5 0 .7-.1.3-.6 1.1-1.4 1.9-1.9 1.9z"/></svg>`,
+  sg: `<svg viewBox="0 0 24 24" fill="currentColor" class="nav-icon" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.98 4-3.08 6-3.08 1.99 0 5.97 1.1 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>`,
+  format: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-icon" aria-hidden="true"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>`,
+  doc: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-icon" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>`,
+  notepad: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-icon" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`,
+  qr: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-icon" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3" height="3"/><line x1="21" y1="14" x2="21" y2="14.01"/><line x1="21" y1="21" x2="21" y2="21.01"/><line x1="17" y1="18" x2="17" y2="18.01"/></svg>`,
+  lock: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-icon" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`,
+  convert: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-icon" aria-hidden="true"><path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>`,
+  clock: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-icon" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+  emoji: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-icon" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>`,
+  reply: `<svg viewBox="0 0 24 24" fill="currentColor" class="nav-icon" aria-hidden="true"><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></svg>`,
+  calendar: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-icon" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
+  broadcast: `<svg viewBox="0 0 24 24" fill="currentColor" class="nav-icon" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>`,
+  kt: `<svg viewBox="0 0 24 24" fill="currentColor" class="nav-icon" aria-hidden="true"><path d="M12 2C8.5 2 5.4 3.6 3.7 6C2.2 8.1 1.3 10.7 1.3 13.5c0 2.5.8 4.9 2.2 6.8L1.9 23l3.2-.9c2 1.3 4.4 2 6.9 2 6.6 0 12-4.5 12-10.1S18.6 2 12 2zm-1 14h-2v-2h2v2zm0-3.5h-2V7h2v5.5zm4.5 3.5h-2v-2h2v2zm0-3.5h-2V7h2v5.5z"/></svg>`,
+  ig: `<svg viewBox="0 0 24 24" fill="currentColor" class="nav-icon" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>`,
+};
+---
+
+<header class="site-header">
+  <!-- Hamburger button — mobile only -->
+  <button type="button" class="hamburger" id="nav-hamburger" aria-label={t('nav.menu')} aria-expanded="false">
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+  </button>
+
+  <a href={getRelativeLocaleUrl(lang)} class="logo" aria-label="OPN Chat — Home">
+    <span class="logo-text">OPN Chat</span>
+    <svg viewBox="0 0 24 24" fill="currentColor" class="logo-icon" aria-hidden="true">
+      <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+    </svg>
+  </a>
+
+  <div class="header-right">
+    <LanguageSwitcher lang={lang} path={path} />
+    <button type="button" class="theme-toggle" aria-label="Toggle theme" id="theme-toggle">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile navigation drawer -->
+<div class="nav-overlay" id="nav-overlay"></div>
+<nav class="nav-drawer" id="nav-drawer" aria-label="Tools navigation">
+  <div class="nav-drawer-header">
+    <a href={getRelativeLocaleUrl(lang)} class="nav-drawer-logo">OPN Chat</a>
+    <button type="button" class="nav-drawer-close" id="nav-drawer-close" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  {tools.map((cat) => (
+    <div class="nav-category">
+      <h3 class="nav-cat-title">{t(cat.category)}</h3>
+      {cat.items.map((item) => (
+        <a
+          href={getRelativeLocaleUrl(lang, item.slug)}
+          class:list={['nav-link', { 'nav-link-active': item.slug === activeTool }]}
+        >
+          <Fragment set:html={icons[item.icon]} />
+          {t(item.key)}
+        </a>
+      ))}
+    </div>
+  ))}
+</nav>
+
+<script is:inline>
+  // Mobile nav drawer toggle
+  // IMPORTANT: Use event delegation on `document` so the listener survives
+  // Astro View Transitions (ClientRouter) DOM swaps. Direct element.addEventListener
+  // dies after the first SPA navigation because the element reference becomes stale.
+  // The lang switcher and theme toggle already use this pattern (see LanguageSwitcher.astro
+  // and Layout.astro) — that's why they work after VT navigation but the burger didn't.
+  (function() {
+    function openDrawer() {
+      var drawer = document.getElementById('nav-drawer');
+      var overlay = document.getElementById('nav-overlay');
+      var hamburger = document.getElementById('nav-hamburger');
+      if (!drawer || !overlay || !hamburger) return;
+      drawer.classList.add('nav-drawer-open');
+      overlay.classList.add('nav-overlay-open');
+      hamburger.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDrawer() {
+      var drawer = document.getElementById('nav-drawer');
+      var overlay = document.getElementById('nav-overlay');
+      var hamburger = document.getElementById('nav-hamburger');
+      if (!drawer || !overlay || !hamburger) return;
+      drawer.classList.remove('nav-drawer-open');
+      overlay.classList.remove('nav-overlay-open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    // Single delegated click listener — attached ONCE on document, which persists
+    // across View Transitions swaps. Elements are looked up fresh inside handlers.
+    document.addEventListener('click', function(e) {
+      // Burger toggle
+      if (e.target.closest('#nav-hamburger')) {
+        var drawer = document.getElementById('nav-drawer');
+        var isOpen = drawer && drawer.classList.contains('nav-drawer-open');
+        isOpen ? closeDrawer() : openDrawer();
+        return;
+      }
+      // Close button inside drawer
+      if (e.target.closest('#nav-drawer-close')) {
+        closeDrawer();
+        return;
+      }
+      // Click on overlay (outside drawer) closes
+      if (e.target.closest('#nav-overlay')) {
+        closeDrawer();
+        return;
+      }
+      // Click on a nav link inside drawer closes (before VT navigation)
+      if (e.target.closest('#nav-drawer .nav-link')) {
+        closeDrawer();
+        return;
+      }
+    });
+
+    // Close on Escape — also delegated via document, survives VT swaps
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeDrawer();
+    });
+  })();
+</script>
+
+<style>
+  /* ===== Header ===== */
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Hamburger — hidden on desktop, visible on mobile */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 36px;
+    height: 36px;
+    padding: 7px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    flex-shrink: 0;
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+
+  .hamburger:hover {
+    background: rgba(128, 128, 128, 0.1);
+  }
+
+  .hamburger-line {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: var(--text-secondary);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  /* Logo */
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--text-primary);
+  }
+
+  .logo-icon {
+    width: 24px;
+    height: 24px;
+    color: var(--opn-primary);
+    flex-shrink: 0;
+  }
+
+  .logo-text {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+  }
+
+  /* Header right cluster */
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* ===== Mobile Nav Overlay ===== */
+  .nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+
+  .nav-overlay-open {
+    display: block;
+    opacity: 1;
+  }
+
+  /* ===== Mobile Nav Drawer ===== */
+  .nav-drawer {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    max-width: 85vw;
+    height: 100vh;
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--border-color);
+    z-index: 1000;
+    overflow-y: auto;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 1rem 0;
+  }
+
+  .nav-drawer-open {
+    transform: translateX(0);
+  }
+
+  .nav-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 0.5rem;
+  }
+
+  .nav-drawer-logo {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+
+  .nav-drawer-logo:hover {
+    color: var(--opn-primary);
+  }
+
+  .nav-drawer-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.2s, color 0.2s;
+    padding: 0;
+  }
+
+  .nav-drawer-close:hover {
+    background: rgba(128, 128, 128, 0.15);
+    color: var(--text-primary);
+  }
+
+  .nav-drawer-close svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Nav categories */
+  .nav-category {
+    padding: 0.35rem 0;
+  }
+
+  .nav-cat-title {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    padding: 0.2rem 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.15s;
+    margin: 0.05rem 0.5rem;
+    line-height: 1.3;
+  }
+
+  .nav-link:hover {
+    color: var(--text-primary);
+    background: var(--bg-input);
+  }
+
+  .nav-link-active {
+    color: var(--opn-primary);
+    background: rgba(37, 211, 102, 0.1);
+    font-weight: 600;
+  }
+
+  .nav-link-active:hover {
+    background: rgba(37, 211, 102, 0.15);
+  }
+
+  :global(.nav-icon) {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  /* ===== Responsive: show hamburger + drawer on mobile ===== */
+  @media (max-width: 900px) {
+    .hamburger {
+      display: flex;
+    }
+
+    /* nav-overlay stays display:none until .nav-overlay-open is added */
+
+    .nav-drawer {
+      display: block;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .logo-text {
+      font-size: 1rem;
+    }
+  }
+
+  /* ===== RTL support ===== */
+  [dir="rtl"] .nav-drawer {
+    left: auto;
+    right: 0;
+    transform: translateX(100%);
+    border-right: none;
+    border-left: 1px solid var(--border-color);
+  }
+
+  [dir="rtl"] .nav-drawer-open {
+    transform: translateX(0);
+  }
+</style>

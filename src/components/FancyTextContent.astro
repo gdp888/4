@@ -1,0 +1,675 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { useTranslations } from '../i18n/utils';
+import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
+import { languages, type Lang } from '../i18n/ui';
+import SiteHeader from './SiteHeader.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import SEOHead from './SEOHead.astro';
+import { localeMap } from '../i18n/localeMap';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const faqItems = [
+  { q: t('ft.faq.q1'), a: t('ft.faq.a1') },
+  { q: t('ft.faq.q2'), a: t('ft.faq.a2') },
+  { q: t('ft.faq.q3'), a: t('ft.faq.a3') },
+  { q: t('ft.faq.q4'), a: t('ft.faq.a4') },
+  { q: t('ft.faq.q5'), a: t('ft.faq.a5') },
+];
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": t('ft.heading'),
+      "url": getAbsoluteLocaleUrl(lang, 'fancy-text'),
+      "description": t('ft.meta.description'),
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "inLanguage": Object.keys(languages),
+      "featureList": [
+        t('ft.seo.why.feature1.title') + ': ' + t('ft.seo.why.feature1.desc'),
+        t('ft.seo.why.feature2.title') + ': ' + t('ft.seo.why.feature2.desc'),
+        t('ft.seo.why.feature3.title') + ': ' + t('ft.seo.why.feature3.desc'),
+        t('ft.seo.why.feature4.title') + ': ' + t('ft.seo.why.feature4.desc'),
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqItems.map(item => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": { "@type": "Answer", "text": item.a }
+      }))
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "OPN Chat", "item": getAbsoluteLocaleUrl(lang, '') },
+        { "@type": "ListItem", "position": 2, "name": t('bc.fancytext'), "item": getAbsoluteLocaleUrl(lang, 'fancy-text') }
+      ]
+    }
+  ]
+};
+---
+
+<Layout title={t('ft.meta.title')} lang={lang} service="fancy-text">
+  <Fragment slot="meta">
+  <SEOHead
+  lang={lang}
+  description={t('ft.meta.description')}
+  canonicalUrl={getAbsoluteLocaleUrl(lang, 'fancy-text')}
+  ogTitle={t('ft.meta.og.title')}
+  ogDescription={t('ft.meta.og.description')}
+  ogUrl={getAbsoluteLocaleUrl(lang, 'fancy-text')}
+  schema={pageSchema}
+  extraMeta={`<meta name="keywords" content="${t('ft.meta.keywords')}" /><meta name="twitter:card" content="summary" /><meta name="twitter:title" content="${t('ft.meta.twitter.title')}" /><meta name="twitter:description" content="${t('ft.meta.twitter.description')}" />`}
+/>
+</Fragment>
+
+  <div class="container">
+    <!-- Header -->
+    <SiteHeader lang={lang} path="fancy-text" activeTool="fancy-text" />
+
+    <Breadcrumbs lang={lang} items={[{ label: t('bc.home'), href: getRelativeLocaleUrl(lang) }, { label: t('bc.fancytext') }]} />
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1 class="title">{t('ft.heading')}</h1>
+      <p class="subtitle">{t('ft.subheading')}</p>
+      <p class="privacy-badge">{t('ft.privacy.badge')}</p>
+    </div>
+
+    <!-- Fancy Text Generator Tool -->
+    <div class="ft-tool">
+      <!-- Input -->
+      <div class="form-group">
+        <label for="ft-input" class="form-label">{t('ft.form.input.label')}</label>
+        <input type="text" id="ft-input" class="form-input" placeholder={t('ft.form.input.placeholder')} maxlength="100" autocomplete="off" />
+        <p class="form-hint">{t('ft.form.input.hint')}</p>
+      </div>
+
+      <!-- Results Grid -->
+      <div id="ft-results" class="ft-results"></div>
+    </div>
+
+    <!-- SEO Content Section -->
+    <section class="seo-section" aria-label="About Fancy Text Generator">
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('ft.seo.what.heading')}</h2>
+        <p class="seo-text">{t('ft.seo.what.text')}</p>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('ft.seo.why.heading')}</h2>
+        <div class="seo-features">
+          <div class="feature-item">
+            <span class="feature-icon">A</span>
+            <div>
+              <h3 class="feature-title">{t('ft.seo.why.feature1.title')}</h3>
+              <p class="feature-desc">{t('ft.seo.why.feature1.desc')}</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">&#9733;</span>
+            <div>
+              <h3 class="feature-title">{t('ft.seo.why.feature2.title')}</h3>
+              <p class="feature-desc">{t('ft.seo.why.feature2.desc')}</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">&#9889;</span>
+            <div>
+              <h3 class="feature-title">{t('ft.seo.why.feature3.title')}</h3>
+              <p class="feature-desc">{t('ft.seo.why.feature3.desc')}</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">&#9878;</span>
+            <div>
+              <h3 class="feature-title">{t('ft.seo.why.feature4.title')}</h3>
+              <p class="feature-desc">{t('ft.seo.why.feature4.desc')}</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('ft.seo.how.heading')}</h2>
+        <p class="seo-text">{t('ft.seo.how.text')}</p>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('ft.seo.styles.heading')}</h2>
+        <p class="seo-text">{t('ft.seo.styles.text')}</p>
+      </article>
+
+      <!-- FAQ -->
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('ft.seo.faq.heading')}</h2>
+        <div class="faq-list">
+          {faqItems.map(item => (
+            <div class="faq-item">
+              <button type="button" class="faq-question" aria-expanded="false">
+                <span class="faq-q-text">{item.q}</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="faq-answer">
+                <p class="faq-a-text">{item.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </article>
+    </section>
+</div>
+</Layout>
+
+<style>
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    margin: 0 auto;
+    max-width: 640px;
+    padding: 2rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 1.5rem 0;
+  }
+
+  .title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin: 0.75rem 0 0;
+    line-height: 1.5;
+  }
+
+  .privacy-badge {
+    font-size: 0.75rem;
+    color: var(--opn-primary);
+    margin: 0.5rem 0 0;
+    font-weight: 500;
+    opacity: 0.9;
+  }
+
+  /* Form */
+  .ft-tool {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .form-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 0.75rem 0.9rem;
+    border: 1.5px solid var(--border-color);
+    border-radius: 0.6rem;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  .form-input:focus {
+    border-color: var(--opn-primary);
+    box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.15);
+  }
+
+  .form-hint {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  /* Results Grid */
+  .ft-results {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .ft-result-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.65rem 0.9rem;
+    border: 1.5px solid var(--border-color);
+    border-radius: 0.6rem;
+    background: var(--bg-secondary);
+    transition: border-color 0.2s, background 0.2s;
+    cursor: default;
+  }
+
+  .ft-result-card:hover {
+    border-color: var(--opn-primary);
+    background: var(--bg-card-hover);
+  }
+
+  .ft-style-name {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    width: 5.5rem;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .ft-style-output {
+    flex: 1;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    word-break: break-word;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .ft-copy-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.35rem 0.65rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.4rem;
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .ft-copy-btn:hover {
+    border-color: var(--opn-primary);
+    color: var(--opn-primary);
+    background: rgba(0, 180, 216, 0.08);
+  }
+
+  .ft-copy-btn.copied {
+    border-color: #25D366;
+    color: #25D366;
+  }
+
+  .ft-copy-icon {
+    width: 0.85rem;
+    height: 0.85rem;
+  }
+
+  /* SEO Section */
+  .seo-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-top: 1rem;
+  }
+
+  .seo-block { }
+
+  .seo-heading {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem;
+  }
+
+  .seo-text {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* SEO Features */
+  .seo-features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.6rem 0;
+  }
+
+  .feature-icon {
+    font-size: 1.3rem;
+    color: var(--opn-primary);
+    flex-shrink: 0;
+    width: 2rem;
+    text-align: center;
+  }
+
+  .feature-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 0.2rem;
+  }
+
+  .feature-desc {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* FAQ */
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .faq-item {
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .faq-item:hover {
+    border-color: var(--opn-primary);
+  }
+
+  .faq-question {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 0.9rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: left;
+    gap: 0.5rem;
+  }
+
+  .faq-q-text { flex: 1; }
+
+  .faq-chevron {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    transition: transform 0.3s;
+    color: var(--text-secondary);
+  }
+
+  .faq-item.open .faq-chevron {
+    transform: rotate(180deg);
+  }
+
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.35s ease;
+    padding: 0 0.9rem;
+  }
+
+  .faq-item.open .faq-answer {
+    max-height: 500px;
+    padding: 0.5rem 0.9rem 0.75rem;
+  }
+
+  .faq-a-text {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Responsive — 640px */
+  @media (max-width: 640px) {
+    .container {
+      padding: 1.5rem 1rem;
+    }
+
+    .title {
+      font-size: 1.3rem;
+    }
+  }
+
+  /* Responsive — 520px (deep mobile) */
+  @media (max-width: 520px) {
+    .container {
+      padding: 1.25rem 0.75rem;
+      gap: 1rem;
+    }
+    .title {
+      font-size: 1.1rem;
+    }
+    .subtitle {
+      font-size: 0.8rem;
+    }
+    .hero {
+      padding: 1rem 0;
+    }
+    .ft-result-card {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.3rem;
+    }
+    .ft-style-name {
+      width: auto;
+    }
+    .ft-style-output {
+      white-space: normal;
+    }
+    .ft-copy-btn {
+      align-self: flex-end;
+    }
+    .seo-heading {
+      font-size: 1rem;
+    }
+    .feature-item {
+      gap: 0.5rem;
+    }
+    .feature-icon {
+      width: 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  // Fancy Text Generator — Unicode character mapping
+  const styleMaps: Record<string, Record<string, string>> = {
+    bold: {
+      'A':'𝐀','B':'𝐁','C':'𝐂','D':'𝐃','E':'𝐄','F':'𝐅','G':'𝐆','H':'𝐇','I':'𝐈','J':'𝐉','K':'𝐊','L':'𝐋','M':'𝐌','N':'𝐍','O':'𝐎','P':'𝐏','Q':'𝐐','R':'𝐑','S':'𝐒','T':'𝐓','U':'𝐔','V':'𝐕','W':'𝐖','X':'𝐗','Y':'𝐘','Z':'𝐙',
+      'a':'𝐚','b':'𝐛','c':'𝐜','d':'𝐝','e':'𝐞','f':'𝐟','g':'𝐠','h':'𝐡','i':'𝐢','j':'𝐣','k':'𝐤','l':'𝐥','m':'𝐦','n':'𝐧','o':'𝐨','p':'𝐩','q':'𝐪','r':'𝐫','s':'𝐬','t':'𝐭','u':'𝐮','v':'𝐯','w':'𝐰','x':'𝐱','y':'𝐲','z':'𝐳',
+    },
+    italic: {
+      'A':'𝐴','B':'𝐵','C':'𝐶','D':'𝐷','E':'𝐸','F':'𝐹','G':'𝐺','H':'𝐻','I':'𝐼','J':'𝐽','K':'𝐾','L':'𝐿','M':'𝑀','N':'𝑁','O':'𝑂','P':'𝑃','Q':'𝑄','R':'𝑅','S':'𝑆','T':'𝑇','U':'𝑈','V':'𝑉','W':'𝑊','X':'𝑋','Y':'𝑌','Z':'𝑍',
+      'a':'𝑎','b':'𝑏','c':'𝑐','d':'𝑑','e':'𝑒','f':'𝑓','g':'𝑔','h':'𝒽','i':'𝑗','j':'𝑘','k':'𝑙','l':'𝑚','m':'𝑛','n':'𝑜','o':'𝑝','p':'𝑞','q':'𝑟','r':'𝑠','s':'𝑡','t':'𝑢','u':'𝑣','v':'𝑤','w':'𝑥','x':'𝑦','y':'𝑧',
+    },
+    boldItalic: {
+      'A':'𝑨','B':'𝑩','C':'𝑪','D':'𝑫','E':'𝑬','F':'𝑭','G':'𝑮','H':'𝑯','I':'𝑰','J':'𝑱','K':'𝑲','L':'𝑳','M':'𝑴','N':'𝑵','O':'𝑶','P':'𝑷','Q':'𝑸','R':'𝑹','S':'𝑺','T':'𝑻','U':'𝑼','V':'𝑽','W':'𝑾','X':'𝑿','Y':'𝒀','Z':'𝒁',
+      'a':'𝒂','b':'𝒃','c':'𝒄','d':'𝒅','e':'𝒆','f':'𝒇','g':'𝒈','h':'𝒉','i':'𝒊','j':'𝒋','k':'𝒌','l':'𝒍','m':'𝒎','n':'𝒏','o':'𝒐','p':'𝒑','q':'𝒒','r':'𝒓','s':'𝒔','t':'𝒕','u':'𝒖','v':'𝒗','w':'𝒘','x':'𝒙','y':'𝒚','z':'𝒛',
+    },
+    script: {
+      'A':'𝒜','B':'𝓑','C':'𝓒','D':'𝓓','E':'𝓔','F':'𝓕','G':'𝓖','H':'𝓗','I':'𝓘','J':'𝓙','K':'𝓚','L':'𝓛','M':'𝓜','N':'𝓝','O':'𝓞','P':'𝓟','Q':'𝓠','R':'𝓡','S':'𝓢','T':'𝓣','U':'𝓤','V':'𝓥','W':'𝓦','X':'𝓧','Y':'𝓨','Z':'𝓩',
+      'a':'𝒶','b':'𝒷','c':'𝒸','d':'𝒹','e':'𝒺','f':'𝒻','g':'𝒼','h':'𝒽','i':'𝒾','j':'𝒿','k':'𝓀','l':'𝓁','m':'𝓂','n':'𝓃','o':'𝓄','p':'𝓅','q':'𝓆','r':'𝓇','s':'𝓈','t':'𝓉','u':'𝓊','v':'𝓋','w':'𝓌','x':'𝓍','y':'𝓎','z':'𝓏',
+    },
+    boldScript: {
+      'A':'𝓐','B':'𝓑','C':'𝓒','D':'𝓓','E':'𝓔','F':'𝓕','G':'𝓖','H':'𝓗','I':'𝓘','J':'𝓙','K':'𝓚','L':'𝓛','M':'𝓜','N':'𝓝','O':'𝓞','P':'𝓟','Q':'𝓠','R':'𝓡','S':'𝓢','T':'𝓣','U':'𝓤','V':'𝓥','W':'𝓦','X':'𝓧','Y':'𝓨','Z':'𝓩',
+      'a':'𝓪','b':'𝓫','c':'𝓬','d':'𝓭','e':'𝓮','f':'𝓯','g':'𝓰','h':'𝓱','i':'𝓲','j':'𝓳','k':'𝓴','l':'𝓵','m':'𝓶','n':'𝓷','o':'𝓸','p':'𝓹','q':'𝓺','r':'𝓻','s':'𝓼','t':'𝓽','u':'𝓾','v':'𝓿','w':'𝔀','x':'𝔁','y':'𝔂','z':'𝔃',
+    },
+    fraktur: {
+      'A':'𝔄','B':'𝔅','C':'ℭ','D':'𝔇','E':'𝔈','F':'𝔉','G':'𝔊','H':'ℌ','I':'𝔍','J':'𝔍','K':'𝔎','L':'𝔏','M':'𝔐','N':'𝔑','O':'𝔒','P':'𝔓','Q':'𝔔','R':'ℛ','S':'𝔖','T':'𝔗','U':'𝔘','V':'𝔙','W':'𝔚','X':'𝔛','Y':'𝔜','Z':'ℨ',
+      'a':'𝔞','b':'𝔟','c':'𝔠','d':'𝔡','e':'𝔢','f':'𝔣','g':'𝔤','h':'𝔥','i':'𝔦','j':'𝔧','k':'𝔨','l':'𝔩','m':'𝔪','n':'𝔫','o':'𝔬','p':'𝔭','q':'𝔮','r':'𝔯','s':'𝔰','t':'𝔱','u':'𝔲','v':'𝔳','w':'𝔴','x':'𝔵','y':'𝔶','z':'𝔷',
+    },
+    boldFraktur: {
+      'A':'𝕬','B':'𝕭','C':'𝕮','D':'𝕯','E':'𝕰','F':'𝕱','G':'𝕲','H':'𝕳','I':'𝕴','J':'𝕵','K':'𝕶','L':'𝕷','M':'𝕸','N':'𝕹','O':'𝕺','P':'𝕻','Q':'𝕼','R':'𝕽','S':'𝕾','T':'𝕿','U':'𝖀','V':'𝖁','W':'𝖂','X':'𝖃','Y':'𝖄','Z':'𝖅',
+      'a':'𝖆','b':'𝖇','c':'𝖈','d':'𝖉','e':'𝖊','f':'𝖋','g':'𝖌','h':'𝖍','i':'𝖎','j':'𝖏','k':'𝖐','l':'𝖑','m':'𝖒','n':'𝖓','o':'𝖔','p':'𝖕','q':'𝖖','r':'𝖗','s':'𝖘','t':'𝖙','u':'𝖚','v':'𝖛','w':'𝖜','x':'𝖝','y':'𝖞','z':'𝖟',
+    },
+    doubleStruck: {
+      'A':'𝔸','B':'𝔹','C':'ℂ','D':'𝔻','E':'𝔼','F':'𝔽','G':'𝔾','H':'ℍ','I':'𝕀','J':'𝕁','K':'𝕂','L':'𝕃','M':'𝕄','N':'ℕ','O':'𝕆','P':'ℙ','Q':'ℚ','R':'ℝ','S':'𝕊','T':'𝕋','U':'𝕌','V':'𝕍','W':'𝕎','X':'𝕏','Y':'𝕐','Z':'ℤ',
+      'a':'𝕒','b':'𝕓','c':'𝕔','d':'𝕕','e':'𝕖','f':'𝕗','g':'𝕘','h':'𝕙','i':'𝕚','j':'𝕛','k':'𝕜','l':'𝕝','m':'𝕞','n':'𝕟','o':'𝕠','p':'𝕡','q':'𝕢','r':'𝕣','s':'𝕤','t':'𝕥','u':'𝕦','v':'𝕧','w':'𝕨','x':'𝕩','y':'𝕪','z':'𝕫',
+    },
+    monospace: {
+      'A':'𝙰','B':'𝙱','C':'𝙲','D':'𝙳','E':'𝙴','F':'𝙵','G':'𝙶','H':'𝙷','I':'𝙸','J':'𝙹','K':'𝙺','L':'𝙻','M':'𝙼','N':'𝙽','O':'𝙾','P':'𝙿','Q':'𝚀','R':'𝚁','S':'𝚂','T':'𝚃','U':'𝚄','V':'𝚅','W':'𝚆','X':'𝚇','Y':'𝚈','Z':'𝚉',
+      'a':'𝚊','b':'𝚋','c':'𝚌','d':'𝚍','e':'𝚎','f':'𝚏','g':'𝚐','h':'𝚑','i':'𝚒','j':'𝚓','k':'𝚔','l':'𝚕','m':'𝚖','n':'𝚗','o':'𝚘','p':'𝚙','q':'𝚚','r':'𝚛','s':'𝚜','t':'𝚝','u':'𝚞','v':'𝚟','w':'𝚠','x':'𝚡','y':'𝚢','z':'𝚣',
+    },
+    circled: {
+      'A':'Ⓐ','B':'Ⓑ','C':'Ⓒ','D':'Ⓓ','E':'Ⓔ','F':'Ⓕ','G':'Ⓖ','H':'Ⓗ','I':'Ⓘ','J':'Ⓙ','K':'Ⓚ','L':'Ⓛ','M':'Ⓜ','N':'Ⓝ','O':'Ⓞ','P':'Ⓟ','Q':'Ⓠ','R':'Ⓡ','S':'Ⓢ','T':'Ⓣ','U':'Ⓤ','V':'Ⓥ','W':'Ⓦ','X':'Ⓧ','Y':'Ⓨ','Z':'Ⓩ',
+      'a':'ⓐ','b':'ⓑ','c':'ⓒ','d':'ⓓ','e':'ⓔ','f':'ⓕ','g':'ⓖ','h':'ⓗ','i':'ⓘ','j':'ⓙ','k':'ⓚ','l':'ⓛ','m':'ⓜ','n':'ⓝ','o':'ⓞ','p':'ⓟ','q':'ⓠ','r':'ⓡ','s':'ⓢ','t':'ⓣ','u':'ⓤ','v':'ⓥ','w':'ⓦ','x':'ⓧ','y':'ⓨ','z':'ⓩ',
+    },
+    squared: {
+      'A':'🅰','B':'🅱','C':'🅲','D':'🅳','E':'🅴','F':'🅵','G':'🅶','H':'🅷','I':'🅸','J':'🅹','K':'🅺','L':'🅻','M':'🅼','N':'🅽','O':'🅾','P':'🅿','Q':'🆀','R':'🆁','S':'🆂','T':'🆃','U':'🆄','V':'🆅','W':'🆆','X':'🆇','Y':'🆈','Z':'🆉',
+    },
+    smallCaps: {
+      'A':'ᴀ','B':'ʙ','C':'ᴄ','D':'ᴅ','E':'ᴇ','F':'ꜰ','G':'ɢ','H':'ʜ','I':'ɪ','J':'ᴊ','K':'ᴋ','L':'ʟ','M':'ᴍ','N':'ᴎ','O':'ᴏ','P':'ᴘ','Q':'Ʇ','R':'ʀ','S':'ꜱ','T':'ᴛ','U':'ᴜ','V':'ᴠ','W':'ᴡ','X':'Ꜳ','Y':'ʏ','Z':'ᴢ',
+      'a':'ᴀ','b':'ʙ','c':'ᴄ','d':'ᴅ','e':'ᴇ','f':'ꜰ','g':'ɢ','h':'ʜ','i':'ɪ','j':'ᴊ','k':'ᴋ','l':'ʟ','m':'ᴍ','n':'ᴎ','o':'ᴏ','p':'ᴘ','q':'Ʇ','r':'ʀ','s':'ꜱ','t':'ᴛ','u':'ᴜ','v':'ᴠ','w':'ᴡ','x':'Ꜳ','y':'ʏ','z':'ᴢ',
+    },
+    upsideDown: {
+      'A':'∀','B':'ꓭ','C':'Ɔ','D':'ꓷ','E':'Ǝ','F':'ꓞ','G':'⅁','H':'H','I':'I','J':'ꓩ','K':'ꓘ','L':'ꓶ','M':'W','N':'N','O':'O','P':'ꓨ','Q':'ꓕ','R':'ꓤ','S':'ꓢ','T':'⊥','U':'∩','V':'Λ','W':'M','X':'X','Y':'⅄','Z':'ꓡ',
+      'a':'ɐ','b':'q','c':'ɔ','d':'p','e':'ǝ','f':'ɟ','g':'ƃ','h':'ɥ','i':'ᴉ','j':'ɾ','k':'ꞁ','l':'l','m':'ɯ','n':'u','o':'o','p':'d','q':'b','r':'ɹ','s':'s','t':'ʇ','u':'n','v':'ʌ','w':'ʍ','x':'x','y':'ʎ','z':'z',
+    },
+  };
+
+  // Style labels (displayed in cards)
+  const styleLabels: Record<string, string> = {
+    bold: 'Bold',
+    italic: 'Italic',
+    boldItalic: 'Bold Italic',
+    script: 'Script',
+    boldScript: 'Bold Script',
+    fraktur: 'Fraktur',
+    boldFraktur: 'Bold Fraktur',
+    doubleStruck: 'Double-Struck',
+    monospace: 'Monospace',
+    circled: 'Circled',
+    squared: 'Squared',
+    smallCaps: 'Small Caps',
+    upsideDown: 'Upside Down',
+  };
+
+  function convertText(input: string, map: Record<string, string>): string {
+    return input.split('').map(ch => {
+      if (map[ch]) return map[ch];
+      // Keep digits, spaces, punctuation, and non-Latin characters unchanged
+      return ch;
+    }).join('');
+  }
+
+  function generateResults(input: string): void {
+    const container = document.getElementById('ft-results');
+    if (!container) return;
+
+    if (!input.trim()) {
+      container.innerHTML = '';
+      return;
+    }
+
+    const copyLabel = (document.querySelector('.ft-copy-btn')?.getAttribute('data-copy') || 'Copy');
+    const copiedLabel = (document.querySelector('.ft-copy-btn')?.getAttribute('data-copied') || 'Copied!');
+
+    container.innerHTML = Object.keys(styleMaps).map(styleName => {
+      const map = styleMaps[styleName];
+      const label = styleLabels[styleName] || styleName;
+      const output = convertText(input, map);
+      return `
+        <div class="ft-result-card">
+          <span class="ft-style-name">${label}</span>
+          <span class="ft-style-output">${output}</span>
+          <button type="button" class="ft-copy-btn" data-copy="${copyLabel}" data-copied="${copiedLabel}" data-text="${output}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ft-copy-icon"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span>${copyLabel}</span>
+          </button>
+        </div>
+      `;
+    }).join('');
+
+    // Attach copy handlers
+    container.querySelectorAll('.ft-copy-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const text = (btn as HTMLElement).getAttribute('data-text') || '';
+        navigator.clipboard.writeText(text).then(() => {
+          btn.classList.add('copied');
+          const span = btn.querySelector('span');
+          if (span) span.textContent = btn.getAttribute('data-copied');
+          setTimeout(() => {
+            btn.classList.remove('copied');
+            if (span) span.textContent = btn.getAttribute('data-copy');
+          }, 1500);
+        });
+      });
+    });
+  }
+
+  // Initialize
+  const input = document.getElementById('ft-input') as HTMLInputElement;
+  if (input) {
+    input.addEventListener('input', () => generateResults(input.value));
+    // Generate on page load if input has value
+    if (input.value) generateResults(input.value);
+  }
+
+  // FAQ toggle
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      if (item) item.classList.toggle('open');
+      btn.setAttribute('aria-expanded', item?.classList.contains('open') ? 'true' : 'false');
+    });
+  });
+
+  // Theme toggle
+  const themeBtn = document.getElementById('theme-toggle');
+  if (themeBtn) {
+    themeBtn.addEventListener('click', () => {
+      const root = document.documentElement;
+      const current = root.getAttribute('data-theme');
+      root.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+      localStorage.setItem('opnchat-theme', current === 'dark' ? 'light' : 'dark');
+    });
+    // Restore saved theme
+    const saved = localStorage.getItem('opnchat-theme');
+    if (saved) document.documentElement.setAttribute('data-theme', saved);
+  }
+</script>

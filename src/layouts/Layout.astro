@@ -1,0 +1,491 @@
+---
+import { languages, type Lang } from '../i18n/ui';
+import { getAbsoluteLocaleUrl } from 'astro:i18n';
+import Footer from '../components/Footer.astro';
+import ToolSidebar from '../components/ToolSidebar.astro';
+import { ClientRouter } from 'astro:transitions';
+import VercelAnalytics from '@vercel/analytics/astro';
+
+export interface Props {
+  title: string;
+  lang: Lang;
+  service?: string;
+  /** Accent color for sidebar active link highlight */
+  accentColor?: string;
+}
+
+const { title, lang, service = 'whatsapp', accentColor = '#25D366' } = Astro.props;
+
+const allLangs = Object.keys(languages) as Lang[];
+
+// Accent color per service (Telegram tools use blue, rest uses WhatsApp green)
+const accentColorMap: Record<string, string> = {
+  'telegram': '#2AABEE',
+  'tg-link': '#2AABEE',
+};
+const resolvedAccent = accentColorMap[service] || accentColor;
+
+// Lang codes are already ISO 639-1 (en, es, pt, id) — used directly as hreflang
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "OPN Chat",
+  "url": "https://opnchat.net",
+  "description": "Message WhatsApp without saving the number. Free, private, no sign-up. Enter any phone number and start chatting instantly.",
+  "inLanguage": ['en', 'es', 'pt', 'id', 'ru', 'de', 'ar'],
+};
+---
+
+<!doctype html>
+<html lang={lang} dir={lang === 'ar' ? 'rtl' : 'ltr'}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="x-dns-prefetch-control" content="on" />
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Performance: preconnect to self-hosted fonts origin -->
+    <link rel="preconnect" href="/" />
+    <meta name="theme-color" content="#25D366" />
+    <!-- View Transitions: SPA-like navigation without full page reloads -->
+    <ClientRouter />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="OPN Chat" />
+    <link rel="apple-touch-icon" href="/icon-192.svg" />
+    {allLangs.map((l) => (
+      <link rel="alternate" hreflang={l} href={getAbsoluteLocaleUrl(l, service)} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={getAbsoluteLocaleUrl('en', service)} />
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+    <slot name="meta" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Critical: theme MUST run before DOM renders to prevent FOUC -->
+    <script is:inline>
+      // Theme: apply early to avoid flash (runs on initial full page load)
+      (function() {
+        var saved = localStorage.getItem('opnchat-theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = saved || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="page-layout">
+      <ToolSidebar lang={lang} activeTool={service} accentColor={resolvedAccent} />
+      <main class="main-content">
+        <slot />
+      </main>
+    </div>
+    <Footer lang={lang} />
+    <script is:inline>
+      // Theme toggle: switch between dark and light
+      document.addEventListener('click', function(e) {
+        var btn = e.target.closest('.theme-toggle');
+        if (!btn) return;
+        var current = document.documentElement.getAttribute('data-theme');
+        var next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('opnchat-theme', next);
+      });
+
+      // Language dropdown: save preference on click + close menu
+      document.addEventListener('click', function(e) {
+        var link = e.target.closest('.lang-link');
+        if (!link) return;
+        var href = link.getAttribute('href') || '';
+        // Detect target language from URL pattern
+        var match = href.match(/^\/(es|pt|id|ru|de|ar)(\/|$)/);
+        if (match) {
+          localStorage.setItem('opnchat-lang', match[1]);
+        } else {
+          // No /es/ /pt/ /id/ /ru/ /ar/ prefix = English
+          localStorage.setItem('opnchat-lang', 'en');
+        }
+        // Close the dropdown after selection
+        var dd = link.closest('.lang-dropdown');
+        if (dd) dd.removeAttribute('open');
+      });
+
+      // Service Worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js').then(function(reg) {
+            reg.update();
+          }).catch(function() {});
+        });
+      }
+    </script>
+
+    <!-- View Transitions: re-apply theme after SPA navigation -->
+    <!-- Regular <script> (not is:inline) is re-executed after each ClientRouter swap -->
+    <script>
+      function applyTheme() {
+        const saved = localStorage.getItem('opnchat-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = saved || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      }
+      // Apply on initial load
+      applyTheme();
+      // Re-apply after every View Transitions page swap
+      document.addEventListener('astro:after-swap', applyTheme);
+    </script>
+    <VercelAnalytics />
+  </body>
+</html>
+
+<style is:global>
+  /* Inter — self-hosted */
+  @font-face {
+    font-family: 'Inter';
+    src: url('/fonts/Inter-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Inter';
+    src: url('/fonts/Inter-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Inter';
+    src: url('/fonts/Inter-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Inter';
+    src: url('/fonts/Inter-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* Cairo — self-hosted, Arabic pages */
+  @font-face {
+    font-family: 'Cairo';
+    src: url('/fonts/Cairo-Regular-Latin.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0000-024F, U+0300-036F;
+  }
+  @font-face {
+    font-family: 'Cairo';
+    src: url('/fonts/Cairo-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+  }
+  @font-face {
+    font-family: 'Cairo';
+    src: url('/fonts/Cairo-Medium-Latin.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0000-024F, U+0300-036F;
+  }
+  @font-face {
+    font-family: 'Cairo';
+    src: url('/fonts/Cairo-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+  }
+  @font-face {
+    font-family: 'Cairo';
+    src: url('/fonts/Cairo-SemiBold-Latin.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0000-024F, U+0300-036F;
+  }
+  @font-face {
+    font-family: 'Cairo';
+    src: url('/fonts/Cairo-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+  }
+  @font-face {
+    font-family: 'Cairo';
+    src: url('/fonts/Cairo-Bold-Latin.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0000-024F, U+0300-036F;
+  }
+  @font-face {
+    font-family: 'Cairo';
+    src: url('/fonts/Cairo-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Force all form elements to inherit Inter from body */
+  input,
+  button,
+  textarea,
+  select {
+    font-family: inherit;
+  }
+
+  /* ===== Dark theme (default) — deep space ===== */
+  :root,
+  [data-theme="dark"] {
+    --opn-primary: #25D366;
+    --opn-primary-dark: #1da851;
+    --opn-primary-light: #5dd88d;
+    --bg-primary: #0f172a;
+    --bg-secondary: #101828;
+    --bg-input: #1a2332;
+    --text-primary: #e9edf5;
+    --text-secondary: #9fb3c8;
+    --border-color: #253040;
+    --card-shadow: none;
+    --bg-gradient: radial-gradient(circle at 10% 10%, rgba(37, 211, 102, 0.08) 0%, transparent 40%), radial-gradient(circle at 90% 90%, rgba(56, 189, 248, 0.08) 0%, transparent 40%);
+  }
+
+  /* ===== Light theme — soft glow ===== */
+  [data-theme="light"] {
+    --bg-primary: #f8f9fa;
+    --bg-secondary: #ffffff;
+    --bg-input: #f1f5f9;
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+    --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+    --bg-gradient: radial-gradient(circle at 10% 10%, rgba(37, 211, 102, 0.05) 0%, transparent 40%), radial-gradient(circle at 90% 90%, rgba(0, 136, 204, 0.05) 0%, transparent 40%);
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-size: 1rem;       /* 16px — WCAG baseline, prevents iOS zoom */
+    line-height: 1.6;      /* Optimal for screen reading — text breathes */
+    background-color: var(--bg-primary);
+    background-image: var(--bg-gradient);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  /* Unified page layout: sidebar + content — owned by Layout, not Content components */
+  .page-layout {
+    display: flex;
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem;
+    min-height: 100vh;
+  }
+
+  .main-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  @media (max-width: 900px) {
+    .page-layout {
+      flex-direction: column;
+      max-width: 640px;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .page-layout {
+      padding: 1.25rem 1rem;
+    }
+  }
+
+  /* Arabic pages: use Cairo as primary font */
+  [lang="ar"] body,
+  [lang="ar"] {
+    font-family: 'Cairo', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+
+  /* RTL adjustments for Arabic */
+  [dir="rtl"] .site-header {
+    flex-direction: row-reverse;
+  }
+  [dir="rtl"] .service-card {
+    text-align: right;
+  }
+  [dir="rtl"] .breadcrumb-separator {
+    transform: scaleX(-1);
+  }
+  [dir="rtl"] .card-arrow {
+    transform: scaleX(-1);
+  }
+  [dir="rtl"] input,
+  [dir="rtl"] textarea {
+    text-align: right;
+  }
+  [dir="rtl"] .form-hint {
+    text-align: right;
+  }
+  [dir="rtl"] .faq-item {
+    text-align: right;
+  }
+  [dir="rtl"] .seo-section {
+    text-align: right;
+  }
+
+  /* ===== Language dropdown switcher ===== */
+  .lang-select {
+    position: relative;
+    display: inline-flex;
+  }
+  .lang-dropdown {
+    position: relative;
+  }
+  .lang-summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: rgba(128, 128, 128, 0.1);
+    border: 1px solid rgba(128, 128, 128, 0.15);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background 0.2s, border 0.2s;
+    user-select: none;
+    list-style: none;
+    outline: none;
+  }
+  .lang-summary:hover {
+    background: rgba(128, 128, 128, 0.2);
+  }
+  .lang-summary::-webkit-details-marker {
+    display: none;
+  }
+  .lang-summary::marker {
+    content: '';
+  }
+  .lang-summary:focus-visible {
+    outline: 2px solid var(--opn-primary);
+    outline-offset: 2px;
+  }
+  .globe-svg {
+    flex-shrink: 0;
+  }
+  .lang-current {
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+  }
+  .chevron {
+    transition: transform 0.2s ease;
+  }
+  .lang-dropdown[open] .chevron {
+    transform: rotate(180deg);
+  }
+  .lang-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    inset-inline-end: 0;
+    min-width: 160px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    padding: 6px;
+    margin: 0;
+    list-style: none;
+    opacity: 0;
+    transform: translateY(-5px);
+    animation: langFadeIn 0.2s forwards;
+    z-index: 100;
+  }
+  @keyframes langFadeIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .lang-link {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 14px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .lang-link:hover {
+    background: rgba(128, 128, 128, 0.15);
+    color: var(--text-primary);
+  }
+  .lang-link.active {
+    color: var(--opn-primary);
+    font-weight: 600;
+    background: rgba(37, 211, 102, 0.1);
+    pointer-events: none;
+  }
+
+  /* ===== Theme toggle button ===== */
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--bg-secondary);
+    border: 1.5px solid var(--border-color);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 0;
+    flex-shrink: 0;
+  }
+
+  .theme-toggle:hover {
+    color: var(--opn-primary);
+    border-color: var(--opn-primary);
+    background: var(--bg-input);
+  }
+
+  .theme-toggle:focus-visible {
+    outline: 2px solid var(--opn-primary);
+    outline-offset: 2px;
+  }
+
+  .theme-toggle svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Show sun in dark, moon in light */
+  [data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+  [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+  [data-theme="light"] .theme-toggle .icon-sun { display: none; }
+  [data-theme="light"] .theme-toggle .icon-moon { display: block; }
+</style>

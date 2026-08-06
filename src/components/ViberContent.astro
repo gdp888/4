@@ -1,0 +1,1918 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { useTranslations } from '../i18n/utils';
+import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
+import { languages, type Lang } from '../i18n/ui';
+import SiteHeader from './SiteHeader.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import SEOHead from './SEOHead.astro';
+import { localeMap } from '../i18n/localeMap';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+// Schema.org — FAQ data
+const faqItems = [
+  { q: t('vb.seo.faq.q1'), a: t('vb.seo.faq.a1') },
+  { q: t('vb.seo.faq.q2'), a: t('vb.seo.faq.a2') },
+  { q: t('vb.seo.faq.q3'), a: t('vb.seo.faq.a3') },
+  { q: t('vb.seo.faq.q4'), a: t('vb.seo.faq.a4') },
+  { q: t('vb.seo.faq.q5'), a: t('vb.seo.faq.a5') },
+];
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "OPN Chat — Viber",
+      "url": getAbsoluteLocaleUrl(lang, 'viber'),
+      "description": t('vb.meta.description'),
+      "applicationCategory": "CommunicationApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript. Requires Viber app installed.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "inLanguage": Object.keys(languages),
+      "featureList": [
+        t('vb.seo.why.feature1.title') + ': ' + t('vb.seo.why.feature1.desc'),
+        t('vb.seo.why.feature2.title') + ': ' + t('vb.seo.why.feature2.desc'),
+        t('vb.seo.why.feature3.title') + ': ' + t('vb.seo.why.feature3.desc'),
+        t('vb.seo.why.feature4.title') + ': ' + t('vb.seo.why.feature4.desc'),
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqItems.map(item => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": item.a
+        }
+      }))
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "OPN Chat",
+          "item": getAbsoluteLocaleUrl(lang, '')
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Viber",
+          "item": getAbsoluteLocaleUrl(lang, 'viber')
+        }
+      ]
+    }
+  ]
+};
+---
+
+<Layout title={t('vb.meta.title')} lang={lang} service="viber">
+  <Fragment slot="meta">
+  <SEOHead
+  lang={lang}
+  description={t('vb.meta.description')}
+  canonicalUrl={getAbsoluteLocaleUrl(lang, 'viber')}
+  ogTitle={t('vb.meta.og.title')}
+  ogDescription={t('vb.meta.og.description')}
+  ogUrl={getAbsoluteLocaleUrl(lang, 'viber')}
+  schema={pageSchema}
+  extraMeta={`<meta name="keywords" content="${t('vb.meta.keywords')}" /><meta name="twitter:card" content="summary" /><meta name="twitter:title" content="${t('vb.meta.twitter.title')}" /><meta name="twitter:description" content="${t('vb.meta.twitter.description')}" />`}
+/>
+</Fragment>
+
+  <div class="container">
+    <SiteHeader lang={lang} path="viber" activeTool="viber" />
+
+    <Breadcrumbs lang={lang} items={[{ label: t('bc.home'), href: getRelativeLocaleUrl(lang) }, { label: t('bc.viber') }]} />
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1 class="title">{t('vb.header.description')}</h1>
+    </div>
+
+    <!-- Viber Required Hint — adapts to desktop/mobile -->
+    <div class="viber-hint" id="viber-hint">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hint-icon">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="16" x2="12" y2="12"/>
+        <line x1="12" y1="8" x2="12.01" y2="8"/>
+      </svg>
+      <div class="hint-content">
+        <span id="viber-hint-text">{t('vb.hint.required')}</span>
+        <a href="https://www.viber.com/download/" target="_blank" rel="noopener noreferrer" class="viber-download-link" id="viber-download-link" style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="download-icon">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          {t('vb.hint.download')}
+        </a>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <form id="viber-form" class="form">
+      <div class="input-group">
+        <label for="phone" class="label">{t('vb.form.label.phone')}</label>
+        <div class="phone-input-group">
+          <span class="phone-prefix">+</span>
+          <input
+            type="tel"
+            id="phone"
+            class="phone-input"
+            placeholder={t('vb.form.placeholder.phone')}
+            autocomplete="tel"
+            required
+          />
+        </div>
+        <span class="hint">{t('vb.form.hint')}</span>
+        <span id="error-msg" class="error-msg" role="alert"></span>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="submit-btn" id="submit-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="btn-icon">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+          </svg>
+          {t('vb.form.submit')}
+        </button>
+        <button type="button" class="copy-link-btn" id="copy-link-btn" aria-label="Copy chat link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="copy-link-icon">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+          </svg>
+          <span id="copy-link-text">{lang === 'ru' ? 'Ссылка' : 'Link'}</span>
+        </button>
+      </div>
+
+      <details class="message-details">
+        <summary class="message-toggle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="toggle-icon">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          {t('vb.form.addMessage')}
+          <span class="optional">{t('vb.form.label.optional')}</span>
+        </summary>
+        <div class="message-body">
+          <textarea
+            id="message"
+            class="message-input"
+            placeholder={t('vb.form.placeholder.message')}
+            rows="3"
+            maxlength="7000"
+          ></textarea>
+          <div class="char-counter">
+            <span id="char-count">0</span>/7000
+            <div class="char-bar" id="char-bar">
+              <div class="char-bar-fill" id="char-bar-fill"></div>
+            </div>
+          </div>
+        </div>
+      </details>
+    </form>
+
+    <!-- Favorites Section -->
+    <div id="favorites-section" class="favorites-section">
+      <div class="favorites-header">
+        <h3 class="favorites-title">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="fav-star-icon">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+          {lang === 'ru' ? 'Избранное' : 'Favorites'}
+        </h3>
+        <button type="button" id="add-favorite-btn" class="add-fav-btn" aria-label="Add favorite">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="add-fav-icon">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          {lang === 'ru' ? 'Добавить' : 'Add'}
+        </button>
+      </div>
+      <ul id="favorites-list" class="favorites-list"></ul>
+      <!-- Add Favorite Modal -->
+      <div id="fav-modal-overlay" class="fav-modal-overlay" style="display:none;">
+        <div class="fav-modal">
+          <div class="fav-modal-header">
+            <h4>{lang === 'ru' ? 'Добавить контакт' : 'Add Contact'}</h4>
+            <button type="button" id="close-fav-modal" class="close-modal-btn" aria-label="Close">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+          <div class="fav-modal-body">
+            <input type="text" id="fav-name-input" class="fav-input" placeholder={lang === 'ru' ? 'Имя контакта' : 'Contact name'} />
+            <div class="fav-phone-display" id="fav-phone-display">+<span id="fav-phone-value"></span></div>
+          </div>
+          <div class="fav-modal-footer">
+            <button type="button" id="cancel-fav-btn" class="modal-cancel-btn">{lang === 'ru' ? 'Отмена' : 'Cancel'}</button>
+            <button type="button" id="save-fav-btn" class="modal-save-btn">{lang === 'ru' ? 'Сохранить' : 'Save'}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- History -->
+    <div id="history-section" class="history-section" style="display:none;">
+      <div class="history-header">
+        <h3 class="history-title">{t('vb.history.title')}</h3>
+        <button type="button" id="clear-history" class="clear-btn" aria-label="Clear history">{t('vb.history.clear')}</button>
+      </div>
+      <ul id="history-list" class="history-list"></ul>
+    </div>
+
+    <!-- Message Templates -->
+    <div id="templates-section" class="templates-section">
+      <details class="templates-details">
+        <summary class="templates-toggle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="template-icon">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10 9 9 9 8 9"/>
+          </svg>
+          {lang === 'ru' ? '📝 Шаблоны сообщений' : '📝 Message Templates'}
+        </summary>
+        <div class="templates-body">
+          <!-- Template Categories Tabs -->
+          <div class="template-tabs">
+            <button type="button" class="template-tab active" data-category="greeting">👋 {lang === 'ru' ? 'Приветствия' : 'Greetings'}</button>
+            <button type="button" class="template-tab" data-category="business">💼 {lang === 'ru' ? 'Бизнес' : 'Business'}</button>
+            <button type="button" class="template-tab" data-category="personal">❤️ {lang === 'ru' ? 'Личные' : 'Personal'}</button>
+            <button type="button" class="template-tab" data-category="celebration">🎉 {lang === 'ru' ? 'Поздравления' : 'Celebrations'}</button>
+          </div>
+          <!-- Templates Grid -->
+          <div id="templates-grid" class="templates-grid"></div>
+        </div>
+      </details>
+    </div>
+
+    <!-- Cross-link: WhatsApp alternative -->
+    <div class="cross-link-section">
+      <a href={getRelativeLocaleUrl(lang, 'whatsapp')} class="cross-link-card">
+        <svg viewBox="0 0 24 24" fill="currentColor" class="cross-link-icon">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        <div>
+          <span class="cross-link-title">{t('vb.crosslink.whatsapp.title')}</span>
+          <span class="cross-link-desc">{t('vb.crosslink.whatsapp.desc')}</span>
+        </div>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="cross-link-arrow"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <!-- SEO Content Section -->
+    <section class="seo-section" aria-label="About Viber Direct Chat">
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('vb.seo.what.heading')}</h2>
+        <p class="seo-text" set:html={t('vb.seo.what.text')} />
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('vb.seo.without.heading')}</h2>
+        <p class="seo-text">{t('vb.seo.without.text')}</p>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('vb.seo.how.heading')}</h2>
+        <p class="seo-text">{t('vb.seo.how.text')}</p>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('vb.seo.why.heading')}</h2>
+        <div class="seo-features">
+          <div class="feature-item">
+            <span class="feature-icon">&#9889;</span>
+            <div>
+              <h3 class="feature-title">{t('vb.seo.why.feature1.title')}</h3>
+              <p class="feature-desc">{t('vb.seo.why.feature1.desc')}</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">&#128274;</span>
+            <div>
+              <h3 class="feature-title">{t('vb.seo.why.feature2.title')}</h3>
+              <p class="feature-desc">{t('vb.seo.why.feature2.desc')}</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">&#127760;</span>
+            <div>
+              <h3 class="feature-title">{t('vb.seo.why.feature3.title')}</h3>
+              <p class="feature-desc">{t('vb.seo.why.feature3.desc')}</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">&#9993;</span>
+            <div>
+              <h3 class="feature-title">{t('vb.seo.why.feature4.title')}</h3>
+              <p class="feature-desc">{t('vb.seo.why.feature4.desc')}</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('vb.seo.cases.heading')}</h2>
+        <p class="seo-text">{t('vb.seo.cases.text')}</p>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('vb.seo.deep.heading')}</h2>
+        <p class="seo-text">{t('vb.seo.deep.text')}</p>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('vb.seo.faq.heading')}</h2>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary class="faq-question">{t('vb.seo.faq.q1')}</summary>
+            <p class="faq-answer">{t('vb.seo.faq.a1')}</p>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question">{t('vb.seo.faq.q2')}</summary>
+            <p class="faq-answer">{t('vb.seo.faq.a2')}</p>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question">{t('vb.seo.faq.q3')}</summary>
+            <p class="faq-answer">{t('vb.seo.faq.a3')}</p>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question">{t('vb.seo.faq.q4')}</summary>
+            <p class="faq-answer">{t('vb.seo.faq.a4')}</p>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question">{t('vb.seo.faq.q5')}</summary>
+            <p class="faq-answer">{t('vb.seo.faq.a5')}</p>
+          </details>
+        </div>
+      </article>
+    </section>
+</div>
+</Layout>
+
+<style>
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    margin: 0 auto;
+    max-width: 480px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .hero {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    line-height: 1.2;
+  }
+
+  /* Viber hint banner */
+  .viber-hint {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.75rem 1rem;
+    background: rgba(115, 96, 242, 0.08);
+    border: 1px solid rgba(115, 96, 242, 0.2);
+    border-radius: 12px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .hint-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    color: #7360F2;
+    margin-top: 0.1rem;
+  }
+
+  .hint-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .viber-download-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #7360F2;
+    font-weight: 600;
+    font-size: 0.82rem;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .viber-download-link:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+  }
+
+  .download-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+
+  .form {
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-shadow: var(--card-shadow), 0 4px 24px rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--border-color);
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: none;
+    letter-spacing: 0.01em;
+  }
+
+  .optional {
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+  }
+
+  .phone-input-group {
+    display: flex;
+    align-items: stretch;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--bg-input);
+    transition: border-color 0.2s;
+  }
+
+  .phone-input-group:focus-within {
+    border-color: #7360F2;
+  }
+
+  .phone-prefix {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.85rem 0.75rem 0.85rem 1rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: var(--border-color);
+    border-right: 2px solid var(--border-color);
+    user-select: none;
+    min-width: 44px;
+  }
+
+  .phone-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    padding: 0.85rem 1rem;
+    font-size: 1.25rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    outline: none;
+    width: 100%;
+  }
+
+  .phone-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.7;
+  }
+
+  .hint {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .error-msg {
+    font-size: 0.8rem;
+    color: #ff6b6b;
+    min-height: 1.2em;
+    transition: opacity 0.2s;
+  }
+
+  .message-details {
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .message-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    list-style: none;
+    transition: background 0.15s;
+  }
+
+  .message-toggle::-webkit-details-marker {
+    display: none;
+  }
+
+  .message-toggle::after {
+    content: '\25BC';
+    margin-left: auto;
+    font-size: 0.65rem;
+    transition: transform 0.2s;
+    opacity: 0.5;
+  }
+
+  .message-details[open] .message-toggle::after {
+    transform: rotate(180deg);
+  }
+
+  .message-toggle:hover {
+    background: var(--border-color);
+  }
+
+  .toggle-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
+
+  .message-body {
+    padding: 0 0.75rem 0.75rem 0.75rem;
+  }
+
+  .message-input {
+    background: var(--bg-input);
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    color: var(--text-primary);
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    resize: vertical;
+    min-height: 80px;
+    width: 100%;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+
+  .message-input:focus {
+    border-color: #7360F2;
+  }
+
+  .message-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.7;
+  }
+
+  .submit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: #7360F2;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: none;
+    letter-spacing: 0.01em;
+  }
+
+  .submit-btn:hover {
+    background: #5b4bd5;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(115, 96, 242, 0.35);
+  }
+
+  .submit-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+
+  .submit-btn:focus-visible {
+    outline: 2px solid #7360F2;
+    outline-offset: 2px;
+  }
+
+  .btn-icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .history-section {
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    padding: 1.25rem;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--card-shadow);
+  }
+
+  .history-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+
+  .history-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0;
+  }
+
+  .clear-btn {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 0.25rem 0.6rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .clear-btn:hover {
+    color: #ff6b6b;
+    border-color: #ff6b6b;
+  }
+
+  .history-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  :global(.history-item) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 0.75rem;
+    border-radius: 10px;
+    background: var(--bg-input);
+    transition: background 0.15s;
+  }
+
+  :global(.history-item:hover) {
+    background: var(--border-color);
+  }
+
+  :global(.history-number) {
+    font-weight: 500;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+
+  :global(.history-number:hover) {
+    color: #7360F2;
+  }
+
+  :global(.history-time) {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+  }
+
+  :global(.history-chat-btn) {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.3rem 0.65rem;
+    border-radius: 6px;
+    background: #7360F2;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-transform: none;
+  }
+
+  :global(.history-chat-btn:hover) {
+    background: #5b4bd5;
+  }
+
+  :global(.history-left) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  /* Cross-link section */
+  .cross-link-section {
+    margin-top: 0.5rem;
+  }
+
+  .cross-link-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .cross-link-card:hover {
+    border-color: #25D366;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.1);
+  }
+
+  .cross-link-icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    color: #25D366;
+  }
+
+  .cross-link-title {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .cross-link-desc {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    margin-top: 0.15rem;
+  }
+
+  .cross-link-arrow {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    color: var(--text-secondary);
+    margin-left: auto;
+  }
+
+  /* SEO Section */
+  .seo-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-top: 1.5rem;
+  }
+
+  .seo-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .seo-heading {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  .seo-text {
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: var(--text-secondary);
+  }
+
+  .seo-features {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .feature-item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .feature-icon {
+    font-size: 1.4rem;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+
+  .feature-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.2rem;
+  }
+
+  .feature-desc {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  /* FAQ */
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .faq-item {
+    background: var(--bg-input);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+  }
+
+  .faq-question {
+    display: block;
+    padding: 0.85rem 1rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    list-style: none;
+    transition: background 0.15s;
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question::after {
+    content: '+';
+    float: right;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+    transition: transform 0.2s;
+  }
+
+  .faq-item[open] .faq-question::after {
+    content: '\2212';
+  }
+
+  .faq-question:hover {
+    background: var(--border-color);
+  }
+
+  .faq-answer {
+    padding: 0 1rem 0.85rem 1rem;
+    font-size: 0.85rem;
+    line-height: 1.65;
+    color: var(--text-secondary);
+  }
+
+
+
+  /* Form Actions (Submit + Copy Link) */
+  .form-actions {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .copy-link-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: #7360F2;
+    border: 2px solid #7360F2;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: none;
+  }
+
+  .copy-link-btn:hover {
+    background: rgba(115, 96, 242, 0.1);
+    transform: translateY(-1px);
+  }
+
+  .copy-link-btn.copied {
+    background: #10b981;
+    border-color: #10b981;
+    color: #fff;
+  }
+
+  .copy-link-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Character Counter */
+  .char-counter {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+  }
+
+  .char-bar {
+    flex: 1;
+    height: 4px;
+    background: var(--border-color);
+    border-radius: 2px;
+    overflow: hidden;
+    max-width: 120px;
+  }
+
+  .char-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: #10b981;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  .char-bar-fill.warning {
+    background: #f59e0b;
+  }
+
+  .char-bar-fill.danger {
+    background: #ef4444;
+  }
+
+  /* Favorites Section */
+  .favorites-section {
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    padding: 1.25rem;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--card-shadow);
+  }
+
+  .favorites-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+
+  .favorites-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .fav-star-icon {
+    width: 18px;
+    height: 18px;
+    color: #f59e0b;
+  }
+
+  .add-fav-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #7360F2;
+    background: none;
+    border: 1px solid #7360F2;
+    border-radius: 8px;
+    padding: 0.35rem 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .add-fav-btn:hover {
+    background: rgba(115, 96, 242, 0.1);
+  }
+
+  .add-fav-icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  .favorites-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  :global(.fav-item) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.65rem 0.85rem;
+    border-radius: 10px;
+    background: var(--bg-input);
+    transition: background 0.15s;
+  }
+
+  :global(.fav-item:hover) {
+    background: var(--border-color);
+  }
+
+  :global(.fav-item-left) {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  :global(.fav-avatar) {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7360F2, #a78bfa);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+
+  :global(.fav-info) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+  }
+
+  :global(.fav-name) {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  :global(.fav-number) {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+  }
+
+  :global(.fav-actions) {
+    display: flex;
+    gap: 0.35rem;
+  }
+
+  :global(.fav-chat-btn) {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    background: #7360F2;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  :global(.fav-chat-btn:hover) {
+    background: #5b4bd5;
+  }
+
+  :global(.fav-delete-btn) {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.5rem;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  :global(.fav-delete-btn:hover) {
+    color: #ef4444;
+    border-color: #ef4444;
+  }
+
+  :global(.fav-empty) {
+    text-align: center;
+    padding: 1.5rem;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+  }
+
+  /* Favorite Modal */
+  .fav-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+  }
+
+  .fav-modal {
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 360px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+  }
+
+  .fav-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .fav-modal-header h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .close-modal-btn {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+
+  .close-modal-btn:hover {
+    background: var(--border-color);
+    color: var(--text-primary);
+  }
+
+  .close-modal-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .fav-modal-body {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .fav-input {
+    background: var(--bg-input);
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    color: var(--text-primary);
+    padding: 0.8rem 1rem;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .fav-input:focus {
+    border-color: #7360F2;
+  }
+
+  .fav-phone-display {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    padding: 0.6rem 0.8rem;
+    background: var(--bg-input);
+    border-radius: 8px;
+  }
+
+  .fav-modal-footer {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .modal-cancel-btn,
+  .modal-save-btn {
+    flex: 1;
+    padding: 0.7rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+  }
+
+  .modal-cancel-btn {
+    background: var(--bg-input);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+  }
+
+  .modal-cancel-btn:hover {
+    background: var(--border-color);
+  }
+
+  .modal-save-btn {
+    background: #7360F2;
+    color: #fff;
+  }
+
+  .modal-save-btn:hover {
+    background: #5b4bd5;
+  }
+
+  /* Templates Section */
+  .templates-section {
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+  }
+
+  .templates-details {
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .templates-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    cursor: pointer;
+    list-style: none;
+    transition: background 0.15s;
+  }
+
+  .templates-toggle::-webkit-details-marker {
+    display: none;
+  }
+
+  .templates-toggle::after {
+    content: '\25BC';
+    margin-left: auto;
+    font-size: 0.65rem;
+    transition: transform 0.2s;
+    opacity: 0.5;
+  }
+
+  .templates-details[open] .templates-toggle::after {
+    transform: rotate(180deg);
+  }
+
+  .templates-toggle:hover {
+    background: var(--border-color);
+  }
+
+  .template-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+
+  .templates-body {
+    padding: 0 1.25rem 1.25rem 1.25rem;
+  }
+
+  .template-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .template-tab {
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.45rem 0.85rem;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .template-tab:hover {
+    border-color: #7360F2;
+    color: #7360F2;
+  }
+
+  .template-tab.active {
+    background: #7360F2;
+    border-color: #7360F2;
+    color: #fff;
+  }
+
+  .templates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.6rem;
+  }
+
+  :global(.template-card) {
+    background: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  :global(.template-card:hover) {
+    border-color: #7360F2;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(115, 96, 242, 0.15);
+  }
+
+  :global(.template-card-text) {
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: var(--text-primary);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  :global(.template-card-action) {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #7360F2;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  @media (max-width: 520px) {
+    .title {
+      font-size: 1.75rem;
+    }
+
+    .form {
+      padding: 1.25rem;
+    }
+    
+    .form-actions {
+      flex-direction: column;
+    }
+    
+    .copy-link-btn {
+      justify-content: center;
+    }
+    
+    .seo-heading {
+      font-size: 1.1rem;
+    }
+    .seo-text {
+      font-size: 0.85rem;
+    }
+    
+    .template-tabs {
+      justify-content: flex-start;
+    }
+    
+    .templates-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script define:vars={{ lang }}>
+  // Desktop detection — show download link if user is on desktop
+  const isDesktop = !/Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
+  const hintDownloadLink = document.getElementById('viber-download-link');
+  const hintDownloadText = document.getElementById('viber-hint-text');
+  if (isDesktop && hintDownloadLink) {
+    hintDownloadLink.style.display = 'inline-flex';
+  }
+
+  const form = document.getElementById('viber-form');
+  const phoneInput = document.getElementById('phone');
+  const messageInput = document.getElementById('message');
+  const errorMsg = document.getElementById('error-msg');
+  const historySection = document.getElementById('history-section');
+  const historyList = document.getElementById('history-list');
+  const clearBtn = document.getElementById('clear-history');
+
+  const STORAGE_KEY = 'opnchat-viber-history';
+  const MAX_HISTORY = 5;
+
+  const localeMap = { en: 'en-US', es: 'es-ES', pt: 'pt-BR', id: 'id-ID', ru: 'ru-RU', ar: 'ar-SA', de: 'de-DE' };
+  const locale = localeMap[lang] || 'en-US';
+
+  const chatLabel = 'Viber';
+
+  // Phone input — digits only
+  phoneInput.addEventListener('input', () => {
+    let val = phoneInput.value.replace(/\D/g, '');
+    if (val.length > 15) val = val.slice(0, 15);
+    phoneInput.value = val;
+    errorMsg.textContent = '';
+  });
+
+  // Load history from localStorage
+  function loadHistory() {
+    try {
+      const data = localStorage.getItem(STORAGE_KEY);
+      return data ? JSON.parse(data) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  // Save — store clean digits (no +), display with +
+  function saveHistory(cleanDigits) {
+    const history = loadHistory().filter(h => h.number !== cleanDigits);
+    history.unshift({ number: cleanDigits, timestamp: Date.now() });
+    if (history.length > MAX_HISTORY) history.pop();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+    renderHistory();
+  }
+
+  function renderHistory() {
+    const history = loadHistory();
+    if (history.length === 0) {
+      historySection.style.display = 'none';
+      return;
+    }
+    historySection.style.display = 'block';
+    historyList.innerHTML = '';
+
+    history.forEach(item => {
+      const digits = item.number.replace(/\D/g, '');
+      const li = document.createElement('li');
+      li.className = 'history-item';
+
+      // Left side: number + time
+      const leftDiv = document.createElement('div');
+      leftDiv.className = 'history-left';
+
+      const numSpan = document.createElement('span');
+      numSpan.className = 'history-number';
+      numSpan.textContent = '+' + digits;
+      // Click number → fill input
+      numSpan.addEventListener('click', (e) => {
+        e.stopPropagation();
+        phoneInput.value = digits;
+        phoneInput.focus();
+      });
+
+      const timeSpan = document.createElement('span');
+      timeSpan.className = 'history-time';
+      const time = new Date(item.timestamp);
+      timeSpan.textContent = time.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
+
+      leftDiv.appendChild(numSpan);
+      leftDiv.appendChild(timeSpan);
+
+      // Right side: Chat button
+      const chatBtn = document.createElement('button');
+      chatBtn.type = 'button';
+      chatBtn.className = 'history-chat-btn';
+      chatBtn.textContent = chatLabel;
+      chatBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        window.open(`viber://chat?number=%2B${digits}`, '_self');
+      });
+
+      li.appendChild(leftDiv);
+      li.appendChild(chatBtn);
+      historyList.appendChild(li);
+    });
+  }
+
+  // Clear history
+  clearBtn.addEventListener('click', () => {
+    localStorage.removeItem(STORAGE_KEY);
+    renderHistory();
+  });
+
+  // Initial render
+  renderHistory();
+
+  // Form submit
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    errorMsg.textContent = '';
+
+    const rawPhone = phoneInput.value.replace(/\D/g, '');
+    const message = messageInput.value.trim();
+
+    // Error messages by language
+    const errorMessages = {
+      valid: lang === 'ru' ? 'Введите корректный номер телефона' : lang === 'es' ? 'Ingresa un número de teléfono válido' : lang === 'pt' ? 'Insira um número de telefone válido' : lang === 'de' ? 'Bitte geben Sie eine gültige Telefonnummer ein' : lang === 'id' ? 'Masukkan nomor telepon yang valid' : lang === 'ar' ? 'أدخل رقم هاتف صالح' : 'Please enter a valid phone number',
+      short: lang === 'ru' ? 'Номер телефона слишком короткий' : lang === 'es' ? 'El número de teléfono es demasiado corto' : lang === 'pt' ? 'O número de telefone é muito curto' : lang === 'de' ? 'Die Telefonnummer ist zu kurz' : lang === 'id' ? 'Nomor telepon terlalu pendek' : lang === 'ar' ? 'رقم الهاتف قصير جداً' : 'Phone number is too short',
+    };
+
+    if (rawPhone.length < 7) {
+      errorMsg.textContent = errorMessages.valid;
+      phoneInput.focus();
+      return;
+    }
+
+    if (rawPhone.length < 10) {
+      errorMsg.textContent = errorMessages.short;
+      phoneInput.focus();
+      return;
+    }
+
+    // Save clean digits (without +)
+    saveHistory(rawPhone);
+
+    // Viber deep link: viber://chat?number=%2B{phone}
+    // Note: Viber requires the + prefix (URL-encoded as %2B)
+    let url = `viber://chat?number=%2B${rawPhone}`;
+    if (message) {
+      url += `&text=${encodeURIComponent(message)}`;
+    }
+    window.open(url, '_self');
+  });
+
+  // Keyboard shortcut — Enter to submit when phone is focused
+  phoneInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      form.dispatchEvent(new Event('submit', { cancelable: true }));
+    }
+  });
+
+  // ==================== CHARACTER COUNTER ====================
+  const charCount = document.getElementById('char-count');
+  const charBarFill = document.getElementById('char-bar-fill');
+  const MAX_CHARS = 7000;
+
+  function updateCharCounter() {
+    const len = messageInput.value.length;
+    charCount.textContent = len;
+    const percent = (len / MAX_CHARS) * 100;
+    charBarFill.style.width = Math.min(percent, 100) + '%';
+    
+    // Color coding
+    charBarFill.classList.remove('warning', 'danger');
+    if (percent > 90) {
+      charBarFill.classList.add('danger');
+    } else if (percent > 70) {
+      charBarFill.classList.add('warning');
+    }
+  }
+
+  messageInput.addEventListener('input', updateCharCounter);
+
+  // ==================== COPY LINK BUTTON ====================
+  const copyLinkBtn = document.getElementById('copy-link-btn');
+  const copyLinkText = document.getElementById('copy-link-text');
+
+  copyLinkBtn.addEventListener('click', async () => {
+    const rawPhone = phoneInput.value.replace(/\D/g, '');
+    if (rawPhone.length < 7) {
+      errorMsg.textContent = lang === 'ru' ? 'Сначала введите номер телефона' : 'Please enter a phone number first';
+      phoneInput.focus();
+      return;
+    }
+    
+    let url = `https://www.viber.com/contact/?number=%2B${rawPhone}`;
+    const message = messageInput.value.trim();
+    if (message) {
+      // Viber doesn't support pre-filled text in web links, but we can include it as reference
+      url += `&text=${encodeURIComponent(message)}`;
+    }
+    
+    try {
+      await navigator.clipboard.writeText(url);
+      copyLinkBtn.classList.add('copied');
+      const originalText = copyLinkText.textContent;
+      copyLinkText.textContent = lang === 'ru' ? 'Скопировано!' : 'Copied!';
+      setTimeout(() => {
+        copyLinkBtn.classList.remove('copied');
+        copyLinkText.textContent = originalText;
+      }, 2000);
+    } catch (err) {
+      // Fallback for older browsers
+      const textarea = document.createElement('textarea');
+      textarea.value = url;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      copyLinkText.textContent = lang === 'ru' ? 'Скопировано!' : 'Copied!';
+      setTimeout(() => {
+        copyLinkText.textContent = originalText;
+      }, 2000);
+    }
+  });
+
+  // ==================== FAVORITES SYSTEM ====================
+  const FAV_KEY = 'opnchat-viber-favorites';
+  const favoritesSection = document.getElementById('favorites-section');
+  const favoritesList = document.getElementById('favorites-list');
+  const addFavBtn = document.getElementById('add-favorite-btn');
+  const favModalOverlay = document.getElementById('fav-modal-overlay');
+  const favNameInput = document.getElementById('fav-name-input');
+  const favPhoneValue = document.getElementById('fav-phone-value');
+  const closeFavModal = document.getElementById('close-fav-modal');
+  const cancelFavBtn = document.getElementById('cancel-fav-btn');
+  const saveFavBtn = document.getElementById('save-fav-btn');
+
+  function loadFavorites() {
+    try {
+      const data = localStorage.getItem(FAV_KEY);
+      return data ? JSON.parse(data) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveFavorites(favorites) {
+    localStorage.setItem(FAV_KEY, JSON.stringify(favorites));
+  }
+
+  function renderFavorites() {
+    const favorites = loadFavorites();
+    favoritesList.innerHTML = '';
+    
+    if (favorites.length === 0) {
+      const emptyMsg = document.createElement('li');
+      emptyMsg.className = 'fav-empty';
+      emptyMsg.textContent = lang === 'ru' ? 'Нет избранных контактов' : 'No favorite contacts yet';
+      favoritesList.appendChild(emptyMsg);
+      return;
+    }
+
+    favorites.forEach((fav, index) => {
+      const li = document.createElement('li');
+      li.className = 'fav-item';
+
+      // Left side: avatar + info
+      const leftDiv = document.createElement('div');
+      leftDiv.className = 'fav-item-left';
+
+      const avatar = document.createElement('div');
+      avatar.className = 'fav-avatar';
+      avatar.textContent = fav.name.charAt(0).toUpperCase();
+
+      const infoDiv = document.createElement('div');
+      infoDiv.className = 'fav-info';
+
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'fav-name';
+      nameSpan.textContent = fav.name;
+
+      const numSpan = document.createElement('span');
+      numSpan.className = 'fav-number';
+      numSpan.textContent = '+' + fav.number;
+
+      infoDiv.appendChild(nameSpan);
+      infoDiv.appendChild(numSpan);
+      leftDiv.appendChild(avatar);
+      leftDiv.appendChild(infoDiv);
+
+      // Right side: actions
+      const actionsDiv = document.createElement('div');
+      actionsDiv.className = 'fav-actions';
+
+      const chatBtn = document.createElement('button');
+      chatBtn.type = 'button';
+      chatBtn.className = 'fav-chat-btn';
+      chatBtn.textContent = chatLabel;
+      chatBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        window.open(`viber://chat?number=%2B${fav.number}`, '_self');
+      });
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.type = 'button';
+      deleteBtn.className = 'fav-delete-btn';
+      deleteBtn.textContent = '✕';
+      deleteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const favs = loadFavorites();
+        favs.splice(index, 1);
+        saveFavorites(favs);
+        renderFavorites();
+      });
+
+      actionsDiv.appendChild(chatBtn);
+      actionsDiv.appendChild(deleteBtn);
+
+      li.appendChild(leftDiv);
+      li.appendChild(actionsDiv);
+
+      // Click on item → fill input
+      li.addEventListener('click', () => {
+        phoneInput.value = fav.number;
+        phoneInput.focus();
+      });
+
+      favoritesList.appendChild(li);
+    });
+  }
+
+  function openFavModal() {
+    const rawPhone = phoneInput.value.replace(/\D/g, '');
+    if (rawPhone.length < 7) {
+      errorMsg.textContent = lang === 'ru' ? 'Сначала введите номер телефона' : 'Please enter a phone number first';
+      phoneInput.focus();
+      return;
+    }
+    favPhoneValue.textContent = rawPhone;
+    favNameInput.value = '';
+    favModalOverlay.style.display = 'flex';
+    setTimeout(() => favNameInput.focus(), 100);
+  }
+
+  function closeFavModalFn() {
+    favModalOverlay.style.display = 'none';
+    favNameInput.value = '';
+  }
+
+  addFavBtn.addEventListener('click', openFavModal);
+  closeFavModal.addEventListener('click', closeFavModalFn);
+  cancelFavBtn.addEventListener('click', closeFavModalFn);
+
+  saveFavBtn.addEventListener('click', () => {
+    const name = favNameInput.value.trim();
+    const number = favPhoneValue.textContent;
+    
+    if (!name) {
+      favNameInput.style.borderColor = '#ef4444';
+      return;
+    }
+    
+    const favorites = loadFavorites();
+    favorites.unshift({ name, number, timestamp: Date.now() });
+    saveFavorites(favorites);
+    renderFavorites();
+    closeFavModalFn();
+  });
+
+  // Close modal on overlay click
+  favModalOverlay.addEventListener('click', (e) => {
+    if (e.target === favModalOverlay) {
+      closeFavModalFn();
+    }
+  });
+
+  // Initial render
+  renderFavorites();
+
+  // ==================== MESSAGE TEMPLATES ====================
+  const templatesGrid = document.getElementById('templates-grid');
+  const templateTabs = document.querySelectorAll('.template-tab');
+
+  const templates = {
+    greeting: [
+      { text: lang === 'ru' ? 'Привет! 👋 Как дела?' : 'Hi! 👋 How are you?', emoji: '👋' },
+      { text: lang === 'ru' ? 'Добрый день! Рад связаться с вами.' : 'Good day! Nice to connect with you.', emoji: '☀️' },
+      { text: lang === 'ru' ? 'Приветствую! 👋 Надеюсь, у вас отличный день.' : 'Greetings! 👋 Hope you\'re having a great day.', emoji: '🌟' },
+      { text: lang === 'ru' ? 'Здравствуйте! ✨ Пишу по делу.' : 'Hello! ✅ Writing regarding an important matter.', emoji: '✨' },
+      { text: lang === 'ru' ? 'Привет! Давно не виделись! 🤗' : 'Hey! Long time no see! 🤗', emoji: '🤗' },
+      { text: lang === 'ru' ? 'Доброго времени суток! 🌅' : 'Good time of day! 🌅', emoji: '🌅' },
+    ],
+    business: [
+      { text: lang === 'ru' ? 'Здравствуйте! По поводу нашего заказа №{order}' : 'Hello! Regarding our order #{order}', emoji: '📦' },
+      { text: lang === 'ru' ? 'Добрый день! Интересует ваша услуга/товар.' : 'Good day! Interested in your service/product.', emoji: '💼' },
+      { text: lang === 'ru' ? 'Коллеги, напоминаю о встрере в {time}' : 'Team, reminder about the meeting at {time}', emoji: '📅' },
+      { text: lang === 'ru' ? 'Отправляю отчёт за {period}. Пожалуйста, проверьте.' : 'Sending the report for {period}. Please review.', emoji: '📊' },
+      { text: lang === 'ru' ? 'Благодарим за сотрудничество! 🙏' : 'Thank you for your cooperation! 🙏', emoji: '🤝' },
+      { text: lang === 'ru' ? 'Подтвердите получение, пожалуйста. ✓' : 'Please confirm receipt. ✓', emoji: '✓' },
+    ],
+    personal: [
+      { text: lang === 'ru' ? 'Скучаю по тебе! 💕 Когда созвонимся?' : 'Missing you! 💕 When can we talk?', emoji: '💕' },
+      { text: lang === 'ru' ? 'Как прошли выходные? 🎉 Расскажи!' : 'How was your weekend? 🎉 Tell me!', emoji: '🎉' },
+      { text: lang === 'ru' ? 'Поздравляю! 🎊 Ты лучший(ая)!' : 'Congratulations! 🎊 You\'re the best!', emoji: '🎊' },
+      { text: lang === 'ru' ? 'Держись! Всё будет хорошо! 💪' : 'Hang in there! Everything will be fine! 💪', emoji: '💪' },
+      { text: lang === 'ru' ? 'Спасибо, что ты есть! ❤️' : 'Thank you for being there! ❤️', emoji: '❤️' },
+      { text: lang === 'ru' ? 'Вызов на кофе? ☕☺️' : 'Coffee call? ☕☺️', emoji: '☕' },
+    ],
+    celebration: [
+      { text: lang === 'ru' ? 'С днём рождения! 🎂🎉 Желаю счастья и здоровья!' : 'Happy Birthday! 🎂🎉 Wishing you happiness and health!', emoji: '🎂' },
+      { text: lang === 'ru' ? 'С Новым Годом! 🎄🎁 Пусть этот год принесёт радость!' : 'Happy New Year! 🎄🎁 May this year bring joy!', emoji: '🎄' },
+      { text: lang === 'ru' ? 'Праздничков! 🥳 Наслаждайся!' : 'Happy Holidays! 🥳 Enjoy!', emoji: '🥳' },
+      { text: lang === 'ru' ? 'Успехов в новом году! 🚀💫' : 'Success in the new year! 🚀💫', emoji: '🚀' },
+      { text: lang === 'ru' ? 'С праздником! 🎉🎈 Пусть сбываются все мечты!' : 'Happy Holiday! 🎉🎈 May all dreams come true!', emoji: '🎈' },
+      { text: lang === 'ru' ? 'Здоровья, счастья, любви! 💖🍀' : 'Health, happiness, love! 💖🍀', emoji: '💖' },
+    ]
+  };
+
+  let activeCategory = 'greeting';
+
+  function renderTemplates(category) {
+    templatesGrid.innerHTML = '';
+    const categoryTemplates = templates[category] || [];
+    
+    categoryTemplates.forEach(template => {
+      const card = document.createElement('div');
+      card.className = 'template-card';
+      
+      const textDiv = document.createElement('div');
+      textDiv.className = 'template-card-text';
+      textDiv.textContent = template.text;
+      
+      const actionDiv = document.createElement('div');
+      actionDiv.className = 'template-card-action';
+      actionDiv.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>${lang === 'ru' ? 'Использовать' : 'Use'}`;
+      
+      card.appendChild(textDiv);
+      card.appendChild(actionDiv);
+      
+      card.addEventListener('click', () => {
+        messageInput.value = template.text;
+        messageInput.focus();
+        updateCharCounter();
+        // Auto-open message details if closed
+        const messageDetails = document.querySelector('.message-details');
+        if (messageDetails && !messageDetails.open) {
+          messageDetails.open = true;
+        }
+      });
+      
+      templatesGrid.appendChild(card);
+    });
+  }
+
+  // Tab switching
+  templateTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      templateTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      activeCategory = tab.dataset.category;
+      renderTemplates(activeCategory);
+    });
+  });
+
+  // Initial render
+  renderTemplates(activeCategory);
+</script>

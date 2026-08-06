@@ -1,0 +1,55 @@
+---
+import { languages, langCodes, defaultLang, type Lang } from '../i18n/ui';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+export interface Props {
+  lang: Lang;
+  path?: string;          // service slug, e.g. 'telegram', 'qr-code'; empty string = hub
+}
+
+const { lang, path = '' } = Astro.props;
+const currentCode = langCodes[lang];
+---
+
+<div class="lang-select">
+  <details class="lang-dropdown">
+    <summary class="lang-summary">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="globe-svg">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="2" y1="12" x2="22" y2="12"></line>
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+      </svg>
+      <span class="lang-current">{currentCode}</span>
+      <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+
+    <ul class="lang-menu">
+      {(Object.keys(languages) as Lang[]).map((l) => (
+        <li>
+          <a
+            href={getRelativeLocaleUrl(l, path)}
+            class:list={['lang-link', { active: l === lang }]}
+            title={languages[l]}
+            lang={l}
+            aria-current={l === lang ? 'page' : undefined}
+          >
+            {languages[l]}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </details>
+</div>
+
+<!-- Close dropdown when clicking outside -->
+<script is:inline>
+  document.addEventListener('click', function(e) {
+    document.querySelectorAll('.lang-dropdown[open]').forEach(function(dd) {
+      if (!dd.contains(e.target)) {
+        dd.removeAttribute('open');
+      }
+    });
+  });
+</script>

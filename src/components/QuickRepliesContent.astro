@@ -1,0 +1,761 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { useTranslations } from '../i18n/utils';
+import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
+import { languages, type Lang } from '../i18n/ui';
+import SiteHeader from './SiteHeader.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import SEOHead from './SEOHead.astro';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const faqItems = [
+  { q: t('qre.faq.q1'), a: t('qre.faq.a1') },
+  { q: t('qre.faq.q2'), a: t('qre.faq.a2') },
+  { q: t('qre.faq.q3'), a: t('qre.faq.a3') },
+  { q: t('qre.faq.q4'), a: t('qre.faq.a4') },
+  { q: t('qre.faq.q5'), a: t('qre.faq.a5') },
+];
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "OPN Chat WhatsApp Quick Reply Templates",
+      "url": getAbsoluteLocaleUrl(lang, 'quick-replies'),
+      "description": t('qre.meta.description'),
+      "applicationCategory": "CommunicationApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "inLanguage": Object.keys(languages),
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqItems.map(item => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": item.a
+        }
+      }))
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "OPN Chat",
+          "item": getAbsoluteLocaleUrl(lang, '')
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Quick Reply Templates",
+          "item": getAbsoluteLocaleUrl(lang, 'quick-replies')
+        }
+      ]
+    }
+  ]
+};
+---
+
+<Layout title={t('qre.meta.title')} lang={lang} service="quick-replies">
+  <Fragment slot="meta">
+  <SEOHead
+    lang={lang}
+    description={t('qre.meta.description')}
+    canonicalUrl={getAbsoluteLocaleUrl(lang, 'quick-replies')}
+    ogTitle={t('qre.meta.og.title')}
+    ogDescription={t('qre.meta.og.description')}
+    ogUrl={getAbsoluteLocaleUrl(lang, 'quick-replies')}
+    schema={pageSchema}
+    extraMeta={`<meta name="keywords" content="${t('qre.meta.keywords')}" /><link rel="dns-prefetch" href="https://wa.me" /><link rel="preconnect" href="https://wa.me" crossorigin /><meta name="twitter:card" content="summary" /><meta name="twitter:title" content="${t('qre.meta.twitter.title')}" /><meta name="twitter:description" content="${t('qre.meta.twitter.description')}" />`}
+  />
+  </Fragment>
+
+  <div class="container">
+    <SiteHeader lang={lang} path="quick-replies" activeTool="quick-replies" />
+
+    <Breadcrumbs lang={lang} items={[
+      { label: t('bc.home'), href: getRelativeLocaleUrl(lang) },
+      { label: t('bc.quickreplies') }
+    ]} />
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1 class="title">{t('qre.heading')}</h1>
+      <p class="subtitle">{t('qre.subtitle')}</p>
+      <div class="privacy-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        {t('qre.privacy.badge')}
+      </div>
+    </div>
+
+    <!-- Create Template Form -->
+    <div class="generator">
+      <div class="step-section">
+        <label for="qr-title" class="label">{t('qre.form.title.label')}</label>
+        <input type="text" id="qr-title" class="input" placeholder={t('qre.form.title.placeholder')} maxlength="80" />
+      </div>
+
+      <div class="step-section">
+        <label for="qr-text" class="label">{t('qre.form.text.label')}</label>
+        <textarea id="qr-text" class="input textarea" rows="4" placeholder={t('qre.form.text.placeholder')} maxlength="2000"></textarea>
+      </div>
+
+      <div class="step-section">
+        <label for="qr-phone" class="label">{t('qre.form.phone.label')} <span class="optional">{t('qre.form.phone.optional')}</span></label>
+        <input type="tel" id="qr-phone" class="input" placeholder={t('qre.form.phone.placeholder')} />
+      </div>
+
+      <div class="step-section">
+        <label for="qr-category" class="label">{t('qre.form.category.label')} <span class="optional">{t('qre.form.category.optional')}</span></label>
+        <input type="text" id="qr-category" class="input" placeholder={t('qre.form.category.placeholder')} maxlength="30" list="qr-category-list" />
+        <datalist id="qr-category-list">
+          <option value={t('qre.cat.greetings')}>
+          <option value={t('qre.cat.delivery')}>
+          <option value={t('qre.cat.payment')}>
+          <option value={t('qre.cat.hours')}>
+          <option value={t('qre.cat.thanks')}>
+        </datalist>
+      </div>
+
+      <button id="qr-save-btn" class="btn-primary">{t('qre.form.save')}</button>
+    </div>
+
+    <!-- Filter / Search -->
+    <div class="filter-bar" id="qr-filter-bar" style="display:none;">
+      <input type="text" id="qr-search" class="input filter-input" placeholder={t('qre.search.placeholder')} />
+      <select id="qr-filter-cat" class="input filter-select">
+        <option value="">{t('qre.filter.all')}</option>
+      </select>
+    </div>
+
+    <!-- Templates List -->
+    <div id="qr-templates" class="templates-list"></div>
+    <div id="qr-empty" class="empty-state" style="display:none;">
+      <p>{t('qre.empty.text')}</p>
+    </div>
+
+    <!-- Export / Import -->
+    <div class="export-import-bar" id="qr-export-bar" style="display:none;">
+      <button id="qr-export-btn" class="btn-secondary">{t('qre.export')}</button>
+      <label class="btn-secondary import-label">
+        {t('qre.import')}
+        <input type="file" id="qr-import-input" accept=".json" style="display:none;" />
+      </label>
+    </div>
+
+    <!-- SEO Section -->
+    <div class="seo-section">
+      <h2 class="seo-heading">{t('qre.seo.what.heading')}</h2>
+      <p class="seo-text">{t('qre.seo.what.text')}</p>
+
+      <h2 class="seo-heading">{t('qre.seo.why.heading')}</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <h3 class="feature-title">{t('qre.seo.why.feature1.title')}</h3>
+          <p class="feature-desc">{t('qre.seo.why.feature1.desc')}</p>
+        </div>
+        <div class="feature-card">
+          <h3 class="feature-title">{t('qre.seo.why.feature2.title')}</h3>
+          <p class="feature-desc">{t('qre.seo.why.feature2.desc')}</p>
+        </div>
+        <div class="feature-card">
+          <h3 class="feature-title">{t('qre.seo.why.feature3.title')}</h3>
+          <p class="feature-desc">{t('qre.seo.why.feature3.desc')}</p>
+        </div>
+        <div class="feature-card">
+          <h3 class="feature-title">{t('qre.seo.why.feature4.title')}</h3>
+          <p class="feature-desc">{t('qre.seo.why.feature4.desc')}</p>
+        </div>
+      </div>
+
+      <h2 class="seo-heading">{t('qre.seo.how.heading')}</h2>
+      <p class="seo-text">{t('qre.seo.how.text')}</p>
+
+      <h2 class="seo-heading">{t('qre.seo.faq.heading')}</h2>
+      <div class="faq-list">
+        {faqItems.map((item) => (
+          <details class="faq-item">
+            <summary class="faq-q">{item.q}</summary>
+            <p class="faq-a">{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script define:vars={{ lang }}>
+  const STORAGE_KEY = 'opnchat-quick-replies';
+  const t = (key) => {
+    const el = document.querySelector(`[data-i18n="${key}"]`);
+    return el ? el.textContent : key;
+  };
+
+  // --- State ---
+  function loadTemplates() {
+    try {
+      const data = localStorage.getItem(STORAGE_KEY);
+      return data ? JSON.parse(data) : [];
+    } catch { return []; }
+  }
+
+  function saveTemplates(templates) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(templates));
+  }
+
+  function generateId() {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+  }
+
+  // --- Render ---
+  const container = document.getElementById('qr-templates');
+  const emptyState = document.getElementById('qr-empty');
+  const filterBar = document.getElementById('qr-filter-bar');
+  const exportBar = document.getElementById('qr-export-bar');
+  const filterCat = document.getElementById('qr-filter-cat');
+  const searchInput = document.getElementById('qr-search');
+
+  function renderTemplates() {
+    let templates = loadTemplates();
+    const search = (searchInput.value || '').toLowerCase();
+    const catFilter = filterCat.value;
+
+    // Filter
+    if (search) {
+      templates = templates.filter(t =>
+        t.title.toLowerCase().includes(search) ||
+        t.text.toLowerCase().includes(search)
+      );
+    }
+    if (catFilter) {
+      templates = templates.filter(t => (t.category || '') === catFilter);
+    }
+
+    container.innerHTML = '';
+    if (templates.length === 0) {
+      emptyState.style.display = 'block';
+      if (loadTemplates().length === 0) {
+        filterBar.style.display = 'none';
+        exportBar.style.display = 'none';
+      }
+      return;
+    }
+
+    emptyState.style.display = 'none';
+    filterBar.style.display = 'flex';
+    exportBar.style.display = 'flex';
+
+    // Update category filter options
+    const allTemplates = loadTemplates();
+    const cats = [...new Set(allTemplates.map(t => t.category).filter(Boolean))];
+    const currentCat = filterCat.value;
+    filterCat.innerHTML = `<option value="">${lang === 'ru' ? 'Все категории' : 'All categories'}</option>`;
+    cats.forEach(cat => {
+      const opt = document.createElement('option');
+      opt.value = cat;
+      opt.textContent = cat;
+      if (cat === currentCat) opt.selected = true;
+      filterCat.appendChild(opt);
+    });
+
+    templates.forEach(tmpl => {
+      const card = document.createElement('div');
+      card.className = 'template-card';
+      card.dataset.id = tmpl.id;
+
+      const waLink = tmpl.phone
+        ? `https://wa.me/${tmpl.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(tmpl.text)}`
+        : `https://wa.me/?text=${encodeURIComponent(tmpl.text)}`;
+
+      card.innerHTML = `
+        <div class="template-header">
+          <div class="template-title-row">
+            <span class="template-title">${escHtml(tmpl.title)}</span>
+            ${tmpl.category ? `<span class="template-cat">${escHtml(tmpl.category)}</span>` : ''}
+          </div>
+          <div class="template-actions">
+            <button class="btn-icon copy-btn" title="Copy" data-text="${escAttr(tmpl.text)}">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+            <a class="btn-icon wa-link-btn" href="${waLink}" target="_blank" rel="noopener" title="Send via WhatsApp">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+            <button class="btn-icon delete-btn" title="Delete" data-id="${tmpl.id}">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="template-body">${escHtml(tmpl.text)}</div>
+        ${tmpl.phone ? `<div class="template-phone">+${escHtml(tmpl.phone)}</div>` : ''}
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  function escHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function escAttr(str) {
+    return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  // --- Events ---
+  // Save
+  document.getElementById('qr-save-btn').addEventListener('click', () => {
+    const title = document.getElementById('qr-title').value.trim();
+    const text = document.getElementById('qr-text').value.trim();
+    const phone = document.getElementById('qr-phone').value.replace(/[^0-9]/g, '');
+    const category = document.getElementById('qr-category').value.trim();
+
+    if (!title || !text) {
+      alert(lang === 'ru' ? 'Введите название и текст шаблона' : 'Please enter a title and text');
+      return;
+    }
+
+    const templates = loadTemplates();
+    templates.unshift({ id: generateId(), title, text, phone, category, createdAt: Date.now() });
+    saveTemplates(templates);
+
+    // Clear form
+    document.getElementById('qr-title').value = '';
+    document.getElementById('qr-text').value = '';
+    document.getElementById('qr-phone').value = '';
+    document.getElementById('qr-category').value = '';
+
+    renderTemplates();
+  });
+
+  // Copy / Delete (delegated)
+  container.addEventListener('click', (e) => {
+    const copyBtn = e.target.closest('.copy-btn');
+    if (copyBtn) {
+      const text = copyBtn.dataset.text;
+      navigator.clipboard.writeText(text).then(() => {
+        const original = copyBtn.innerHTML;
+        copyBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>`;
+        setTimeout(() => { copyBtn.innerHTML = original; }, 1500);
+      });
+      return;
+    }
+
+    const deleteBtn = e.target.closest('.delete-btn');
+    if (deleteBtn) {
+      const id = deleteBtn.dataset.id;
+      let templates = loadTemplates();
+      templates = templates.filter(t => t.id !== id);
+      saveTemplates(templates);
+      renderTemplates();
+    }
+  });
+
+  // Search / Filter
+  searchInput.addEventListener('input', renderTemplates);
+  filterCat.addEventListener('change', renderTemplates);
+
+  // Export
+  document.getElementById('qr-export-btn').addEventListener('click', () => {
+    const templates = loadTemplates();
+    const blob = new Blob([JSON.stringify(templates, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'opnchat-quick-replies.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  // Import
+  document.getElementById('qr-import-input').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const imported = JSON.parse(ev.target.result);
+        if (!Array.isArray(imported)) throw new Error('Invalid format');
+        const templates = loadTemplates();
+        imported.forEach(t => {
+          if (t.title && t.text) {
+            templates.unshift({ id: generateId(), title: t.title, text: t.text, phone: t.phone || '', category: t.category || '', createdAt: Date.now() });
+          }
+        });
+        saveTemplates(templates);
+        renderTemplates();
+      } catch {
+        alert(lang === 'ru' ? 'Неверный формат файла' : 'Invalid file format');
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  });
+
+  // Initial render
+  renderTemplates();
+</script>
+
+<style>
+  .generator {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .step-section {
+    margin-bottom: 1rem;
+  }
+
+  .label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.375rem;
+  }
+
+  .optional {
+    font-weight: 400;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+  }
+
+  .input {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: var(--bg-input);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .input:focus {
+    outline: none;
+    border-color: var(--opn-primary);
+    box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.15);
+  }
+
+  .textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 12px;
+    background: var(--opn-primary);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .btn-primary:hover {
+    background: var(--opn-primary-dark);
+  }
+
+  .btn-primary:active {
+    transform: scale(0.98);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--opn-primary);
+    color: var(--opn-primary);
+  }
+
+  .import-label {
+    font-weight: 500;
+  }
+
+  /* Filter bar */
+  .filter-bar {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .filter-input {
+    flex: 1;
+  }
+
+  .filter-select {
+    width: auto;
+    min-width: 140px;
+  }
+
+  /* Templates list */
+  .templates-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .template-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem;
+    transition: border-color 0.2s;
+  }
+
+  .template-card:hover {
+    border-color: var(--opn-primary);
+  }
+
+  .template-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .template-title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .template-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .template-cat {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 6px;
+    background: rgba(37, 211, 102, 0.1);
+    color: var(--opn-primary);
+    white-space: nowrap;
+  }
+
+  .template-actions {
+    display: flex;
+    gap: 0.25rem;
+    flex-shrink: 0;
+  }
+
+  .btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-input);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+  }
+
+  .btn-icon:hover {
+    border-color: var(--opn-primary);
+    color: var(--opn-primary);
+    background: rgba(37, 211, 102, 0.05);
+  }
+
+  .template-body {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 120px;
+    overflow: hidden;
+  }
+
+  .template-phone {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+  }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+  }
+
+  /* Export / Import bar */
+  .export-import-bar {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    max-width: 520px;
+    margin: 0 auto 1rem;
+    line-height: 1.5;
+  }
+
+  .privacy-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--opn-primary);
+    background: rgba(37, 211, 102, 0.08);
+    padding: 0.375rem 0.75rem;
+    border-radius: 20px;
+  }
+
+  /* SEO */
+  .seo-section {
+    margin-top: 2rem;
+  }
+
+  .seo-heading {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 2rem 0 0.75rem;
+  }
+
+  .seo-text {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-size: 0.95rem;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .feature-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem;
+  }
+
+  .feature-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.375rem;
+  }
+
+  .feature-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .faq-item {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .faq-q {
+    padding: 0.875rem 1rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .faq-q::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-a {
+    padding: 0 1rem 1rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 520px) {
+    .title { font-size: 1.4rem; }
+    .filter-bar { flex-direction: column; }
+    .filter-select { width: 100%; }
+    .template-header { flex-direction: column; }
+    .template-actions { align-self: flex-end; }
+  }
+</style>

@@ -1,0 +1,554 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { useTranslations } from '../i18n/utils';
+import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
+import { languages, type Lang } from '../i18n/ui';
+import SiteHeader from './SiteHeader.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import SEOHead from './SEOHead.astro';
+import { localeMap } from '../i18n/localeMap';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const faqItems = [
+  { q: t('bc.faq.q1'), a: t('bc.faq.a1') },
+  { q: t('bc.faq.q2'), a: t('bc.faq.a2') },
+  { q: t('bc.faq.q3'), a: t('bc.faq.a3') },
+  { q: t('bc.faq.q4'), a: t('bc.faq.a4') },
+  { q: t('bc.faq.q5'), a: t('bc.faq.a5') },
+];
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": t('bc.heading'),
+      "url": getAbsoluteLocaleUrl(lang, 'broadcast'),
+      "description": t('bc.meta.description'),
+      "applicationCategory": "CommunicationApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "OPN Chat",
+        "url": "https://opnchat.net/"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqItems.map(item => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": { "@type": "Answer", "text": item.a }
+      }))
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "OPN Chat",
+          "item": getAbsoluteLocaleUrl(lang, '')
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": t('bc.heading'),
+          "item": getAbsoluteLocaleUrl(lang, 'broadcast')
+        }
+      ]
+    }
+  ]
+};
+---
+
+<Layout title={t('bc.meta.title')} lang={lang} service="broadcast">
+  <Fragment slot="meta">
+  <SEOHead
+  lang={lang}
+  description={t('bc.meta.description')}
+  canonicalUrl={getAbsoluteLocaleUrl(lang, 'broadcast')}
+  ogTitle={t('bc.meta.og.title')}
+  ogDescription={t('bc.meta.og.description')}
+  ogUrl={getAbsoluteLocaleUrl(lang, 'broadcast')}
+  schema={pageSchema}
+  extraMeta={`<meta name="keywords" content="${t('bc.meta.keywords')}" /><meta name="twitter:card" content="summary" /><meta name="twitter:title" content="${t('bc.meta.twitter.title')}" /><meta name="twitter:description" content="${t('bc.meta.twitter.description')}" />`}
+/>
+</Fragment>
+
+  <div class="container">
+      <SiteHeader lang={lang} path="broadcast" activeTool="broadcast" />
+
+      <Breadcrumbs lang={lang} items={[{ label: t('bc.home'), href: getRelativeLocaleUrl(lang) }, { label: t('bc.breadcrumb') }]} />
+
+      <!-- Hero -->
+      <div class="hero">
+        <h1 class="title">{t('bc.heading')}</h1>
+        <p class="subtitle">{t('bc.subtitle')}</p>
+        <div class="privacy-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          {t('bc.privacy.badge')}
+        </div>
+      </div>
+
+      <!-- Warning -->
+      <div class="warning-card">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <p class="warning-text">{t('bc.warning')}</p>
+      </div>
+
+      <!-- Form -->
+      <div class="form-card">
+        <label class="label" for="bc-phones">{t('bc.form.phones.label')}</label>
+        <textarea id="bc-phones" class="phones-input" rows="6" placeholder={t('bc.form.phones.placeholder')}></textarea>
+        <p class="hint">{t('bc.form.phones.hint')}</p>
+
+        <label class="label" for="bc-message">{t('bc.form.message.label')}</label>
+        <textarea id="bc-message" class="message-input" rows="3" placeholder={t('bc.form.message.placeholder')}></textarea>
+
+        <button class="generate-btn" id="generate-btn" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          {t('bc.form.generate')}
+        </button>
+      </div>
+
+      <!-- Results -->
+      <div class="results-card" id="results-card" style="display:none">
+        <div class="results-header">
+          <h2 class="results-title">{t('bc.results.title')}</h2>
+          <span class="results-count" id="results-count"></span>
+          <button class="copy-all-btn" id="copy-all-btn" type="button">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            {t('bc.results.copy.all')}
+          </button>
+        </div>
+        <div class="results-list" id="results-list"></div>
+        <p class="results-note" id="results-note"></p>
+      </div>
+
+      <!-- How it works -->
+      <section class="how-section">
+        <h2 class="section-title">{t('bc.how.title')}</h2>
+        <div class="how-grid">
+          <div class="how-step">
+            <div class="how-number">1</div>
+            <h3 class="how-step-title">{t('bc.how.step1.title')}</h3>
+            <p class="how-step-desc">{t('bc.how.step1.desc')}</p>
+          </div>
+          <div class="how-step">
+            <div class="how-number">2</div>
+            <h3 class="how-step-title">{t('bc.how.step2.title')}</h3>
+            <p class="how-step-desc">{t('bc.how.step2.desc')}</p>
+          </div>
+          <div class="how-step">
+            <div class="how-number">3</div>
+            <h3 class="how-step-title">{t('bc.how.step3.title')}</h3>
+            <p class="how-step-desc">{t('bc.how.step3.desc')}</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="faq-section">
+        <h2 class="section-title">{t('bc.faq.title')}</h2>
+        {faqItems.map((item) => (
+          <details class="faq-item">
+            <summary class="faq-q">{item.q}</summary>
+            <p class="faq-a">{item.a}</p>
+          </details>
+        ))}
+      </section>
+
+      <!-- SEO -->
+      <section class="seo-section">
+        <h2 class="section-title">{t('bc.seo.title')}</h2>
+        <div class="seo-grid">
+          <div class="seo-card">
+            <h3>{t('bc.seo.feature1.title')}</h3>
+            <p>{t('bc.seo.feature1.desc')}</p>
+          </div>
+          <div class="seo-card">
+            <h3>{t('bc.seo.feature2.title')}</h3>
+            <p>{t('bc.seo.feature2.desc')}</p>
+          </div>
+          <div class="seo-card">
+            <h3>{t('bc.seo.feature3.title')}</h3>
+            <p>{t('bc.seo.feature3.desc')}</p>
+          </div>
+          <div class="seo-card">
+            <h3>{t('bc.seo.feature4.title')}</h3>
+            <p>{t('bc.seo.feature4.desc')}</p>
+          </div>
+        </div>
+      </section>
+  </div>
+</Layout>
+
+<script>
+  const phonesInput = document.getElementById('bc-phones') as HTMLTextAreaElement;
+  const messageInput = document.getElementById('bc-message') as HTMLTextAreaElement;
+  const generateBtn = document.getElementById('generate-btn');
+  const resultsCard = document.getElementById('results-card');
+  const resultsList = document.getElementById('results-list');
+  const resultsCount = document.getElementById('results-count');
+  const resultsNote = document.getElementById('results-note');
+  const copyAllBtn = document.getElementById('copy-all-btn');
+
+  // i18n strings
+  const i18nEl = document.getElementById('bc-i18n');
+  const i18nCopyDone = i18nEl?.dataset?.copyDone || 'Copied!';
+  const i18nInvalid = i18nEl?.dataset?.invalid || 'Invalid number';
+  const i18nOpen = i18nEl?.dataset?.open || 'Open';
+  const i18nCopy = i18nEl?.dataset?.copy || 'Copy';
+  const i18nNote = i18nEl?.dataset?.note || '';
+
+  function parsePhones(raw: string): string[] {
+    return raw
+      .split(/[\n,;]+/)
+      .map(s => s.trim().replace(/[^0-9]/g, ''))
+      .filter(s => s.length >= 7 && s.length <= 15);
+  }
+
+  function generateLink(phone: string, message: string): string {
+    const base = `https://wa.me/${phone}`;
+    if (message.trim()) {
+      return `${base}?text=${encodeURIComponent(message)}`;
+    }
+    return base;
+  }
+
+  function generateLinks() {
+    if (!phonesInput || !resultsList || !resultsCard || !resultsCount || !resultsNote) return;
+
+    const phones = parsePhones(phonesInput.value);
+    const message = messageInput?.value || '';
+
+    if (phones.length === 0) {
+      resultsCard.style.display = 'none';
+      return;
+    }
+
+    resultsCard.style.display = 'block';
+    resultsCount.textContent = `${phones.length}`;
+
+    const uniquePhones = [...new Set(phones)];
+
+    resultsList.innerHTML = uniquePhones.map(phone => {
+      const link = generateLink(phone, message);
+      return `
+        <div class="result-item">
+          <span class="result-phone">${phone}</span>
+          <div class="result-actions">
+            <a href="${link}" target="_blank" rel="noopener noreferrer" class="result-open">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              ${i18nOpen}
+            </a>
+            <button class="result-copy" data-link="${link}" type="button">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              ${i18nCopy}
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    resultsNote.textContent = i18nNote;
+
+    // Attach copy buttons
+    resultsList.querySelectorAll('.result-copy').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const link = btn.getAttribute('data-link') || '';
+        try {
+          await navigator.clipboard.writeText(link);
+        } catch {
+          const ta = document.createElement('textarea');
+          ta.value = link;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+        }
+        const origText = btn.innerHTML;
+        btn.classList.add('copied');
+        btn.textContent = i18nCopyDone;
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.innerHTML = origText;
+        }, 1500);
+      });
+    });
+  }
+
+  generateBtn?.addEventListener('click', generateLinks);
+
+  // Copy all links
+  copyAllBtn?.addEventListener('click', async () => {
+    if (!resultsList) return;
+    const links = Array.from(resultsList.querySelectorAll('.result-copy'))
+      .map(btn => btn.getAttribute('data-link') || '')
+      .filter(Boolean)
+      .join('\n');
+    try {
+      await navigator.clipboard.writeText(links);
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = links;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+    const origText = copyAllBtn.innerHTML;
+    copyAllBtn.classList.add('copied');
+    copyAllBtn.textContent = i18nCopyDone;
+    setTimeout(() => {
+      copyAllBtn.classList.remove('copied');
+      copyAllBtn.innerHTML = origText;
+    }, 1500);
+  });
+</script>
+
+<!-- Hidden i18n data for client-side JS -->
+<div id="bc-i18n" data-copy-done={t('bc.copy.done')} data-invalid={t('bc.form.invalid')} data-open={t('bc.results.open')} data-copy={t('bc.results.copy')} data-note={t('bc.results.note')} style="display:none"></div>
+
+<style>
+  .container {
+    position: relative; z-index: 1; width: 100%; margin: 0 auto; max-width: 640px;
+    padding: 2rem 1.25rem; display: flex; flex-direction: column; gap: 1.5rem;
+  }
+
+  @media (max-width: 900px) {
+    .container { max-width: 100%; }
+  }
+
+  @media (max-width: 520px) {
+    .container {
+      padding: 1.25rem 0.75rem;
+      gap: 1rem;
+    }
+    .title {
+      font-size: 1.1rem;
+    }
+    .subtitle {
+      font-size: 0.8rem;
+    }
+    .section-title {
+      font-size: 0.9rem;
+    }
+  }
+
+  /* Hero */
+  .hero { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+  .title {
+    font-size: 1.6rem; font-weight: 800; color: var(--text-primary);
+    letter-spacing: -0.02em; line-height: 1.2;
+  }
+  .subtitle {
+    font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; max-width: 480px;
+  }
+  .privacy-badge {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-size: 0.72rem; color: var(--opn-primary); font-weight: 600;
+    background: rgba(37, 211, 102, 0.1); padding: 0.3rem 0.75rem;
+    border-radius: 20px; border: 1px solid rgba(37, 211, 102, 0.2);
+  }
+
+  /* Warning card */
+  .warning-card {
+    background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25);
+    border-radius: 12px; padding: 0.85rem 1rem; display: flex; align-items: flex-start;
+    gap: 0.6rem;
+  }
+  .warning-card svg {
+    color: #f59e0b; flex-shrink: 0; margin-top: 1px;
+  }
+  .warning-text {
+    font-size: 0.78rem; color: var(--text-primary); line-height: 1.5;
+    opacity: 0.85;
+  }
+
+  /* Form card */
+  .form-card {
+    background: var(--bg-secondary); border: 1px solid var(--border-color);
+    border-radius: 12px; padding: 1.25rem; display: flex;
+    flex-direction: column; gap: 0.75rem;
+  }
+  .label {
+    font-size: 0.8rem; font-weight: 600; color: var(--text-secondary);
+  }
+  .phones-input, .message-input {
+    width: 100%; padding: 0.6rem 0.75rem; font-size: 0.85rem;
+    background: var(--bg-input); border: 1px solid var(--border-color);
+    color: var(--text-primary); border-radius: 8px; resize: vertical;
+    font-family: inherit; line-height: 1.5; transition: border 0.15s;
+  }
+  .phones-input:focus, .message-input:focus {
+    outline: none; border-color: var(--opn-primary);
+  }
+  .hint {
+    font-size: 0.72rem; color: var(--text-secondary); line-height: 1.4;
+  }
+  .generate-btn {
+    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    padding: 0.7rem 1rem; font-size: 0.85rem; font-weight: 700;
+    color: #fff; background: var(--opn-primary); border: none; border-radius: 10px;
+    cursor: pointer; transition: all 0.15s; font-family: inherit;
+  }
+  .generate-btn:hover {
+    opacity: 0.9; transform: translateY(-1px);
+  }
+  .generate-btn:focus-visible {
+    outline: 2px solid var(--opn-primary); outline-offset: 2px;
+  }
+
+  /* Results card */
+  .results-card {
+    background: var(--bg-secondary); border: 1px solid var(--border-color);
+    border-radius: 12px; padding: 1.25rem;
+  }
+  .results-header {
+    display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .results-title {
+    font-size: 1rem; font-weight: 700; color: var(--text-primary);
+  }
+  .results-count {
+    font-size: 0.72rem; font-weight: 600; color: var(--opn-primary);
+    background: rgba(37, 211, 102, 0.1); padding: 0.15rem 0.5rem;
+    border-radius: 10px;
+  }
+  .copy-all-btn {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    margin-left: auto; padding: 0.35rem 0.65rem; font-size: 0.72rem;
+    font-weight: 600; color: var(--opn-primary); background: rgba(37, 211, 102, 0.08);
+    border: 1px solid rgba(37, 211, 102, 0.2); border-radius: 8px;
+    cursor: pointer; transition: all 0.15s; font-family: inherit;
+  }
+  .copy-all-btn:hover {
+    background: rgba(37, 211, 102, 0.15);
+  }
+  .copy-all-btn.copied {
+    color: #fff; background: var(--opn-primary); border-color: var(--opn-primary);
+  }
+  .results-list {
+    display: flex; flex-direction: column; gap: 0.5rem;
+  }
+  .result-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.5rem 0.75rem; background: var(--bg-input);
+    border: 1px solid var(--border-color); border-radius: 8px;
+    gap: 0.5rem;
+  }
+  .result-phone {
+    font-size: 0.85rem; font-weight: 600; color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+  }
+  .result-actions {
+    display: flex; gap: 0.35rem; flex-shrink: 0;
+  }
+  .result-open {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    padding: 0.3rem 0.55rem; font-size: 0.72rem; font-weight: 600;
+    color: var(--opn-primary); background: rgba(37, 211, 102, 0.08);
+    border: 1px solid rgba(37, 211, 102, 0.2); border-radius: 6px;
+    text-decoration: none; transition: all 0.15s;
+  }
+  .result-open:hover {
+    background: rgba(37, 211, 102, 0.15);
+  }
+  .result-copy {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    padding: 0.3rem 0.55rem; font-size: 0.72rem; font-weight: 600;
+    color: var(--text-secondary); background: var(--bg-secondary);
+    border: 1px solid var(--border-color); border-radius: 6px;
+    cursor: pointer; transition: all 0.15s; font-family: inherit;
+  }
+  .result-copy:hover {
+    color: var(--text-primary); border-color: var(--text-secondary);
+  }
+  .result-copy.copied {
+    color: var(--opn-primary); border-color: var(--opn-primary);
+  }
+  .results-note {
+    font-size: 0.72rem; color: var(--text-secondary); line-height: 1.4;
+    margin-top: 0.75rem; opacity: 0.7;
+  }
+
+  /* How it works */
+  .how-section { display: flex; flex-direction: column; gap: 1rem; }
+  .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+  @media (max-width: 500px) { .how-grid { grid-template-columns: 1fr; } }
+  .how-step {
+    background: var(--bg-secondary); border: 1px solid var(--border-color);
+    border-radius: 10px; padding: 0.75rem; text-align: center;
+    display: flex; flex-direction: column; gap: 0.3rem;
+  }
+  .how-number {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--opn-primary); color: #fff;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 700; margin: 0 auto 0.2rem;
+  }
+  .how-step-title {
+    font-size: 0.8rem; font-weight: 700; color: var(--text-primary);
+  }
+  .how-step-desc {
+    font-size: 0.72rem; color: var(--text-secondary); line-height: 1.45;
+  }
+
+  /* Section title */
+  .section-title {
+    font-size: 1rem; font-weight: 700; color: var(--text-primary);
+    letter-spacing: -0.01em;
+  }
+
+  /* FAQ */
+  .faq-section { display: flex; flex-direction: column; gap: 0.5rem; }
+  .faq-item {
+    background: var(--bg-secondary); border: 1px solid var(--border-color);
+    border-radius: 10px; overflow: hidden;
+  }
+  .faq-q {
+    font-size: 0.82rem; font-weight: 600; color: var(--text-primary);
+    padding: 0.65rem 1rem; cursor: pointer; list-style: none;
+    transition: color 0.15s;
+  }
+  .faq-q::-webkit-details-marker { display: none; }
+  .faq-q::marker { content: ''; }
+  .faq-q:hover { color: var(--opn-primary); }
+  .faq-a {
+    font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5;
+    padding: 0 1rem 0.65rem;
+  }
+
+  /* SEO section */
+  .seo-section { display: flex; flex-direction: column; gap: 0.75rem; }
+  .seo-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+  @media (max-width: 500px) { .seo-grid { grid-template-columns: 1fr; } }
+  .seo-card {
+    background: var(--bg-secondary); border: 1px solid var(--border-color);
+    border-radius: 10px; padding: 0.75rem;
+  }
+  .seo-card h3 {
+    font-size: 0.82rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.3rem;
+  }
+  .seo-card p {
+    font-size: 0.72rem; color: var(--text-secondary); line-height: 1.45;
+  }
+</style>

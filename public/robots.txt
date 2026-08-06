@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://opnchat.net/sitemap-index.xml
+
+# LLMs.txt — structured site info for AI crawlers
+# https://opnchat.net/llms.txt

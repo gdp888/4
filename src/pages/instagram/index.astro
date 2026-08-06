@@ -1,0 +1,8 @@
+---
+import InstagramContent from '../../components/InstagramContent.astro';
+import { defaultLang, type Lang } from '../../i18n/ui';
+
+const lang = defaultLang as Lang;
+---
+
+<InstagramContent lang={lang} />

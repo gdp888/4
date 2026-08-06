@@ -1,0 +1,16 @@
+---
+import DisclaimerContent from '../../../components/DisclaimerContent.astro';
+import { languages, defaultLang, type Lang } from '../../../i18n/ui';
+
+// Only non-default languages — default (en) lives at root: /disclaimer/
+export function getStaticPaths() {
+  return (Object.keys(languages) as Lang[]).filter((lang) => lang !== defaultLang).map((lang) => ({
+    params: { lang },
+    props: { lang },
+  }));
+}
+
+const { lang } = Astro.props;
+---
+
+<DisclaimerContent lang={lang} />

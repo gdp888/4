@@ -1,0 +1,813 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { useTranslations } from '../i18n/utils';
+import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
+import { languages, type Lang } from '../i18n/ui';
+import SiteHeader from './SiteHeader.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import SEOHead from './SEOHead.astro';
+import { localeMap } from '../i18n/localeMap';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const faqItems = [
+  { q: t('cw.faq.q1'), a: t('cw.faq.a1') },
+  { q: t('cw.faq.q2'), a: t('cw.faq.a2') },
+  { q: t('cw.faq.q3'), a: t('cw.faq.a3') },
+  { q: t('cw.faq.q4'), a: t('cw.faq.a4') },
+  { q: t('cw.faq.q5'), a: t('cw.faq.a5') },
+];
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": t('cw.heading'),
+      "url": getAbsoluteLocaleUrl(lang, 'wa-widget'),
+      "description": t('cw.meta.description'),
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "inLanguage": Object.keys(languages),
+      "featureList": [
+        t('cw.seo.why.feature1.title') + ': ' + t('cw.seo.why.feature1.desc'),
+        t('cw.seo.why.feature2.title') + ': ' + t('cw.seo.why.feature2.desc'),
+        t('cw.seo.why.feature3.title') + ': ' + t('cw.seo.why.feature3.desc'),
+        t('cw.seo.why.feature4.title') + ': ' + t('cw.seo.why.feature4.desc'),
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqItems.map(item => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": { "@type": "Answer", "text": item.a }
+      }))
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "OPN Chat", "item": getAbsoluteLocaleUrl(lang, '') },
+        { "@type": "ListItem", "position": 2, "name": t('bc.widget'), "item": getAbsoluteLocaleUrl(lang, 'wa-widget') }
+      ]
+    }
+  ]
+};
+---
+
+<Layout title={t('cw.meta.title')} lang={lang} service="wa-widget">
+  <Fragment slot="meta">
+  <SEOHead
+  lang={lang}
+  description={t('cw.meta.description')}
+  canonicalUrl={getAbsoluteLocaleUrl(lang, 'wa-widget')}
+  ogTitle={t('cw.meta.og.title')}
+  ogDescription={t('cw.meta.og.description')}
+  ogUrl={getAbsoluteLocaleUrl(lang, 'wa-widget')}
+  schema={pageSchema}
+  extraMeta={`<meta name="keywords" content="${t('cw.meta.keywords')}" /><meta name="twitter:card" content="summary" /><meta name="twitter:title" content="${t('cw.meta.twitter.title')}" /><meta name="twitter:description" content="${t('cw.meta.twitter.description')}" />`}
+/>
+</Fragment>
+
+  <div class="container">
+    <!-- Header -->
+    <SiteHeader lang={lang} path="wa-widget" activeTool="wa-widget" />
+
+    <Breadcrumbs lang={lang} items={[{ label: t('bc.home'), href: getRelativeLocaleUrl(lang) }, { label: t('bc.widget') }]} />
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1 class="title">{t('cw.heading')}</h1>
+      <p class="subtitle">{t('cw.subheading')}</p>
+      <p class="privacy-badge">{t('cw.privacy.badge')}</p>
+    </div>
+
+    <!-- Widget Generator Tool -->
+    <div class="widget-tool">
+      <!-- Phone Number -->
+      <div class="form-group">
+        <label for="cw-phone" class="form-label">{t('cw.form.phone.label')}</label>
+        <input type="tel" id="cw-phone" class="form-input" placeholder={t('cw.form.phone.placeholder')} autocomplete="tel" />
+        <p class="form-hint">{t('cw.form.phone.hint')}</p>
+      </div>
+
+      <!-- Pre-filled Message -->
+      <div class="form-group">
+        <label for="cw-message" class="form-label">{t('cw.form.message.label')}</label>
+        <textarea id="cw-message" class="form-input form-textarea" placeholder={t('cw.form.message.placeholder')} rows="2"></textarea>
+      </div>
+
+      <!-- Widget Position -->
+      <div class="form-group">
+        <label class="form-label">{t('cw.form.position.label')}</label>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="cw-position" value="right" checked />
+            <span class="radio-label">{t('cw.form.position.right')}</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="cw-position" value="left" />
+            <span class="radio-label">{t('cw.form.position.left')}</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Button Color -->
+      <div class="form-group">
+        <label for="cw-color" class="form-label">{t('cw.form.color.label')}</label>
+        <div class="color-picker-row">
+          <input type="color" id="cw-color" class="color-input" value="#25D366" />
+          <div class="color-presets">
+            <button type="button" class="color-preset" data-color="#25D366" style="background:#25D366" title="WhatsApp Green"></button>
+            <button type="button" class="color-preset" data-color="#128C7E" style="background:#128C7E" title="Dark Green"></button>
+            <button type="button" class="color-preset" data-color="#075E54" style="background:#075E54" title="Deep Green"></button>
+            <button type="button" class="color-preset" data-color="#34B7F1" style="background:#34B7F1" title="Blue"></button>
+            <button type="button" class="color-preset" data-color="#E91E63" style="background:#E91E63" title="Red"></button>
+            <button type="button" class="color-preset" data-color="#FF9800" style="background:#FF9800" title="Orange"></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Welcome Message -->
+      <div class="form-group">
+        <label for="cw-welcome" class="form-label">{t('cw.form.welcome.label')}</label>
+        <input type="text" id="cw-welcome" class="form-input" placeholder={t('cw.form.welcome.placeholder')} />
+      </div>
+
+      <!-- Button Label -->
+      <div class="form-group">
+        <label for="cw-btnlabel" class="form-label">{t('cw.form.button.label')}</label>
+        <input type="text" id="cw-btnlabel" class="form-input" placeholder={t('cw.form.button.placeholder')} />
+      </div>
+
+      <!-- Generate Button -->
+      <button type="button" id="cw-generate" class="generate-btn">{t('cw.form.generate')}</button>
+    </div>
+
+    <!-- Result Section (hidden until generated) -->
+    <div id="cw-result-section" class="result-section" style="display:none;">
+      <!-- Live Preview -->
+      <div class="preview-section">
+        <label class="preview-label">{t('cw.preview.label')}</label>
+        <div class="preview-frame">
+          <div class="preview-page">
+            <div class="preview-header-bar">My Website</div>
+            <div class="preview-content-area">
+              <div class="preview-text-line">Welcome to our website</div>
+              <div class="preview-text-line">Browse our products and services</div>
+            </div>
+          </div>
+          <div id="cw-preview-widget" class="preview-widget"></div>
+        </div>
+      </div>
+
+      <!-- Generated Code -->
+      <div class="code-section">
+        <label class="code-label">{t('cw.result.title')}</label>
+        <div id="cw-code-output" class="code-output"></div>
+        <div class="code-actions">
+          <button type="button" id="cw-copy-btn" class="copy-btn" data-label-copy={t('cw.copy')} data-label-copied={t('cw.copied')}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="copy-icon"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span class="copy-text">{t('cw.copy')}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Content Section -->
+    <section class="seo-section" aria-label="About WhatsApp Chat Widget Generator">
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('cw.seo.what.heading')}</h2>
+        <p class="seo-text">{t('cw.seo.what.text')}</p>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('cw.seo.why.heading')}</h2>
+        <div class="seo-features">
+          <div class="feature-item">
+            <span class="feature-icon">&#9742;</span>
+            <div>
+              <h3 class="feature-title">{t('cw.seo.why.feature1.title')}</h3>
+              <p class="feature-desc">{t('cw.seo.why.feature1.desc')}</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">&#9998;</span>
+            <div>
+              <h3 class="feature-title">{t('cw.seo.why.feature2.title')}</h3>
+              <p class="feature-desc">{t('cw.seo.why.feature2.desc')}</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">&#128274;</span>
+            <div>
+              <h3 class="feature-title">{t('cw.seo.why.feature3.title')}</h3>
+              <p class="feature-desc">{t('cw.seo.why.feature3.desc')}</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">&#127760;</span>
+            <div>
+              <h3 class="feature-title">{t('cw.seo.why.feature4.title')}</h3>
+              <p class="feature-desc">{t('cw.seo.why.feature4.desc')}</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('cw.seo.how.heading')}</h2>
+        <p class="seo-text">{t('cw.seo.how.text')}</p>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('cw.seo.use.heading')}</h2>
+        <p class="seo-text">{t('cw.seo.use.text')}</p>
+      </article>
+
+      <!-- FAQ -->
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('cw.faq.heading')}</h2>
+        <div class="faq-list">
+          {faqItems.map((item) => (
+            <details class="faq-item">
+              <summary class="faq-question">{item.q}</summary>
+              <p class="faq-answer">{item.a}</p>
+            </details>
+          ))}
+        </div>
+      </article>
+    </section>
+</div>
+</Layout>
+
+<style>
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    margin: 0 auto;
+    max-width: 640px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 0.5rem 0 1rem;
+  }
+  .title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+  .subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  .privacy-badge {
+    font-size: 0.8rem;
+    color: var(--opn-primary);
+    margin-top: 0.5rem;
+    font-weight: 600;
+  }
+
+  /* Widget Generator Tool */
+  .widget-tool {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  /* Form Groups */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .form-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+  .form-input {
+    width: 100%;
+    padding: 0.7rem 0.85rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-input);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    line-height: 1.4;
+    transition: border-color 0.2s;
+  }
+  .form-input:focus {
+    outline: none;
+    border-color: var(--opn-primary);
+  }
+  .form-textarea {
+    resize: vertical;
+    min-height: 60px;
+  }
+  .form-hint {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    opacity: 0.7;
+    line-height: 1.4;
+  }
+
+  /* Radio Group */
+  .radio-group {
+    display: flex;
+    gap: 1rem;
+  }
+  .radio-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+  }
+  .radio-option input[type="radio"] {
+    accent-color: var(--opn-primary);
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+  }
+  .radio-label {
+    font-size: 0.9rem;
+  }
+
+  /* Color Picker */
+  .color-picker-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .color-input {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 2px;
+    background: var(--bg-primary);
+  }
+  .color-presets {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+  .color-preset {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: 2px solid var(--border-color);
+    cursor: pointer;
+    transition: transform 0.15s, border-color 0.15s;
+  }
+  .color-preset:hover {
+    transform: scale(1.15);
+    border-color: var(--text-primary);
+  }
+  .color-preset.active {
+    border-color: var(--text-primary);
+    transform: scale(1.1);
+    box-shadow: 0 0 0 2px var(--opn-primary);
+  }
+
+  /* Generate Button */
+  .generate-btn {
+    width: 100%;
+    padding: 0.85rem;
+    background: var(--opn-primary);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .generate-btn:hover { opacity: 0.85; }
+
+  /* Result Section */
+  .result-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  /* Preview Section */
+  .preview-section { display: flex; flex-direction: column; gap: 0.35rem; }
+  .preview-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+  .preview-frame {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid var(--border-color);
+    background: #f5f5f5;
+  }
+  :global([data-theme="dark"]) .preview-frame { background: #1a1a2e; }
+  .preview-page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .preview-header-bar {
+    padding: 0.5rem 1rem;
+    background: #075e54;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  .preview-content-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+  :global([data-theme="dark"]) .preview-content-area { color: #ccc; }
+  :global([data-theme="light"]) .preview-content-area { color: #666; }
+  .preview-text-line {
+    font-size: 0.8rem;
+    opacity: 0.5;
+  }
+  .preview-widget {
+    position: absolute;
+    bottom: 20px;
+    transition: all 0.3s;
+  }
+
+  /* Code Section */
+  .code-section { display: flex; flex-direction: column; gap: 0.35rem; }
+  .code-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+  .code-output {
+    width: 100%;
+    max-height: 300px;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-input);
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    line-height: 1.45;
+    word-break: break-word;
+    white-space: pre-wrap;
+    font-family: monospace;
+    overflow-y: auto;
+  }
+  .code-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+  }
+  .copy-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--opn-primary);
+    border-radius: 8px;
+    background: var(--opn-primary);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .copy-btn:hover { opacity: 0.85; }
+  .copy-icon { width: 16px; height: 16px; }
+
+  /* SEO Section */
+  .seo-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 1rem;
+  }
+  .seo-block { }
+  .seo-heading {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+  .seo-text {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* Features */
+  .seo-features {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+  .feature-item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+  .feature-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .feature-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.2rem;
+  }
+  .feature-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  /* FAQ */
+  .faq-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .faq-item {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-secondary);
+    overflow: hidden;
+  }
+  .faq-question {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .faq-question::-webkit-details-marker { display: none; }
+  .faq-question::after { content: '+'; font-size: 1.2rem; font-weight: 700; color: var(--opn-primary); }
+  .faq-item[open] .faq-question::after { content: '−'; }
+  .faq-answer {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    padding: 0 1rem 0.75rem;
+  }
+
+  @media (max-width: 520px) {
+    .title { font-size: 1.5rem; }
+    .preview-frame { height: 220px; }
+  }
+</style>
+
+<script is:inline>
+(function() {
+  var phoneInput = document.getElementById('cw-phone');
+  var messageInput = document.getElementById('cw-message');
+  var welcomeInput = document.getElementById('cw-welcome');
+  var btnLabelInput = document.getElementById('cw-btnlabel');
+  var colorInput = document.getElementById('cw-color');
+  var generateBtn = document.getElementById('cw-generate');
+  var resultSection = document.getElementById('cw-result-section');
+  var previewWidget = document.getElementById('cw-preview-widget');
+  var codeOutput = document.getElementById('cw-code-output');
+  var copyBtn = document.getElementById('cw-copy-btn');
+  var colorPresets = document.querySelectorAll('.color-preset');
+
+  // Position radio
+  function getPosition() {
+    var radios = document.querySelectorAll('input[name="cw-position"]');
+    for (var i = 0; i < radios.length; i++) {
+      if (radios[i].checked) return radios[i].value;
+    }
+    return 'right';
+  }
+
+  // Color presets
+  colorPresets.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      colorInput.value = btn.dataset.color;
+      colorPresets.forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+    });
+  });
+
+  // Set default active preset
+  document.querySelector('.color-preset[data-color="#25D366"]').classList.add('active');
+
+  // Generate widget code
+  generateBtn.addEventListener('click', function() {
+    var phone = phoneInput.value.replace(/\s+/g, '').replace(/\+/g, '');
+    if (!phone || phone.length < 6) {
+      phoneInput.style.borderColor = '#e74c3c';
+      phoneInput.focus();
+      setTimeout(function() { phoneInput.style.borderColor = ''; }, 3000);
+      return;
+    }
+
+    var message = messageInput.value.trim();
+    var position = getPosition();
+    var color = colorInput.value;
+    var welcomeMsg = welcomeInput.value.trim();
+    var btnLabel = btnLabelInput.value.trim() || 'Chat on WhatsApp';
+
+    // Build wa.me URL
+    var waUrl = 'https://wa.me/' + phone;
+    if (message) {
+      waUrl += '?text=' + encodeURIComponent(message);
+    }
+
+    // Build widget HTML code
+    var widgetCode = '<style>\n' +
+      '#opnchat-whatsapp-widget {' +
+      'position:fixed;' +
+      'bottom:20px;' +
+      position + ':20px;' +
+      'z-index:9999;' +
+      '}\n' +
+      '#opnchat-wa-btn {' +
+      'width:60px;' +
+      'height:60px;' +
+      'border-radius:50%;' +
+      'background:' + color + ';' +
+      'border:none;' +
+      'cursor:pointer;' +
+      'box-shadow:0 4px 12px rgba(0,0,0,0.3);' +
+      'display:flex;' +
+      'align-items:center;' +
+      'justify-content:center;' +
+      'transition:transform 0.2s;' +
+      '}\n' +
+      '#opnchat-wa-btn:hover {transform:scale(1.1);}\n' +
+      '#opnchat-wa-btn svg {width:32px;height:32px;fill:#fff;}\n' +
+      '#opnchat-wa-popup {' +
+      'display:none;' +
+      'position:absolute;' +
+      'bottom:70px;' +
+      position + ':0;' +
+      'width:300px;' +
+      'max-width:calc(100vw - 40px);' +
+      'background:#fff;' +
+      'border-radius:12px;' +
+      'box-shadow:0 8px 24px rgba(0,0,0,0.2);' +
+      'overflow:hidden;' +
+      '}\n' +
+      '#opnchat-wa-popup-header {' +
+      'background:' + color + ';' +
+      'color:#fff;' +
+      'padding:12px 16px;' +
+      'font-weight:600;' +
+      'font-size:14px;' +
+      '}\n' +
+      '#opnchat-wa-popup-body {' +
+      'padding:16px;' +
+      'background:#f0f0f0;' +
+      'font-size:13px;' +
+      'color:#333;' +
+      'line-height:1.4;' +
+      '}\n' +
+      '#opnchat-wa-popup-footer {' +
+      'padding:12px 16px;' +
+      'background:#fff;' +
+      '}\n' +
+      '#opnchat-wa-popup-footer a {' +
+      'display:block;' +
+      'text-align:center;' +
+      'background:' + color + ';' +
+      'color:#fff;' +
+      'padding:10px;' +
+      'border-radius:8px;' +
+      'text-decoration:none;' +
+      'font-weight:600;' +
+      'font-size:14px;' +
+      'transition:opacity 0.2s;' +
+      '}\n' +
+      '#opnchat-wa-popup-footer a:hover {opacity:0.85;}\n' +
+      '</style>\n\n' +
+      '<div id="opnchat-whatsapp-widget">\n' +
+      '  <button id="opnchat-wa-btn" onclick="document.getElementById(\'opnchat-wa-popup\').style.display=document.getElementById(\'opnchat-wa-popup\').style.display===\'block\'?\'none\':\'block\'">\n' +
+      '    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>\n' +
+      '  </button>\n' +
+      '  <div id="opnchat-wa-popup">\n' +
+      '    <div id="opnchat-wa-popup-header">' + (welcomeMsg || 'Hi there! How can we help you?') + '</div>\n' +
+      '    <div id="opnchat-wa-popup-body">' + (message || '') + '</div>\n' +
+      '    <div id="opnchat-wa-popup-footer"><a href="' + waUrl + '" target="_blank" rel="noopener">' + btnLabel + '</a></div>\n' +
+      '  </div>\n' +
+      '</div>';
+
+    // Show result section
+    resultSection.style.display = 'flex';
+
+    // Display code
+    codeOutput.textContent = widgetCode;
+
+    // Update preview widget
+    updatePreview(phone, message, position, color, welcomeMsg, btnLabel, waUrl);
+  });
+
+  function updatePreview(phone, message, position, color, welcomeMsg, btnLabel, waUrl) {
+    var posStyle = position === 'left' ? 'left:20px;' : 'right:20px;';
+    var popupPos = position === 'left' ? 'left:0;' : 'right:0;';
+
+    var html = '<div style="position:absolute;bottom:20px;' + posStyle + 'display:flex;flex-direction:column;align-items:flex-end;">' +
+      '<div id="cw-preview-popup" style="display:block;position:relative;margin-bottom:8px;' + popupPos + 'width:220px;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.2);">' +
+      '<div style="background:' + color + ';color:#fff;padding:8px 10px;font-weight:600;font-size:0.75rem;">' + (welcomeMsg || 'Hi there! How can we help?') + '</div>' +
+      '<div style="padding:8px 10px;background:#f0f0f0;font-size:0.7rem;color:#333;line-height:1.3;">' + (message || 'Start a conversation') + '</div>' +
+      '<div style="padding:8px 10px;background:#fff;"><div style="text-align:center;background:' + color + ';color:#fff;padding:6px;border-radius:6px;font-size:0.7rem;font-weight:600;">' + btnLabel + '</div></div>' +
+      '</div>' +
+      '<button style="width:48px;height:48px;border-radius:50%;background:' + color + ';border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.3);">' +
+      '<svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:#fff;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>' +
+      '</button>' +
+      '</div>';
+
+    previewWidget.innerHTML = html;
+  }
+
+  // Copy button
+  copyBtn.addEventListener('click', function() {
+    var text = codeOutput.textContent || '';
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(function() {
+        showCopied();
+      }).catch(function() {
+        fallbackCopy(text);
+      });
+    } else {
+      fallbackCopy(text);
+    }
+  });
+
+  function showCopied() {
+    var copyTextEl = copyBtn.querySelector('.copy-text');
+    var originalLabel = copyBtn.dataset.labelCopy;
+    var copiedLabel = copyBtn.dataset.labelCopied;
+    copyTextEl.textContent = copiedLabel;
+    copyBtn.style.borderColor = '#25d366';
+    copyBtn.style.background = '#25d366';
+    setTimeout(function() {
+      copyTextEl.textContent = originalLabel;
+      copyBtn.style.borderColor = '';
+      copyBtn.style.background = '';
+    }, 2000);
+  }
+
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showCopied();
+  }
+
+  // Theme toggle
+  var themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', function() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('opnchat-theme', next);
+    });
+  }
+})();
+</script>

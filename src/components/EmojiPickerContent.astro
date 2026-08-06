@@ -1,0 +1,1828 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { useTranslations } from '../i18n/utils';
+import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
+import { languages, type Lang } from '../i18n/ui';
+import SiteHeader from './SiteHeader.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import SEOHead from './SEOHead.astro';
+import { localeMap } from '../i18n/localeMap';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const faqItems = [
+  { q: t('ep.faq.q1'), a: t('ep.faq.a1') },
+  { q: t('ep.faq.q2'), a: t('ep.faq.a2') },
+  { q: t('ep.faq.q3'), a: t('ep.faq.a3') },
+  { q: t('ep.faq.q4'), a: t('ep.faq.a4') },
+  { q: t('ep.faq.q5'), a: t('ep.faq.a5') },
+];
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": t('ep.heading'),
+      "url": getAbsoluteLocaleUrl(lang, 'emoji-picker'),
+      "description": t('ep.meta.description'),
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "inLanguage": Object.keys(languages),
+      "featureList": [
+        t('ep.seo.why.feature1.title') + ': ' + t('ep.seo.why.feature1.desc'),
+        t('ep.seo.why.feature2.title') + ': ' + t('ep.seo.why.feature2.desc'),
+        t('ep.seo.why.feature3.title') + ': ' + t('ep.seo.why.feature3.desc'),
+        t('ep.seo.why.feature4.title') + ': ' + t('ep.seo.why.feature4.desc'),
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqItems.map(item => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": { "@type": "Answer", "text": item.a }
+      }))
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "OPN Chat", "item": getAbsoluteLocaleUrl(lang, '') },
+        { "@type": "ListItem", "position": 2, "name": t('bc.emojipicker'), "item": getAbsoluteLocaleUrl(lang, 'emoji-picker') }
+      ]
+    }
+  ]
+};
+---
+
+<Layout title={t('ep.meta.title')} lang={lang} service="emoji-picker">
+  <Fragment slot="meta">
+  <SEOHead
+  lang={lang}
+  description={t('ep.meta.description')}
+  canonicalUrl={getAbsoluteLocaleUrl(lang, 'emoji-picker')}
+  ogTitle={t('ep.meta.og.title')}
+  ogDescription={t('ep.meta.og.description')}
+  ogUrl={getAbsoluteLocaleUrl(lang, 'emoji-picker')}
+  schema={pageSchema}
+  extraMeta={`<meta name="keywords" content="${t('ep.meta.keywords')}" /><meta name="twitter:card" content="summary" /><meta name="twitter:title" content="${t('ep.meta.twitter.title')}" /><meta name="twitter:description" content="${t('ep.meta.twitter.description')}" />`}
+/>
+</Fragment>
+
+  <div class="container">
+    <!-- Header -->
+    <SiteHeader lang={lang} path="emoji-picker" activeTool="emoji-picker" />
+
+    <Breadcrumbs lang={lang} items={[{ label: t('bc.home'), href: getRelativeLocaleUrl(lang) }, { label: t('bc.emojipicker') }]} />
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1 class="title">{t('ep.heading')}</h1>
+      <p class="subtitle">{t('ep.subheading')}</p>
+      <p class="privacy-badge">{t('ep.privacy.badge')}</p>
+    </div>
+
+    <!-- Emoji Picker Tool -->
+    <div class="ep-tool">
+      <!-- Search -->
+      <div class="ep-search-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ep-search-icon" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="ep-search" class="ep-search-input" placeholder={t('ep.search.placeholder')} autocomplete="off" />
+      </div>
+
+      <!-- Category Tabs -->
+      <div class="ep-categories" id="ep-categories">
+        <button type="button" class="ep-cat-btn active" data-cat="smileys" aria-label={t('ep.cat.smileys')}>
+          <span class="ep-cat-emoji">😀</span>
+          <span class="ep-cat-label">{t('ep.cat.smileys')}</span>
+        </button>
+        <button type="button" class="ep-cat-btn" data-cat="people" aria-label={t('ep.cat.people')}>
+          <span class="ep-cat-emoji">👋</span>
+          <span class="ep-cat-label">{t('ep.cat.people')}</span>
+        </button>
+        <button type="button" class="ep-cat-btn" data-cat="animals" aria-label={t('ep.cat.animals')}>
+          <span class="ep-cat-emoji">🐱</span>
+          <span class="ep-cat-label">{t('ep.cat.animals')}</span>
+        </button>
+        <button type="button" class="ep-cat-btn" data-cat="food" aria-label={t('ep.cat.food')}>
+          <span class="ep-cat-emoji">🍕</span>
+          <span class="ep-cat-label">{t('ep.cat.food')}</span>
+        </button>
+        <button type="button" class="ep-cat-btn" data-cat="activities" aria-label={t('ep.cat.activities')}>
+          <span class="ep-cat-emoji">⚽</span>
+          <span class="ep-cat-label">{t('ep.cat.activities')}</span>
+        </button>
+        <button type="button" class="ep-cat-btn" data-cat="travel" aria-label={t('ep.cat.travel')}>
+          <span class="ep-cat-emoji">🚗</span>
+          <span class="ep-cat-label">{t('ep.cat.travel')}</span>
+        </button>
+        <button type="button" class="ep-cat-btn" data-cat="objects" aria-label={t('ep.cat.objects')}>
+          <span class="ep-cat-emoji">💡</span>
+          <span class="ep-cat-label">{t('ep.cat.objects')}</span>
+        </button>
+        <button type="button" class="ep-cat-btn" data-cat="symbols" aria-label={t('ep.cat.symbols')}>
+          <span class="ep-cat-emoji">❤️</span>
+          <span class="ep-cat-label">{t('ep.cat.symbols')}</span>
+        </button>
+        <button type="button" class="ep-cat-btn" data-cat="flags" aria-label={t('ep.cat.flags')}>
+          <span class="ep-cat-emoji">🏁</span>
+          <span class="ep-cat-label">{t('ep.cat.flags')}</span>
+        </button>
+      </div>
+
+      <!-- Emoji Grid -->
+      <div class="ep-grid-wrap">
+        <div id="ep-grid" class="ep-grid"></div>
+        <div id="ep-empty" class="ep-empty" style="display:none;">
+          <p>{t('ep.search.noResults')}</p>
+        </div>
+      </div>
+
+      <!-- Recently Used -->
+      <div id="ep-recent-section" class="ep-recent-section" style="display:none;">
+        <h3 class="ep-recent-heading">{t('ep.recent.heading')}</h3>
+        <div id="ep-recent-grid" class="ep-recent-grid"></div>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="ep-toast" class="ep-toast" style="display:none;">
+      <span id="ep-toast-emoji" class="ep-toast-emoji"></span>
+      <span id="ep-toast-text" class="ep-toast-text">{t('ep.copied')}</span>
+    </div>
+
+    <!-- SEO Content Section -->
+    <section class="seo-section" aria-label="About Emoji Picker">
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('ep.seo.what.heading')}</h2>
+        <p class="seo-text">{t('ep.seo.what.text')}</p>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('ep.seo.why.heading')}</h2>
+        <div class="seo-features">
+          <div class="feature-item">
+            <span class="feature-icon">&#128269;</span>
+            <div>
+              <h3 class="feature-title">{t('ep.seo.why.feature1.title')}</h3>
+              <p class="feature-desc">{t('ep.seo.why.feature1.desc')}</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">&#128203;</span>
+            <div>
+              <h3 class="feature-title">{t('ep.seo.why.feature2.title')}</h3>
+              <p class="feature-desc">{t('ep.seo.why.feature2.desc')}</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">&#128274;</span>
+            <div>
+              <h3 class="feature-title">{t('ep.seo.why.feature3.title')}</h3>
+              <p class="feature-desc">{t('ep.seo.why.feature3.desc')}</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">&#9733;</span>
+            <div>
+              <h3 class="feature-title">{t('ep.seo.why.feature4.title')}</h3>
+              <p class="feature-desc">{t('ep.seo.why.feature4.desc')}</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('ep.seo.how.heading')}</h2>
+        <p class="seo-text">{t('ep.seo.how.text')}</p>
+      </article>
+
+      <!-- FAQ -->
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('ep.seo.faq.heading')}</h2>
+        <div class="faq-list">
+          {faqItems.map(item => (
+            <div class="faq-item">
+              <button type="button" class="faq-question" aria-expanded="false">
+                <span class="faq-q-text">{item.q}</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="faq-answer">
+                <p class="faq-a-text">{item.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </article>
+    </section>
+</div>
+</Layout>
+
+<style>
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    margin: 0 auto;
+    max-width: 640px;
+    padding: 2rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 1.5rem 0;
+  }
+
+  .title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin: 0.75rem 0 0;
+    line-height: 1.5;
+  }
+
+  .privacy-badge {
+    font-size: 0.75rem;
+    color: var(--opn-primary);
+    margin: 0.5rem 0 0;
+    font-weight: 500;
+    opacity: 0.9;
+  }
+
+  /* Emoji Picker Tool */
+  .ep-tool {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  /* Search */
+  .ep-search-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .ep-search-icon {
+    position: absolute;
+    left: 0.75rem;
+    width: 1rem;
+    height: 1rem;
+    color: var(--text-secondary);
+    flex-shrink: 0;
+  }
+
+  .ep-search-input {
+    width: 100%;
+    padding: 0.7rem 0.9rem 0.7rem 2.3rem;
+    border: 1.5px solid var(--border-color);
+    border-radius: 0.6rem;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  .ep-search-input:focus {
+    border-color: var(--opn-primary);
+    box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.15);
+  }
+
+  /* Categories */
+  .ep-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .ep-cat-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.35rem 0.55rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.4rem;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .ep-cat-btn:hover {
+    border-color: var(--opn-primary);
+    color: var(--text-primary);
+  }
+
+  .ep-cat-btn.active {
+    border-color: var(--opn-primary);
+    background: rgba(0, 180, 216, 0.08);
+    color: var(--opn-primary);
+  }
+
+  .ep-cat-emoji {
+    font-size: 0.85rem;
+    line-height: 1;
+  }
+
+  .ep-cat-label {
+    font-weight: 500;
+  }
+
+  /* Emoji Grid */
+  .ep-grid-wrap {
+    min-height: 120px;
+  }
+
+  .ep-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(2.4rem, 1fr));
+    gap: 0.15rem;
+  }
+
+  .ep-emoji-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    aspect-ratio: 1;
+    font-size: 1.4rem;
+    border: none;
+    background: none;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.15s;
+    padding: 0;
+    line-height: 1;
+  }
+
+  .ep-emoji-btn:hover {
+    background: var(--bg-card-hover);
+    transform: scale(1.2);
+    border-radius: 0.4rem;
+  }
+
+  .ep-emoji-btn.copied {
+    background: rgba(0, 180, 216, 0.15);
+    transform: scale(1.15);
+  }
+
+  .ep-empty {
+    text-align: center;
+    padding: 2rem 0;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+  }
+
+  /* Recently Used */
+  .ep-recent-section {
+    padding-top: 0.5rem;
+  }
+
+  .ep-recent-heading {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin: 0 0 0.5rem;
+  }
+
+  .ep-recent-grid {
+    display: flex;
+    gap: 0.15rem;
+    flex-wrap: wrap;
+  }
+
+  /* Toast */
+  .ep-toast {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 1rem;
+    background: var(--bg-card-hover);
+    border: 1.5px solid var(--opn-primary);
+    border-radius: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    z-index: 100;
+    animation: ep-toast-in 0.3s ease, ep-toast-out 0.3s ease 1.2s forwards;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
+  .ep-toast-emoji {
+    font-size: 1.2rem;
+  }
+
+  .ep-toast-text {
+    font-weight: 600;
+  }
+
+  @keyframes ep-toast-in {
+    from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+
+  @keyframes ep-toast-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  /* SEO Section */
+  .seo-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-top: 1rem;
+  }
+
+  .seo-block { }
+
+  .seo-heading {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem;
+  }
+
+  .seo-text {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* SEO Features */
+  .seo-features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.6rem 0;
+  }
+
+  .feature-icon {
+    font-size: 1.3rem;
+    color: var(--opn-primary);
+    flex-shrink: 0;
+    width: 2rem;
+    text-align: center;
+  }
+
+  .feature-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 0.2rem;
+  }
+
+  .feature-desc {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* FAQ */
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .faq-item {
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .faq-item:hover {
+    border-color: var(--opn-primary);
+  }
+
+  .faq-question {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 0.9rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: left;
+    gap: 0.5rem;
+  }
+
+  .faq-q-text { flex: 1; }
+
+  .faq-chevron {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    transition: transform 0.3s;
+    color: var(--text-secondary);
+  }
+
+  .faq-item.open .faq-chevron {
+    transform: rotate(180deg);
+  }
+
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.35s ease;
+    padding: 0 0.9rem;
+  }
+
+  .faq-item.open .faq-answer {
+    max-height: 500px;
+    padding: 0.5rem 0.9rem 0.75rem;
+  }
+
+  .faq-a-text {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 520px) {
+    .container {
+      padding: 1.25rem 1rem;
+    }
+    .title {
+      font-size: 1.4rem;
+    }
+    .ep-cat-label {
+      display: none;
+    }
+    .ep-cat-btn {
+      padding: 0.3rem;
+    }
+    .ep-emoji-btn {
+      font-size: 1.2rem;
+    }
+    .ep-grid {
+      grid-template-columns: repeat(auto-fill, minmax(2.1rem, 1fr));
+    }
+
+  }
+</style>
+
+<script>
+  // Emoji data — categories with emojis and keywords for search
+  const emojiData: Record<string, { emoji: string; keywords: string[] }[]> = {
+    smileys: [
+      { emoji: '😀', keywords: ['grinning','face','smile','happy','cheerful'] },
+      { emoji: '😃', keywords: ['smiley','happy','face','joy','smile'] },
+      { emoji: '😄', keywords: ['smile','happy','face','joy','laugh'] },
+      { emoji: '😁', keywords: ['grin','happy','face','smile','beaming'] },
+      { emoji: '😆', keywords: ['laughing','face','satisfied','happy','laugh'] },
+      { emoji: '😅', keywords: ['sweat','face','happy','relief','laugh'] },
+      { emoji: '🤣', keywords: ['rofl','rolling','laughing','face','fun'] },
+      { emoji: '😂', keywords: ['face','joy','tears','laugh','cry'] },
+      { emoji: '🙂', keywords: ['slightly','smiling','face','smile'] },
+      { emoji: '😉', keywords: ['winking','face','wink','flirt'] },
+      { emoji: '😊', keywords: ['blushing','smiling','face','happy','shy'] },
+      { emoji: '😇', keywords: ['innocent','smiling','face','angel','halo'] },
+      { emoji: '🥰', keywords: ['smiling','hearts','face','love','affection'] },
+      { emoji: '😍', keywords: ['heart','eyes','face','love','adore'] },
+      { emoji: '🤩', keywords: ['star','struck','face','excited','amazed'] },
+      { emoji: '😘', keywords: ['kissing','heart','face','love','blow'] },
+      { emoji: '☺️', keywords: ['relaxed','face','smile','content','happy'] },
+      { emoji: '😋', keywords: ['savoring','food','face','yummy','delicious'] },
+      { emoji: '😜', keywords: ['winking','tongue','face','silly','playful'] },
+      { emoji: '🤪', keywords: ['zany','face','crazy','silly','wild'] },
+      { emoji: '🤡', keywords: ['clown','face','funny','circus'] },
+      { emoji: '😎', keywords: ['cool','face','sunglasses','chill','swag'] },
+      { emoji: '🤓', keywords: ['nerd','face','geek','smart','glasses'] },
+      { emoji: '🧐', keywords: ['monocle','face','inspect','curious','detect'] },
+      { emoji: '😏', keywords: ['smirking','face','sly','smug'] },
+      { emoji: '😒', keywords: ['unamused','face','bored','annoyed'] },
+      { emoji: '😔', keywords: ['pensive','face','sad','thoughtful'] },
+      { emoji: '😢', keywords: ['crying','face','sad','tear'] },
+      { emoji: '😭', keywords: ['sobbing','face','cry','tears','sad'] },
+      { emoji: '😤', keywords: ['huffing','face','angry','frustrated','mad'] },
+      { emoji: '😠', keywords: ['angry','face','mad','furious'] },
+      { emoji: '🤬', keywords: ['cursing','face','swear','angry','mad'] },
+      { emoji: '😱', keywords: ['screaming','fear','face','horror','shock'] },
+      { emoji: '😨', keywords: ['fearful','face','scared','afraid'] },
+      { emoji: '🥺', keywords: ['pleading','face','beg','puppy','eyes'] },
+      { emoji: '🤥', keywords: ['lying','face','pinocchio','lie'] },
+      { emoji: '🤮', keywords: ['vomiting','face','sick','nausea'] },
+      { emoji: '🤧', keywords: ['sneezing','face','cold','flu','sick'] },
+      { emoji: '🥴', keywords: ['woozy','face','drunk','dizzy','confused'] },
+      { emoji: '😵', keywords: ['dizzy','face','knocked','out'] },
+      { emoji: '🤯', keywords: ['exploding','head','mind','blown','shocked'] },
+      { emoji: '🥳', keywords: ['party','face','celebrate','birthday','excited'] },
+      { emoji: '😴', keywords: ['sleeping','face','zzz','sleep','tired'] },
+      { emoji: '🥱', keywords: ['yawning','face','tired','bored'] },
+      { emoji: '🤔', keywords: ['thinking','face','hmm','ponder','consider'] },
+      { emoji: '🤐', keywords: ['zipper','mouth','face','silent','shut'] },
+      { emoji: '🤫', keywords: ['shushing','face','quiet','silence','hush'] },
+      { emoji: '🤭', keywords: ['hand','mouth','face','giggle','oops'] },
+      { emoji: '😈', keywords: ['smiling','devil','face','imp','evil'] },
+      { emoji: '👿', keywords: ['angry','devil','face','imp','devil'] },
+      { emoji: '💀', keywords: ['skull','dead','death','bone'] },
+      { emoji: '👻', keywords: ['ghost','spooky','halloween','boo'] },
+      { emoji: '👽', keywords: ['alien','extraterrestrial','space','ufo'] },
+      { emoji: '🤖', keywords: ['robot','face','machine','android','bot'] },
+      { emoji: '💩', keywords: ['poop','face','poo','shit'] },
+      { emoji: '🫠', keywords: ['melting','face','dissolve','melt'] },
+      { emoji: '🫣', keywords: ['peeking','face','hide','look'] },
+      { emoji: '🫢', keywords: ['gasp','face','surprise','shock'] },
+      { emoji: '🫡', keywords: ['salute','face','military','respect'] },
+      { emoji: '🥹', keywords: ['holding','tears','face','sad','emotional'] },
+      { emoji: '🤿', keywords: ['diving','mask','scuba','underwater'] },
+      { emoji: '🫥', keywords: ['dotted','face','invisible','hide'] },
+      { emoji: '🤖', keywords: ['robot','face','machine','bot'] },
+    ],
+    people: [
+      { emoji: '👋', keywords: ['waving','hand','hello','hi','bye'] },
+      { emoji: '🤚', keywords: ['raised','back','hand','stop','wait'] },
+      { emoji: '✋', keywords: ['raised','hand','stop','high','five'] },
+      { emoji: '🖖', keywords: ['spock','hand','vulcan','star','trek'] },
+      { emoji: '👌', keywords: ['ok','hand','perfect','good','approval'] },
+      { emoji: '🤌', keywords: ['pinched','fingers','italian','hand','gesture'] },
+      { emoji: '✌️', keywords: ['victory','hand','peace','two','v'] },
+      { emoji: '🤞', keywords: ['crossed','fingers','luck','hope','wish'] },
+      { emoji: '🤟', keywords: ['love','you','hand','gesture','ily'] },
+      { emoji: '🤘', keywords: ['rock','hand','metal','sign','rock'] },
+      { emoji: '🤙', keywords: ['call','me','hand','phone','shaka'] },
+      { emoji: '👈', keywords: ['pointing','left','hand','direction'] },
+      { emoji: '👉', keywords: ['pointing','right','hand','direction'] },
+      { emoji: '👆', keywords: ['pointing','up','hand','above','top'] },
+      { emoji: '👇', keywords: ['pointing','down','hand','below','bottom'] },
+      { emoji: '☝️', keywords: ['pointing','up','index','finger','one'] },
+      { emoji: '👍', keywords: ['thumbs','up','like','good','approve'] },
+      { emoji: '👎', keywords: ['thumbs','down','dislike','bad','no'] },
+      { emoji: '✊', keywords: ['raised','fist','power','strength','solidarity'] },
+      { emoji: '👊', keywords: ['punch','fist','hit','fight','pow'] },
+      { emoji: '🤛', keywords: ['left','fist','punch','left','hand'] },
+      { emoji: '🤜', keywords: ['right','fist','punch','right','hand'] },
+      { emoji: '👏', keywords: ['clapping','hands','applause','praise','congrats'] },
+      { emoji: '🙌', keywords: ['raising','hands','celebration','praise','hooray'] },
+      { emoji: '🫶', keywords: ['heart','hands','love','care','affection'] },
+      { emoji: '👐', keywords: ['open','hands','hug','welcome','spread'] },
+      { emoji: '🤲', keywords: ['palms','up','prayer','together','receive'] },
+      { emoji: '🙏', keywords: ['pray','folded','hands','please','thank'] },
+      { emoji: '✍️', keywords: ['writing','hand','write','pen','note'] },
+      { emoji: '💪', keywords: ['flex','bicep','strong','muscle','power'] },
+      { emoji: '🦾', keywords: ['mechanical','arm','prosthetic','robot','cyborg'] },
+      { emoji: '🦿', keywords: ['mechanical','leg','prosthetic','robot','cyborg'] },
+      { emoji: '🦵', keywords: ['leg','bone','limb','stand'] },
+      { emoji: '🦶', keywords: ['foot','stomp','step','walk'] },
+      { emoji: '👂', keywords: ['ear','hear','listen','sound'] },
+      { emoji: '🦻', keywords: ['ear','hearing','aid','accessibility'] },
+      { emoji: '👃', keywords: ['nose','smell','sniff','scent'] },
+      { emoji: '🧠', keywords: ['brain','mind','think','smart','intelligence'] },
+      { emoji: '🫀', keywords: ['heart','anatomy','organ','love','pulse'] },
+      { emoji: '🫁', keywords: ['lungs','anatomy','breath','organ'] },
+      { emoji: '🦷', keywords: ['tooth','dental','mouth','bite'] },
+      { emoji: '🦴', keywords: ['bone','skeleton','skull','orthopedic'] },
+      { emoji: '👀', keywords: ['eyes','look','see','watch','peek'] },
+      { emoji: '👁️', keywords: ['eye','look','see','watch','single'] },
+      { emoji: '🫦', keywords: ['biting','lip','nervous','anxious','bite'] },
+      { emoji: '👅', keywords: ['tongue','taste','lick','mouth'] },
+      { emoji: '👄', keywords: ['mouth','lips','kiss','talk'] },
+      { emoji: '🫅', keywords: ['crown','face','royal','king','queen'] },
+      { emoji: '👶', keywords: ['baby','face','infant','newborn','child'] },
+      { emoji: '🧒', keywords: ['child','face','kid','young'] },
+      { emoji: '👦', keywords: ['boy','face','male','child','kid'] },
+      { emoji: '👧', keywords: ['girl','face','female','child','kid'] },
+      { emoji: '🧑', keywords: ['person','face','adult','gender','neutral'] },
+      { emoji: '👨', keywords: ['man','face','male','adult','guy'] },
+      { emoji: '👩', keywords: ['woman','face','female','adult','lady'] },
+      { emoji: '🧓', keywords: ['older','person','face','elder','senior'] },
+      { emoji: '👴', keywords: ['old','man','face','elder','grandpa'] },
+      { emoji: '👵', keywords: ['old','woman','face','elder','grandma'] },
+      { emoji: '🧔', keywords: ['bearded','person','face','man','beard'] },
+      { emoji: '👮', keywords: ['police','officer','cop','law','enforcement'] },
+      { emoji: '🕵️', keywords: ['detective','spy','investigator','sleuth'] },
+      { emoji: '🧑‍⚕️', keywords: ['health','worker','doctor','nurse','medical'] },
+      { emoji: '🧑‍🎓', keywords: ['student','graduate','school','university'] },
+      { emoji: '🧑‍🏫', keywords: ['teacher','instructor','educator','school'] },
+      { emoji: '🧑‍🔧', keywords: ['mechanic','repair','worker','fix','tool'] },
+      { emoji: '🧑‍🍳', keywords: ['cook','chef','kitchen','food','cooking'] },
+      { emoji: '🧑‍🚀', keywords: ['astronaut','space','rocket','cosmonaut'] },
+      { emoji: '🧑‍✈️', keywords: ['pilot','aviator','plane','fly','airplane'] },
+      { emoji: '🧑‍🚒', keywords: ['firefighter','fire','rescue','emergency'] },
+      { emoji: '👸', keywords: ['princess','royal','queen','crown'] },
+      { emoji: '🤴', keywords: ['prince','royal','king','crown'] },
+      { emoji: '🦸', keywords: ['superhero','hero','power','cape','save'] },
+      { emoji: '🦹', keywords: ['supervillain','villain','evil','bad','crime'] },
+      { emoji: '🧙', keywords: ['wizard','mage','sorcerer','magic','spell'] },
+      { emoji: '🧚', keywords: ['fairy','magic','wand','pixie','fantasy'] },
+      { emoji: '🧛', keywords: ['vampire','dracula','blood','fang','dark'] },
+      { emoji: '🧜', keywords: ['merperson','mermaid','merman','sea','ocean'] },
+      { emoji: '🧝', keywords: ['elf','fantasy','pointy','ears','magical'] },
+      { emoji: '🧞', keywords: ['genie','djinn','wish','magic','lamp'] },
+      { emoji: '🧟', keywords: ['zombie','undead','walking','dead','horror'] },
+      { emoji: '🧌', keywords: ['troll','bridge','fantasy','ugly'] },
+      { emoji: '💃', keywords: ['dancing','woman','dance','party','ballroom'] },
+      { emoji: '🕺', keywords: ['dancing','man','dance','party','disco'] },
+      { emoji: '👯', keywords: ['people','bunny','ears','dancing','party'] },
+      { emoji: '🧖', keywords: ['person','steam','room','sauna','sweat'] },
+      { emoji: '🧗', keywords: ['person','climbing','mountain','rock','climb'] },
+      { emoji: '🤱', keywords: ['breast','feeding','nursing','baby','mother'] },
+      { emoji: '🧩', keywords: ['puzzle','piece','jigsaw','game'] },
+    ],
+    animals: [
+      { emoji: '🐱', keywords: ['cat','face','feline','kitty','pet'] },
+      { emoji: '🐶', keywords: ['dog','face','puppy','canine','pet'] },
+      { emoji: '🐭', keywords: ['mouse','face','rodent','small'] },
+      { emoji: '🐹', keywords: ['hamster','face','pet','rodent','cute'] },
+      { emoji: '🐰', keywords: ['rabbit','face','bunny','pet','ear'] },
+      { emoji: '🦊', keywords: ['fox','face','animal','clever','sly'] },
+      { emoji: '🐻', keywords: ['bear','face','animal','wild','polar'] },
+      { emoji: '🐼', keywords: ['panda','face','animal','bamboo','cute'] },
+      { emoji: '🐨', keywords: ['koala','face','animal','australia','cute'] },
+      { emoji: '🐯', keywords: ['tiger','face','animal','wild','stripes'] },
+      { emoji: '🦁', keywords: ['lion','face','animal','wild','king'] },
+      { emoji: '🐮', keywords: ['cow','face','animal','moo','bovine'] },
+      { emoji: '🐷', keywords: ['pig','face','animal','oink','swine'] },
+      { emoji: '🐸', keywords: ['frog','face','animal','green','hop'] },
+      { emoji: '🐵', keywords: ['monkey','face','animal','primate','ape'] },
+      { emoji: '🐔', keywords: ['chicken','face','animal','hen','cluck'] },
+      { emoji: '🦄', keywords: ['unicorn','face','fantasy','horn','magical'] },
+      { emoji: '🐝', keywords: ['bee','insect','honey','buzz','sting'] },
+      { emoji: '🪱', keywords: ['worm','animal','crawl','soil'] },
+      { emoji: '🦋', keywords: ['butterfly','insect','wing','beautiful'] },
+      { emoji: '🐌', keywords: ['snail','slow','shell','animal','crawl'] },
+      { emoji: '🐛', keywords: ['bug','insect','worm','caterpillar'] },
+      { emoji: '🐜', keywords: ['ant','insect','work','small','colony'] },
+      { emoji: '🪰', keywords: ['fly','insect','buzz','pest'] },
+      { emoji: '🪲', keywords: ['beetle','insect','bug','crawl'] },
+      { emoji: '🦗', keywords: ['cricket','insect','chirp','sound'] },
+      { emoji: '🦂', keywords: ['scorpion','animal','sting','desert'] },
+      { emoji: '🦎', keywords: ['lizard','reptile','animal','crawl'] },
+      { emoji: '🐍', keywords: ['snake','reptile','slither','venom'] },
+      { emoji: '🦕', keywords: ['dinosaur','sauropod','extinct','prehistoric'] },
+      { emoji: '🦖', keywords: ['dinosaur','t-rex','extinct','prehistoric','raptor'] },
+      { emoji: '🐙', keywords: ['octopus','animal','sea','tentacle','ocean'] },
+      { emoji: '🦑', keywords: ['squid','animal','sea','tentacle','ocean'] },
+      { emoji: '🦐', keywords: ['shrimp','animal','sea','food','shell'] },
+      { emoji: '🦞', keywords: ['lobster','animal','sea','food','shell'] },
+      { emoji: '🦀', keywords: ['crab','animal','sea','food','shell'] },
+      { emoji: '🦭', keywords: ['seal','animal','sea','ocean','marine'] },
+      { emoji: '🐠', keywords: ['fish','tropical','animal','sea','ocean'] },
+      { emoji: '🐟', keywords: ['fish','animal','sea','ocean','swim'] },
+      { emoji: '🐬', keywords: ['dolphin','animal','sea','ocean','flipper'] },
+      { emoji: '🐳', keywords: ['whale','animal','sea','ocean','spout'] },
+      { emoji: '🦈', keywords: ['shark','animal','sea','ocean','predator'] },
+      { emoji: '🦅', keywords: ['eagle','bird','animal','fly','raptor'] },
+      { emoji: '🦆', keywords: ['duck','bird','animal','quack','water'] },
+      { emoji: '🦉', keywords: ['owl','bird','animal','night','wise'] },
+      { emoji: '🦇', keywords: ['bat','animal','night','fly','dark'] },
+      { emoji: '🦖', keywords: ['t-rex','dinosaur','extinct','animal'] },
+      { emoji: '🦣', keywords: ['mammoth','extinct','animal','prehistoric'] },
+      { emoji: '🦦', keywords: ['otter','animal','water','swim','cute'] },
+      { emoji: '🦧', keywords: ['gorilla','ape','animal','primate','strong'] },
+      { emoji: '🦩', keywords: ['flamingo','bird','animal','pink','tropical'] },
+      { emoji: '🦜', keywords: ['parrot','bird','animal','talk','tropical'] },
+      { emoji: '🦢', keywords: ['swan','bird','animal','graceful','water'] },
+      { emoji: '🦫', keywords: ['beaver','animal','dam','wood','build'] },
+      { emoji: '🦭', keywords: ['seal','animal','sea','marine'] },
+      { emoji: '🦮', keywords: ['guide','dog','service','animal','blind'] },
+      { emoji: '🐕', keywords: ['service','dog','animal','working'] },
+      { emoji: '🐎', keywords: ['horse','racing','animal','ride','gallop'] },
+      { emoji: '🦙', keywords: ['llama','animal','alpaca','south','america'] },
+      { emoji: '🦛', keywords: ['hippo','animal','water','big','heavy'] },
+      { emoji: '🦏', keywords: ['rhino','animal','horn','big','heavy'] },
+      { emoji: '🦒', keywords: ['giraffe','animal','long','neck','tall'] },
+      { emoji: '🦥', keywords: ['sloth','animal','slow','lazy','tree'] },
+      { emoji: '🦦', keywords: ['otter','animal','water','swim'] },
+      { emoji: '🦧', keywords: ['gorilla','animal','strong','ape'] },
+      { emoji: '🦘', keywords: ['kangaroo','animal','jump','australia'] },
+      { emoji: '🦩', keywords: ['flamingo','bird','pink','tropical'] },
+      { emoji: '🪶', keywords: ['feather','bird','light','fly'] },
+      { emoji: '🦚', keywords: ['peacock','bird','beautiful','tail'] },
+      { emoji: '🦜', keywords: ['parrot','bird','talk','colorful'] },
+      { emoji: '🪺', keywords: ['nest','bird','eggs','home'] },
+    ],
+    food: [
+      { emoji: '🍕', keywords: ['pizza','food','slice','cheese','pepperoni'] },
+      { emoji: '🍔', keywords: ['burger','hamburger','food','beef','fast'] },
+      { emoji: '🍟', keywords: ['fries','french','food','potato','fast'] },
+      { emoji: '🌭', keywords: ['hotdog','food','sausage','frankfurter'] },
+      { emoji: '🥪', keywords: ['sandwich','food','bread','lunch'] },
+      { emoji: '🌮', keywords: ['taco','food','mexican','shell'] },
+      { emoji: '🌯', keywords: ['burrito','food','mexican','wrap'] },
+      { emoji: '🥙', keywords: ['falafel','pita','food','wrap','middle'] },
+      { emoji: '🧆', keywords: ['falafel','food','ball','fried'] },
+      { emoji: '🥗', keywords: ['salad','food','green','healthy','vegetable'] },
+      { emoji: '🥘', keywords: ['stew','food','pot','soup','cook'] },
+      { emoji: '🍲', keywords: ['pot','food','soup','stew','cook'] },
+      { emoji: '🥜', keywords: ['peanuts','nut','food','snack','shell'] },
+      { emoji: '🫘', keywords: ['beans','food','legume','protein'] },
+      { emoji: '🌰', keywords: ['chestnut','nut','food','shell','roast'] },
+      { emoji: '🥑', keywords: ['avocado','food','fruit','green','healthy'] },
+      { emoji: '🥦', keywords: ['broccoli','food','vegetable','green','healthy'] },
+      { emoji: '🥬', keywords: ['leafy','green','food','vegetable','salad'] },
+      { emoji: '🥒', keywords: ['cucumber','food','vegetable','green'] },
+      { emoji: '🌶️', keywords: ['pepper','hot','spicy','chili','food'] },
+      { emoji: '🫑', keywords: ['bell','pepper','food','vegetable'] },
+      { emoji: '🥕', keywords: ['carrot','food','vegetable','orange'] },
+      { emoji: '🧅', keywords: ['onion','food','vegetable','cook'] },
+      { emoji: '🧄', keywords: ['garlic','food','vegetable','cook','flavor'] },
+      { emoji: '🥔', keywords: ['potato','food','vegetable','fries'] },
+      { emoji: '🍠', keywords: ['sweet','potato','food','roast','yam'] },
+      { emoji: '🥐', keywords: ['croissant','food','bread','french','bakery'] },
+      { emoji: '🥖', keywords: ['baguette','bread','french','food','bakery'] },
+      { emoji: '🍞', keywords: ['bread','food','bake','loaf','wheat'] },
+      { emoji: '🫓', keywords: ['flatbread','food','pita','naan'] },
+      { emoji: '🥨', keywords: ['pretzel','food','bread','salt','snack'] },
+      { emoji: '🥯', keywords: ['bagel','food','bread','cream','cheese'] },
+      { emoji: '🧇', keywords: ['waffle','food','breakfast','syrup'] },
+      { emoji: '🧀', keywords: ['cheese','food','milk','dairy'] },
+      { emoji: '🥚', keywords: ['egg','food','breakfast','boil','fried'] },
+      { emoji: '🍳', keywords: ['cooking','egg','food','fried','breakfast'] },
+      { emoji: '🥞', keywords: ['pancake','food','breakfast','stack','maple'] },
+      { emoji: '🧈', keywords: ['butter','food','dairy','spread'] },
+      { emoji: '🥧', keywords: ['pie','food','dessert','bake','crust'] },
+      { emoji: '🧁', keywords: ['cupcake','food','dessert','sweet','cake'] },
+      { emoji: '🍰', keywords: ['cake','shortcake','food','dessert','sweet'] },
+      { emoji: '🎂', keywords: ['birthday','cake','food','party','celebrate'] },
+      { emoji: '🍮', keywords: ['custard','food','dessert','pudding'] },
+      { emoji: '🍭', keywords: ['lollipop','candy','food','sweet','sugar'] },
+      { emoji: '🍬', keywords: ['candy','food','sweet','sugar'] },
+      { emoji: '🍫', keywords: ['chocolate','bar','food','sweet','candy'] },
+      { emoji: '🍿', keywords: ['popcorn','food','movie','snack','corn'] },
+      { emoji: '🧊', keywords: ['ice','cube','cold','frozen','cool'] },
+      { emoji: '🍦', keywords: ['icecream','food','soft','cone','dessert'] },
+      { emoji: '🍨', keywords: ['icecream','food','dessert','cold','sweet'] },
+      { emoji: '🍧', keywords: ['shaved','ice','food','dessert','cold'] },
+      { emoji: '🥤', keywords: ['cup','beverage','drink','straw','soda'] },
+      { emoji: '🧋', keywords: ['bubble','tea','boba','drink','milk'] },
+      { emoji: '🧃', keywords: ['juice','box','drink','beverage','fruit'] },
+      { emoji: '🧉', keywords: ['mate','drink','beverage','tea','south'] },
+      { emoji: '☕', keywords: ['coffee','hot','beverage','drink','morning'] },
+      { emoji: '🫖', keywords: ['teapot','tea','drink','beverage','hot'] },
+      { emoji: '🍵', keywords: ['tea','beverage','drink','green','matcha'] },
+      { emoji: '🍺', keywords: ['beer','beverage','drink','alcohol','pint'] },
+      { emoji: '🍻', keywords: ['beers','beverage','drink','cheers','party'] },
+      { emoji: '🥂', keywords: ['champagne','glass','celebration','toast','drink'] },
+      { emoji: '🍷', keywords: ['wine','glass','beverage','drink','red'] },
+      { emoji: '🥃', keywords: ['whiskey','glass','beverage','drink','tumbler'] },
+      { emoji: '🍸', keywords: ['cocktail','martini','drink','beverage','bar'] },
+      { emoji: '🍹', keywords: ['tropical','drink','beverage','cocktail','exotic'] },
+      { emoji: '🧊', keywords: ['ice','cube','cold','frozen'] },
+      { emoji: '🥛', keywords: ['milk','glass','beverage','drink','dairy'] },
+      { emoji: '🫗', keywords: ['pouring','liquid','drink','spill'] },
+      { emoji: '🫙', keywords: ['jar','container','preserve','store'] },
+      { emoji: '🍾', keywords: ['bottle','champagne','pop','celebrate'] },
+      { emoji: '🫠', keywords: ['melting','ice','cold'] },
+      { emoji: '🍎', keywords: ['apple','fruit','food','red','green'] },
+      { emoji: '🍊', keywords: ['orange','fruit','food','citrus'] },
+      { emoji: '🍋', keywords: ['lemon','fruit','food','citrus','sour'] },
+      { emoji: '🍌', keywords: ['banana','fruit','food','yellow'] },
+      { emoji: '🍉', keywords: ['watermelon','fruit','food','summer'] },
+      { emoji: '🍇', keywords: ['grapes','fruit','food','wine','purple'] },
+      { emoji: '🍓', keywords: ['strawberry','fruit','food','red','sweet'] },
+      { emoji: '🫐', keywords: ['blueberries','fruit','food','berry','blue'] },
+      { emoji: '🥝', keywords: ['kiwi','fruit','food','green','new','zealand'] },
+      { emoji: '🍅', keywords: ['tomato','fruit','food','red','vegetable'] },
+      { emoji: '🥥', keywords: ['coconut','fruit','food','tropical'] },
+    ],
+    activities: [
+      { emoji: '⚽', keywords: ['soccer','ball','football','sport','game'] },
+      { emoji: '🏀', keywords: ['basketball','ball','sport','game','hoop'] },
+      { emoji: '🏈', keywords: ['football','american','ball','sport','game'] },
+      { emoji: '⚾', keywords: ['baseball','ball','sport','game'] },
+      { emoji: '🥎', keywords: ['softball','ball','sport','game'] },
+      { emoji: '🎾', keywords: ['tennis','ball','sport','racket','game'] },
+      { emoji: '🏐', keywords: ['volleyball','ball','sport','beach','game'] },
+      { emoji: '🏉', keywords: ['rugby','football','ball','sport','game'] },
+      { emoji: '🥏', keywords: ['frisbee','disc','sport','throw','game'] },
+      { emoji: '🎱', keywords: ['pool','8ball','billiards','game','ball'] },
+      { emoji: '🪀', keywords: ['yo-yo','toy','game','play','string'] },
+      { emoji: '🪁', keywords: ['kite','fly','toy','wind','game'] },
+      { emoji: '🎯', keywords: ['dart','target','bullseye','aim','game'] },
+      { emoji: '🎮', keywords: ['game','controller','video','play','console'] },
+      { emoji: '🕹️', keywords: ['joystick','game','video','play','control'] },
+      { emoji: '🎲', keywords: ['dice','game','roll','random','luck'] },
+      { emoji: '🧩', keywords: ['puzzle','piece','game','jigsaw'] },
+      { emoji: '🧸', keywords: ['teddy','bear','toy','stuffed','plush'] },
+      { emoji: '♠️', keywords: ['spade','card','game','suit','poker'] },
+      { emoji: '♥️', keywords: ['heart','card','game','suit','poker'] },
+      { emoji: '♦️', keywords: ['diamond','card','game','suit','poker'] },
+      { emoji: '♣️', keywords: ['club','card','game','suit','poker'] },
+      { emoji: '♟️', keywords: ['pawn','chess','game','strategy','board'] },
+      { emoji: '🃏', keywords: ['joker','card','game','wild','playing'] },
+      { emoji: '🀄', keywords: ['mahjong','tile','game','chinese'] },
+      { emoji: '🎭', keywords: ['performing','arts','theater','drama','act'] },
+      { emoji: '🎨', keywords: ['art','palette','paint','color','creative'] },
+      { emoji: '🖼️', keywords: ['frame','picture','art','painting','photo'] },
+      { emoji: '🧵', keywords: ['thread','sew','needle','stitch','craft'] },
+      { emoji: '🧶', keywords: ['yarn','knit','crochet','craft','wool'] },
+      { emoji: '🪢', keywords: ['knot','tie','rope','bind','nautical'] },
+      { emoji: '🎵', keywords: ['music','note','song','melody','tune'] },
+      { emoji: '🎶', keywords: ['music','notes','song','melody','multiple'] },
+      { emoji: '🎤', keywords: ['microphone','sing','karaoke','voice','mic'] },
+      { emoji: '🎧', keywords: ['headphone','music','listen','audio','ear'] },
+      { emoji: '🪘', keywords: ['long','drum','percussion','music','beat'] },
+      { emoji: '🥁', keywords: ['drum','percussion','music','beat','snare'] },
+      { emoji: '🪇', keywords: ['maracas','percussion','music','shake'] },
+      { emoji: '🎸', keywords: ['guitar','music','rock','string','play'] },
+      { emoji: '🎹', keywords: ['piano','keyboard','music','keys','play'] },
+      { emoji: '🪗', keywords: ['accordion','music','squeeze','play'] },
+      { emoji: '🪕', keywords: ['banjo','music','string','play','country'] },
+      { emoji: '🎺', keywords: ['trumpet','music','horn','brass','play'] },
+      { emoji: '🎻', keywords: ['violin','music','string','classical','play'] },
+      { emoji: '🪈', keywords: ['flute','music','wind','play','instrument'] },
+      { emoji: '🏆', keywords: ['trophy','award','win','champion','prize'] },
+      { emoji: '🥇', keywords: ['gold','medal','first','place','winner'] },
+      { emoji: '🥈', keywords: ['silver','medal','second','place'] },
+      { emoji: '🥉', keywords: ['bronze','medal','third','place'] },
+      { emoji: '🏅', keywords: ['sports','medal','award','military'] },
+      { emoji: '🎖️', keywords: ['military','medal','award','honor'] },
+      { emoji: '🥅', keywords: ['goal','net','sport','soccer','hockey'] },
+      { emoji: '⛳', keywords: ['golf','flag','hole','sport','green'] },
+      { emoji: '🚴', keywords: ['bicycle','person','bike','cycling','ride'] },
+      { emoji: '🚵', keywords: ['mountain','bicyclist','bike','cycling','trail'] },
+      { emoji: '🤸', keywords: ['person','cartwheel','gymnastics','flip','exercise'] },
+      { emoji: '🤼', keywords: ['people','wrestling','sport','fight','grapple'] },
+      { emoji: '🤽', keywords: ['person','water','polo','sport','pool'] },
+      { emoji: '🤾', keywords: ['person','handball','sport','ball'] },
+      { emoji: '🤺', keywords: ['person','fencing','sword','sport','duel'] },
+      { emoji: '🥊', keywords: ['boxing','glove','sport','fight','punch'] },
+      { emoji: '🥋', keywords: ['martial','arts','uniform','sport','karate'] },
+      { emoji: '🎯', keywords: ['direct','hit','target','aim','bullseye'] },
+      { emoji: '🪄', keywords: ['magic','wand','wizard','spell','fantasy'] },
+      { emoji: '🧙', keywords: ['wizard','mage','magic','spell'] },
+    ],
+    travel: [
+      { emoji: '🚗', keywords: ['car','automobile','red','vehicle','drive'] },
+      { emoji: '🚕', keywords: ['taxi','cab','car','vehicle','drive'] },
+      { emoji: '🚙', keywords: ['suv','car','vehicle','drive','off-road'] },
+      { emoji: '🚌', keywords: ['bus','vehicle','transport','public','ride'] },
+      { emoji: '🚎', keywords: ['trolleybus','bus','vehicle','transport'] },
+      { emoji: '🚐', keywords: ['minibus','bus','vehicle','transport'] },
+      { emoji: '🚑', keywords: ['ambulance','emergency','medical','vehicle','hospital'] },
+      { emoji: '🚒', keywords: ['fire','engine','truck','vehicle','emergency'] },
+      { emoji: '🚓', keywords: ['police','car','vehicle','law','enforcement'] },
+      { emoji: '🚲', keywords: ['bicycle','bike','vehicle','ride','cycle'] },
+      { emoji: '🛵', keywords: ['motorcycle','scooter','vehicle','ride','motor'] },
+      { emoji: '🚜', keywords: ['tractor','farm','vehicle','agriculture','field'] },
+      { emoji: '🚍', keywords: ['oncoming','bus','vehicle','transport'] },
+      { emoji: '🚘', keywords: ['oncoming','car','vehicle','automobile'] },
+      { emoji: '🚖', keywords: ['oncoming','taxi','cab','vehicle'] },
+      { emoji: '🚁', keywords: ['helicopter','vehicle','fly','air','chopper'] },
+      { emoji: '🛩️', keywords: ['small','airplane','vehicle','fly','plane'] },
+      { emoji: '✈️', keywords: ['airplane','plane','flight','fly','travel'] },
+      { emoji: '🚀', keywords: ['rocket','space','launch','fly','nasa'] },
+      { emoji: '🛸', keywords: ['ufo','alien','space','flying','saucer'] },
+      { emoji: '🚂', keywords: ['locomotive','train','railway','vehicle','steam'] },
+      { emoji: '🚃', keywords: ['railway','car','train','vehicle'] },
+      { emoji: '🚄', keywords: ['high-speed','train','bullet','vehicle','fast'] },
+      { emoji: '🚅', keywords: ['bullet','train','speed','vehicle','fast'] },
+      { emoji: '🚆', keywords: ['train','vehicle','railway','transport'] },
+      { emoji: '🚇', keywords: ['metro','train','subway','underground','urban'] },
+      { emoji: '🚈', keywords: ['light','rail','train','urban','transport'] },
+      { emoji: '🚊', keywords: ['tram','train','urban','transport','streetcar'] },
+      { emoji: '🚝', keywords: ['mountain','railway','train','vehicle'] },
+      { emoji: '🚞', keywords: ['mountain','railway','train','scenic'] },
+      { emoji: '🛤️', keywords: ['railway','track','train','path','rails'] },
+      { emoji: '🛳️', keywords: ['ship','passenger','cruise','voyage','sea'] },
+      { emoji: '⛴️', keywords: ['ferry','boat','ship','water','cross'] },
+      { emoji: '🚢', keywords: ['ship','boat','cruise','sea','voyage'] },
+      { emoji: '🚤', keywords: ['speedboat','boat','water','fast','motor'] },
+      { emoji: '🛥️', keywords: ['motor','boat','water','small','ship'] },
+      { emoji: '⛵', keywords: ['sailboat','boat','wind','water','sail'] },
+      { emoji: '🚣', keywords: ['rowboat','boat','water','oar','paddle'] },
+      { emoji: '🛶', keywords: ['canoe','boat','water','paddle','wild'] },
+      { emoji: '🧭', keywords: ['compass','navigation','direction','north','travel'] },
+      { emoji: '🗺️', keywords: ['map','world','travel','geography','navigation'] },
+      { emoji: '🏔️', keywords: ['mountain','snow','peak','cold','summit'] },
+      { emoji: '⛰️', keywords: ['mountain','rock','nature','hike'] },
+      { emoji: '🌋', keywords: ['volcano','mountain','eruption','lava','fire'] },
+      { emoji: '🏖️', keywords: ['beach','umbrella','sand','vacation','tropical'] },
+      { emoji: '🏕️', keywords: ['camping','tent','outdoor','nature','fire'] },
+      { emoji: '🏜️', keywords: ['desert','sand','dry','arid','hot'] },
+      { emoji: '🏝️', keywords: ['island','desert','tropical','palms','ocean'] },
+      { emoji: '🏛️', keywords: ['classical','building','ancient','history','monument'] },
+      { emoji: '🏗️', keywords: ['building','construction','crane','site','work'] },
+      { emoji: '🧱', keywords: ['brick','building','wall','construction'] },
+      { emoji: '🪨', keywords: ['rock','stone','heavy','nature','solid'] },
+      { emoji: '🪵', keywords: ['wood','log','tree','nature','material'] },
+      { emoji: '🛖', keywords: ['hut','house','small','cabin','shelter'] },
+      { emoji: '🏠', keywords: ['house','home','building','residence'] },
+      { emoji: '🏡', keywords: ['house','garden','home','yard','residence'] },
+      { emoji: '🏢', keywords: ['office','building','work','business'] },
+      { emoji: '🏣', keywords: ['post','office','mail','building'] },
+      { emoji: '🏥', keywords: ['hospital','building','medical','health'] },
+      { emoji: '🏦', keywords: ['bank','building','money','finance'] },
+      { emoji: '🏨', keywords: ['hotel','building','travel','stay','accommodation'] },
+      { emoji: '🏩', keywords: ['love','hotel','building','romance'] },
+      { emoji: '🏪', keywords: ['store','convenience','shop','building'] },
+      { emoji: '🏫', keywords: ['school','building','education','learn'] },
+      { emoji: '🏬', keywords: ['department','store','shop','building','mall'] },
+      { emoji: '🏭', keywords: ['factory','building','industry','production'] },
+      { emoji: '🏯', keywords: ['japanese','castle','building','history'] },
+      { emoji: '🏰', keywords: ['castle','european','building','history','medieval'] },
+      { emoji: '💒', keywords: ['wedding','chapel','love','marriage','ceremony'] },
+      { emoji: '🗼', keywords: ['tokyo','tower','building','landmark','japan'] },
+      { emoji: '🗽', keywords: ['statue','liberty','newyork','landmark','freedom'] },
+      { emoji: '⛪', keywords: ['church','building','religion','christian'] },
+      { emoji: '🕌', keywords: ['mosque','building','islam','religion','muslim'] },
+      { emoji: '🛕', keywords: ['hindu','temple','building','religion'] },
+      { emoji: '🕍', keywords: ['synagogue','building','judaism','religion'] },
+      { emoji: '⛩️', keywords: ['shinto','shrine','building','japan','religion'] },
+      { emoji: '🛤️', keywords: ['railway','track','train','transport'] },
+    ],
+    objects: [
+      { emoji: '💡', keywords: ['light','bulb','idea','electric','bright'] },
+      { emoji: '🔦', keywords: ['flashlight','light','beam','dark'] },
+      { emoji: '🕯️', keywords: ['candle','light','fire','warm','flicker'] },
+      { emoji: '🪔', keywords: ['diya','lamp','oil','light','indian'] },
+      { emoji: '📱', keywords: ['phone','mobile','smartphone','iphone','call'] },
+      { emoji: '📲', keywords: ['phone','call','arrow','incoming','ring'] },
+      { emoji: '💻', keywords: ['laptop','computer','screen','work','tech'] },
+      { emoji: '⌨️', keywords: ['keyboard','computer','type','key','input'] },
+      { emoji: '🖥️', keywords: ['desktop','computer','screen','monitor','pc'] },
+      { emoji: '🖨️', keywords: ['printer','print','paper','document'] },
+      { emoji: '🖱️', keywords: ['mouse','computer','click','pointer','trackball'] },
+      { emoji: '💾', keywords: ['floppy','disk','save','data','old','computer'] },
+      { emoji: '💿', keywords: ['optical','disk','cd','dvd','disc'] },
+      { emoji: '📀', keywords: ['dvd','disk','disc','data','movie'] },
+      { emoji: '🧮', keywords: ['abacus','calculator','math','count','old'] },
+      { emoji: '🎥', keywords: ['movie','camera','film','cinema','video'] },
+      { emoji: '🎞️', keywords: ['film','frames','movie','cinema'] },
+      { emoji: '📽️', keywords: ['projector','film','movie','cinema','screen'] },
+      { emoji: '📺', keywords: ['television','tv','screen','watch','show'] },
+      { emoji: '📷', keywords: ['camera','photo','picture','snapshot'] },
+      { emoji: '📸', keywords: ['camera','flash','photo','picture','snapshot'] },
+      { emoji: '📹', keywords: ['video','camera','record','film'] },
+      { emoji: '📼', keywords: ['videocassette','tape','old','video','vhs'] },
+      { emoji: '🔍', keywords: ['magnifying','glass','search','find','look'] },
+      { emoji: '🔎', keywords: ['magnifying','glass','right','search','find'] },
+      { emoji: '🔬', keywords: ['microscope','science','lab','research','zoom'] },
+      { emoji: '🔭', keywords: ['telescope','science','space','star','look'] },
+      { emoji: '📡', keywords: ['satellite','antenna','signal','communication','space'] },
+      { emoji: '🧪', keywords: ['test','tube','science','lab','experiment'] },
+      { emoji: '🧫', keywords: ['petri','dish','science','lab','culture'] },
+      { emoji: '🧬', keywords: ['dna','gene','science','biotech','double','helix'] },
+      { emoji: '💊', keywords: ['pill','medicine','drug','health','pharmacy'] },
+      { emoji: '🩹', keywords: ['adhesive','bandage','band','aid','first'] },
+      { emoji: '🩺', keywords: ['stethoscope','doctor','medical','heart','listen'] },
+      { emoji: '🚪', keywords: ['door','entrance','exit','open','close'] },
+      { emoji: '🛗', keywords: ['elevator','lift','building','floor'] },
+      { emoji: '🪞', keywords: ['mirror','reflection','glass','look'] },
+      { emoji: '🪟', keywords: ['window','glass','view','look','light'] },
+      { emoji: '🛏️', keywords: ['bed','sleep','rest','hotel','mattress'] },
+      { emoji: '🛋️', keywords: ['couch','sofa','seat','furniture','living'] },
+      { emoji: '🪑', keywords: ['chair','seat','furniture','sit'] },
+      { emoji: '🚽', keywords: ['toilet','bathroom','flush','wc'] },
+      { emoji: '🚿', keywords: ['shower','water','bath','wash','clean'] },
+      { emoji: '🛁', keywords: ['bathtub','bath','water','relax','soap'] },
+      { emoji: '🪒', keywords: ['razor','blade','shave','cut','sharp'] },
+      { emoji: '🧴', keywords: ['lotion','bottle','cream','skincare'] },
+      { emoji: '🧷', keywords: ['safety','pin','fasten','attach','clip'] },
+      { emoji: '🧹', keywords: ['broom','sweep','clean','floor','dust'] },
+      { emoji: '🧺', keywords: ['basket','laundry','cloth','carry'] },
+      { emoji: '🧻', keywords: ['roll','paper','tissue','wipe','clean'] },
+      { emoji: '🪠', keywords: ['plunger','bathroom','clog','fix'] },
+      { emoji: '🪤', keywords: ['mouse','trap','catch','pest'] },
+      { emoji: '🪡', keywords: ['sewing','needle','stitch','thread','craft'] },
+      { emoji: '🪢', keywords: ['knot','tie','rope','bind','loop'] },
+      { emoji: '🔑', keywords: ['key','lock','door','open','access'] },
+      { emoji: '🗝️', keywords: ['old','key','lock','antique','door'] },
+      { emoji: '🔒', keywords: ['locked','lock','secure','closed','safe'] },
+      { emoji: '🔓', keywords: ['unlocked','lock','open','free','access'] },
+      { emoji: '🛠️', keywords: ['hammer','wrench','tool','fix','build'] },
+      { emoji: '⚙️', keywords: ['gear','settings','mechanical','machine','cog'] },
+      { emoji: '🧰', keywords: ['toolbox','tool','fix','repair','work'] },
+      { emoji: '🧲', keywords: ['magnet','attract','pull','science','magnetic'] },
+      { emoji: '🪜', keywords: ['ladder','climb','step','reach','tool'] },
+      { emoji: '⚖️', keywords: ['balance','scale','weight','law','justice'] },
+      { emoji: '🦯', keywords: ['cane','assist','walk','mobility','blind'] },
+      { emoji: '🔗', keywords: ['link','chain','url','connect','hyperlink'] },
+      { emoji: '⛓️', keywords: ['chains','link','locked','bind','heavy'] },
+      { emoji: '🪝', keywords: ['hook','catch','hang','fish','attach'] },
+      { emoji: '🧱', keywords: ['brick','wall','building','block','construction'] },
+      { emoji: '🪨', keywords: ['rock','stone','heavy','nature'] },
+      { emoji: '🪵', keywords: ['wood','log','tree','material','lumber'] },
+      { emoji: '🛖', keywords: ['hut','house','cabin','shelter'] },
+      { emoji: ' magnet', keywords: ['magnet','attract','pull'] },
+      { emoji: '📕', keywords: ['book','red','read','study','closed'] },
+      { emoji: '📗', keywords: ['book','green','read','study','closed'] },
+      { emoji: '📘', keywords: ['book','blue','read','study','closed'] },
+      { emoji: '📙', keywords: ['book','orange','read','study','closed'] },
+      { emoji: '📓', keywords: ['notebook','write','note','journal','study'] },
+      { emoji: '📔', keywords: ['notebook','decorative','write','note','diary'] },
+      { emoji: '📒', keywords: ['ledger','notebook','write','account'] },
+      { emoji: '📚', keywords: ['books','read','study','library','stack'] },
+      { emoji: '📖', keywords: ['book','open','read','page','study'] },
+      { emoji: '🧷', keywords: ['safety','pin','clip','attach'] },
+      { emoji: '🔗', keywords: ['link','chain','connect'] },
+      { emoji: '📎', keywords: ['paperclip','attach','clip','document'] },
+      { emoji: '🖇️', keywords: ['linked','paperclips','attach','clip'] },
+      { emoji: '📐', keywords: ['triangular','ruler','measure','math','geometry'] },
+      { emoji: '📏', keywords: ['straight','ruler','measure','length','math'] },
+      { emoji: '✏️', keywords: ['pencil','write','draw','sketch','lead'] },
+      { emoji: '🖊️', keywords: ['pen','write','ballpoint','ink'] },
+      { emoji: '🖋️', keywords: ['fountain','pen','write','ink','elegant'] },
+      { emoji: '✒️', keywords: ['nib','pen','write','ink','calligraphy'] },
+      { emoji: '🖌️', keywords: ['paintbrush','paint','brush','art','color'] },
+      { emoji: '🖍️', keywords: ['crayon','color','draw','art','wax'] },
+      { emoji: '📝', keywords: ['memo','note','write','pencil','reminder'] },
+      { emoji: '📁', keywords: ['file','folder','document','organize'] },
+      { emoji: '📂', keywords: ['open','file','folder','document'] },
+      { emoji: '📅', keywords: ['calendar','date','schedule','month','day'] },
+      { emoji: '📆', keywords: ['tear-off','calendar','date','schedule'] },
+      { emoji: '🗒️', keywords: ['spiral','notepad','write','note'] },
+      { emoji: '🗓️', keywords: ['calendar','schedule','plan','date'] },
+      { emoji: '📇', keywords: ['card','index','rolodex','contact'] },
+      { emoji: '📈', keywords: ['chart','increasing','graph','up','growth'] },
+      { emoji: '📉', keywords: ['chart','decreasing','graph','down','decline'] },
+      { emoji: '📊', keywords: ['bar','chart','graph','data','statistics'] },
+      { emoji: '📋', keywords: ['clipboard','list','check','document','form'] },
+      { emoji: '📌', keywords: ['pushpin','pin','mark','location','note'] },
+      { emoji: '📍', keywords: ['round','pushpin','pin','location','mark'] },
+      { emoji: '📎', keywords: ['paperclip','clip','attach','document'] },
+      { emoji: '📏', keywords: ['ruler','measure','straight','length'] },
+      { emoji: '✉️', keywords: ['envelope','mail','letter','email','post'] },
+      { emoji: '📩', keywords: ['envelope','incoming','mail','email','receive'] },
+      { emoji: '📨', keywords: ['envelope','incoming','mail','receive'] },
+      { emoji: '📧', keywords: ['e-mail','email','mail','message','inbox'] },
+      { emoji: '📥', keywords: ['inbox','tray','download','receive','mail'] },
+      { emoji: '📤', keywords: ['outbox','tray','upload','send','mail'] },
+      { emoji: '📦', keywords: ['package','box','parcel','delivery','gift'] },
+      { emoji: '🏷️', keywords: ['label','tag','price','name','mark'] },
+      { emoji: '🪧', keywords: ['placard','sign','poster','notice'] },
+      { emoji: '💰', keywords: ['money','bag','dollar','currency','wealth'] },
+      { emoji: '🪙', keywords: ['coin','money','currency','gold','cent'] },
+      { emoji: '💵', keywords: ['dollar','bill','money','currency','usd'] },
+      { emoji: '💶', keywords: ['euro','bill','money','currency','eur'] },
+      { emoji: '💷', keywords: ['pound','bill','money','currency','gbp'] },
+      { emoji: '💴', keywords: ['yen','bill','money','currency','jpy'] },
+      { emoji: '💳', keywords: ['credit','card','bank','payment','money'] },
+      { emoji: '💸', keywords: ['money','wings','fly','spend','expense'] },
+      { emoji: '🧾', keywords: ['receipt','bill','invoice','document','purchase'] },
+      { emoji: '💱', keywords: ['currency','exchange','money','rate','swap'] },
+      { emoji: '💲', keywords: ['dollar','sign','money','currency','usd'] },
+      { emoji: '✉️', keywords: ['envelope','letter','mail'] },
+      { emoji: '/mailbox', keywords: ['mailbox','post','mail','letter'] },
+      { emoji: '🗳️', keywords: ['ballot','box','vote','election','choice'] },
+      { emoji: '✏️', keywords: ['pencil','write','draw'] },
+      { emoji: '✒️', keywords: ['pen','nib','write','ink'] },
+      { emoji: '🔍', keywords: ['search','magnify','find','look'] },
+      { emoji: '🔒', keywords: ['lock','secure','closed','safe'] },
+      { emoji: '🔓', keywords: ['unlock','open','access','free'] },
+      { emoji: '🔑', keywords: ['key','lock','access','door'] },
+      { emoji: '🔔', keywords: ['bell','notification','alert','ring','chime'] },
+      { emoji: '🔕', keywords: ['bell','mute','silent','off','no','notification'] },
+      { emoji: '🧲', keywords: ['magnet','attract','pull','science'] },
+      { emoji: '🪜', keywords: ['ladder','climb','step','reach'] },
+      { emoji: '⏰', keywords: ['alarm','clock','time','morning','wake'] },
+      { emoji: '⏲️', keywords: ['timer','clock','time','countdown','stopwatch'] },
+      { emoji: '⏱️', keywords: ['stopwatch','time','count','measure','speed'] },
+      { emoji: '🕰️', keywords: ['mantelpiece','clock','time','old','decorative'] },
+      { emoji: '⌛', keywords: ['hourglass','time','wait','sand','old'] },
+      { emoji: '⏳', keywords: ['hourglass','flowing','time','wait','sand'] },
+      { emoji: '📡', keywords: ['satellite','antenna','signal','communication'] },
+      { emoji: '🔋', keywords: ['battery','power','charge','energy','electric'] },
+      { emoji: '🪫', keywords: ['low','battery','power','charge','energy'] },
+      { emoji: '🔌', keywords: ['plug','electric','power','charge','outlet'] },
+      { emoji: '💡', keywords: ['light','bulb','idea','bright','electric'] },
+      { emoji: '🔦', keywords: ['flashlight','light','beam','dark','night'] },
+      { emoji: '🕯️', keywords: ['candle','light','fire','warm','flicker'] },
+      { emoji: '🧯', keywords: ['fire','extinguisher','emergency','safety','put','out'] },
+      { emoji: '🛢️', keywords: ['oil','drum','barrel','petroleum','fuel'] },
+      { emoji: '🛒', keywords: ['shopping','cart','trolley','store','buy'] },
+      { emoji: '🚬', keywords: ['cigarette','smoke','tobacco','smoking'] },
+      { emoji: '⚰️', keywords: ['coffin','casket','death','funeral','burial'] },
+      { emoji: '🪦', keywords: ['headstone','grave','tombstone','memorial','death'] },
+      { emoji: '⚱️', keywords: ['funeral','urn','ashes','death','cremation'] },
+      { emoji: '🪨', keywords: ['rock','stone','heavy','nature','solid'] },
+      { emoji: '🪵', keywords: ['wood','log','lumber','tree','material'] },
+    ],
+    symbols: [
+      { emoji: '❤️', keywords: ['red','heart','love','passion','romance'] },
+      { emoji: '🧡', keywords: ['orange','heart','love','warm','care'] },
+      { emoji: '💛', keywords: ['yellow','heart','love','friend','gold'] },
+      { emoji: '💚', keywords: ['green','heart','love','nature','eco'] },
+      { emoji: '💙', keywords: ['blue','heart','love','trust','loyalty'] },
+      { emoji: '💜', keywords: ['purple','heart','love','royal','mysterious'] },
+      { emoji: '🖤', keywords: ['black','heart','love','dark','emo'] },
+      { emoji: '🤍', keywords: ['white','heart','love','pure','innocent'] },
+      { emoji: '🤎', keywords: ['brown','heart','love','earth','stable'] },
+      { emoji: '💔', keywords: ['broken','heart','sad','heartbreak','pain'] },
+      { emoji: '❣️', keywords: ['exclamation','heart','love','surprise'] },
+      { emoji: '💕', keywords: ['two','hearts','love','affection','pair'] },
+      { emoji: '💞', keywords: ['revolving','hearts','love','affection','spin'] },
+      { emoji: '💓', keywords: ['beating','heart','love','pulse','alive'] },
+      { emoji: '💗', keywords: ['growing','heart','love','affection','increase'] },
+      { emoji: '💖', keywords: ['sparkling','heart','love','shine','special'] },
+      { emoji: '💘', keywords: ['heart','arrow','love','cupid','romance'] },
+      { emoji: '💝', keywords: ['heart','ribbon','love','gift','present'] },
+      { emoji: '💟', keywords: ['heart','decoration','love','ornament'] },
+      { emoji: '☮️', keywords: ['peace','symbol','dove','anti','war'] },
+      { emoji: '✝️', keywords: ['cross','christian','religion','christ'] },
+      { emoji: '☪️', keywords: ['star',' crescent','islam','muslim','religion'] },
+      { emoji: '🕉️', keywords: ['om','hindu','religion','spiritual','mantra'] },
+      { emoji: '☸️', keywords: ['dharma','wheel','buddhist','religion','path'] },
+      { emoji: '✡️', keywords: ['star','david','judaism','jewish','religion'] },
+      { emoji: '🔯', keywords: ['six','pointed','star','menorah','hexagram'] },
+      { emoji: '🕎', keywords: ['menorah','judaism','jewish','candle','religion'] },
+      { emoji: '☯️', keywords: ['yin','yang','balance','chinese','philosophy'] },
+      { emoji: '☦️', keywords: ['orthodox','cross','christian','religion'] },
+      { emoji: '🛐', keywords: ['worship','place','religion','pray'] },
+      { emoji: '♈', keywords: ['aries','zodiac','astrology','sign','ram'] },
+      { emoji: '♉', keywords: ['taurus','zodiac','astrology','sign','bull'] },
+      { emoji: '♊', keywords: ['gemini','zodiac','astrology','sign','twins'] },
+      { emoji: '♋', keywords: ['cancer','zodiac','astrology','sign','crab'] },
+      { emoji: '♌', keywords: ['leo','zodiac','astrology','sign','lion'] },
+      { emoji: '♍', keywords: ['virgo','zodiac','astrology','sign','maiden'] },
+      { emoji: '♎', keywords: ['libra','zodiac','astrology','sign','balance'] },
+      { emoji: '♏', keywords: ['scorpio','zodiac','astrology','sign','scorpion'] },
+      { emoji: '♐', keywords: ['sagittarius','zodiac','astrology','sign','archer'] },
+      { emoji: '♑', keywords: ['capricorn','zodiac','astrology','sign','goat'] },
+      { emoji: '♒', keywords: ['aquarius','zodiac','astrology','sign','water'] },
+      { emoji: '♓', keywords: ['pisces','zodiac','astrology','sign','fish'] },
+      { emoji: '⛎', keywords: ['ophiuchus','zodiac','astrology','sign','serpent'] },
+      { emoji: '🔴', keywords: ['red','circle','color','danger','stop'] },
+      { emoji: '🟠', keywords: ['orange','circle','color','warm'] },
+      { emoji: '🟡', keywords: ['yellow','circle','color','sun','bright'] },
+      { emoji: '🟢', keywords: ['green','circle','color','go','nature'] },
+      { emoji: '🔵', keywords: ['blue','circle','color','cold','water'] },
+      { emoji: '🟣', keywords: ['purple','circle','color','royal'] },
+      { emoji: '⚪', keywords: ['white','circle','color','light','empty'] },
+      { emoji: '⚫', keywords: ['black','circle','color','dark','heavy'] },
+      { emoji: '🟤', keywords: ['brown','circle','color','earth'] },
+      { emoji: '🔺', keywords: ['red','triangle','up','pointed','direction'] },
+      { emoji: '🔻', keywords: ['red','triangle','down','pointed','direction'] },
+      { emoji: '🔶', keywords: ['orange','diamond','large','shape'] },
+      { emoji: '🔷', keywords: ['blue','diamond','large','shape'] },
+      { emoji: '🔸', keywords: ['orange','diamond','small','shape'] },
+      { emoji: '🔹', keywords: ['blue','diamond','small','shape'] },
+      { emoji: '⭐', keywords: ['star','gold','favorite','rate','shine'] },
+      { emoji: '🌟', keywords: ['glowing','star','shine','sparkle','bright'] },
+      { emoji: '✨', keywords: ['sparkles','shine','magic','glitter','sparkle'] },
+      { emoji: '⚡', keywords: ['lightning','zap','electric','bolt','energy'] },
+      { emoji: '☄️', keywords: ['comet','space','star','meteor','trail'] },
+      { emoji: '🔥', keywords: ['fire','hot','flame','burn','heat'] },
+      { emoji: '🌈', keywords: ['rainbow','color','pride','lgbt','spectrum'] },
+      { emoji: '☀️', keywords: ['sun','sunny','weather','day','bright'] },
+      { emoji: '🌤️', keywords: ['sun','cloud','weather','partly','sunny'] },
+      { emoji: '☁️', keywords: ['cloud','weather','sky','overcast'] },
+      { emoji: '🌧️', keywords: ['cloud','rain','weather','wet','drop'] },
+      { emoji: '⛈️', keywords: ['cloud','lightning','rain','storm','thunder'] },
+      { emoji: '❄️', keywords: ['snowflake','snow','cold','winter','frozen'] },
+      { emoji: '💧', keywords: ['droplet','water','drop','liquid','wet'] },
+      { emoji: '🌊', keywords: ['wave','water','ocean','sea','surf'] },
+      { emoji: '✅', keywords: ['check','mark','done','success','complete'] },
+      { emoji: '❌', keywords: ['cross','mark','no','fail','cancel','wrong'] },
+      { emoji: '❓', keywords: ['question','mark','ask','unknown','help'] },
+      { emoji: '❗', keywords: ['exclamation','mark','important','alert','warning'] },
+      { emoji: '⭕', keywords: ['circle','zero','empty','hollow'] },
+      { emoji: '💯', keywords: ['hundred','100','percent','score','perfect'] },
+      { emoji: '🆗', keywords: ['ok','sign','good','approved','accept'] },
+      { emoji: '🆒', keywords: ['cool','sign','awesome','dope','nice'] },
+      { emoji: '🆕', keywords: ['new','sign','fresh','recent','latest'] },
+      { emoji: '🆓', keywords: ['free','sign','no','cost','gratis'] },
+      { emoji: '🆖', keywords: ['ng','sign','no','good','bad'] },
+      { emoji: '🆙', keywords: ['up','sign','increase','rise','above'] },
+      { emoji: '🆘', keywords: ['sos','sign','help','emergency','distress'] },
+      { emoji: '🆖', keywords: ['ng','no','good','sign'] },
+      { emoji: '🆚', keywords: ['vs','versus','against','sign','compete'] },
+      { emoji: '🈁', keywords: ['katakana','here','japanese','location'] },
+      { emoji: '🈂️', keywords: ['katakana','service','charge','japanese'] },
+      { emoji: '🈷️', keywords: ['katakana','monthly','japanese','sign'] },
+      { emoji: '🈶', keywords: ['katakana','not','free','japanese','sign'] },
+      { emoji: '🈯', keywords: ['katakana','reserved','japanese','sign'] },
+      { emoji: '🉐', keywords: ['katakana','advantage','bargain','japanese'] },
+      { emoji: '🉑', keywords: ['katakana','accept','japanese','sign'] },
+      { emoji: '🈹', keywords: ['katakana','divide','discount','japanese'] },
+      { emoji: '🈲', keywords: ['katakana','prohibit','ban','japanese'] },
+      { emoji: '🈳', keywords: ['katakana','empty','vacancy','japanese'] },
+      { emoji: '🈴', keywords: ['katakana','affiliation','join','japanese'] },
+      { emoji: '🈵', keywords: ['katakana','full','complete','japanese'] },
+      { emoji: '🈶', keywords: ['katakana','not','free','japanese'] },
+      { emoji: '🈚', keywords: ['katakana','nothing','free','japanese'] },
+      { emoji: '🈛', keywords: ['katakana','safety','secure','japanese'] },
+      { emoji: '🈜', keywords: ['katakana','prohibited','ban','japanese'] },
+      { emoji: '🈝', keywords: ['katakana','available','open','japanese'] },
+      { emoji: '🈞', keywords: ['katakana','not','applicable','japanese'] },
+      { emoji: '🈟', keywords: ['katakana','application','form','japanese'] },
+      { emoji: '🈠', keywords: ['katakana','open','business','japanese'] },
+      { emoji: '🈡', keywords: ['katakana','passing','grade','japanese'] },
+      { emoji: '㊀', keywords: ['circled','ideograph','zero','japanese'] },
+      { emoji: '㊁', keywords: ['circled','ideograph','one','japanese'] },
+      { emoji: '㊂', keywords: ['circled','ideograph','two','japanese'] },
+      { emoji: '㊃', keywords: ['circled','ideograph','three','japanese'] },
+      { emoji: '㊄', keywords: ['circled','ideograph','four','japanese'] },
+      { emoji: '㊅', keywords: ['circled','ideograph','five','japanese'] },
+      { emoji: '㊆', keywords: ['circled','ideograph','six','japanese'] },
+      { emoji: '㊇', keywords: ['circled','ideograph','seven','japanese'] },
+      { emoji: '㊈', keywords: ['circled','ideograph','eight','japanese'] },
+      { emoji: '㊉', keywords: ['circled','ideograph','nine','japanese'] },
+      { emoji: '🈴', keywords: ['katakana','join','japanese'] },
+      { emoji: '🈵', keywords: ['katakana','full','japanese'] },
+      { emoji: '🈹', keywords: ['katakana','divide','japanese'] },
+      { emoji: '🈲', keywords: ['katakana','prohibit','japanese'] },
+      { emoji: '🈳', keywords: ['katakana','empty','japanese'] },
+      { emoji: '🈚', keywords: ['katakana','nothing','free','japanese'] },
+      { emoji: '🈛', keywords: ['katakana','safety','japanese'] },
+      { emoji: '🈶', keywords: ['katakana','not','free','japanese'] },
+      { emoji: '🈯', keywords: ['katakana','reserved','japanese'] },
+      { emoji: '🉐', keywords: ['katakana','bargain','japanese'] },
+      { emoji: '🉑', keywords: ['katakana','accept','japanese'] },
+      { emoji: '㊗', keywords: ['circled','ideograph','congratulation','japanese'] },
+      { emoji: '㊙', keywords: ['circled','ideograph','secret','japanese'] },
+      { emoji: '㉴', keywords: ['circled','ideograph','business','japanese'] },
+      { emoji: '🈁', keywords: ['katakana','here','japanese'] },
+      { emoji: '🈂️', keywords: ['katakana','service','charge','japanese'] },
+      { emoji: '🈷️', keywords: ['katakana','monthly','japanese'] },
+      { emoji: '🈸', keywords: ['katakana','application','request','japanese'] },
+      { emoji: '🈹', keywords: ['katakana','divide','discount','japanese'] },
+      { emoji: '🈺', keywords: ['katakana','open','operating','japanese'] },
+      { emoji: '🈻', keywords: ['katakana','name','japanese'] },
+      { emoji: '🉐', keywords: ['circled','ideograph','advantage','bargain'] },
+      { emoji: '🉑', keywords: ['circled','ideograph','accept','agree'] },
+      { emoji: '㊗', keywords: ['circled','ideograph','congratulation'] },
+      { emoji: '㊙', keywords: ['circled','ideograph','secret'] },
+      { emoji: '㊀', keywords: ['circled','ideograph','zero'] },
+      { emoji: '㊁', keywords: ['circled','ideograph','one'] },
+      { emoji: '㊂', keywords: ['circled','ideograph','two'] },
+      { emoji: '㊃', keywords: ['circled','ideograph','three'] },
+      { emoji: '㊄', keywords: ['circled','ideograph','four'] },
+      { emoji: '㊅', keywords: ['circled','ideograph','five'] },
+      { emoji: '㊆', keywords: ['circled','ideograph','six'] },
+      { emoji: '㊇', keywords: ['circled','ideograph','seven'] },
+      { emoji: '㊈', keywords: ['circled','ideograph','eight'] },
+      { emoji: '㊉', keywords: ['circled','ideograph','nine'] },
+      { emoji: '🅰', keywords: ['a','type','blood','letter','red'] },
+      { emoji: '🅱', keywords: ['b','type','blood','letter','red'] },
+      { emoji: '🆎', keywords: ['ab','type','blood','letter','red'] },
+      { emoji: '🅾', keywords: ['o','type','blood','letter','red'] },
+      { emoji: '🆑', keywords: ['cl','clear','letter','button'] },
+      { emoji: '🆒', keywords: ['cool','letter','button','word'] },
+      { emoji: '🆓', keywords: ['free','letter','button','word'] },
+      { emoji: 'ℹ️', keywords: ['information','info','letter','i','source'] },
+      { emoji: '🆔', keywords: ['id','identification','letter','button'] },
+      { emoji: '🆕', keywords: ['new','letter','button','word'] },
+      { emoji: '🆖', keywords: ['ng','no','good','letter','button'] },
+      { emoji: '🆗', keywords: ['ok','letter','button','word','good'] },
+      { emoji: '🆙', keywords: ['up','letter','button','word','increase'] },
+      { emoji: '🆘', keywords: ['sos','help','letter','button','emergency'] },
+      { emoji: '🆛', keywords: ['katakana','ka','letter','japanese'] },
+      { emoji: '🆜', keywords: ['katakana','ku','letter','japanese'] },
+      { emoji: '🆝', keywords: ['katakana','sa','letter','japanese'] },
+      { emoji: '🆞', keywords: ['katakana','su','letter','japanese'] },
+      { emoji: '🆟', keywords: ['katakana','so','letter','japanese'] },
+      { emoji: '🆠', keywords: ['katakana','ta','letter','japanese'] },
+      { emoji: '🆡', keywords: ['katakana','na','letter','japanese'] },
+      { emoji: '🆢', keywords: ['katakana','ni','letter','japanese'] },
+      { emoji: '🆣', keywords: ['katakana','ne','letter','japanese'] },
+      { emoji: '🆤', keywords: ['katakana','ha','letter','japanese'] },
+      { emoji: '🆥', keywords: ['katakana','hi','letter','japanese'] },
+      { emoji: '🆦', keywords: ['katakana','ho','letter','japanese'] },
+      { emoji: '🆧', keywords: ['katakana','he','letter','japanese'] },
+      { emoji: '🆨', keywords: ['katakana','ma','letter','japanese'] },
+      { emoji: '🆩', keywords: ['katakana','mi','letter','japanese'] },
+      { emoji: '🆪', keywords: ['katakana','mu','letter','japanese'] },
+      { emoji: '🆫', keywords: ['katakana','me','letter','japanese'] },
+      { emoji: '🆬', keywords: ['katakana','mo','letter','japanese'] },
+      { emoji: '🆭', keywords: ['katakana','ya','letter','japanese'] },
+      { emoji: '🆮', keywords: ['katakana','yu','letter','japanese'] },
+      { emoji: '🆯', keywords: ['katakana','yo','letter','japanese'] },
+      { emoji: '🆰', keywords: ['katakana','ra','letter','japanese'] },
+      { emoji: '🆱', keywords: ['katakana','ri','letter','japanese'] },
+      { emoji: '🆲', keywords: ['katakana','ru','letter','japanese'] },
+      { emoji: '🆳', keywords: ['katakana','re','letter','japanese'] },
+      { emoji: '🆴', keywords: ['katakana','ro','letter','japanese'] },
+      { emoji: '🆵', keywords: ['katakana','wa','letter','japanese'] },
+      { emoji: '🆶', keywords: ['katakana','n','letter','japanese'] },
+      { emoji: '🆷', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🆸', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🆹', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🆺', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🆻', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🆼', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🆽', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🆾', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🆿', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇀', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇁', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇂', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇃', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇄', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇅', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇆', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇇', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇈', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇉', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇊', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇋', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇌', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇍', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇎', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇏', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇐', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇑', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇒', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇓', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇔', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇕', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇖', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇗', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇘', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇙', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇚', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇛', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇜', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇝', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇞', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇟', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇠', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇡', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇢', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇣', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇤', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇥', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇦', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇧', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇨', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇩', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇪', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇫', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇬', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇭', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇮', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇯', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇰', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇱', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇲', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇳', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇴', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇵', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇶', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇷', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇸', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇹', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇺', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇻', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇼', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇽', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇾', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🇿', keywords: ['hand','sign','clap','applause'] },
+      { emoji: '🏴', keywords: ['black','flag','flag','pirate'] },
+    ],
+    flags: [
+      { emoji: '🏁', keywords: ['checkered','flag','race','finish','start'] },
+      { emoji: '🚩', keywords: ['triangular','flag','post','flagpole','red'] },
+      { emoji: '🏴', keywords: ['black','flag','pirate','dark'] },
+      { emoji: '🏳️', keywords: ['white','flag','peace','surrender','truce'] },
+      { emoji: '🏳️‍🌈', keywords: ['rainbow','flag','pride','lgbt','gay','inclusion'] },
+      { emoji: '🏳️‍⚧️', keywords: ['transgender','flag','pride','trans','lgbt'] },
+      { emoji: '🏴‍☠️', keywords: ['pirate','flag','skull','crossbones','sea'] },
+      { emoji: '🇺🇸', keywords: ['united','states','america','usa','flag'] },
+      { emoji: '🇬🇧', keywords: ['united','kingdom','britain','uk','flag','england'] },
+      { emoji: '🇷🇺', keywords: ['russia','russian','flag','moscow'] },
+      { emoji: '🇪🇸', keywords: ['spain','spanish','flag','españa'] },
+      { emoji: '🇵🇹', keywords: ['portugal','portuguese','flag'] },
+      { emoji: '🇮🇩', keywords: ['indonesia','indonesian','flag'] },
+      { emoji: '🇩🇪', keywords: ['germany','german','flag','deutschland'] },
+      { emoji: '🇫🇷', keywords: ['france','french','flag','paris'] },
+      { emoji: '🇮🇹', keywords: ['italy','italian','flag','roma'] },
+      { emoji: '🇯🇵', keywords: ['japan','japanese','flag','tokyo'] },
+      { emoji: '🇰🇷', keywords: ['korea','south','korean','flag','seoul'] },
+      { emoji: '🇨🇳', keywords: ['china','chinese','flag','beijing'] },
+      { emoji: '🇮🇳', keywords: ['india','indian','flag','delhi'] },
+      { emoji: '🇧🇷', keywords: ['brazil','brazilian','flag','brasilia'] },
+      { emoji: '🇦🇺', keywords: ['australia','australian','flag','sydney'] },
+      { emoji: '🇨🇦', keywords: ['canada','canadian','flag','ottawa'] },
+      { emoji: '🇲🇽', keywords: ['mexico','mexican','flag'] },
+      { emoji: '🇦🇪', keywords: ['uae','emirates','flag','dubai'] },
+      { emoji: '🇸🇦', keywords: ['saudi','arabia','flag','arab'] },
+      { emoji: '🇹🇷', keywords: ['turkey','turkish','flag','istanbul'] },
+      { emoji: '🇿🇦', keywords: ['south','africa','flag','african'] },
+      { emoji: '🇳🇱', keywords: ['netherlands','dutch','flag','holland'] },
+      { emoji: '🇸🇪', keywords: ['sweden','swedish','flag'] },
+      { emoji: '🇳🇴', keywords: ['norway','norwegian','flag'] },
+      { emoji: '🇩🇰', keywords: ['denmark','danish','flag'] },
+      { emoji: '🇫🇮', keywords: ['finland','finnish','flag'] },
+      { emoji: '🇵🇱', keywords: ['poland','polish','flag'] },
+      { emoji: '🇦🇷', keywords: ['argentina','argentine','flag'] },
+      { emoji: '🇨🇱', keywords: ['chile','chilean','flag'] },
+      { emoji: '🇨🇴', keywords: ['colombia','colombian','flag'] },
+      { emoji: '🇵🇭', keywords: ['philippines','filipino','flag'] },
+      { emoji: '🇻🇳', keywords: ['vietnam','vietnamese','flag'] },
+      { emoji: '🇹🇭', keywords: ['thailand','thai','flag'] },
+      { emoji: '🇪🇬', keywords: ['egypt','egyptian','flag'] },
+      { emoji: '🇮🇱', keywords: ['israel','israeli','flag'] },
+      { emoji: '🇬🇷', keywords: ['greece','greek','flag'] },
+      { emoji: '🇵🇰', keywords: ['pakistan','pakistani','flag'] },
+      { emoji: '🇲🇾', keywords: ['malaysia','malaysian','flag'] },
+      { emoji: '🇳🇿', keywords: ['new','zealand','flag','auckland'] },
+      { emoji: '🇸🇬', keywords: ['singapore','singaporean','flag'] },
+      { emoji: '🇭🇺', keywords: ['hungary','hungarian','flag'] },
+      { emoji: '🇨🇭', keywords: ['switzerland','swiss','flag'] },
+      { emoji: '🇦🇹', keywords: ['austria','austrian','flag'] },
+      { emoji: '🇧🇪', keywords: ['belgium','belgian','flag'] },
+      { emoji: '🇵🇪', keywords: ['peru','peruvian','flag'] },
+      { emoji: '🇨🇿', keywords: ['czech','republic','flag'] },
+      { emoji: '🇮🇪', keywords: ['ireland','irish','flag'] },
+      { emoji: '🇺🇦', keywords: ['ukraine','ukrainian','flag'] },
+      { emoji: '🇰🇪', keywords: ['kenya','kenyan','flag'] },
+      { emoji: '🇳🇬', keywords: ['nigeria','nigerian','flag'] },
+      { emoji: '🇪🇨', keywords: ['ecuador','ecuadorian','flag'] },
+      { emoji: '🇵🇦', keywords: ['panama','panamanian','flag'] },
+      { emoji: '🇨🇷', keywords: ['costa','rica','flag'] },
+      { emoji: '🇰🇼', keywords: ['kuwait','kuwaiti','flag'] },
+      { emoji: '🇶🇦', keywords: ['qatar','qatari','flag'] },
+      { emoji: '🇧🇭', keywords: ['bahrain','bahraini','flag'] },
+      { emoji: '🇴🇲', keywords: ['oman','omani','flag'] },
+      { emoji: '🇯🇴', keywords: ['jordan','jordanian','flag'] },
+      { emoji: '🇱🇧', keywords: ['lebanon','lebanese','flag'] },
+      { emoji: '🇮🇷', keywords: ['iran','iranian','flag'] },
+      { emoji: '🇮🇶', keywords: ['iraq','iraqi','flag'] },
+      { emoji: '🇵🇸', keywords: ['palestine','palestinian','flag'] },
+      { emoji: '🇲🇦', keywords: ['morocco','moroccan','flag'] },
+      { emoji: '🇩🇿', keywords: ['algeria','algerian','flag'] },
+      { emoji: '🇹🇳', keywords: ['tunisia','tunisian','flag'] },
+      { emoji: '🇱🇾', keywords: ['libya','libyan','flag'] },
+      { emoji: '🇪🇹', keywords: ['ethiopia','ethiopian','flag'] },
+      { emoji: '🇬🇭', keywords: ['ghana','ghanaian','flag'] },
+      { emoji: '🇨🇲', keywords: ['cameroon','cameroonian','flag'] },
+      { emoji: '🇸🇳', keywords: ['senegal','senegalese','flag'] },
+      { emoji: '🇲🇱', keywords: ['mali','malian','flag'] },
+      { emoji: '🇬🇲', keywords: ['gambia','gambian','flag'] },
+      { emoji: '🇬🇳', keywords: ['guinea','guinean','flag'] },
+      { emoji: '🇨🇮', keywords: ['ivory','coast','cote','ivoire','flag'] },
+      { emoji: '🇧🇫', keywords: ['burkina','faso','flag'] },
+      { emoji: '🇧🇯', keywords: ['benin','beninese','flag'] },
+      { emoji: '🇹🇬', keywords: ['togo','togolese','flag'] },
+      { emoji: '🇳🇪', keywords: ['niger','nigerien','flag'] },
+      { emoji: '🇹🇩', keywords: ['chad','chadian','flag'] },
+      { emoji: '🇸🇩', keywords: ['sudan','sudanese','flag'] },
+      { emoji: '🇸🇸', keywords: ['south','sudan','flag'] },
+      { emoji: '🇪🇷', keywords: ['eritrea','eritrean','flag'] },
+      { emoji: '🇩🇯', keywords: ['djibouti','djiboutian','flag'] },
+      { emoji: '🇸🇴', keywords: ['somalia','somali','flag'] },
+      { emoji: '🇰🇲', keywords: ['comoros','comorian','flag'] },
+      { emoji: '🇲🇻', keywords: ['maldives','maldivian','flag'] },
+      { emoji: '🇱🇰', keywords: ['sri','lanka','flag'] },
+      { emoji: '🇧🇩', keywords: ['bangladesh','bangladeshi','flag'] },
+      { emoji: '🇲🇲', keywords: ['myanmar','burma','flag'] },
+      { emoji: '🇰🇭', keywords: ['cambodia','cambodian','flag'] },
+      { emoji: '🇱🇦', keywords: ['laos','lao','flag'] },
+      { emoji: '🇲🇳', keywords: ['mongolia','mongolian','flag'] },
+      { emoji: '🇰🇿', keywords: ['kazakhstan','kazakh','flag'] },
+      { emoji: '🇺🇿', keywords: ['uzbekistan','uzbek','flag'] },
+      { emoji: '🇹🇲', keywords: ['turkmenistan','turkmen','flag'] },
+      { emoji: '🇰🇬', keywords: ['kyrgyzstan','kyrgyz','flag'] },
+      { emoji: '🇹🇯', keywords: ['tajikistan','tajik','flag'] },
+      { emoji: '🇦🇫', keywords: ['afghanistan','afghan','flag'] },
+      { emoji: '🇲🇩', keywords: ['moldova','moldovan','flag'] },
+      { emoji: '🇷🇴', keywords: ['romania','romanian','flag'] },
+      { emoji: '🇧🇬', keywords: ['bulgaria','bulgarian','flag'] },
+      { emoji: '🇷🇸', keywords: ['serbia','serbian','flag'] },
+      { emoji: '🇭🇷', keywords: ['croatia','croatian','flag'] },
+      { emoji: '🇸🇰', keywords: ['slovakia','slovak','flag'] },
+      { emoji: '🇸🇮', keywords: ['slovenia','slovenian','flag'] },
+      { emoji: '🇲🇰', keywords: ['macedonia','north','macedonian','flag'] },
+      { emoji: '🇦🇱', keywords: ['albania','albanian','flag'] },
+      { emoji: '🇲🇹', keywords: ['malta','maltese','flag'] },
+      { emoji: '🇮🇸', keywords: ['iceland','icelandic','flag'] },
+      { emoji: '🇱🇺', keywords: ['luxembourg','luxembourgish','flag'] },
+      { emoji: '🇲🇨', keywords: ['monaco','monégasque','flag'] },
+      { emoji: '🇱🇮', keywords: ['liechtenstein','flag'] },
+      { emoji: '🇦🇩', keywords: ['andorra','andorran','flag'] },
+      { emoji: '🇸🇲', keywords: ['san','marino','flag'] },
+      { emoji: '🇻🇦', keywords: ['vatican','city','flag','holy','see'] },
+      { emoji: '🇪🇺', keywords: ['european','union','flag','europe'] },
+      { emoji: '🇴🇱', keywords: ['olympic','flag','ring','sport','games'] },
+    ],
+  };
+
+  // Remove duplicate emojis
+  for (const cat of Object.keys(emojiData)) {
+    const seen = new Set<string>();
+    emojiData[cat] = emojiData[cat].filter(item => {
+      if (seen.has(item.emoji)) return false;
+      seen.add(item.emoji);
+      return true;
+    });
+  }
+
+  // State
+  let currentCat = 'smileys';
+  const recentMax = 24;
+
+  // Render emoji grid
+  function renderGrid(cat: string, searchQuery?: string) {
+    const grid = document.getElementById('ep-grid');
+    const empty = document.getElementById('ep-empty');
+    if (!grid || !empty) return;
+
+    let items = emojiData[cat] || [];
+
+    if (searchQuery && searchQuery.trim()) {
+      const q = searchQuery.trim().toLowerCase();
+      // Search across ALL categories
+      const allItems = Object.values(emojiData).flat();
+      items = allItems.filter(item =>
+        item.keywords.some(kw => kw.toLowerCase().includes(q)) || item.emoji.includes(q)
+      );
+    }
+
+    if (items.length === 0) {
+      grid.innerHTML = '';
+      empty.style.display = 'block';
+      return;
+    }
+
+    empty.style.display = 'none';
+    grid.innerHTML = items.map(item =>
+      `<button type="button" class="ep-emoji-btn" data-emoji="${item.emoji}" title="${item.keywords.join(', ')}">${item.emoji}</button>`
+    ).join('');
+
+    // Attach copy handlers
+    grid.querySelectorAll('.ep-emoji-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const emoji = (btn as HTMLElement).getAttribute('data-emoji') || '';
+        navigator.clipboard.writeText(emoji).then(() => {
+          // Toast notification
+          showToast(emoji);
+          // Add to recently used
+          addToRecent(emoji);
+          // Brief highlight
+          btn.classList.add('copied');
+          setTimeout(() => btn.classList.remove('copied'), 400);
+        });
+      });
+    });
+  }
+
+  // Toast
+  function showToast(emoji: string) {
+    const toast = document.getElementById('ep-toast');
+    const toastEmoji = document.getElementById('ep-toast-emoji');
+    const toastText = document.getElementById('ep-toast-text');
+    if (!toast || !toastEmoji || !toastText) return;
+
+    toastEmoji.textContent = emoji;
+    toast.style.display = 'flex';
+    // Force re-animation
+    toast.style.animation = 'none';
+    toast.offsetHeight; // trigger reflow
+    toast.style.animation = 'ep-toast-in 0.3s ease, ep-toast-out 0.3s ease 1.2s forwards';
+
+    setTimeout(() => {
+      toast.style.display = 'none';
+    }, 1500);
+  }
+
+  // Recently used
+  function addToRecent(emoji: string) {
+    let recent: string[] = [];
+    try {
+      const stored = localStorage.getItem('opnchat-emoji-recent');
+      if (stored) recent = JSON.parse(stored);
+    } catch {}
+
+    // Remove duplicate if exists, add to front
+    recent = recent.filter(e => e !== emoji);
+    recent.unshift(emoji);
+    if (recent.length > recentMax) recent = recent.slice(0, recentMax);
+
+    localStorage.setItem('opnchat-emoji-recent', JSON.stringify(recent));
+    renderRecent();
+  }
+
+  function renderRecent() {
+    const section = document.getElementById('ep-recent-section');
+    const grid = document.getElementById('ep-recent-grid');
+    if (!section || !grid) return;
+
+    let recent: string[] = [];
+    try {
+      const stored = localStorage.getItem('opnchat-emoji-recent');
+      if (stored) recent = JSON.parse(stored);
+    } catch {}
+
+    if (recent.length === 0) {
+      section.style.display = 'none';
+      return;
+    }
+
+    section.style.display = 'block';
+    grid.innerHTML = recent.map(emoji =>
+      `<button type="button" class="ep-emoji-btn" data-emoji="${emoji}">${emoji}</button>`
+    ).join('');
+
+    grid.querySelectorAll('.ep-emoji-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const emoji = (btn as HTMLElement).getAttribute('data-emoji') || '';
+        navigator.clipboard.writeText(emoji).then(() => {
+          showToast(emoji);
+          addToRecent(emoji);
+        });
+      });
+    });
+  }
+
+  // Category tabs
+  function initCategories() {
+    const catBtns = document.querySelectorAll('.ep-cat-btn');
+    catBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Clear search
+        const searchInput = document.getElementById('ep-search') as HTMLInputElement;
+        if (searchInput) searchInput.value = '';
+
+        // Update active
+        catBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        currentCat = (btn as HTMLElement).getAttribute('data-cat') || 'smileys';
+        renderGrid(currentCat);
+      });
+    });
+  }
+
+  // Search
+  function initSearch() {
+    const searchInput = document.getElementById('ep-search') as HTMLInputElement;
+    if (!searchInput) return;
+
+    searchInput.addEventListener('input', () => {
+      const q = searchInput.value;
+      if (q.trim()) {
+        // Deactivate category highlighting during search
+        document.querySelectorAll('.ep-cat-btn').forEach(b => b.classList.remove('active'));
+        renderGrid(currentCat, q);
+      } else {
+        // Restore active category
+        const activeBtn = document.querySelector(`.ep-cat-btn[data-cat="${currentCat}"]`);
+        if (activeBtn) activeBtn.classList.add('active');
+        renderGrid(currentCat);
+      }
+    });
+  }
+
+  // Initialize
+  renderGrid('smileys');
+  initCategories();
+  initSearch();
+  renderRecent();
+
+  // FAQ toggle
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      if (item) item.classList.toggle('open');
+      btn.setAttribute('aria-expanded', item?.classList.contains('open') ? 'true' : 'false');
+    });
+  });
+
+  // Theme toggle
+  const themeBtn = document.getElementById('theme-toggle');
+  if (themeBtn) {
+    themeBtn.addEventListener('click', () => {
+      const root = document.documentElement;
+      const current = root.getAttribute('data-theme');
+      root.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+      localStorage.setItem('opnchat-theme', current === 'dark' ? 'light' : 'dark');
+    });
+    // Restore saved theme
+    const saved = localStorage.getItem('opnchat-theme');
+    if (saved) document.documentElement.setAttribute('data-theme', saved);
+  }
+</script>

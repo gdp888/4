@@ -1,2 +1,5 @@
 skills/
 node_modules/
+dist/
+.astro/
+opnchat-fix/

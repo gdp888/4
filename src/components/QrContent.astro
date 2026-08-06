@@ -1,0 +1,772 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { useTranslations } from '../i18n/utils';
+import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
+import { languages, type Lang } from '../i18n/ui';
+import SiteHeader from './SiteHeader.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import SEOHead from './SEOHead.astro';
+import { localeMap } from '../i18n/localeMap';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const qrSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": t('qr.heading'),
+      "url": getAbsoluteLocaleUrl(lang, 'qr-code'),
+      "description": t('qr.meta.description'),
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "OPN Chat",
+        "url": "https://opnchat.net/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "OPN Chat",
+          "item": getAbsoluteLocaleUrl(lang, '')
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": t('qr.heading'),
+          "item": getAbsoluteLocaleUrl(lang, 'qr-code')
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": t('qr.faq.q1'), "acceptedAnswer": { "@type": "Answer", "text": t('qr.faq.a1') } },
+        { "@type": "Question", "name": t('qr.faq.q2'), "acceptedAnswer": { "@type": "Answer", "text": t('qr.faq.a2') } },
+        { "@type": "Question", "name": t('qr.faq.q3'), "acceptedAnswer": { "@type": "Answer", "text": t('qr.faq.a3') } },
+        { "@type": "Question", "name": t('qr.faq.q4'), "acceptedAnswer": { "@type": "Answer", "text": t('qr.faq.a4') } },
+        { "@type": "Question", "name": t('qr.faq.q5'), "acceptedAnswer": { "@type": "Answer", "text": t('qr.faq.a5') } },
+        { "@type": "Question", "name": t('qr.faq.q6'), "acceptedAnswer": { "@type": "Answer", "text": t('qr.faq.a6') } }
+      ]
+    }
+  ]
+};
+---
+
+<Layout title={t('qr.meta.title')} lang={lang} service="qr-code">
+  <Fragment slot="meta">
+  <SEOHead
+  lang={lang}
+  description={t('qr.meta.description')}
+  canonicalUrl={getAbsoluteLocaleUrl(lang, 'qr-code')}
+  ogTitle={t('qr.meta.og.title')}
+  ogDescription={t('qr.meta.og.description')}
+  ogUrl={getAbsoluteLocaleUrl(lang, 'qr-code')}
+  schema={qrSchema}
+  extraMeta={`<meta name="keywords" content="${t('qr.meta.keywords')}" /><meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content="${t('qr.meta.twitter.title')}" /><meta name="twitter:description" content="${t('qr.meta.twitter.description')}" />`}
+/>
+</Fragment>
+
+  <div class="container">
+    <!-- Header -->
+    <SiteHeader lang={lang} path="qr-code" activeTool="qr-code" />
+
+    <Breadcrumbs lang={lang} items={[{ label: t('bc.home'), href: getRelativeLocaleUrl(lang) }, { label: t('bc.qr-code') }]} />
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1 class="title">{t('qr.heading')}</h1>
+      <p class="subtitle">{t('qr.subtitle')}</p>
+      <div class="privacy-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        {t('qr.privacy.badge')}
+      </div>
+    </div>
+
+    <!-- Generator Tool -->
+    <div class="generator">
+      <!-- Type Tabs -->
+      <div class="type-tabs" role="tablist">
+        <button class="type-tab active" data-type="url" role="tab" aria-selected="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          {t('qr.tab.url')}
+        </button>
+        <button class="type-tab" data-type="wifi" role="tab" aria-selected="false">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+          {t('qr.tab.wifi')}
+        </button>
+        <button class="type-tab" data-type="vcard" role="tab" aria-selected="false">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          {t('qr.tab.vcard')}
+        </button>
+        <button class="type-tab" data-type="text" role="tab" aria-selected="false">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+          {t('qr.tab.text')}
+        </button>
+      </div>
+
+      <!-- Input Forms -->
+      <div class="input-area">
+        <!-- URL Form -->
+        <div class="form-panel active" id="form-url">
+          <label for="qr-url">{t('qr.url.label')}</label>
+          <input type="url" id="qr-url" placeholder={t('qr.url.placeholder')} />
+        </div>
+
+        <!-- WiFi Form -->
+        <div class="form-panel" id="form-wifi">
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="wifi-ssid">{t('qr.wifi.ssid.label')}</label>
+              <input type="text" id="wifi-ssid" placeholder={t('qr.wifi.ssid.placeholder')} />
+            </div>
+            <div class="form-field">
+              <label for="wifi-password">{t('qr.wifi.password.label')}</label>
+              <input type="text" id="wifi-password" placeholder={t('qr.wifi.password.placeholder')} />
+            </div>
+            <div class="form-field">
+              <label for="wifi-encryption">{t('qr.wifi.encryption.label')}</label>
+              <select id="wifi-encryption">
+                <option value="WPA">{t('qr.wifi.encryption.wpa')}</option>
+                <option value="WEP">{t('qr.wifi.encryption.wep')}</option>
+                <option value="nopass">{t('qr.wifi.encryption.none')}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- vCard Form -->
+        <div class="form-panel" id="form-vcard">
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="vcard-firstname">{t('qr.vcard.firstName.label')}</label>
+              <input type="text" id="vcard-firstname" placeholder={t('qr.vcard.firstName.placeholder')} />
+            </div>
+            <div class="form-field">
+              <label for="vcard-lastname">{t('qr.vcard.lastName.label')}</label>
+              <input type="text" id="vcard-lastname" placeholder={t('qr.vcard.lastName.placeholder')} />
+            </div>
+            <div class="form-field">
+              <label for="vcard-phone">{t('qr.vcard.phone.label')}</label>
+              <input type="tel" id="vcard-phone" placeholder={t('qr.vcard.phone.placeholder')} />
+            </div>
+            <div class="form-field">
+              <label for="vcard-email">{t('qr.vcard.email.label')}</label>
+              <input type="email" id="vcard-email" placeholder={t('qr.vcard.email.placeholder')} />
+            </div>
+            <div class="form-field">
+              <label for="vcard-org">{t('qr.vcard.org.label')}</label>
+              <input type="text" id="vcard-org" placeholder={t('qr.vcard.org.placeholder')} />
+            </div>
+            <div class="form-field">
+              <label for="vcard-title">{t('qr.vcard.title.label')}</label>
+              <input type="text" id="vcard-title" placeholder={t('qr.vcard.title.placeholder')} />
+            </div>
+            <div class="form-field full-width">
+              <label for="vcard-url">{t('qr.vcard.url.label')}</label>
+              <input type="url" id="vcard-url" placeholder={t('qr.vcard.url.placeholder')} />
+            </div>
+          </div>
+        </div>
+
+        <!-- Text Form -->
+        <div class="form-panel" id="form-text">
+          <label for="qr-text">{t('qr.text.label')}</label>
+          <textarea id="qr-text" rows="3" placeholder={t('qr.text.placeholder')}></textarea>
+        </div>
+      </div>
+
+      <!-- Customization -->
+      <details class="customize-section">
+        <summary class="customize-toggle">{t('qr.customize.heading')}</summary>
+        <div class="customize-grid">
+          <div class="customize-field">
+            <label for="qr-fg-color">{t('qr.customize.fgColor')}</label>
+            <div class="color-input-wrap">
+              <input type="color" id="qr-fg-color" value="#000000" />
+              <span class="color-value" id="fg-color-value">#000000</span>
+            </div>
+          </div>
+          <div class="customize-field">
+            <label for="qr-bg-color">{t('qr.customize.bgColor')}</label>
+            <div class="color-input-wrap">
+              <input type="color" id="qr-bg-color" value="#FFFFFF" />
+              <span class="color-value" id="bg-color-value">#FFFFFF</span>
+            </div>
+          </div>
+          <div class="customize-field">
+            <label for="qr-error-correction">{t('qr.customize.errorCorrection')}</label>
+            <select id="qr-error-correction">
+              <option value="L">{t('qr.customize.errorCorrection.L')}</option>
+              <option value="M" selected>{t('qr.customize.errorCorrection.M')}</option>
+              <option value="Q">{t('qr.customize.errorCorrection.Q')}</option>
+              <option value="H">{t('qr.customize.errorCorrection.H')}</option>
+            </select>
+          </div>
+        </div>
+      </details>
+
+      <!-- Preview + Actions -->
+      <div class="preview-actions">
+        <div class="preview-box">
+          <div class="preview-label">{t('qr.preview.heading')}</div>
+          <div id="qr-canvas" class="qr-canvas"></div>
+          <p class="preview-empty" id="preview-empty">{t('qr.preview.empty')}</p>
+        </div>
+        <div class="actions">
+          <div class="size-selector">
+            <label>{t('qr.download.size')}</label>
+            <div class="size-buttons">
+              <button class="size-btn" data-size="256">256px</button>
+              <button class="size-btn active" data-size="512">512px</button>
+              <button class="size-btn" data-size="1024">1024px</button>
+            </div>
+          </div>
+          <button class="action-btn primary" id="btn-download-jpg" disabled>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            {t('qr.download.jpg')}
+          </button>
+          <button class="action-btn" id="btn-download-png" disabled>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            {t('qr.download.png')}
+          </button>
+          <button class="action-btn" id="btn-download-svg" disabled>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            {t('qr.download.svg')}
+          </button>
+          <button class="action-btn" id="btn-copy" disabled>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span id="copy-text">{t('qr.copy')}</span>
+          </button>
+          <button class="action-btn" id="btn-share" style="display:none;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            {t('qr.share')}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <section class="features">
+      <h2 class="section-heading">{t('qr.features.heading')}</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+          </div>
+          <h3 class="feature-title">{t('qr.features.noSignup.title')}</h3>
+          <p class="feature-desc">{t('qr.features.noSignup.desc')}</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="9" y1="12" x2="15" y2="12"/></svg>
+          </div>
+          <h3 class="feature-title">{t('qr.features.noWatermark.title')}</h3>
+          <p class="feature-desc">{t('qr.features.noWatermark.desc')}</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h3 class="feature-title">{t('qr.features.noExpiration.title')}</h3>
+          <p class="feature-desc">{t('qr.features.noExpiration.desc')}</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <h3 class="feature-title">{t('qr.features.privacyFirst.title')}</h3>
+          <p class="feature-desc">{t('qr.features.privacyFirst.desc')}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+      <h2 class="section-heading">{t('qr.faq.heading')}</h2>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>{t('qr.faq.q1')}</summary>
+          <p>{t('qr.faq.a1')}</p>
+        </details>
+        <details class="faq-item">
+          <summary>{t('qr.faq.q2')}</summary>
+          <p>{t('qr.faq.a2')}</p>
+        </details>
+        <details class="faq-item">
+          <summary>{t('qr.faq.q3')}</summary>
+          <p>{t('qr.faq.a3')}</p>
+        </details>
+        <details class="faq-item">
+          <summary>{t('qr.faq.q4')}</summary>
+          <p>{t('qr.faq.a4')}</p>
+        </details>
+        <details class="faq-item">
+          <summary>{t('qr.faq.q5')}</summary>
+          <p>{t('qr.faq.a5')}</p>
+        </details>
+        <details class="faq-item">
+          <summary>{t('qr.faq.q6')}</summary>
+          <p>{t('qr.faq.a6')}</p>
+        </details>
+      </div>
+    </section>
+</div>
+</Layout>
+
+<style>
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    margin: 0 auto;
+    max-width: 720px;
+    padding: 2rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  @media (max-width: 640px) {
+
+  }
+
+  /* Hero */
+  .hero { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+  .title {
+    font-size: 2rem; font-weight: 800; letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #25D366, #6fe89d);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .subtitle { font-size: 1rem; color: var(--text-secondary); font-weight: 500; }
+  .privacy-badge {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.8rem; color: var(--opn-primary); background: var(--bg-secondary);
+    border: 1px solid var(--border-color); padding: 0.35rem 0.75rem; border-radius: 20px;
+    margin-top: 0.25rem;
+  }
+
+  /* Generator Box */
+  .generator {
+    background: var(--bg-secondary); border: 1.5px solid var(--border-color);
+    border-radius: 16px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem;
+  }
+
+  /* Type Tabs */
+  .type-tabs {
+    display: flex; gap: 0.5rem; flex-wrap: wrap;
+    border-bottom: 1.5px solid var(--border-color); padding-bottom: 0.75rem;
+  }
+  .type-tab {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    padding: 0.5rem 1rem; border-radius: 8px; border: 1.5px solid transparent;
+    background: transparent; color: var(--text-secondary); font-size: 0.85rem; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .type-tab:hover { background: var(--bg-input); color: var(--text-primary); }
+  .type-tab.active {
+    background: var(--opn-primary); color: #fff; border-color: var(--opn-primary);
+  }
+  .type-tab svg { flex-shrink: 0; }
+
+  /* Forms */
+  .form-panel { display: none; flex-direction: column; gap: 0.75rem; }
+  .form-panel.active { display: flex; }
+  .form-panel label { font-size: 0.85rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.15rem; }
+  .form-panel input, .form-panel textarea, .form-panel select {
+    width: 100%; padding: 0.65rem 0.85rem; border-radius: 10px;
+    border: 1.5px solid var(--border-color); background: var(--bg-input);
+    color: var(--text-primary); font-size: 0.9rem; transition: border-color 0.2s;
+    font-family: inherit;
+  }
+  .form-panel input:focus, .form-panel textarea:focus, .form-panel select:focus {
+    outline: none; border-color: var(--opn-primary);
+  }
+  .form-panel textarea { resize: vertical; min-height: 60px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .form-field { display: flex; flex-direction: column; }
+  .form-field.full-width { grid-column: 1 / -1; }
+
+  /* Customization */
+  .customize-section { border-top: 1px solid var(--border-color); padding-top: 0.5rem; }
+  .customize-toggle {
+    font-size: 0.9rem; font-weight: 600; color: var(--text-secondary);
+    cursor: pointer; padding: 0.5rem 0; list-style: none;
+  }
+  .customize-toggle::-webkit-details-marker { display: none; }
+  .customize-toggle::before { content: "▸ "; transition: transform 0.2s; display: inline-block; }
+  .customize-section[open] .customize-toggle::before { transform: rotate(90deg); }
+  .customize-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+    padding-top: 0.75rem;
+  }
+  .customize-field { display: flex; flex-direction: column; gap: 0.3rem; }
+  .customize-field label { font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); }
+  .customize-field select {
+    padding: 0.45rem 0.6rem; border-radius: 8px; border: 1.5px solid var(--border-color);
+    background: var(--bg-input); color: var(--text-primary); font-size: 0.85rem;
+  }
+  .color-input-wrap { display: flex; align-items: center; gap: 0.5rem; }
+  .color-input-wrap input[type="color"] {
+    width: 36px; height: 36px; border: 1.5px solid var(--border-color);
+    border-radius: 8px; cursor: pointer; padding: 2px; background: var(--bg-input);
+  }
+  .color-value { font-size: 0.8rem; color: var(--text-secondary); font-family: monospace; }
+
+  /* Preview + Actions */
+  .preview-actions {
+    display: grid; grid-template-columns: auto 1fr; gap: 1.5rem; align-items: start;
+    border-top: 1px solid var(--border-color); padding-top: 1.25rem;
+  }
+  .preview-box {
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    background: #fff; border-radius: 12px; padding: 1rem; min-width: 180px; min-height: 200px;
+    justify-content: center; border: 1.5px solid var(--border-color);
+  }
+  .preview-label { font-size: 0.8rem; font-weight: 600; color: #666; text-transform: uppercase; letter-spacing: 0.05em; }
+  .qr-canvas { display: none; }
+  .qr-canvas.visible { display: block; }
+  .qr-canvas :global(canvas) { max-width: 160px !important; height: auto !important; }
+  .preview-empty { font-size: 0.85rem; color: #999; text-align: center; }
+  .preview-empty.hidden { display: none; }
+
+  .actions { display: flex; flex-direction: column; gap: 0.6rem; }
+  .size-selector { display: flex; flex-direction: column; gap: 0.3rem; margin-bottom: 0.25rem; }
+  .size-selector label { font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); }
+  .size-buttons { display: flex; gap: 0.35rem; }
+  .size-btn {
+    padding: 0.35rem 0.7rem; border-radius: 6px; border: 1.5px solid var(--border-color);
+    background: var(--bg-input); color: var(--text-secondary); font-size: 0.8rem; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .size-btn:hover { border-color: var(--opn-primary); color: var(--opn-primary); }
+  .size-btn.active { background: var(--opn-primary); border-color: var(--opn-primary); color: #fff; }
+
+  .action-btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.6rem 1rem; border-radius: 10px; border: 1.5px solid var(--border-color);
+    background: var(--bg-input); color: var(--text-primary); font-size: 0.85rem; font-weight: 600;
+    cursor: pointer; transition: all 0.2s; width: 100%;
+  }
+  .action-btn:hover:not(:disabled) { border-color: var(--opn-primary); color: var(--opn-primary); transform: translateY(-1px); }
+  .action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .action-btn.primary { background: var(--opn-primary); color: #fff; border-color: var(--opn-primary); }
+  .action-btn.primary:hover:not(:disabled) { background: #1ebe5d; color: #fff; transform: translateY(-1px); }
+
+  /* Features */
+  .section-heading { font-size: 1.25rem; font-weight: 700; color: var(--text-primary); text-align: center; }
+  .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.75rem; }
+  .feature-card {
+    background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px;
+    padding: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem;
+  }
+  .feature-icon { color: var(--opn-primary); }
+  .feature-title { font-size: 0.95rem; font-weight: 700; color: var(--text-primary); }
+  .feature-desc { font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary); }
+
+  /* FAQ */
+  .faq-list { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.75rem; }
+  .faq-item {
+    background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 10px;
+    overflow: hidden;
+  }
+  .faq-item summary {
+    padding: 0.85rem 1rem; font-size: 0.9rem; font-weight: 600; color: var(--text-primary);
+    cursor: pointer; list-style: none;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::before { content: "+ "; color: var(--opn-primary); font-weight: 700; }
+  .faq-item[open] summary::before { content: "− "; }
+  .faq-item[open] summary { border-bottom: 1px solid var(--border-color); }
+  .faq-item p { padding: 0.85rem 1rem; font-size: 0.85rem; line-height: 1.7; color: var(--text-secondary); }  /* Mobile */
+  @media (max-width: 640px) {
+    .container { padding: 1.25rem 1rem; }
+    .title { font-size: 1.5rem; }
+    .subtitle { font-size: 0.9rem; }
+    .form-grid { grid-template-columns: 1fr; }
+    .customize-grid { grid-template-columns: 1fr; }
+    .preview-actions { grid-template-columns: 1fr; }
+    .preview-box { min-width: auto; width: 100%; }
+    .features-grid { grid-template-columns: 1fr; }
+    .generator { padding: 1rem; }
+
+    .type-tab { padding: 0.4rem 0.7rem; font-size: 0.8rem; }
+  }
+</style>
+
+<script is:inline src="/js/easy.qrcode.min.js"></script>
+<script>
+
+  // QR Generator Logic
+  const tabs = document.querySelectorAll('.type-tab');
+  const panels = document.querySelectorAll('.form-panel');
+  const qrCanvas = document.getElementById('qr-canvas')!;
+  const previewEmpty = document.getElementById('preview-empty')!;
+  const btnJpg = document.getElementById('btn-download-jpg') as HTMLButtonElement;
+  const btnPng = document.getElementById('btn-download-png') as HTMLButtonElement;
+  const btnSvg = document.getElementById('btn-download-svg') as HTMLButtonElement;
+  const btnCopy = document.getElementById('btn-copy') as HTMLButtonElement;
+  const btnShare = document.getElementById('btn-share') as HTMLButtonElement;
+  const copyText = document.getElementById('copy-text')!;
+  const fgColorInput = document.getElementById('qr-fg-color') as HTMLInputElement;
+  const bgColorInput = document.getElementById('qr-bg-color') as HTMLInputElement;
+  const fgColorValue = document.getElementById('fg-color-value')!;
+  const bgColorValue = document.getElementById('bg-color-value')!;
+  const errorCorrection = document.getElementById('qr-error-correction') as HTMLSelectElement;
+
+  let currentType = 'url';
+  let currentSize = 512;
+  let qrInstance: any = null;
+  let debounceTimer: ReturnType<typeof setTimeout>;
+
+  // Tab switching
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
+      panels.forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      currentType = (tab as HTMLElement).dataset.type!;
+      document.getElementById(`form-${currentType}`)!.classList.add('active');
+      generateQR();
+    });
+  });
+
+  // Size buttons
+  document.querySelectorAll('.size-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentSize = parseInt((btn as HTMLElement).dataset.size!);
+    });
+  });
+
+  // Color inputs
+  fgColorInput.addEventListener('input', () => { fgColorValue.textContent = fgColorInput.value.toUpperCase(); generateQR(); });
+  bgColorInput.addEventListener('input', () => { bgColorValue.textContent = bgColorInput.value.toUpperCase(); generateQR(); });
+  errorCorrection.addEventListener('change', generateQR);
+
+  // Input listeners with debounce
+  document.querySelectorAll('.form-panel input, .form-panel textarea, .form-panel select').forEach(el => {
+    el.addEventListener('input', () => { clearTimeout(debounceTimer); debounceTimer = setTimeout(generateQR, 150); });
+    el.addEventListener('change', () => { clearTimeout(debounceTimer); debounceTimer = setTimeout(generateQR, 150); });
+  });
+
+  function getQRData(): string {
+    switch (currentType) {
+      case 'url': {
+        const val = (document.getElementById('qr-url') as HTMLInputElement).value.trim();
+        return val || '';
+      }
+      case 'wifi': {
+        const ssid = (document.getElementById('wifi-ssid') as HTMLInputElement).value.trim();
+        const pass = (document.getElementById('wifi-password') as HTMLInputElement).value.trim();
+        const enc = (document.getElementById('wifi-encryption') as HTMLSelectElement).value;
+        if (!ssid) return '';
+        const hidden = '';
+        return `WIFI:T:${enc};S:${ssid};P:${pass};H:${hidden};;`;
+      }
+      case 'vcard': {
+        const fn = (document.getElementById('vcard-firstname') as HTMLInputElement).value.trim();
+        const ln = (document.getElementById('vcard-lastname') as HTMLInputElement).value.trim();
+        const phone = (document.getElementById('vcard-phone') as HTMLInputElement).value.trim();
+        const email = (document.getElementById('vcard-email') as HTMLInputElement).value.trim();
+        const org = (document.getElementById('vcard-org') as HTMLInputElement).value.trim();
+        const title = (document.getElementById('vcard-title') as HTMLInputElement).value.trim();
+        const url = (document.getElementById('vcard-url') as HTMLInputElement).value.trim();
+        if (!fn && !ln) return '';
+        let vcard = 'BEGIN:VCARD\nVERSION:3.0\n';
+        vcard += `N:${ln};${fn};;;\n`;
+        vcard += `FN:${fn} ${ln}\n`;
+        if (org) vcard += `ORG:${org}\n`;
+        if (title) vcard += `TITLE:${title}\n`;
+        if (phone) vcard += `TEL;TYPE=CELL:${phone}\n`;
+        if (email) vcard += `EMAIL:${email}\n`;
+        if (url) vcard += `URL:${url}\n`;
+        vcard += 'END:VCARD';
+        return vcard;
+      }
+      case 'text': {
+        const val = (document.getElementById('qr-text') as HTMLTextAreaElement).value.trim();
+        return val || '';
+      }
+      default: return '';
+    }
+  }
+
+  function generateQR() {
+    const data = getQRData();
+    if (!data) {
+      qrCanvas.classList.remove('visible');
+      qrCanvas.innerHTML = '';
+      previewEmpty.classList.remove('hidden');
+      btnJpg.disabled = true; btnPng.disabled = true; btnSvg.disabled = true; btnCopy.disabled = true; btnShare.style.display = 'none';
+      return;
+    }
+
+    // Clear previous
+    qrCanvas.innerHTML = '';
+    qrCanvas.classList.add('visible');
+    previewEmpty.classList.add('hidden');
+    btnJpg.disabled = false; btnPng.disabled = false; btnSvg.disabled = false; btnCopy.disabled = false;
+
+    // Show share button if supported
+    if (navigator.share) { btnShare.style.display = ''; }
+
+    const correctionLevel = errorCorrection.value;
+
+    try {
+      qrInstance = new (window as any).QRCode(qrCanvas, {
+        text: data,
+        width: 160,
+        height: 160,
+        colorDark: fgColorInput.value,
+        colorLight: bgColorInput.value,
+        correctLevel: (window as any).QRCode.CorrectLevel[correctionLevel],
+        drawer: 'canvas'
+      });
+    } catch (e) {
+      console.error('QR generation failed:', e);
+    }
+  }
+
+  // Download JPG
+  btnJpg?.addEventListener('click', () => {
+    const canvas = qrCanvas.querySelector('canvas');
+    if (!canvas) return;
+
+    const tmpCanvas = document.createElement('canvas');
+    tmpCanvas.width = currentSize;
+    tmpCanvas.height = currentSize;
+    const ctx = tmpCanvas.getContext('2d')!;
+    // JPG doesn't support transparency — fill with background color
+    ctx.fillStyle = bgColorInput.value;
+    ctx.fillRect(0, 0, currentSize, currentSize);
+    ctx.drawImage(canvas, 0, 0, currentSize, currentSize);
+
+    const link = document.createElement('a');
+    link.download = `qrcode-${currentSize}x${currentSize}.jpg`;
+    link.href = tmpCanvas.toDataURL('image/jpeg', 0.95);
+    link.click();
+  });
+
+  // Download PNG
+  btnPng?.addEventListener('click', () => {
+    const canvas = qrCanvas.querySelector('canvas');
+    if (!canvas) return;
+
+    const tmpCanvas = document.createElement('canvas');
+    tmpCanvas.width = currentSize;
+    tmpCanvas.height = currentSize;
+    const ctx = tmpCanvas.getContext('2d')!;
+    ctx.fillStyle = bgColorInput.value;
+    ctx.fillRect(0, 0, currentSize, currentSize);
+    ctx.drawImage(canvas, 0, 0, currentSize, currentSize);
+
+    const link = document.createElement('a');
+    link.download = `qrcode-${currentSize}x${currentSize}.png`;
+    link.href = tmpCanvas.toDataURL('image/png');
+    link.click();
+  });
+
+  // Download SVG
+  btnSvg?.addEventListener('click', () => {
+    const data = getQRData();
+    if (!data) return;
+
+    // Generate SVG using EasyQRCodeJS SVG mode
+    const tmpDiv = document.createElement('div');
+    tmpDiv.style.position = 'absolute';
+    tmpDiv.style.left = '-9999px';
+    document.body.appendChild(tmpDiv);
+
+    try {
+      const svgInstance = new (window as any).QRCode(tmpDiv, {
+        text: data,
+        width: currentSize,
+        height: currentSize,
+        colorDark: fgColorInput.value,
+        colorLight: bgColorInput.value,
+        correctLevel: (window as any).QRCode.CorrectLevel[errorCorrection.value],
+        drawer: 'svg'
+      });
+
+      setTimeout(() => {
+        const svgEl = tmpDiv.querySelector('svg');
+        if (svgEl) {
+          const svgData = new XMLSerializer().serializeToString(svgEl);
+          const blob = new Blob([svgData], { type: 'image/svg+xml' });
+          const link = document.createElement('a');
+          link.download = `qrcode-${currentSize}x${currentSize}.svg`;
+          link.href = URL.createObjectURL(blob);
+          link.click();
+          URL.revokeObjectURL(link.href);
+        }
+        document.body.removeChild(tmpDiv);
+      }, 100);
+    } catch (e) {
+      document.body.removeChild(tmpDiv);
+    }
+  });
+
+  // Copy image
+  btnCopy?.addEventListener('click', async () => {
+    const canvas = qrCanvas.querySelector('canvas');
+    if (!canvas) return;
+
+    const tmpCanvas = document.createElement('canvas');
+    tmpCanvas.width = currentSize;
+    tmpCanvas.height = currentSize;
+    const ctx = tmpCanvas.getContext('2d')!;
+    ctx.fillStyle = bgColorInput.value;
+    ctx.fillRect(0, 0, currentSize, currentSize);
+    ctx.drawImage(canvas, 0, 0, currentSize, currentSize);
+
+    try {
+      const blob = await new Promise<Blob>((resolve) => tmpCanvas.toBlob(b => resolve(b!), 'image/png'));
+      await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+      const origText = copyText.textContent;
+      copyText.textContent = (document.querySelector('[data-copied]') as HTMLElement)?.dataset.copied || 'Copied!';
+      setTimeout(() => { copyText.textContent = origText; }, 2000);
+    } catch (e) {
+      console.error('Copy failed:', e);
+    }
+  });
+
+  // Share
+  btnShare?.addEventListener('click', async () => {
+    const canvas = qrCanvas.querySelector('canvas');
+    if (!canvas || !navigator.share) return;
+
+    const tmpCanvas = document.createElement('canvas');
+    tmpCanvas.width = currentSize;
+    tmpCanvas.height = currentSize;
+    const ctx = tmpCanvas.getContext('2d')!;
+    ctx.fillStyle = bgColorInput.value;
+    ctx.fillRect(0, 0, currentSize, currentSize);
+    ctx.drawImage(canvas, 0, 0, currentSize, currentSize);
+
+    try {
+      const blob = await new Promise<Blob>((resolve) => tmpCanvas.toBlob(b => resolve(b!), 'image/png'));
+      const file = new File([blob], 'qrcode.png', { type: 'image/png' });
+      await navigator.share({ files: [file], title: 'QR Code' });
+    } catch (e) {
+      // User cancelled or not supported
+    }
+  });
+</script>

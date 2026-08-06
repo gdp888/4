@@ -1,0 +1,930 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { useTranslations } from '../i18n/utils';
+import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
+import { languages, type Lang } from '../i18n/ui';
+import SiteHeader from './SiteHeader.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import SEOHead from './SEOHead.astro';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const faqItems = [
+  { q: t('tc.faq.q1'), a: t('tc.faq.a1') },
+  { q: t('tc.faq.q2'), a: t('tc.faq.a2') },
+  { q: t('tc.faq.q3'), a: t('tc.faq.a3') },
+  { q: t('tc.faq.q4'), a: t('tc.faq.a4') },
+];
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": t('tc.heading'),
+      "url": getAbsoluteLocaleUrl(lang, 'text-composer'),
+      "description": t('tc.meta.description'),
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "inLanguage": Object.keys(languages),
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqItems.map(item => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": { "@type": "Answer", "text": item.a }
+      }))
+    }
+  ]
+};
+---
+
+<Layout title={t('tc.meta.title')} lang={lang} service="fancy-text">
+  <Fragment slot="meta">
+  <SEOHead
+    lang={lang}
+    description={t('tc.meta.description')}
+    canonicalUrl={getAbsoluteLocaleUrl(lang, 'text-composer')}
+    ogTitle={t('tc.meta.og.title')}
+    ogDescription={t('tc.meta.og.description')}
+    ogUrl={getAbsoluteLocaleUrl(lang, 'text-composer')}
+    schema={pageSchema}
+    extraMeta={`<meta name="keywords" content="${t('tc.meta.keywords')}" /><meta name="twitter:card" content="summary" /><meta name="twitter:title" content="${t('tc.meta.twitter.title')}" /><meta name="twitter:description" content="${t('tc.meta.twitter.description')}" />`}
+/>
+</Fragment>
+
+<div class="container">
+  <SiteHeader lang={lang} path="fancy-text" activeTool="fancy-text" />
+  <Breadcrumbs lang={lang} items={[{ label: t('bc.home'), href: getRelativeLocaleUrl(lang) }, { label: t('bc.textcomposer') }]} />
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1 class="title">{t('tc.heading')}</h1>
+    <p class="subtitle">{t('tc.subheading')}</p>
+    <p class="privacy-badge">{t('tc.privacy.badge')}</p>
+  </div>
+
+  <!-- Main Tool -->
+  <div class="tc-tool">
+    <!-- Input Area -->
+    <div class="input-section">
+      <label for="tc-input" class="input-label">{t('tc.input.label')}</label>
+      <textarea id="tc-input" class="input-field" placeholder={t('tc.input.placeholder')} maxlength="200" rows="2"></textarea>
+      <p class="input-hint">{t('tc.input.hint')}</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs-container">
+      <button class="tab-btn active" data-tab="styles">✨ {t('tc.tab.styles')}</button>
+      <button class="tab-btn" data-tab="emoji">😀 {t('tc.tab.emoji')}</button>
+      <button class="tab-btn" data-tab="templates">📋 {t('tc.tab.templates')}</button>
+      <button class="tab-btn" data-tab="symbols">☆ {t('tc.tab.symbols')}</button>
+    </div>
+
+    <!-- Tab Content: Styles -->
+    <div id="tab-styles" class="tab-content active">
+      <div id="styles-results" class="results-grid"></div>
+    </div>
+
+    <!-- Tab Content: Emoji -->
+    <div id="tab-emoji" class="tab-content">
+      <div class="emoji-search-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="emoji-search-icon"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="emoji-search" class="emoji-search-input" placeholder={t('tc.emoji.search')} autocomplete="off" />
+      </div>
+      <div class="emoji-categories">
+        <button class="emoji-cat active" data-cat="smileys">😊</button>
+        <button class="emoji-cat" data-cat="people">👤</button>
+        <button class="emoji-cat" data-cat="animals">🐾</button>
+        <button class="emoji-cat" data-cat="food">🍕</button>
+        <button class="emoji-cat" data-cat="activities">⚽</button>
+        <button class="emoji-cat" data-cat="travel">✈️</button>
+        <button class="emoji-cat" data-cat="objects">💡</button>
+        <button class="emoji-cat" data-cat="symbols">❤️</button>
+        <button class="emoji-cat" data-cat="flags">🏳️</button>
+      </div>
+      <div id="emoji-grid" class="emoji-grid"></div>
+      <div id="emoji-recent" class="emoji-recent">
+        <span class="recent-label">{t('tc.emoji.recent')}</span>
+        <div id="recent-emojis" class="recent-list"></div>
+      </div>
+    </div>
+
+    <!-- Tab Content: Templates -->
+    <div id="tab-templates" class="tab-content">
+      <div class="template-categories">
+        <button class="template-cat active" data-tcat="greeting">👋 {t('tc.template.cat.greeting')}</button>
+        <button class="template-cat" data-tcat="love">❤️ {t('tc.template.cat.love')}</button>
+        <button class="template-cat" data-tcat="business">💼 {t('tc.template.cat.business')}</button>
+        <button class="template-cat" data-tcat="hype">🔥 {t('tc.template.cat.hype')}</button>
+        <button class="template-cat" data-tcat="bio">✍️ {t('tc.template.cat.bio')}</button>
+        <button class="template-cat" data-tcat="holiday">🎉 {t('tc.template.cat.holiday')}</button>
+      </div>
+      <div id="templates-grid" class="templates-grid"></div>
+    </div>
+
+    <!-- Tab Content: Symbols -->
+    <div id="tab-symbols" class="tab-content">
+      <div class="symbol-categories">
+        <button class="symbol-cat active" data-scat="stars">★ {t('tc.symbol.cat.stars')}</button>
+        <button class="symbol-cat" data-scat="arrows">→ {t('tc.symbol.cat.arrows')}</button>
+        <button class="symbol-cat" data-scat="numbers">① {t('tc.symbol.cat.numbers')}</button>
+        <button class="symbol-cat" data-scat="shapes">■ {t('tc.symbol.cat.shapes')}</button>
+        <button class="symbol-cat" data-scat="decorative">❀ {t('tc.symbol.cat.decorative')}</button>
+        <button class="symbol-cat" data-scat="math">∑ {t('tc.symbol.cat.math')}</button>
+      </div>
+      <div id="symbols-grid" class="symbols-grid"></div>
+    </div>
+
+    <!-- Output Preview -->
+    <div class="output-section">
+      <div class="output-header">
+        <span class="output-label">{t('tc.output.label')}</span>
+        <div class="output-actions">
+          <button id="output-copy" class="action-btn copy-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            <span>{t('tc.btn.copy')}</span>
+          </button>
+          <button id="output-clear" class="action-btn clear-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v1"/></svg>
+            <span>{t('tc.btn.clear')}</span>
+          </button>
+        </div>
+      </div>
+      <div id="output-preview" class="output-preview"></div>
+      <p class="char-count"><span id="char-count-num">0</span> {t('tc.output.chars')}</p>
+    </div>
+  </div>
+
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <h2 class="section-title">{t('tc.seo.faq.heading')}</h2>
+    <div class="faq-list">
+      {faqItems.map(item => (
+        <div class="faq-item">
+          <button type="button" class="faq-question" aria-expanded="false">
+            <span class="faq-q-text">{item.q}</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-answer">
+            <p class="faq-a-text">{item.a}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+</div>
+</Layout>
+
+<script define:vars={{}}>
+// Style Maps will be loaded via external script
+</script>
+
+<script>
+// ===== TEXT COMPOSER - Unified Fancy Text + Emoji + Templates + Symbols =====
+
+// --- Style Maps (Unicode fonts) ---
+const styleMaps = {
+  bold: {'A':'𝐀','B':'𝐁','C':'𝐂','D':'𝐃','E':'𝐄','F':'𝐅','G':'𝐆','H':'𝐇','I':'𝐈','J':'𝐉','K':'𝐊','L':'𝐋','M':'𝐌','N':'𝐍','O':'𝐎','P':'𝐏','Q':'𝐐','R':'𝐑','S':'𝐒','T':'𝐓','U':'𝐔','V':'𝐕','W':'𝐖','X':'𝐗','Y':'𝐘','Z':'𝐙','a':'𝐚','b':'𝐛','c':'𝐜','d':'𝐝','e':'𝐞','f':'𝐟','g':'𝐠','h':'𝐡','i':'𝐢','j':'𝐣','k':'𝐤','l':'𝐥','m':'𝐦','n':'𝐧','o':'𝐨','p':'𝐩','q':'𝐪','r':'𝐫','s':'𝐬','t':'𝐭','u':'𝐮','v':'𝐯','w':'𝐰','x':'𝐱','y':'𝐲','z':'𝐳'},
+  italic: {'A':'𝐴','B':'𝐵','C':'𝐶','D':'𝐷','E':'𝐸','F':'𝐹','G':'𝐺','H':'𝐻','I':'𝐼','J':'𝐽','K':'𝐾','L':'𝐿','M':'𝑀','N':'𝑁','O':'𝑂','P':'𝑃','Q':'𝑄','R':'𝑅','S':'𝑆','T':'𝑇','U':'𝑈','V':'𝑉','W':'𝑊','X':'𝑋','Y':'𝑌','Z':'𝑍','a':'𝑎','b':'𝑏','c':'𝑐','d':'𝑑','e':'𝑒','f':'𝑓','g':'𝑔','h':'𝑕','i':'𝑖','j':'𝑗','k':'𝑘','l':'𝑙','m':'𝑚','n':'𝑛','o':'𝑜','p':'𝑔','q':'𝑕','r':'𝑗','s':'𝑘','t':'𝑙','u':'𝑚','v':'𝑛','w':'𝑜','x':'𝓍','y':'𝑎','z':'𝑏'},
+  boldItalic: {'A':'𝑨','B':'𝑩','C':'𝑪','D':'𝑫','E':'𝑬','F':'𝑭','G':'𝑮','H':'𝑯','I':'𝑰','J':'𝑱','K':'𝑲','L':'𝑳','M':'𝑴','N':'𝑵','O':'𝑶','P':'𝑷','Q':'𝑸','R':'𝑹','S':'𝑺','T':'𝑻','U':'𝑼','V':'𝑽','W':'𝑾','X':'𝑿','Y':'𝒀','Z':'𝒁','a':'𝒂','b':'𝒃','c':'𝒄','d':'𝒅','e':'𝒆','f':'𝒇','g':'𝒈','h':'𝒉','i':'𝒊','j':'𝒋','k':'𝒌','l':'𝒍','m':'𝒎','n':'𝒏','o':'𝒐','p':'𝒑','q':'𝒒','r':'𝒓','s':'𝒔','t':'𝒕','u':'𝒖','v':'𝒗','w':'𝒘','x':'𝒙','y':'𝒚','z':'𝒛'},
+};
+
+const styleLabels = {
+  bold: 'Bold', italic: 'Italic', boldItalic: 'Bold Italic',
+  script: 'Script', boldScript: 'Bold Script', fraktur: 'Fraktur',
+  doubleStruck: 'Double-Struck', monospace: 'Monospace',
+  circled: 'Circled', squared: 'Squared', smallCaps: 'Small Caps',
+  upsideDown: 'Upside Down'
+};
+
+function convertText(input, map) {
+  return input.split('').map(ch => map[ch] || ch).join('');
+}
+
+// --- Emoji Data (abbreviated for build) ---
+const emojiData = {
+  smileys: [
+    { emoji: '😀', keywords: 'grin happy smile' }, { emoji: '😃', keywords: 'grin happy smile' },
+    { emoji: '😄', keywords: 'grin happy smile' }, { emoji: '😁', keywords: 'grin happy smile' },
+    { emoji: '😅', keywords: 'sweat smile hot' }, { emoji: '😂', keywords: 'laugh tears joy' },
+    { emoji: '🤣', keywords: 'laugh rolling floor' }, { emoji: '😊', keywords: 'blush shy happy' },
+    { emoji: '😇', keywords: 'angel innocent halo' }, { emoji: '🙂', keywords: 'slight smile neutral' },
+    { emoji: '😉', keywords: 'wink eye happy' }, { emoji: '😍', keywords: 'heart eyes love' },
+    { emoji: '🥰', keywords: 'hearts love cute' }, { emoji: '😘', keywords: 'blow kiss love' },
+    { emoji: '😗', keywords: 'kiss face' }, { emoji: '😚', keywords: 'kiss closed eyes' },
+    { emoji: '😋', keywords: 'yum delicious tasty' }, { emoji: '😛', keywords: 'tongue playful' },
+    { emoji: '😜', keywords: 'crazy winking tongue' }, { emoji: '🤪', keywords: 'zany crazy wild' },
+    { emoji: '😝', keywords: 'squinting tongue' }, { emoji: '🤑', keywords: 'money dollar rich' },
+    { emoji: '🤗', keywords: 'hug caring warm' }, { emoji: '🤭', keywords: 'hand mouth giggle' },
+    { emoji: '🤫', keywords: 'shush quiet secret' }, { emoji: '🤔', keywords: 'thinking wonder' },
+    { emoji: '🤐', keywords: 'zipper mouth quiet' }, { emoji: '😐', keywords: 'neutral expressionless' },
+    { emoji: '😑', keywords: 'expressionless unamused' }, { emoji: '😶', keywords: 'speechless silent' },
+    { emoji: '😏', keywords: 'smirk smug confident' }, { emoji: '😒', keywords: 'unamused annoyed' },
+    { emoji: '🙄', keywords: 'eye roll annoyed' }, { emoji: '😬', keywords: 'grimace awkward' },
+    { emoji: '😌', keywords: 'relieved calm peaceful' }, { emoji: '😔', keywords: 'sad pensive down' },
+    { emoji: '😪', keywords: 'sleepy tired yawn' }, { emoji: '🤤', keywords: 'drooling yummy hungry' },
+    { emoji: '😴', keywords: 'sleeping zzz tired' }, { emoji: '😷', keywords: 'sick mask ill' },
+    { emoji: '🥺', keywords: 'pleading puppy eyes' }, { emoji: '😭', keywords: 'loudly crying sad' },
+    { emoji: '😤', keywords: 'angry frustrated steam' }, { emoji: '😡', keywords: 'rage angry mad' },
+    { emoji: '🤬', keywords: 'swearing angry curse' }, { emoji: '🤯', keywords: 'mind blown explode' },
+    { emoji: '😳', keywords: 'flushed embarrassed' }, { emoji: '🥵', keywords: 'hot sweating' },
+    { emoji: '🥶', keywords: 'cold freezing' }, { emoji: '😱', keywords: 'scream scared fear' },
+    { emoji: '💀', keywords: 'skull dead death' }, { emoji: '☠️', keywords: 'skull crossbones pirate' },
+    { emoji: '💩', keywords: 'poop shit crap' }, { emoji: '🤡', keywords: 'clown funny silly' },
+  ],
+  people: [
+    { emoji: '👋', keywords: 'wave hello hi hand' }, { emoji: '🤚', keywords: 'hand raised stop' },
+    { emoji: '🖐️', keywords: 'hand spread fingers' }, { emoji: '✋', keywords: 'hand stop halt' },
+    { emoji: '🖖', keywords: 'spock vulcan star trek' }, { emoji: '👌', keywords: 'ok perfect good' },
+    { emoji: '🤌', keywords: 'pinch fingers italian' }, { emoji: '✌️', keywords: 'peace victory two' },
+    { emoji: '🤞', keywords: 'fingers crossed luck' }, { emoji: '🤟', keywords: 'love you gesture' },
+    { emoji: '🤘', keywords: 'rock on metal horns' }, { emoji: '🤙', keywords: 'call me phone shaka' },
+    { emoji: '👈', keywords: 'point left back' }, { emoji: '👉', keywords: 'point right forward' },
+    { emoji: '👆', keywords: 'point up' }, { emoji: '🖕', keywords: 'middle finger rude' },
+    { emoji: '👇', keywords: 'point down' }, { emoji: '☝️', keywords: 'point up one' },
+    { emoji: '👍', keywords: 'thumbs up like yes' }, { emoji: '👎', keywords: 'thumbs down dislike no' },
+    { emoji: '✊', keywords: 'fist power strong' }, { emoji: '👊', keywords: 'fist bump punch' },
+    { emoji: '👏', keywords: 'clap hands applause' }, { emoji: '🙌', keywords: 'raising hands celebrate' },
+    { emoji: '🤝', keywords: 'handshake deal agreement' }, { emoji: '🙏', keywords: 'pray please thanks' },
+    { emoji: '💪', keywords: 'muscle strong flex' }, { emoji: '🦾', keywords: 'mechanical arm robot strong' },
+    { emoji: '👶', keywords: 'man waving hello' }, { emoji: '👩', keywords: 'woman waving hello' },
+    { emoji: '👨', keywords: 'man adult male' }, { emoji: '👩‍🦰', keywords: 'woman red hair ginger' },
+    { emoji: '👨‍🦱', keywords: 'man blond hair' }, { emoji: '👱‍♀️', keywords: 'woman red hair' },
+    { emoji: '👱', keywords: 'man red hair' }, { emoji: '👩‍🦱', keywords: 'woman blond hair' },
+    { emoji: '👴', keywords: 'old man elderly' }, { emoji: '👵', keywords: 'old woman elderly' },
+    { emoji: '👶', keywords: 'baby infant child' }, { emoji: '👧', keywords: 'girl female child' },
+    { emoji: '👦', keywords: 'boy male child' }, { emoji: '👩', keywords: 'woman adult female' },
+    { emoji: '👨', keywords: 'man adult male' }, { emoji: '👫', keywords: 'couple love romance' },
+    { emoji: '💑', keywords: 'couple love romance' }, { emoji: '💏', keywords: 'kiss couple romance' },
+  ],
+  animals: [
+    { emoji: '🐶', keywords: 'dog puppy pet' }, { emoji: '🐱', keywords: 'cat kitten pet kitty' },
+    { emoji: '🐭', keywords: 'mouse rat pet small' }, { emoji: '🐹', keywords: 'hamster pet rodent' },
+    { emoji: '🐰', keywords: 'rabbit bunny pet easter' }, { emoji: '🦊', keywords: 'fox sly clever' },
+    { emoji: '🐻', keywords: 'bear teddy animal' }, { emoji: '🐼', keywords: 'panda bear china cute' },
+    { emoji: '🐨', keywords: 'koala australia cute' }, { emoji: '🐯', keywords: 'tiger big cat stripes' },
+    { emoji: '🦁', keywords: 'lion king jungle' }, { emoji: '🐮', keywords: 'cow farm milk beef' },
+    { emoji: '🐷', keywords: 'pig oink farm' }, { emoji: '🐸', keywords: 'frog toad green hop' },
+    { emoji: '🐵', keywords: 'monkey ape banana' }, { emoji: '🐔', keywords: 'chicken hen rooster farm' },
+    { emoji: '🐧', keywords: 'penguin antarctica bird' }, { emoji: '🐦', keywords: 'bird fly tweet' },
+    { emoji: '🐤', keywords: 'baby chick chicken' }, { emoji: '🦆', keywords: 'duck quack bird' },
+    { emoji: '🦅', keywords: 'eagle hawk bird fly' }, { emoji: '🦉', keywords: 'owl wise night bird' },
+    { emoji: '🦇', keywords: 'bat halloween vampire' }, { emoji: '🐺', keywords: 'wolf howl wild' },
+    { emoji: '🐴', keywords: 'horse ride gallop' }, { emoji: '🦄', keywords: 'unicorn magic fantasy' },
+    { emoji: '🐝', keywords: 'bee honey sting buzz' }, { emoji: '🐛', keywords: 'bug insect beetle' },
+    { emoji: '🦋', keywords: 'butterfly beautiful fly' }, { emoji: '🐌', keywords: 'snail slow shell' },
+    { emoji: '🐞', keywords: 'ladybug ladybird lucky' }, { emoji: '🐜', keywords: 'ant insect colony' },
+    { emoji: '🐢', keywords: 'turtle tortoise slow shell' }, { emoji: '🐍', keywords: 'snake serpent hiss' },
+    { emoji: '🐙', keywords: 'octopus tentacles ocean' }, { emoji: '🦑', keywords: 'squid ocean tentacle' },
+    { emoji: '🦐', keywords: 'shrimp seafood ocean' }, { emoji: '🦞', keywords: 'lobster seafood' },
+    { emoji: '🐡', keywords: 'fish tropical aquarium' }, { emoji: '🐠', keywords: 'tropical fish aquarium' },
+    { emoji: '🐟', keywords: 'fish swim ocean' }, { emoji: '🐬', keywords: 'dolphin mammal ocean smart' },
+    { emoji: '🐳', keywords: 'whale huge ocean' }, { emoji: '🐋', keywords: 'whale spout ocean' },
+    { emoji: '🦈', keywords: 'shark danger ocean' }, { emoji: '🐊', keywords: 'crocodile alligator danger' },
+  ],
+  food: [
+    { emoji: '🍎', keywords: 'apple fruit red healthy' }, { emoji: '🍐', keywords: 'pear fruit green' },
+    { emoji: '🍊', keywords: 'orange citrus fruit' }, { emoji: '🍋', keywords: 'lemon citrus sour yellow' },
+    { emoji: '🍌', keywords: 'banana fruit yellow' }, { emoji: '🍉', keywords: 'watermelon fruit summer' },
+    { emoji: '🍇', keywords: 'grapes fruit wine' }, { emoji: '🍓', keywords: 'strawberry berry red' },
+    { emoji: '🍒', keywords: 'cherry fruit red sweet' }, { emoji: '🍑', keywords: 'peach fruit fuzzy' },
+    { emoji: '🥭', keywords: 'mango fruit tropical' }, { emoji: '🍍', keywords: 'pineapple tropical fruit' },
+    { emoji: '🥥', keywords: 'coconut palm tropical' }, { emoji: '🥑', keywords: 'avocado green healthy' },
+    { emoji: '🍆', keywords: 'eggplant purple vegetable' }, { emoji: '🥔', keywords: 'potato vegetable starch' },
+    { emoji: '🥕', keywords: 'carrot orange vegetable rabbit' }, { emoji: '🌽', keywords: 'corn maize vegetable yellow' },
+    { emoji: '🌶️', keywords: 'pepper hot chili spicy' }, { emoji: '🥒', keywords: 'cucumber fresh salad' },
+    { emoji: '🥬', keywords: 'lettuce cabbage leafy greens' }, { emoji: '🥦', keywords: 'broccoli green vegetable' },
+    { emoji: '🧄', keywords: 'garlic flavor cooking' }, { emoji: '🧅', keywords: 'onion flavor cooking' },
+    { emoji: '🍞', keywords: 'bread bakery toast sandwich' }, { emoji: '🥐', keywords: 'croissant french pastry butter' },
+    { emoji: '🥖', keywords: 'baguette french bread bakery' }, { emoji: '🥨', keywords: 'pretzel snack twisted' },
+    { emoji: '🧀', keywords: 'cheese dairy slice' }, { emoji: '🥚', keywords: 'egg breakfast protein' },
+    { emoji: '🍳', keywords: 'fried egg breakfast pan' }, { emoji: '🥓', keywords: 'bacon pork meat breakfast' },
+    { emoji: '🥩', keywords: 'steak meat beef dinner' }, { emoji: '🍗', keywords: 'chicken poultry meat' },
+    { emoji: '🍖', keywords: 'meat bone pork' }, { emoji: '🌭', keywords: 'hotdog sausage fast food' },
+    { emoji: '🍔', keywords: 'burger hamburger fast food' }, { emoji: '🍟', keywords: 'fries french fast food' },
+    { emoji: '🍕', keywords: 'pizza italian cheese' }, { emoji: '🌮', keywords: 'taco mexican food' },
+    { emoji: '🌯', keywords: 'burrito mexican wrap' }, { emoji: '🥙', keywords: 'gyro pita wrap greek' },
+    { emoji: '🍝', keywords: 'paella spanish rice' }, { emoji: '🥗', keywords: 'salad healthy fresh' },
+    { emoji: '🍜', keywords: 'pasta spaghetti italian' }, { emoji: '🍜', keywords: 'noodles asian chinese ramen' },
+    { emoji: '🍲', keywords: 'stew soup hot bowl' }, { emoji: '🍛', keywords: 'curry indian rice' },
+    { emoji: '🍣', keywords: 'sushi japanese fish rice' }, { emoji: '🍱', keywords: 'bento box japanese lunch' },
+    { emoji: '🍙', keywords: 'rice ball japanese' }, { emoji: '🍚', keywords: 'rice cooked steamed' },
+    { emoji: '🍘', keywords: 'rice cracker japanese' }, { emoji: '🍥', keywords: 'fortune cookie chinese' },
+    { emoji: '🍡', keywords: 'takeout box chinese' }, { emoji: '🦀', keywords: 'crab seafood shell' },
+    { emoji: '🦞', keywords: 'lobster seafood' }, { emoji: '🦐', keywords: 'oyster seafood pearl' },
+    { emoji: '🍦', keywords: 'ice cream frozen dessert' }, { emoji: '🍧', keywords: 'shaved ice dessert' },
+    { emoji: '🍨', keywords: 'ice cream soft serve' }, { emoji: '🍩', keywords: 'donut doughnut sweet pastry' },
+    { emoji: '🍪', keywords: 'cookie biscuit sweet' }, { emoji: '🎂', keywords: 'birthday cake celebration' },
+    { emoji: '🍰', keywords: 'cake slice dessert sweet' }, { emoji: '🧁', keywords: 'cupcake muffin dessert' },
+    { emoji: '🥧', keywords: 'pie dessert apple pumpkin' }, { emoji: '🍫', keywords: 'chocolate candy sweet' },
+    { emoji: '🍬', keywords: 'candy sweet sugar' }, { emoji: '🍭', keywords: 'lollipop candy sweet' },
+    { emoji: '🍮', keywords: 'pudding custard dessert' }, { emoji: '🍯', keywords: 'honey sweet bee natural' },
+    { emoji: '☕', keywords: 'coffee cafe caffeine morning' }, { emoji: '🍵', keywords: 'tea green healthy drink' },
+    { emoji: '🍶', keywords: 'sake alcohol japanese rice' }, { emoji: '🍾', keywords: 'champagne bottle celebration' },
+    { emoji: '🍷', keywords: 'wine red glass alcohol' }, { emoji: '🍸', keywords: 'cocktail glass drink alcohol' },
+    { emoji: '🍺', keywords: 'beer ale lager alcohol' }, { emoji: '🍻', keywords: 'beer cheers clink alcohol' },
+    { emoji: '🥂', keywords: 'champagne glass toast' }, { emoji: '🥃', keywords: 'whiskey bourbon glass' },
+    { emoji: '🥤', keywords: 'cup soda drink straw' }, { emoji: '🧋', keywords: 'bubble tea boba tapioca' },
+  ],
+  symbols: [
+    { emoji: '❤️', keywords: 'heart love red' }, { emoji: '🧡', keywords: 'heart orange' },
+    { emoji: '💛', keywords: 'heart yellow' }, { emoji: '💚', keywords: 'heart green' },
+    { emoji: '💙', keywords: 'heart blue' }, { emoji: '💜', keywords: 'heart purple' },
+    { emoji: '🖤', keywords: 'heart black' }, { emoji: '🤍', keywords: 'heart white' },
+    { emoji: '🤎', keywords: 'heart brown' }, { emoji: '❣️', keywords: 'heart exclamation' },
+    { emoji: '💕', keywords: 'two hearts love' }, { emoji: '💞', keywords: 'revolving hearts' },
+    { emoji: '💓', keywords: 'heartbeat pulsing' }, { emoji: '💗', keywords: 'growing heart' },
+    { emoji: '💖', keywords: 'sparkling heart' }, { emoji: '💘', keywords: 'heart arrow cupid' },
+    { emoji: '💝', keywords: 'heart ribbon gift' }, { emoji: '💟', keywords: 'heart decoration' },
+    { emoji: '♥️', keywords: 'heart suit cards' }, { emoji: '♠️', keywords: 'spade suit cards' },
+    { emoji: '♦️', keywords: 'diamond suit cards' }, { emoji: '♣️', keywords: 'club suit cards' },
+    { emoji: '♟️', keywords: 'chess pawn game' }, { emoji: '🃏', keywords: 'joker card game' },
+    { emoji: '✅', keywords: 'check mark yes done' }, { emoji: '❌', keywords: 'cross mark no wrong' },
+    { emoji: '➕', keywords: 'plus add math' }, { emoji: '➖', keywords: 'minus subtract math' },
+    { emoji: '➗', keywords: 'divide math' }, { emoji: '✖️', keywords: 'multiply math' },
+    { emoji: '‼️', keywords: 'double exclamation' }, { emoji: '⁉️', keywords: 'exclamation question' },
+    { emoji: '❓', keywords: 'question mark help' }, { emoji: '❔', keywords: 'white question' },
+    { emoji: '❕', keywords: 'white exclamation' }, { emoji: '❗', keywords: 'heavy exclamation' },
+    { emoji: '〰️', keywords: 'wavy dash line' }, { emoji: '💱', keywords: 'currency exchange' },
+    { emoji: '💲', keywords: 'dollar currency money' }, { emoji: '⚕️', keywords: 'medical symbol health' },
+    { emoji: '♻️', keywords: 'recycle symbol eco' }, { emoji: '⚠️', keywords: 'warning caution danger' },
+    { emoji: '☢️', keywords: 'radioactive danger' }, { emoji: '☣️', keywords: 'biohazard toxic' },
+    { emoji: '🔴', keywords: 'red circle stop' }, { emoji: '🟠', keywords: 'orange circle' },
+    { emoji: '🟡', keywords: 'yellow circle' }, { emoji: '🟢', keywords: 'green circle go' },
+    { emoji: '🔵', keywords: 'blue circle' }, { emoji: '🟣', keywords: 'purple circle' },
+    { emoji: '🟤', keywords: 'brown circle' }, { emoji: '⚫', keywords: 'black circle' },
+    { emoji: '⚪', keywords: 'white circle' }, { emoji: '🟥', keywords: 'red square' },
+    { emoji: '🟧', keywords: 'orange square' }, { emoji: '🟨', keywords: 'yellow square' },
+    { emoji: '🟩', keywords: 'green square' }, { emoji: '🟦', keywords: 'blue square' },
+    { emoji: '🟪', keywords: 'purple square' }, { emoji: '🟫', keywords: 'brown square' },
+    { emoji: '⬛', keywords: 'black square' }, { emoji: '⬜', keywords: 'white square' },
+  ],
+};
+
+// --- Templates Data ---
+const templatesData = {
+  greeting: [
+    { text: 'Привет! 👋 Как дела? 😊', desc: 'Приветствие' },
+    { text: 'Доброе утро! ☀️ Надеюсь, у тебя отличный день!', desc: 'Доброе утро' },
+    { text: 'Приветствую! 🙌 Рад тебя видеть!', desc: 'Формальное' },
+    { text: 'Йо! 👊 Что новенького?', desc: 'Неформальное' },
+    { text: 'Хей! ✨ Давно не виделись!', desc: 'Дружеское' },
+    { text: 'Hello! 👋 How are you? 😊', desc: 'English Hello' },
+    { text: 'Hi there! 🌟 Good to see you!', desc: 'English Casual' },
+    { text: 'Hey! 👋 What\'s up? 😎', desc: 'English Slang' },
+  ],
+  love: [
+    { text: 'Люблю тебя ❤️ Ты делаешь меня счастливым!', desc: 'Признание' },
+    { text: 'Ты лучший! 💖 Спасибо что ты есть!', desc: 'Комплимент' },
+    { text: 'С тобой каждый день — праздник 💕✨', desc: 'Романтика' },
+    { text: 'Ты моё солнце ☀️💛 Освещаешь мой мир!', desc: 'Милое' },
+    { text: 'Обнимаю крепко! 🤗💞', desc: 'Обнимашки' },
+    { text: 'Ты просто космос! 🚀💫', desc: 'Восхищение' },
+    { text: 'My heart is yours ❤️ Forever & always!', desc: 'English Love' },
+    { text: 'You make me smile 😊 Every single day! 💕', desc: 'English Sweet' },
+    { text: 'Love you to the moon & back 🌙💖', desc: 'English Romantic' },
+  ],
+  business: [
+    { text: 'Здравствуйте! 👋 По поводу нашего обсуждения...', desc: 'Деловое начало' },
+    { text: 'Благодарю за обратную связь! 🙏 Скоро отвечу.', desc: 'Ответ клиенту' },
+    { text: '🛒 СКИДКИ до 50%! ⏰ Только сегодня! Не пропустите!', desc: 'Реклама скидок' },
+    { text: '📢 ВНИМАНИЕ! Успейте заказать со скидкой! 🔥', desc: 'Срочное предложение' },
+    { text: 'Добрый день! Готовы обсудить детали? 💼', desc: 'Деловая встреча' },
+    { text: 'Спасибо за сотрудничество! 🤝 До встречи!', desc: 'Завершение сделки' },
+    { text: 'Hi! 👋 Regarding our discussion about...', desc: 'Business Opening' },
+    { text: 'Thank you for reaching out! 🙏 Will respond soon.', desc: 'Business Reply' },
+    { text: '🚀 NEW PRODUCT ALERT! Check it out now! ⭐', desc: 'Product Launch' },
+  ],
+  hype: [
+    { text: 'LET\'S GOOOO! 🔥🔥 Это будет ЛЕГЕНДАРНО!', desc: 'Хайп полный' },
+    { text: 'ПОЕХАЛИ! 🚀💨 Никто нас не остановит!', desc: 'Мотивация' },
+    { text: 'Это ТОЧНО сработает! 💯🎯 Верю на 100%!', desc: 'Уверенность' },
+    { text: 'УРРААА! 🎉🎊 Мы это СДЕЛАЛИ!', desc: 'Победа' },
+    { text: 'Огонь! 🔥🔥 Просто ОГОНЬ! 😎', desc: 'Короткий хайп' },
+    { text: 'LEVEL UP! ⬆️🎮 Новый уровень!', desc: 'Гейминг' },
+    { text: 'LET\'S GOOO! 🔥 We got this! 💪', desc: 'English Hype' },
+    { text: 'FIRE! 🔥🔥 This is INSANE! 🤯', desc: 'English Fire' },
+    { text: 'VICTORY! 🏆🎉 We did it team! 👊', desc: 'English Victory' },
+  ],
+  bio: [
+    { text: '✨ Creator | 📍 Moscow | ✈️🌍 Travel lover | 📸 Photo', desc: 'Креатор' },
+    { text: '💼 Digital Nomad | 🌍 30+ countries | 📱 Tech enthusiast', desc: 'Цифровой кочевник' },
+    { text: '🎵 Music | 🎮 Gaming | ☕ Coffee addict | 😄 Positive vibes only', desc: 'Хобби' },
+    { text: '👨‍💻 Developer | 🚀 Startup founder | 💡 Building the future', desc: 'Разработчик' },
+    { text: '🎨 Artist | 📷 Photographer | 🌈 Living life in color', desc: 'Творец' },
+    { text: '💪 Fitness | 🥗 Healthy lifestyle | 🏃 Running | 🧘 Yoga', desc: 'Спорт' },
+    { text: '✨ Living my best life | 📍 NYC | 📸 @myhandle', desc: 'English Bio 1' },
+    { text: '🚀 Dreamer | 💭 Thinker | ☕ Caffeine fueled | 🌟 Be kind', desc: 'English Bio 2' },
+    { text: '🎯 Goal getter | 💪 No excuses | 🔥 Making things happen', desc: 'English Bio 3' },
+  ],
+  holiday: [
+    { text: '🎄 С Рождеством! 🎅 Пусть волшебство случится! ❄️✨', desc: 'Рождество' },
+    { text: '🎉 С Новым Годом! 🥳 Пусть 2024 будет лучшим! 🍾🎆', desc: 'Новый год' },
+    { text: '🎃 Happy Halloween! 👻🧛‍♀️ Trick or treat! 🍬🕷️', desc: 'Хэллоуин' },
+    { text: '🐰 С Пасхой! 🥚 Пусть радость наполнит дом! 🌷🌸', desc: 'Пасха' },
+    { text: '❤️ С Днём Святого Валентина! 💝 Любовь везде! 🌹💕', desc: 'День влюблённых' },
+    { text: '🤣 С 1 апреля! 😜 Не верь глазам своим! 🃏🎭', desc: 'День дурака' },
+    { text: '🦃 Happy Thanksgiving! 🥧 Grateful for you all! 🙏🍂', desc: 'Thanksgiving' },
+    { text: '🎆 Happy New Year! 🥳 Cheers to 2024! 🍾✨', desc: 'New Year English' },
+    { text: '🎄 Merry Christmas! 🎅 Wishing you joy! 🎁❄️', desc: 'Christmas English' },
+  ],
+};
+
+// --- Symbols Data ---
+const symbolsData = {
+  stars: ['★', '☆', '✦', '✧', '⋆', '⁂', '※', '⁎', '⁑', '✵', '✶', '✷', '✸', '✹', '✺', '✻', '⍟', '۞', '٭', '☪', '✡', '☯', '⚝', '⚜', '⛤', '⭐', '🌟', '🌠', '✴', '❋'],
+  arrows: ['→', '←', '↑', '↓', '↔', '↕', '⇄', '⇆', '⇅', '⇵', '➔', '➘', '➙', '➚', '➛', '➜', '➝', '➞', '➟', '➠', '➡', '➢', '➣', '➤', '➥', '➦', '➧', '➨', '➩', '➪', '➫', '➬', '➭', '➮', '➯', '➱', '➲', '➳', '➴', '➵', '➶', '➷', '➸', '➹', '➺', '➻', '➼', '➽', '➾', '➿', '⟵', '⟶', '⟷', '⟸', '⟹', '⟺', '⟻'],
+  numbers: ['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩', '⑪', '⑫', '⑬', '⑭', '⑮', '⑯', '⑰', '⑱', '⑲', '⑳', '⑴', '⑵', 'Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ', 'Ⅴ', 'Ⅵ', 'Ⅵ', 'Ⅶ', 'Ⅷ', 'Ⅸ', 'Ⅹ', 'Ⅺ', 'Ⅻ', 'Ⅼ', 'Ⅽ', 'Ⅾ', 'Ⅿ', 'ⅰ', 'ⅱ', 'ⅲ', 'ⅳ', 'Ⅳ', 'ⅴ', 'ⅵ', 'ⅶ', 'ⅷ', 'ⅸ', 'ⅹ', 'ⅺ', 'ⅻ', 'ⅼ', 'ⅽ', 'ⅾ', 'ⅿ', '₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈', '₉', '⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹', '⁺'],
+  shapes: ['■', '□', '▢', '▣', '▤', '▥', '▦', '▧', '▨', '▩', '▪', '▫', '▬', '▭', '▮', '▯', '▰', '▱', '▲', '△', '▴', '▵', '▶', '▷', '▸', '▹', '►', '▻', '▼', '▽', '▾', '▿', '◀', '◁', '◂', '◃', '◄', '◅', '◆', '◇', '◈', '◉', '◊', '○', '◌', '◍', '◎', '●', '◐', '◑', '◒', '◓', '◔', '◕', '◖', '◗', '◘', '◙', '◚', '◛', '◜', '◝', '◞', '◟', '◠', '◡', '◢', '◣', '◤', '◥', '◦', '◧', '◨', '◩', '◪', '◫', '◬', '◭', '◮', '◯', '◰', '◱', '◲', '◳', '◴', '◵', '◶', '◷', '◸', '◹', '◺', '◻', '◼', '◽', '◾', '◿', '⏀', '⏁', '⏂', '⏃', '⏄', '⏅', '⏆', '⏇', '⏈', '⏉'],
+  decorative: ['❀', '❁', '❂', '❃', '❄', '❅', '❆', '❇', '❈', '❉', '❊', '❋', '❌', '❍', '❎', '❏', '❐', '❑', '❒', '❓', '❔', '❕', '❖', '❗', '❘', '❙', '❚', '❛', '❜', '❝', '❞', '❟', '❠', '❡', '❢', '❣', '❤', '❥', '❦', '❧', '❨', '❩', '❪', '❫', '❬', '❭', '❮', '❯', '❰', '❱', '❲', '❳', '❴', '❵', '❶', '❷', '❸', '❹', '❺', '❻', '❼', '❽', '❾', '❿', '➀', '➁', '➂', '➃', '➄', '➅', '➆', '➇', '➈', '➉', '➊', '➋', '➌', '➍', '➎', '➏', '➐', '➑', '➒', '➓', '➔', '➕', '➖', '➗', '➘', '➙', '➚', '➛', '➜', '➝', '➞', '➟', '➠', '➡', '➢', '➣', '➤', '➥', '➦', '➧', '➨', '➩', '➪', '➫', '➬', '➭', '➮', '➯', '➰', '➱', '➲', '➳', '➴', '➵', '➶', '➷', '➸', '➹', '➺', '➻', '➼', '➽', '➾', '➿', 'Ⳕ', 'ⳕ', 'Ⳗ', 'ⳗ', 'Ⳙ', 'ⳙ', 'Ⳛ', 'ⳛ', 'Ⳝ', 'ⳝ', 'Ⳟ', 'ⳟ', 'Ⳡ', 'ⳡ', 'Ⳣ', 'ⳣ', 'ⳤ', '⳥', '⳦', '⳧', '⳨', '⳩', '⳪', 'Ⳬ', 'ⳬ', 'Ⳮ', 'ⳮ', '⳯', '⳰', '⳱', 'Ⳳ', 'ⳳ', '⳴', '⳵', '⳶', '⳷', '⳸', '⳹', '⳺', '⳻'],
+  math: ['+', '-', '=', '×', '÷', '±', '∓', '∔', '√', '∛', '∜', '∝', '∞', '∟', '∠', '∡', '∢', '∣', '∤', '∥', '∦', '∧', '∨', '∩', '∪', '∫', '∬', '∭', '∮', '∯', '∰', '∱', '∲', '∳', '∂', '∇', '∈', '∉', '∋', '∌', '∍', '∎', '∏', '∐', '∑', '−', '∓', '∔', '∕', '∖', '∗', '∘', '∙', '√', '∛', '∜', '∝', '∞', '∟', '∠', '∡', '∢', '∣', '∤', '∥', '∦', '∧', '∨', '∩', '∪', '∫', '∬', '∭', '∮', '∯', '∰', '∱', '∲', '∳', '∂', '∇', '∈', '∉', '∋', '∌', '∍', '∎', '∏', '∐', '∑', '−', '≤', '≥', '≠', '≡', '≢', '≣', '≦', '≧', '≨', '≩', '≪', '≫', '≬', '≭', '≮', '≯', '≰', '≱', '≲', '≳', '≴', '≵', '≶', '≷', '≸', '≹', '≺', '≻', '≼', '≽', '≾', '≿', '⊀', '⊁', '⊂', '⊃', '⊄', '⊅', '⊆', '⊇', '⊈', '⊉', '⊊', '⊋', '⊌', '⊍', '⊎', '⊏', '⊐', '⊑', '⊒', '⊓', '⊔', '⊕', '⊖', '⊗', '⊘', '⊙', '⊚', '⊛', '⊜', '⊝', '⊞', '⊟', '⊠', '⊡', '⊢', '⊣', '⊤', '⊥', '⊦', '⊧', '⊨', '⊩', '⊪', '⊫', '⊬', '⊭', '⊮', '⊯', '⊰', '⊱', '⊲', '⊳', '⊴', '⊵', '⊶', '⊷', '⊸', '⊹', '⊺', '⊻', '⊼', '⊽', '⊾', '⊿', '⋀', '⋁', '⋂', '⋃', '⋄', '⋅', '⋆', '⋇', '⋈', '⋉', '⋊', '⋋', '⋌', '⋍', '⋎', '⋏', '⋐', '⋑', '⋒', '⋓', '⋔', '⋕', '⋖', '⋗', '⋘', '⋙', '⋚', '⋛', '⋜', '⋝', '⋞', '⋟', '⋠', '⋡', '⋢', '⋣', '⋤', '⋥', '⋦', '⋧', '⋨', '⋩', '⋪', '⋫', '⋬', '⋭', '⋮', '⋯', '⋰', '⋱', '⋲', '⋳', '⋴', '⋵', '⋶', '⋷', '⋸', '⋹', '⋺', '⋻', '⋼', '⋽', '⋾', '⋿', '⌁', '⌂', '⌃', '⌄', '⌅', '⌆', '⌇', '⌈', '⌉', '⌊', '⌋', '⌌', '⌍', '⌎', '⌏', '⌐', '⌑', '⌒', '⌓', '⌔', '⌕', '⌖', '⌗', '⌘', '⌙', '⌚', '⌛', '⌜', '⌝', '⌞', '⌟', '⌠', '⌡', '⌢', '⌣', '⌤', '⌥', '⌦', '⌧', '⌨', '〈', '〉', '⌫', '⌬', '⌭', '⌮', '⌯', '⌰', '⌱', '⌲', '⌳', '⌴', '⌵', '⌶', '⌷', '⌸', '⌹', '⌺', '⌻', '⌼', '⌽', '⌾', '⌿', '⍀', '⍁', '⍂', '⍃', '⍄', '⍅', '⍆', '⍇', '⍈', '⍉', '⍊', '⍋', '⍌', '⍍', '⍎', '⍏', '⍐', '⍑', '⍒', '⍓', '⍔', '⍕', '⍖', '⍗', '⍘', '⍙', '⍚', '⍛', '⍜', '⍝', '⍞', '⍟', '⍠', '⍡', '⍢', '⍣', '⍤', '⍥', '⍦', '⍧', '⍨', '⍩', '⍪', '⍫', '⍬', '⍭', '⍮', '⍯', '⍰', '⍱', '⍲', '⍳', '⍴', '⍵', '⍶', '⍷', '⍸', '⍹', '⍺', '⍻', '⍼', '⍽', '⍾', '⍿'],
+};
+
+// --- State ---
+let currentOutput = '';
+let recentEmojis = JSON.parse(localStorage.getItem('tc-recent-emojis') || '[]');
+
+// --- DOM Elements ---
+const inputEl = document.getElementById('tc-input');
+const outputPreview = document.getElementById('output-preview');
+const charCountNum = document.getElementById('char-count-num');
+const copyBtn = document.getElementById('output-copy');
+const clearBtn = document.getElementById('output-clear');
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+
+// --- Tab Switching ---
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const targetTab = btn.getAttribute('data-tab');
+    tabBtns.forEach(b => b.classList.remove('active'));
+    tabContents.forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    const targetContent = document.getElementById('tab-' + targetTab);
+    if (targetContent) targetContent.classList.add('active');
+  });
+});
+
+// --- Styles Rendering ---
+function renderStyles(text) {
+  const container = document.getElementById('styles-results');
+  if (!container) return;
+  
+  if (!text.trim()) {
+    container.innerHTML = '<p class="empty-state">Введите текст выше чтобы увидеть стили</p>';
+    return;
+  }
+
+  container.innerHTML = Object.keys(styleMaps).map(styleName => {
+    const map = styleMaps[styleName];
+    const label = styleLabels[styleName] || styleName;
+    const output = convertText(text, map);
+    return `
+      <div class="style-card" data-text="${output.replace(/"/g, '&quot;')}">
+        <span class="style-name">${label}</span>
+        <span class="style-output">${output}</span>
+        <button class="style-copy-btn" title="Копировать">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        </button>
+      </div>
+    `;
+  }).join('');
+
+  container.querySelectorAll('.style-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const text = card.getAttribute('data-text') || '';
+      appendToOutput(text);
+    });
+  });
+}
+
+// --- Emoji Rendering ---
+function renderEmojis(category, search) {
+  const grid = document.getElementById('emoji-grid');
+  if (!grid) return;
+
+  let emojis = category ? (emojiData[category] || []) : Object.values(emojiData).flat();
+  
+  if (search) {
+    const q = search.toLowerCase();
+    emojis = emojis.filter(e => e.keywords.includes(q));
+  }
+
+  if (emojis.length === 0) {
+    grid.innerHTML = '<p class="empty-state">Эмодзи не найдены</p>';
+    return;
+  }
+
+  grid.innerHTML = emojis.map(e => 
+    `<button class="emoji-item" data-emoji="${e.emoji}" title="${e.keywords}">${e.emoji}</button>`
+  ).join('');
+
+  grid.querySelectorAll('.emoji-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const emoji = item.getAttribute('data-emoji') || '';
+      appendToOutput(emoji);
+      addRecentEmoji(emoji);
+    });
+  });
+}
+
+function renderRecentEmojis() {
+  const container = document.getElementById('recent-emojis');
+  if (!container) return;
+  
+  if (recentEmojis.length === 0) {
+    container.parentElement.style.display = 'none';
+    return;
+  }
+  
+  container.parentElement.style.display = '';
+  container.innerHTML = recentEmojis.slice(0, 10).map(emoji =>
+    `<button class="recent-emoji" data-emoji="${emoji}">${emoji}</button>`
+  ).join('');
+
+  container.querySelectorAll('.recent-emoji').forEach(item => {
+    item.addEventListener('click', () => {
+      const emoji = item.getAttribute('data-emoji') || '';
+      appendToOutput(emoji);
+    });
+  });
+}
+
+function addRecentEmoji(emoji) {
+  recentEmojis = recentEmojis.filter(e => e !== emoji);
+  recentEmojis.unshift(emoji);
+  recentEmojis = recentEmojis.slice(0, 20);
+  localStorage.setItem('tc-recent-emojis', JSON.stringify(recentEmojis));
+  renderRecentEmojis();
+}
+
+// --- Templates Rendering ---
+function renderTemplates(category) {
+  const grid = document.getElementById('templates-grid');
+  if (!grid) return;
+
+  const templates = templatesData[category] || [];
+  
+  grid.innerHTML = templates.map(t => `
+    <div class="template-card" data-text="${t.text.replace(/"/g, '&quot;')}">
+      <span class="template-text">${t.text}</span>
+      <span class="template-desc">${t.desc}</span>
+      <button class="template-use-btn">Использовать</button>
+    </div>
+  `).join('');
+
+  grid.querySelectorAll('.template-card').forEach(card => {
+    card.querySelector('.template-use-btn').addEventListener('click', () => {
+      const text = card.getAttribute('data-text') || '';
+      appendToOutput(text);
+    });
+    card.addEventListener('click', (e) => {
+      if (!(e.target).closest('.template-use-btn')) {
+        const text = card.getAttribute('data-text') || '';
+        navigator.clipboard.writeText(text).then(() => {
+          const btn = card.querySelector('.template-use-btn');
+          if (btn) { btn.textContent = 'Скопировано!'; setTimeout(() => btn.textContent = 'Использовать', 1500); }
+        });
+      }
+    });
+  });
+}
+
+// --- Symbols Rendering ---
+function renderSymbols(category) {
+  const grid = document.getElementById('symbols-grid');
+  if (!grid) return;
+
+  const symbols = symbolsData[category] || [];
+  
+  grid.innerHTML = symbols.map(s => 
+    `<button class="symbol-item" data-symbol="${s}">${s}</button>`
+  ).join('');
+
+  grid.querySelectorAll('.symbol-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const sym = item.getAttribute('data-symbol') || '';
+      appendToOutput(sym);
+    });
+  });
+}
+
+// --- Output Management ---
+function appendToOutput(text) {
+  currentOutput += text;
+  updateOutputPreview();
+}
+
+function updateOutputPreview() {
+  if (outputPreview) outputPreview.textContent = currentOutput;
+  if (charCountNum) charCountNum.textContent = String(currentOutput.length);
+}
+
+function clearOutput() {
+  currentOutput = '';
+  updateOutputPreview();
+}
+
+async function copyOutput() {
+  if (!currentOutput) return;
+  try {
+    await navigator.clipboard.writeText(currentOutput);
+    const span = copyBtn.querySelector('span');
+    if (copyBtn && span) {
+      copyBtn.classList.add('copied');
+      span.textContent = 'Скопировано!';
+      setTimeout(() => {
+        copyBtn.classList.remove('copied');
+        span.textContent = 'Копировать';
+      }, 1500);
+    }
+  } catch (err) {
+    console.error('Copy failed:', err);
+  }
+}
+
+// --- Event Listeners ---
+if (inputEl) {
+  inputEl.addEventListener('input', () => renderStyles(inputEl.value));
+  if (inputEl.value) renderStyles(inputEl.value);
+  else renderStyles('');
+}
+
+if (copyBtn) copyBtn.addEventListener('click', copyOutput);
+if (clearBtn) clearBtn.addEventListener('click', clearOutput);
+
+// Emoji categories
+document.querySelectorAll('.emoji-cat').forEach(cat => {
+  cat.addEventListener('click', () => {
+    document.querySelectorAll('.emoji-cat').forEach(c => c.classList.remove('active'));
+    cat.classList.add('active');
+    renderEmojis(cat.getAttribute('data-cat') || '');
+  });
+});
+
+// Emoji search
+const emojiSearch = document.getElementById('emoji-search');
+if (emojiSearch) {
+  emojiSearch.addEventListener('input', () => {
+    renderEmojis('', emojiSearch.value);
+  });
+}
+
+// Template categories
+document.querySelectorAll('.template-cat').forEach(cat => {
+  cat.addEventListener('click', () => {
+    document.querySelectorAll('.template-cat').forEach(c => c.classList.remove('active'));
+    cat.classList.add('active');
+    renderTemplates(cat.getAttribute('tcat') || '');
+  });
+});
+
+// Symbol categories
+document.querySelectorAll('.symbol-cat').forEach(cat => {
+  cat.addEventListener('click', () => {
+    document.querySelectorAll('.symbol-cat').forEach(c => c.classList.remove('active'));
+    cat.classList.add('active');
+    renderSymbols(cat.getAttribute('scat') || '');
+  });
+});
+
+// --- Initialize All ---
+renderStyles('');
+renderEmojis('smileys');
+renderRecentEmojis();
+renderTemplates('greeting');
+renderSymbols('stars');
+
+// FAQ Toggle
+document.querySelectorAll('.faq-question').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    if (item) item.classList.toggle('open');
+    btn.setAttribute('aria-expanded', item?.classList.contains('open') ? 'true' : 'false');
+  });
+});
+</script>
+
+<style>
+  .container {
+    position: relative; z-index: 1; width: 100%; margin: 0 auto;
+    max-width: 720px; padding: 2rem 1.25rem; display: flex; flex-direction: column; gap: 1.5rem;
+  }
+
+  /* Hero */
+  .hero { text-align: center; padding: 1rem 0; }
+  .title { font-size: 1.55rem; font-weight: 700; color: var(--text-primary); margin: 0; line-height: 1.3; }
+  .subtitle { font-size: 0.88rem; color: var(--text-secondary); margin: 0.7rem 0 0; line-height: 1.5; }
+  .privacy-badge { font-size: 0.75rem; color: var(--opn-primary); font-weight: 500; opacity: 0.9; }
+
+  /* Tool Container */
+  .tc-tool {
+    display: flex; flex-direction: column; gap: 1rem;
+    background: var(--bg-secondary); border: 1px solid var(--border-color);
+    border-radius: 14px; padding: 1.25rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+
+  /* Input */
+  .input-section { display: flex; flex-direction: column; gap: 0.35rem; }
+  .input-label { font-size: 0.85rem; font-weight: 600; color: var(--text-primary); }
+  .input-field {
+    width: 100%; padding: 0.85rem 1rem; border: 1.5px solid var(--border-color);
+    border-radius: 10px; background: var(--bg-input); color: var(--text-primary);
+    font-size: 1rem; font-family: inherit; resize: vertical; min-height: 70px;
+    transition: border-color 0.2s; outline: none; box-sizing: border-box;
+  }
+  .input-field:focus { border-color: var(--opn-primary); }
+  .input-hint { font-size: 0.75rem; color: var(--text-secondary); }
+
+  /* Tabs */
+  .tabs-container {
+    display: flex; gap: 0.35rem; flex-wrap: wrap;
+    border-bottom: 2px solid var(--border-color); padding-bottom: 0.75rem;
+  }
+  .tab-btn {
+    padding: 0.5rem 0.9rem; border: 1.5px solid var(--border-color); border-radius: 8px;
+    background: transparent; color: var(--text-secondary); font-size: 0.82rem;
+    font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit;
+  }
+  .tab-btn:hover { background: rgba(37,211,102,0.06); color: var(--text-primary); }
+  .tab-btn.active { background: var(--opn-primary); color: white; border-color: var(--opn-primary); }
+
+  /* Tab Content */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; animation: fadeIn 0.2s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Results Grid (Styles) */
+  .results-grid { display: flex; flex-direction: column; gap: 0.5rem; max-height: 400px; overflow-y: auto; }
+  .style-card {
+    display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem 0.85rem;
+    background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 10px;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .style-card:hover { border-color: var(--opn-primary); background: rgba(37,211,102,0.04); }
+  .style-name { font-size: 0.72rem; font-weight: 700; color: var(--text-secondary); min-width: 90px; text-transform: uppercase; letter-spacing: 0.03em; }
+  .style-output { flex: 1; font-size: 1rem; color: var(--text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .style-copy-btn { background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 0.3rem; border-radius: 6px; transition: all 0.15s; display: flex; }
+  .style-copy-btn svg { width: 16px; height: 16px; }
+  .style-copy-btn:hover { color: var(--opn-primary); background: rgba(37,211,102,0.1); }
+
+  /* Empty State */
+  .empty-state { text-align: center; padding: 2rem; color: var(--text-secondary); font-size: 0.88rem; }
+
+  /* Emoji Section */
+  .emoji-search-wrap { position: relative; margin-bottom: 0.75rem; }
+  .emoji-search-icon { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: var(--text-secondary); pointer-events: none; width: 18px; height: 18px; }
+  .emoji-search-input {
+    width: 100%; padding: 0.65rem 0.75rem 0.65rem 2.5rem; border: 1.5px solid var(--border-color);
+    border-radius: 10px; background: var(--bg-input); color: var(--text-primary);
+    font-size: 0.88rem; font-family: inherit; outline: none; transition: border-color 0.15s; box-sizing: border-box;
+  }
+  .emoji-search-input:focus { border-color: var(--opn-primary); }
+
+  .emoji-categories { display: flex; gap: 0.3rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+  .emoji-cat {
+    width: 36px; height: 36px; border: 1.5px solid var(--border-color); border-radius: 8px;
+    background: var(--bg-input); font-size: 1.1rem; cursor: pointer; transition: all 0.15s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .emoji-cat:hover { border-color: var(--opn-primary); }
+  .emoji-cat.active { border-color: var(--opn-primary); background: rgba(37,211,102,0.1); }
+
+  .emoji-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(42px, 1fr)); gap: 3px;
+    max-height: 280px; overflow-y: auto; padding: 0.5rem; background: var(--bg-input); border-radius: 10px;
+  }
+  .emoji-item {
+    width: 100%; aspect-ratio: 1; border: none; background: transparent;
+    font-size: 1.4rem; cursor: pointer; border-radius: 6px; transition: background 0.1s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .emoji-item:hover { background: rgba(37,211,102,0.15); transform: scale(1.15); }
+
+  .emoji-recent { margin-top: 0.75rem; }
+  .recent-label { font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; margin-bottom: 0.4rem; display: block; }
+  .recent-list { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+  .recent-emoji {
+    width: 34px; height: 34px; border: 1px solid var(--border-color); border-radius: 6px;
+    background: var(--bg-input); font-size: 1.1rem; cursor: pointer; transition: all 0.1s;
+  }
+  .recent-emoji:hover { border-color: var(--opn-primary); transform: scale(1.1); }
+
+  /* Templates */
+  .template-categories { display: flex; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+  .template-cat {
+    padding: 0.45rem 0.75rem; border: 1.5px solid var(--border-color); border-radius: 8px;
+    background: transparent; color: var(--text-secondary); font-size: 0.78rem;
+    font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit;
+  }
+  .template-cat:hover { background: rgba(37,211,102,0.06); color: var(--text-primary); }
+  .template-cat.active { background: var(--opn-primary); color: white; border-color: var(--opn-primary); }
+
+  .templates-grid { display: flex; flex-direction: column; gap: 0.5rem; max-height: 350px; overflow-y: auto; }
+  .template-card {
+    display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 0.85rem;
+    background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 10px;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .template-card:hover { border-color: var(--opn-primary); background: rgba(37,211,102,0.04); }
+  .template-text { flex: 1; font-size: 0.92rem; color: var(--text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .template-desc { font-size: 0.7rem; color: var(--text-secondary); min-width: 80px; text-align: right; }
+  .template-use-btn {
+    padding: 0.35rem 0.65rem; background: var(--opn-primary); color: white; border: none;
+    border-radius: 6px; font-size: 0.72rem; font-weight: 600; cursor: pointer;
+    transition: all 0.15s; font-family: inherit; white-space: nowrap;
+  }
+  .template-use-btn:hover { background: #2ad144; transform: scale(1.03); }
+
+  /* Symbols */
+  .symbol-categories { display: flex; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+  .symbol-cat {
+    padding: 0.45rem 0.75rem; border: 1.5px solid var(--border-color); border-radius: 8px;
+    background: transparent; color: var(--text-secondary); font-size: 0.78rem;
+    font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit;
+  }
+  .symbol-cat:hover { background: rgba(37,211,102,0.06); color: var(--text-primary); }
+  .symbol-cat.active { background: var(--opn-primary); color: white; border-color: var(--opn-primary); }
+
+  .symbols-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(38px, 1fr)); gap: 3px;
+    max-height: 300px; overflow-y: auto; padding: 0.5rem; background: var(--bg-input); border-radius: 10px;
+  }
+  .symbol-item {
+    aspect-ratio: 1; border: 1px solid transparent; background: transparent;
+    font-size: 1.2rem; cursor: pointer; border-radius: 4px; transition: all 0.1s;
+    display: flex; align-items: center; justify-content: center; color: var(--text-primary);
+  }
+  .symbol-item:hover { background: rgba(37,211,102,0.15); border-color: var(--opn-primary); transform: scale(1.15); }
+
+  /* Output Section */
+  .output-section { border-top: 2px solid var(--border-color); padding-top: 1rem; }
+  .output-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+  .output-label { font-size: 0.85rem; font-weight: 600; color: var(--text-primary); }
+  .output-actions { display: flex; gap: 0.4rem; }
+  .action-btn {
+    display: flex; align-items: center; gap: 0.35rem; padding: 0.4rem 0.7rem;
+    border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--bg-input);
+    color: var(--text-secondary); font-size: 0.75rem; font-weight: 600; cursor: pointer;
+    transition: all 0.15s; font-family: inherit;
+  }
+  .action-btn svg { width: 14px; height: 14px; }
+  .action-btn:hover { border-color: var(--opn-primary); color: var(--opn-primary); }
+  .action-btn.copied { border-color: var(--opn-primary); color: var(--opn-primary); background: rgba(37,211,102,0.08); }
+
+  .output-preview {
+    min-height: 60px; padding: 0.85rem 1rem; background: var(--bg-input);
+    border: 1.5px solid var(--border-color); border-radius: 10px;
+    font-size: 1rem; color: var(--text-primary); line-height: 1.5;
+    word-break: break-word; white-space: pre-wrap;
+  }
+  .char-count { font-size: 0.72rem; color: var(--text-secondary); text-align: right; margin-top: 0.35rem; }
+
+  /* FAQ */
+  .faq-section { padding: 1rem 0; }
+  .section-title { font-size: 1.25rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1rem; }
+  .faq-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .faq-item {
+    border: 1px solid var(--border-color); border-radius: 10px; overflow: hidden;
+    background: var(--bg-secondary);
+  }
+  .faq-question {
+    width: 100%; display: flex; justify-content: space-between; align-items: center;
+    padding: 0.85rem 1rem; background: none; border: none; cursor: pointer;
+    font-size: 0.9rem; font-weight: 600; color: var(--text-primary); font-family: inherit; text-align: left;
+  }
+  .faq-chevron { width: 18px; height: 18px; transition: transform 0.2s; flex-shrink: 0; color: var(--text-secondary); }
+  .faq-item.open .faq-chevron { transform: rotate(180deg); }
+  .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.25s ease; }
+  .faq-item.open .faq-answer { max-height: 300px; }
+  .faq-a-text { padding: 0 1rem 0.85rem; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin: 0; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-secondary); }
+
+  /* Responsive */
+  @media (max-width: 520px) {
+    .container { padding: 1.25rem 0.75rem; }
+    .title { font-size: 1.3rem; }
+    .tabs-container { gap: 0.25rem; }
+    .tab-btn { padding: 0.4rem 0.6rem; font-size: 0.75rem; }
+    .style-name { min-width: 70px; font-size: 0.65rem; }
+    .style-output { font-size: 0.88rem; }
+    .emoji-grid { grid-template-columns: repeat(auto-fill, minmax(36px, 1fr)); }
+    .symbols-grid { grid-template-columns: repeat(auto-fill, minmax(32px, 1fr)); }
+    .template-desc { display: none; }
+    .template-text { font-size: 0.82rem; }
+  }
+</style>

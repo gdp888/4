@@ -1,0 +1,255 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { useTranslations } from '../i18n/utils';
+import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
+import { languages, type Lang } from '../i18n/ui';
+import SiteHeader from './SiteHeader.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import SEOHead from './SEOHead.astro';
+import { localeMap } from '../i18n/localeMap';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const disclaimerSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "name": t('disclaimer.heading'),
+      "url": getAbsoluteLocaleUrl(lang, 'disclaimer'),
+      "description": t('disclaimer.meta.description'),
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "OPN Chat",
+        "url": "https://opnchat.net/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "OPN Chat",
+          "item": getAbsoluteLocaleUrl(lang, '')
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": t('disclaimer.heading'),
+          "item": getAbsoluteLocaleUrl(lang, 'disclaimer')
+        }
+      ]
+    }
+  ]
+};
+---
+
+<Layout title={t('disclaimer.meta.title')} lang={lang} service="disclaimer">
+  <Fragment slot="meta">
+  <SEOHead
+  lang={lang}
+  description={t('disclaimer.meta.description')}
+  canonicalUrl={getAbsoluteLocaleUrl(lang, 'disclaimer')}
+  ogTitle={t('disclaimer.meta.description')}
+  ogDescription={t('disclaimer.meta.description')}
+  ogUrl={getAbsoluteLocaleUrl(lang, 'disclaimer')}
+  schema={disclaimerSchema}
+/>
+</Fragment>
+
+  <div class="container">
+    <SiteHeader lang={lang} path="disclaimer" />
+
+    <Breadcrumbs lang={lang} items={[{ label: t('bc.home'), href: getRelativeLocaleUrl(lang) }, { label: t('disclaimer.heading') }]} />
+
+    <!-- Page heading -->
+    <div class="hero">
+      <h1 class="title">{t('disclaimer.heading')}</h1>
+      <p class="last-updated">{t('disclaimer.lastUpdated')}</p>
+    </div>
+
+    <!-- Disclaimer Sections -->
+    <article class="disclaimer-block">
+      <h2 class="section-heading">{t('disclaimer.independence.heading')}</h2>
+      <p class="section-text" set:html={t('disclaimer.independence.text')} />
+    </article>
+
+    <article class="disclaimer-block">
+      <h2 class="section-heading">{t('disclaimer.purpose.heading')}</h2>
+      <p class="section-text">{t('disclaimer.purpose.text')}</p>
+    </article>
+
+    <article class="disclaimer-block">
+      <h2 class="section-heading">{t('disclaimer.privacy.heading')}</h2>
+      <p class="section-text">{t('disclaimer.privacy.text')}</p>
+    </article>
+
+    <article class="disclaimer-block">
+      <h2 class="section-heading">{t('disclaimer.warranty.heading')}</h2>
+      <p class="section-text">{t('disclaimer.warranty.text')}</p>
+    </article>
+
+    <article class="disclaimer-block">
+      <h2 class="section-heading">{t('disclaimer.limitation.heading')}</h2>
+      <p class="section-text">{t('disclaimer.limitation.text')}</p>
+    </article>
+
+    <article class="disclaimer-block">
+      <h2 class="section-heading">{t('disclaimer.trademarks.heading')}</h2>
+      <p class="section-text">{t('disclaimer.trademarks.text')}</p>
+    </article>
+
+    <article class="disclaimer-block">
+      <h2 class="section-heading">{t('disclaimer.changes.heading')}</h2>
+      <p class="section-text">{t('disclaimer.changes.text')}</p>
+    </article>
+
+    <!-- Back Link -->
+    <div class="bottom-links">
+      <a href={getRelativeLocaleUrl(lang, 'whatsapp')} class="back-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="back-icon">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        {t('disclaimer.back')}
+      </a>
+      <a href={getRelativeLocaleUrl(lang, 'privacy')} class="back-link">
+        {t('footer.privacy.link')}
+      </a>
+      <a href={getRelativeLocaleUrl(lang, 'unit-converter')} class="back-link">
+        {t('footer.converter.link')}
+      </a>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    margin: 0 auto;
+    max-width: 640px;
+    padding: 2rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 640px) {
+
+  }
+
+  .hero {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .title {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #25D366, #6fe89d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .last-updated {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .disclaimer-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .section-heading {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  .section-text {
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: var(--text-secondary);
+  }
+
+  .section-text :global(a) {
+    color: var(--opn-primary-light);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .section-text :global(a:hover) {
+    opacity: 0.8;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--opn-primary);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0.75rem 1.25rem;
+    border-radius: 12px;
+    border: 1.5px solid var(--border-color);
+    background: var(--bg-secondary);
+    transition: all 0.2s;
+    margin-top: 0.5rem;
+  }
+
+  .back-link:hover {
+    border-color: var(--opn-primary);
+    background: var(--bg-input);
+    transform: translateY(-1px);
+  }
+
+  .back-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  .bottom-links {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+  }
+
+  @media (max-width: 520px) {
+    .container {
+      padding: 1.25rem 1rem;
+    }
+    .title {
+      font-size: 1.5rem;
+    }
+
+    .section-heading {
+      font-size: 1rem;
+    }
+    .section-text {
+      font-size: 0.85rem;
+    }
+  }
+</style>
+
+<script>
+</script>
