@@ -431,6 +431,7 @@ const tzSchema = {
     position: relative;
     margin-top: 16px;
     padding: 20px;
+    padding-right: 48px; /* Space for change button */
     background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(168, 85, 247, 0.08));
     border-radius: 12px;
     border: 1px solid rgba(99, 102, 241, 0.2);
@@ -508,15 +509,17 @@ const tzSchema = {
 
   .change-btn {
     position: absolute;
-    top: 12px;
+    top: 16px;
     right: 12px;
-    padding: 8px;
-    background: var(--bg-primary);
+    padding: 6px 8px;
+    background: var(--bg-secondary);
     border: 1px solid var(--border-color);
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: pointer;
     color: var(--text-secondary);
     transition: all 0.2s;
+    font-size: 0.75rem;
+    z-index: 10;
   }
 
   .change-btn:hover {
@@ -637,6 +640,56 @@ const tzSchema = {
     top: 0;
     z-index: 4;
     pointer-events: none;
+  }
+
+  /* Timeline Row Elements */
+  .timeline-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+    min-width: 800px;
+  }
+
+  .timeline-city-name {
+    width: 100px;
+    flex-shrink: 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .timeline-bar {
+    flex: 1;
+    height: 32px;
+    position: relative;
+    border-radius: 6px;
+  }
+
+  .timeline-indicator {
+    position: absolute;
+    top: 4px;
+    transform: translateX(-50%);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: white;
+    white-space: nowrap;
+    z-index: 3;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+
+  .timeline-time {
+    color: white;
+  }
+
+  .timeline-hour-label {
+    position: absolute;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    transform: translateX(-50%);
   }
 
   /* Best Time Card */
@@ -1119,6 +1172,172 @@ const tzSchema = {
       if (card2Results) card2Results.innerHTML = '';
     }
   });
+
+  // --- Timeline Functions ---
+  const timelinePlaceholder = document.getElementById('timeline-placeholder');
+  const timelineWrapper = document.getElementById('timeline-wrapper');
+  const timelineHeader = document.getElementById('timeline-header');
+  const timelineRows = document.getElementById('timeline-rows');
+  const timelineNow = document.getElementById('timeline-now');
+  const timelineBest = document.getElementById('besttime-card');
+
+  let timelineInterval: number | null = null;
+
+  function renderTimeline(): void {
+    if (!selectedCard1 || !selectedCard2) return;
+    if (!timelinePlaceholder || !timelineWrapper || !timelineHeader || !timelineRows || !timelineNow) return;
+
+    // Show timeline, hide placeholder
+    timelinePlaceholder.style.display = 'none';
+    timelineWrapper.style.display = 'block';
+
+    // Render header (24 hours)
+    let headerHTML = '<div class="timeline-hour-label" style="position:absolute;left:0">Time</div>';
+    for (let h = 0; h < 24; h++) {
+      const hourStr = h.toString().padStart(2, '0') + ':00';
+      headerHTML += `<div class="timeline-hour-label" style="left:${(h / 23) * 100}%">${hourStr}</div>`;
+    }
+    timelineHeader.innerHTML = headerHTML;
+
+    // Render rows for each city
+    const now = new Date();
+    let rowsHTML = '';
+
+    // Card 1 row
+    const time1 = getTimeInTZ(selectedCard1.tz);
+    const currentHour1 = time1.getHours() + time1.getMinutes() / 60;
+    rowsHTML += renderTimelineRow(selectedCard1.localizedName, currentHour1, '#6366f1');
+
+    // Card 2 row  
+    const time2 = getTimeInTZ(selectedCard2.tz);
+    const currentHour2 = time2.getHours() + time2.getMinutes() / 60;
+    rowsHTML += renderTimelineRow(selectedCard2.localizedName, currentHour2, '#10b981');
+
+    timelineRows.innerHTML = rowsHTML;
+
+    // Update "now" marker position
+    updateNowMarker();
+
+    // Find best meeting time (overlap in business hours 9-18)
+    findBestMeetingTime();
+
+    // Start interval to update timeline
+    if (timelineInterval) clearInterval(timelineInterval);
+    timelineInterval = window.setInterval(() => {
+      updateNowMarker();
+    }, 60000); // Update every minute
+  }
+
+  function renderTimelineRow(cityName: string, currentHour: number, color: string): string {
+    const leftPos = (currentHour / 24) * 100;
+    return `
+      <div class="timeline-row">
+        <span class="timeline-city-name">${cityName}</span>
+        <div class="timeline-bar" style="background:${color}20">
+          <div class="timeline-indicator" style="left:${leftPos}%;background:${color}">
+            <span class="timeline-time">${Math.floor(currentHour).toString().padStart(2, '0')}:${Math.round((currentHour % 1) * 60).toString().padStart(2, '0')}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function updateNowMarker(): void {
+    if (!timelineNow) return;
+    const now = new Date();
+    // Use UTC as reference for the timeline
+    const utcHours = now.getUTCHours() + now.getUTCMinutes() / 60;
+    const leftPos = (utcHours / 24) * 100;
+    timelineNow.style.left = `${leftPos}%`;
+  }
+
+  function findBestMeetingTime(): void {
+    if (!selectedCard1 || !selectedCard2 || !timelineBest) return;
+
+    const now = new Date();
+    const time1 = getTimeInTZ(selectedCard1.tz);
+    const time2 = getTimeInTZ(selectedCard2.tz);
+
+    // Business hours: 9:00 - 18:00 in each timezone
+    const bizStart1 = 9 - (time1.getHours() + time1.getMinutes() / 60) + (now.getUTCHours() + now.getUTCMinutes() / 60);
+    const bizEnd1 = 18 - (time1.getHours() + time1.getMinutes() / 60) + (now.getUTCHours() + now.getUTCMinutes() / 60);
+
+    // Simple recommendation based on daytime overlap
+    const hour1 = time1.getHours();
+    const hour2 = time2.getHours();
+    
+    let recommendation = '';
+    let icon = '';
+    
+    if (hour1 >= 9 && hour1 < 18 && hour2 >= 9 && hour2 < 18) {
+      // Both in business hours - great!
+      recommendation = `Both in business hours! Good time for a call.`;
+      icon = '✅';
+      timelineBest.style.display = 'block';
+    } else if (hour1 >= 8 && hour1 < 21 && hour2 >= 8 && hour2 < 21) {
+      // Both in reasonable hours
+      recommendation = `Both awake - acceptable time for contact.`;
+      icon = '👍';
+      timelineBest.style.display = 'block';
+    } else if (hour2 >= 0 && hour2 < 7) {
+      // Contact is sleeping
+      const wakeUpHour = (7 - hour2 + 24) % 24;
+      recommendation = `${selectedCard2.localizedName} is sleeping now. Best time: in ~${wakeUpHour}h when they wake up.`;
+      icon = '🌙';
+      timelineBest.style.display = 'block';
+    } else if (hour2 >= 23 || hour2 < 6) {
+      recommendation = `Late night for ${selectedCard2.localizedName}. Consider tomorrow morning.`;
+      icon = '🌙';
+      timelineBest.style.display = 'block';
+    } else {
+      // General fallback
+      const diffMinutes = selectedCard2.offsetMinutes - selectedCard1.offsetMinutes;
+      const absDiff = Math.abs(diffMinutes);
+      if (absDiff <= 60) {
+        recommendation = `Small time difference (${Math.round(absDiff/60)}h) - easy to coordinate!`;
+        icon = '🕐';
+        timelineBest.style.display = 'block';
+      } else if (absDiff <= 180) {
+        recommendation = `Moderate time difference - morning for one, afternoon for other works well.`;
+        icon = '🤝';
+        timelineBest.style.display = 'block';
+      } else {
+        recommendation = `Large time zone gap - plan ahead for overlapping awake hours.`;
+        icon = '📅';
+        timelineBest.style.display = 'block';
+      }
+    }
+
+    const bestBody = document.getElementById('besttime-body');
+    if (bestBody) {
+      bestBody.innerHTML = `<p><strong>${icon} ${recommendation}</strong></p>`;
+    }
+  }
+
+  // Call renderTimeline when both cities are selected
+  const originalSelectCity = selectCity;
+  selectCity = function(entry: SearchEntry): void {
+    originalSelectCity(entry);
+    // After selection, check if we should render timeline
+    if (selectedCard1 && selectedCard2) {
+      setTimeout(renderTimeline, 100); // Small delay to ensure DOM updates
+    }
+  };
+
+  // Also update resetCard to hide timeline when needed
+  const originalResetCard = resetCard;
+  resetCard = function(cardNum: 1 | 2): void {
+    originalResetCard(cardNum);
+    if ((!selectedCard1 || !selectedCard2) && timelineWrapper) {
+      timelineWrapper.style.display = 'none';
+      if (timelinePlaceholder) timelinePlaceholder.style.display = 'block';
+      if (timelineBest) timelineBest.style.display = 'none';
+      if (timelineInterval) {
+        clearInterval(timelineInterval);
+        timelineInterval = null;
+      }
+    }
+  };
 
   // --- Initialize ---
   // Focus first search input
