@@ -1,0 +1,773 @@
+     1→---
+     2→import Layout from '../layouts/Layout.astro';
+     3→import { useTranslations } from '../i18n/utils';
+     4→import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
+     5→import { languages, defaultLang, type Lang } from '../i18n/ui';
+     6→import SiteHeader from './SiteHeader.astro';
+     7→import Breadcrumbs from './Breadcrumbs.astro';
+     8→import SEOHead from './SEOHead.astro';
+     9→import { localeMap } from '../i18n/localeMap';
+    10→
+    11→export interface Props {
+    12→  lang: Lang;
+    13→}
+    14→
+    15→const { lang } = Astro.props;
+    16→const t = useTranslations(lang);
+    17→
+    18→const hubSchema = {
+    19→  "@context": "https://schema.org",
+    20→  "@graph": [
+    21→    {
+    22→      "@type": "WebSite",
+    23→      "name": "OPN Chat",
+    24→      "url": getAbsoluteLocaleUrl(lang, ''),
+    25→      "description": t('hub.meta.description'),
+    26→      "inLanguage": Object.keys(languages),
+    27→    },
+    28→    {
+    29→      "@type": "BreadcrumbList",
+    30→      "itemListElement": [
+    31→        {
+    32→          "@type": "ListItem",
+    33→          "position": 1,
+    34→          "name": "OPN Chat",
+    35→          "item": getAbsoluteLocaleUrl(lang, '')
+    36→        }
+    37→      ]
+    38→    }
+    39→  ]
+    40→};
+    41→---
+    42→
+    43→<Layout title={t('hub.meta.title')} lang={lang} service="">
+    44→  <Fragment slot="meta">
+    45→  <SEOHead
+    46→  lang={lang}
+    47→  description={t('hub.meta.description')}
+    48→  canonicalUrl={getAbsoluteLocaleUrl(lang, '')}
+    49→  ogTitle={t('hub.meta.title')}
+    50→  ogDescription={t('hub.meta.description')}
+    51→  ogUrl={getAbsoluteLocaleUrl(lang, '')}
+    52→  schema={hubSchema}
+    53→  extraMeta={`<meta name="keywords" content="${t('hub.meta.keywords')}" /><meta name="twitter:card" content="summary" /><meta name="twitter:title" content="${t('hub.meta.title')}" /><meta name="twitter:description" content="${t('hub.meta.description')}" />`}
+    54→/>
+    55→  <!-- Language auto-detect: ONLY on the hub root page, never on internal pages -->
+    56→  <script is:inline>
+    57→      (function() {
+    58→        var supportedLangs = ['es', 'pt', 'id', 'ru'];
+    59→        var path = window.location.pathname;
+    60→
+    61→        // Save current language preference from URL
+    62→        var langMatch = path.match(/^\/(es|pt|id|ru)(\/|$)/);
+    63→        if (langMatch) {
+    64→          localStorage.setItem('opnchat-lang', langMatch[1]);
+    65→        }
+    66→
+    67→        // Auto-redirect only on the English hub root
+    68→        var isEnglishHub = (path === '/' || path === '');
+    69→        var savedLang = localStorage.getItem('opnchat-lang');
+    70→
+    71→        if (isEnglishHub) {
+    72→          if (!savedLang) {
+    73→            // First-time visitor — detect browser language
+    74→            var browserLang = (navigator.language || navigator.userLanguage || 'en').split('-')[0].toLowerCase();
+    75→            if (supportedLangs.indexOf(browserLang) !== -1) {
+    76→              localStorage.setItem('opnchat-lang', browserLang);
+    77→              window.location.replace('/' + browserLang + '/');
+    78→            } else {
+    79→              // English or unsupported — save 'en' so we don't keep checking
+    80→              localStorage.setItem('opnchat-lang', 'en');
+    81→            }
+    82→          } else if (supportedLangs.indexOf(savedLang) !== -1) {
+    83→            // Returning visitor with saved non-English preference — redirect
+    84→            window.location.replace('/' + savedLang + '/');
+    85→          }
+    86→          // savedLang === 'en' — stay on English hub
+    87→        }
+    88→      })();
+    89→    </script>
+    90→</Fragment>
+    91→
+    92→  <div class="container">
+    93→    <SiteHeader lang={lang} path="" />
+    94→
+    95→    <!-- Hero -->
+    96→    <div class="hero">
+    97→      <h1 class="title">{t('hub.hero.title')}</h1>
+    98→      <p class="subtitle">{t('hub.hero.subtitle')}</p>
+    99→    </div>
+   100→
+   101→    <!-- Service Cards Grouped by Category -->
+   102→    <div class="services-grid">
+   103→      
+   104→      <!-- ===== MESSENGERS SECTION ===== -->
+   105→      <div class="category-section">
+   106→        <h2 class="category-heading">{t('hub.category.messengers')}</h2>
+   107→        <div class="category-cards">
+   108→          <!-- WhatsApp Card -->
+   109→          <a href={getRelativeLocaleUrl(lang, 'whatsapp')} class="service-card whatsapp-card">
+   110→            <div class="card-icon-wrapper wa-icon">
+   111→              <svg viewBox="0 0 24 24" fill="currentColor" class="card-icon" aria-hidden="true">
+   112→                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+   113→              </svg>
+   114→            </div>
+   115→            <div class="card-content">
+   116→              <h2 class="card-title">{t('hub.service.whatsapp.title')}</h2>
+   117→              <p class="card-desc">{t('hub.service.whatsapp.desc')}</p>
+   118→            </div>
+   119→            <span class="card-cta">
+   120→              {t('hub.service.whatsapp.cta')}
+   121→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+   122→            </span>
+   123→          </a>
+   124→
+   125→          <!-- Telegram Card -->
+   126→          <a href={getRelativeLocaleUrl(lang, 'telegram')} class="service-card telegram-card">
+   127→            <div class="card-icon-wrapper tg-icon">
+   128→              <svg viewBox="0 0 24 24" fill="currentColor" class="card-icon" aria-hidden="true">
+   129→                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+   130→              </svg>
+   131→            </div>
+   132→            <div class="card-content">
+   133→              <h2 class="card-title">{t('hub.service.telegram.title')}</h2>
+   134→              <p class="card-desc">{t('hub.service.telegram.desc')}</p>
+   135→            </div>
+   136→            <span class="card-cta">
+   137→              {t('hub.service.telegram.cta')}
+   138→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+   139→            </span>
+   140→          </a>
+   141→
+   142→          <!-- Viber Card -->
+   143→          <a href={getRelativeLocaleUrl(lang, 'viber')} class="service-card viber-card">
+   144→            <div class="card-icon-wrapper vb-icon">
+   145→              <svg viewBox="0 0 24 24" fill="currentColor" class="card-icon" aria-hidden="true">
+   146→                <path d="M11.4 0C5.1 0 0 5.1 0 11.4c0 2.4.7 4.6 2 6.5L.1 23.5l5.8-1.9c1.8 1.1 3.9 1.7 6.1 1.7 6.3 0 11.4-5.1 11.4-11.4S17.7 0 11.4 0zm6.7 16.1c-.3.8-1.6 1.6-2.2 1.7-.6.1-1.2.2-4-1.1-3.3-1.5-5.4-4.9-5.6-5.1-.2-.3-1.5-2-1.5-3.8 0-1.8.9-2.7 1.3-3.1.4-.4.8-.5 1.1-.5h.8c.3 0 .6 0 .9.6.3.7 1.1 2.7 1.2 2.9.1.2.1.4 0 .6-.1.2-.1.4-.3.6-.2.2-.4.5-.6.7-.2.2-.4.4-.2.7.2.3.9 1.3 1.9 2.2.9.7.1.8.4.6.7-.2.3-.3.5-.5.8-.2.3-.4.6-.2.9.2.3 1.1 1.2 2.3 1.8s1.8.8 2.1.9c.3.1.5.1.7-.1.2-.2.8-1 1-1.3.2-.3.4-.3.7-.1.2.1.5.3.7.4.2.1.5.3.7.1.2.1.5 0 .7-.1.3-.6 1.1-1.4 1.9z"/>
+   147→              </svg>
+   148→            </div>
+   149→            <div class="card-content">
+   150→              <h2 class="card-title">{t('hub.service.viber.title')}</h2>
+   151→              <p class="card-desc">{t('hub.service.viber.desc')}</p>
+   152→            </div>
+   153→            <span class="card-cta">
+   154→              {t('hub.service.viber.cta')}
+   155→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+   156→            </span>
+   157→          </a>
+   158→
+   159→          <!-- Signal Card -->
+   160→          <a href={getRelativeLocaleUrl(lang, 'signal')} class="service-card signal-card">
+   161→            <div class="card-icon-wrapper sg-icon">
+   162→              <svg viewBox="0 0 24 24" fill="currentColor" class="card-icon" aria-hidden="true">
+   163→                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.98 4-3.08 6-3.08 1.99 0 5.97 1.1 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+   164→              </svg>
+   165→            </div>
+   166→            <div class="card-content">
+   167→              <h2 class="card-title">{t('hub.service.signal.title')}</h2>
+   168→              <p class="card-desc">{t('hub.service.signal.desc')}</p>
+   169→            </div>
+   170→            <span class="card-cta">
+   171→              {t('hub.service.signal.cta')}
+   172→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+   173→            </span>
+   174→          </a>
+   175→
+   176→          <!-- KakaoTalk Card -->
+   177→          <a href={getRelativeLocaleUrl(lang, 'kakaotalk')} class="service-card kakaotalk-card">
+   178→            <div class="card-icon-wrapper kt-icon">
+   179→              <svg viewBox="0 0 24 24" fill="currentColor" class="card-icon" aria-hidden="true">
+   180→                <path d="M12 2C8.5 2 5.4 3.6 3.7 6C2.2 8.1 1.3 10.7 1.3 13.5c0 2.5.8 4.9 2.2 6.8L1.9 23l3.2-.9c2 1.3 4.4 2 6.9 2 6.6 0 12-4.5 12-10.1S18.6 2 12 2zm-1 14h-2v-2h2v2zm0-3.5h-2V7h2v5.5zm4.5 3.5h-2v-2h2v2zm0-3.5h-2V7h2v5.5z"/>
+   181→              </svg>
+   182→            </div>
+   183→            <div class="card-content">
+   184→              <h2 class="card-title">{t('hub.service.kakaotalk.title')}</h2>
+   185→              <p class="card-desc">{t('hub.service.kakaotalk.desc')}</p>
+   186→            </div>
+   187→            <span class="card-cta">
+   188→              {t('hub.service.kakaotalk.cta')}
+   189→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+   190→            </span>
+   191→          </a>
+   192→
+   193→          <!-- Instagram Direct Card -->
+   194→          <a href={getRelativeLocaleUrl(lang, 'instagram')} class="service-card instagram-card">
+   195→            <div class="card-icon-wrapper ig-icon">
+   196→              <svg viewBox="0 0 24 24" fill="currentColor" class="card-icon" aria-hidden="true">
+   197→                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+   198→              </svg>
+   199→            </div>
+   200→            <div class="card-content">
+   201→              <h2 class="card-title">{t('hub.service.instagram.title')}</h2>
+   202→              <p class="card-desc">{t('hub.service.instagram.desc')}</p>
+   203→            </div>
+   204→            <span class="card-cta">
+   205→              {t('hub.service.instagram.cta')}
+   206→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+   207→            </span>
+   208→          </a>
+   209→        </div>
+   210→      </div>
+   211→
+   212→      <!-- ===== LINK GENERATORS SECTION ===== -->
+   213→      <div class="category-section">
+   214→        <h2 class="category-heading">{t('hub.category.linkgens')}</h2>
+   215→        <div class="category-cards">
+   216→          <!-- WhatsApp Link Generator Card -->
+   217→          <a href={getRelativeLocaleUrl(lang, 'wa-link')} class="service-card walink-card">
+   218→            <div class="card-icon-wrapper wl-icon">
+   219→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="card-icon" aria-hidden="true">
+   220→                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+   221→                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+   222→              </svg>
+   223→            </div>
+   224→            <div class="card-content">
+   225→              <h2 class="card-title">{t('hub.service.walink.title')}</h2>
+   226→              <p class="card-desc">{t('hub.service.walink.desc')}</p>
+   227→            </div>
+   228→            <span class="card-cta">
+   229→              {t('hub.service.walink.cta')}
+   230→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+   231→            </span>
+   232→          </a>
+   233→
+   234→          <!-- Telegram Link Generator Card -->
+   235→          <a href={getRelativeLocaleUrl(lang, 'tg-link')} class="service-card tglink-card">
+   236→            <div class="card-icon-wrapper tglink-icon">
+   237→              <svg viewBox="0 0 24 24" fill="currentColor" class="card-icon" aria-hidden="true">
+   238→                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+   239→              </svg>
+   240→            </div>
+   241→            <div class="card-content">
+   242→              <h2 class="card-title">{t('hub.service.tglink.title')}</h2>
+   243→              <p class="card-desc">{t('hub.service.tglink.desc')}</p>
+   244→            </div>
+   245→            <span class="card-cta">
+   246→              {t('hub.service.tglink.cta')}
+   247→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+   248→            </span>
+   249→          </a>
+   250→        </div>
+   251→      </div>
+   252→
+   253→      <!-- ===== WHATSAPP TOOLS SECTION ===== -->
+   254→      <div class="category-section">
+   255→        <h2 class="category-heading">{t('hub.category.watools')}</h2>
+   256→        <div class="category-cards">
+   257→          <!-- Chat Widget Card -->
+   258→          <a href={getRelativeLocaleUrl(lang, 'wa-widget')} class="service-card widget-card">
+   259→            <div class="card-icon-wrapper cw-icon">
+   260→              <svg viewBox="0 0 24 24" fill="currentColor" class="card-icon" aria-hidden="true">
+   261→                <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/><path d="M7 9h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"/>
+   262→              </svg>
+   263→            </div>
+   264→            <div class="card-content">
+   265→              <h2 class="card-title">{t('hub.service.widget.title')}</h2>
+   266→              <p class="card-desc">{t('hub.service.widget.desc')}</p>
+   267→            </div>
+   268→            <span class="card-cta">
+   269→              {t('hub.service.widget.cta')}
+   270→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+   271→            </span>
+   272→          </a>
+   273→
+   274→          <!-- Text Formatter Card -->
+   275→          <a href={getRelativeLocaleUrl(lang, 'whatsapp-text-formatter')} class="service-card formatter-card">
+   276→            <div class="card-icon-wrapper fmt-icon">
+   277→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="card-icon" aria-hidden="true">
+   278→                <path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/>
+   279→              </svg>
+   280→            </div>
+   281→            <div class="card-content">
+   282→              <h2 class="card-title">{t('hub.service.formatter.title')}</h2>
+   283→              <p class="card-desc">{t('hub.service.formatter.desc')}</p>
+   284→            </div>
+   285→            <span class="card-cta">
+   286→              {t('hub.service.formatter.cta')}
+   287→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+   288→            </span>
+   289→          </a>
+   290→
+   291→          <!-- Broadcast / Quick Replies Card -->
+   292→          <a href={getRelativeLocaleUrl(lang, 'broadcast')} class="service-card broadcast-card">
+   293→            <div class="card-icon-wrapper bc-icon">
+   294→              <svg viewBox="0 0 24 24" fill="currentColor" class="card-icon" aria-hidden="true">
+   295→                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+   296→              </svg>
+   297→            </div>
+   298→            <div class="card-content">
+   299→              <h2 class="card-title">{t('hub.service.broadcast.title')}</h2>
+   300→              <p class="card-desc">{t('hub.service.broadcast.desc')}</p>
+   301→            </div>
+   302→            <span class="card-cta">
+   303→              {t('hub.service.broadcast.cta')}
+   304→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+   305→            </span>
+   306→          </a>
+   307→        </div>
+   308→      </div>
+   309→
+   310→      <!-- ===== TEXT TOOLS SECTION ===== -->
+   311→      <div class="category-section">
+   312→        <h2 class="category-heading">{t('hub.category.texttools')}</h2>
+   313→        <div class="category-cards">
+   314→          <!-- Fancy Text Card -->
+   315→          <a href={getRelativeLocaleUrl(lang, 'fancy-text')} class="service-card fancytext-card">
+   316→            <div class="card-icon-wrapper ft-icon">
+   317→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="card-icon" aria-hidden="true">
+   318→                <path d="M4 7V4h16v3"/>
+   319→                <path d="M9 20h6"/>
+   320→                <path d="M12 4v16"/>
+   321→              </svg>
+   322→            </div>
+   323→            <div class="card-content">
+   324→              <h2 class="card-title">{t('hub.service.fancytext.title')}</h2>
+   325→              <p class="card-desc">{t('hub.service.fancytext.desc')}</p>
+   326→            </div>
+   327→            <span class="card-cta">
+   328→              {t('hub.service.fancytext.cta')}
+   329→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+   330→            </span>
+   331→          </a>
+   332→
+   333→          <!-- Word Counter Card -->
+   334→          <a href={getRelativeLocaleUrl(lang, 'word-counter')} class="service-card wordcounter-card">
+   335→            <div class="card-icon-wrapper wc-icon">
+   336→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="card-icon" aria-hidden="true">
+   337→                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+   338→                <polyline points="14 2 14 8 20 8"/>
+   339→                <line x1="12" y1="18" x2="12" y2="12"/>
+   340→                <line x1="9" y1="15" x2="15" y2="15"/>
+   341→              </svg>
+   342→            </div>
+   343→            <div class="card-content">
+   344→              <h2 class="card-title">{t('hub.service.wordcounter.title')}</h2>
+   345→              <p class="card-desc">{t('hub.service.wordcounter.desc')}</p>
+   346→            </div>
+   347→            <span class="card-cta">
+   348→              {t('hub.service.wordcounter.cta')}
+   349→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+   350→            </span>
+   351→          </a>
+   352→
+   353→          <!-- Online Notepad Card -->
+   354→          <a href={getRelativeLocaleUrl(lang, 'notepad')} class="service-card notepad-card">
+   355→            <div class="card-icon-wrapper np-icon">
+   356→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="card-icon" aria-hidden="true">
+   357→                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+   358→                <polyline points="14 2 14 8 20 8"/>
+   359→                <line x1="16" y1="13" x2="8" y2="13"/>
+   360→                <line x1="16" y1="17" x2="8" y2="17"/>
+   361→                <polyline points="10 9 9 9 8 9"/>
+   362→              </svg>
+   363→            </div>
+   364→            <div class="card-content">
+   365→              <h2 class="card-title">{t('hub.service.notepad.title')}</h2>
+   366→              <p class="card-desc">{t('hub.service.notepad.desc')}</p>
+   367→            </div>
+   368→            <span class="card-cta">
+   369→              {t('hub.service.notepad.cta')}
+   370→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+   371→            </span>
+   372→          </a>
+   373→        </div>
+   374→      </div>
+   375→
+   376→      <!-- ===== UTILITIES SECTION ===== -->
+   377→      <div class="category-section">
+   378→        <h2 class="category-heading">{t('hub.category.utilities')}</h2>
+   379→        <div class="category-cards">
+   380→          <!-- QR Code Generator Card -->
+   381→          <a href={getRelativeLocaleUrl(lang, 'qr-code')} class="service-card qr-card">
+   382→            <div class="card-icon-wrapper qr-icon">
+   383→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="card-icon" aria-hidden="true">
+   384→                <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3" height="3"/><line x1="21" y1="14" x2="21" y2="14.01"/><line x1="21" y1="21" x2="21" y2="21.01"/><line x1="17" y1="18" x2="17" y2="18.01"/>
+   385→              </svg>
+   386→            </div>
+   387→            <div class="card-content">
+   388→              <h2 class="card-title">{t('hub.service.qr.title')}</h2>
+   389→              <p class="card-desc">{t('hub.service.qr.desc')}</p>
+   390→            </div>
+   391→            <span class="card-cta">
+   392→              {t('hub.service.qr.cta')}
+   393→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+   394→            </span>
+   395→          </a>
+   396→
+   397→          <!-- Password Generator Card -->
+   398→          <a href={getRelativeLocaleUrl(lang, 'password')} class="service-card password-card">
+   399→            <div class="card-icon-wrapper pw-icon">
+   400→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="card-icon" aria-hidden="true">
+   401→                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+   402→                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+   403→              </svg>
+   404→            </div>
+   405→            <div class="card-content">
+   406→              <h2 class="card-title">{t('hub.service.password.title')}</h2>
+   407→              <p class="card-desc">{t('hub.service.password.desc')}</p>
+   408→            </div>
+   409→            <span class="card-cta">
+   410→              {t('hub.service.password.cta')}
+   411→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+   412→            </span>
+   413→          </a>
+   414→
+   415→          <!-- Unit Converter Card -->
+   416→          <a href={getRelativeLocaleUrl(lang, 'unit-converter')} class="service-card converter-card">
+   417→            <div class="card-icon-wrapper cv-icon">
+   418→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="card-icon" aria-hidden="true">
+   419→                <path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/>
+   420→              </svg>
+   421→            </div>
+   422→            <div class="card-content">
+   423→              <h2 class="card-title">{t('hub.service.converter.title')}</h2>
+   424→              <p class="card-desc">{t('hub.service.converter.desc')}</p>
+   425→            </div>
+   426→            <span class="card-cta">
+   427→              {t('hub.service.converter.cta')}
+   428→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+   429→            </span>
+   430→          </a>
+   431→
+   432→          <!-- Emoji Picker Card -->
+   433→          <a href={getRelativeLocaleUrl(lang, 'emoji-picker')} class="service-card emojipicker-card">
+   434→            <div class="card-icon-wrapper ep-icon">
+   435→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="card-icon" aria-hidden="true">
+   436→                <circle cx="12" cy="12" r="10"/>
+   437→                <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+   438→                <line x1="9" y1="9" x2="9.01" y2="9"/>
+   439→                <line x1="15" y1="9" x2="15.01" y2="9"/>
+   440→              </svg>
+   441→            </div>
+   442→            <div class="card-content">
+   443→              <h2 class="card-title">{t('hub.service.emojipicker.title')}</h2>
+   444→              <p class="card-desc">{t('hub.service.emojipicker.desc')}</p>
+   445→            </div>
+   446→            <span class="card-cta">
+   447→              {t('hub.service.emojipicker.cta')}
+   448→              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+   449→            </span>
+   450→          </a>
+   451→        </div>
+   452→      </div>
+   453→
+   454→    </div>
+   455→
+   456→    <!-- SEO Content Section -->
+   457→    <section class="seo-section" aria-label="About OPN Chat">
+   458→      <article class="seo-block">
+   459→        <h2 class="seo-heading">{t('hub.seo.what.heading')}</h2>
+   460→        <p class="seo-text">{t('hub.seo.what.text')}</p>
+   461→      </article>
+   462→
+   463→      <article class="seo-block">
+   464→        <h2 class="seo-heading">{t('hub.seo.why.heading')}</h2>
+   465→        <p class="seo-text">{t('hub.seo.why.text')}</p>
+   466→      </article>
+   467→    </section>
+   468→</div>
+   469→</Layout>
+   470→
+   471→<style>
+   472→  .container {
+   473→    position: relative;
+   474→    z-index: 1;
+   475→    width: 100%;
+   476→    margin: 0 auto;
+   477→    max-width: 640px;
+   478→    padding: 2rem 1.25rem;
+   479→    display: flex;
+   480→    flex-direction: column;
+   481→    gap: 1.5rem;
+   482→  }
+   483→
+   484→  @media (max-width: 640px) {
+   485→
+   486→  }
+   487→
+   488→  /* Hero */
+   489→  .hero {
+   490→    text-align: center;
+   491→    margin-bottom: 0.5rem;
+   492→  }
+   493→
+   494→  .title {
+   495→    font-size: 1.75rem;
+   496→    font-weight: 800;
+   497→    letter-spacing: -0.03em;
+   498→    line-height: 1.2;
+   499→    color: var(--text-primary);
+   500→  }
+   501→
+   502→  /* title is now pure description — brand lives in the logo */
+   503→
+   504→  .subtitle {
+   505→    font-size: 0.95rem;
+   506→    color: var(--text-secondary);
+   507→    margin-top: 0.5rem;
+   508→    line-height: 1.5;
+   509→  }
+   510→
+   511→  /* Service Cards Grid */
+   512→  .services-grid {
+   513→    display: flex;
+   514→    flex-direction: column;
+   515→    gap: 1.25rem;
+   516→  }
+   517→
+   518→  /* Category Section */
+   519→  .category-section {
+   520→    display: flex;
+   521→    flex-direction: column;
+   522→    gap: 0.6rem;
+   523→  }
+   524→
+   525→  .category-heading {
+   526→    font-size: 0.72rem;
+   527→    font-weight: 700;
+   528→    color: var(--text-secondary);
+   529→    text-transform: uppercase;
+   530→    letter-spacing: 0.08em;
+   531→    padding: 0 0.25rem;
+   532→    margin: 0;
+   533→    display: flex;
+   534→    align-items: center;
+   535→    gap: 0.5rem;
+   536→  }
+   537→
+   538→  .category-heading::after {
+   539→    content: '';
+   540→    flex: 1;
+   541→    height: 1px;
+   542→    background: var(--border-color);
+   543→    opacity: 0.5;
+   544→  }
+   545→
+   546→  .category-cards {
+   547→    display: flex;
+   548→    flex-direction: column;
+   549→    gap: 0.7rem;
+   550→  }
+   551→
+   552→  .service-card {
+   553→    display: flex;
+   554→    align-items: center;
+   555→    gap: 1rem;
+   556→    padding: 1.15rem 1.25rem;
+   557→    background: var(--bg-secondary);
+   558→    border: 1.5px solid var(--border-color);
+   559→    border-radius: 14px;
+   560→    text-decoration: none;
+   561→    transition: all 0.25s ease;
+   562→    cursor: pointer;
+   563→  }
+   564→
+   565→  .service-card:hover {
+   566→    border-color: var(--opn-primary);
+   567→    transform: translateY(-2px);
+   568→    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.1);
+   569→  }
+   570→
+   571→  /* Card Icon */
+   572→  .card-icon-wrapper {
+   573→    display: flex;
+   574→    align-items: center;
+   575→    justify-content: center;
+   576→    width: 48px;
+   577→    height: 48px;
+   578→    border-radius: 12px;
+   579→    flex-shrink: 0;
+   580→  }
+   581→
+   582→  .wl-icon {
+   583→    background: rgba(37, 211, 102, 0.12);
+   584→    color: #25D366;
+   585→  }
+   586→
+   587→  .tglink-icon {
+   588→    background: rgba(42, 171, 238, 0.12);
+   589→    color: #2AABEE;
+   590→  }
+   591→
+   592→  .tg-icon {
+   593→    background: rgba(42, 171, 238, 0.12);
+   594→    color: #2AABEE;
+   595→  }
+   596→
+   597→  .vb-icon {
+   598→    background: rgba(115, 96, 242, 0.12);
+   599→    color: #7360F2;
+   600→  }
+   601→
+   602→  .sg-icon {
+   603→    background: rgba(58, 118, 240, 0.12);
+   604→    color: #3A76F0;
+   605→  }
+   606→
+   607→  .kt-icon {
+   608→    background: rgba(254, 229, 0, 0.12);
+   609→    color: #D4A000;
+   610→  }
+   611→
+   612→  .ig-icon {
+   613→    background: rgba(225, 48, 108, 0.12);
+   614→    color: #E1306C;
+   615→  }
+   616→
+   617→  .qr-icon {
+   618→    background: rgba(139, 92, 246, 0.12);
+   619→    color: #8B5CF6;
+   620→  }
+   621→
+   622→  .pw-icon {
+   623→    background: rgba(234, 179, 8, 0.12);
+   624→    color: #EAB308;
+   625→  }
+   626→
+   627→  .np-icon {
+   628→    background: rgba(99, 102, 241, 0.12);
+   629→    color: #6366F1;
+   630→  }
+   631→
+   632→  .cv-icon {
+   633→    background: rgba(245, 158, 11, 0.12);
+   634→    color: #F59E0B;
+   635→  }
+   636→
+   637→  .fmt-icon {
+   638→    background: rgba(37, 211, 102, 0.12);
+   639→    color: #25D366;
+   640→  }
+   641→
+   642→  .wc-icon {
+   643→    background: rgba(139, 92, 246, 0.12);
+   644→    color: #8B5CF6;
+   645→  }
+   646→
+   647→  .wl-icon {
+   648→    background: rgba(37, 211, 102, 0.12);
+   649→    color: #25D366;
+   650→  }
+   651→
+   652→  .cs-icon {
+   653→    background: rgba(134, 150, 168, 0.12);
+   654→    color: var(--text-secondary);
+   655→  }
+   656→
+   657→  .cw-icon {
+   658→    background: rgba(37, 211, 102, 0.12);
+   659→    color: #25D366;
+   660→  }
+   661→
+   662→  .ep-icon {
+   663→    background: rgba(251, 191, 36, 0.12);
+   664→    color: #F59E0B;
+   665→  }
+   666→  .bc-icon {
+   667→    background: rgba(37, 211, 102, 0.12);
+   668→    color: #25D366;
+   669→  }
+   670→
+   671→  .card-icon {
+   672→    width: 26px;
+   673→    height: 26px;
+   674→  }
+   675→
+   676→  /* Card Content */
+   677→  .card-content {
+   678→    flex: 1;
+   679→    min-width: 0;
+   680→  }
+   681→
+   682→  .card-title {
+   683→    font-size: 1.05rem;
+   684→    font-weight: 700;
+   685→    color: var(--text-primary);
+   686→    margin-bottom: 0.2rem;
+   687→    line-height: 1.3;
+   688→  }
+   689→
+   690→  .card-desc {
+   691→    font-size: 0.82rem;
+   692→    color: var(--text-secondary);
+   693→    line-height: 1.45;
+   694→  }
+   695→
+   696→  /* Card CTA */
+   697→  .card-cta {
+   698→    display: flex;
+   699→    align-items: center;
+   700→    gap: 0.35rem;
+   701→    font-size: 0.82rem;
+   702→    font-weight: 600;
+   703→    color: var(--opn-primary);
+   704→    white-space: nowrap;
+   705→    flex-shrink: 0;
+   706→  }
+   707→
+   708→  .arrow-icon {
+   709→    width: 16px;
+   710→    height: 16px;
+   711→    transition: transform 0.2s;
+   712→  }
+   713→
+   714→  .service-card:hover .arrow-icon {
+   715→    transform: translateX(3px);
+   716→  }
+   717→
+   718→  /* SEO Section */
+   719→  .seo-section {
+   720→    display: flex;
+   721→    flex-direction: column;
+   722→    gap: 1.25rem;
+   723→    margin-top: 0.5rem;
+   724→  }
+   725→
+   726→  .seo-block {
+   727→    padding: 0;
+   728→  }
+   729→
+   730→  .seo-heading {
+   731→    font-size: 1.1rem;
+   732→    font-weight: 700;
+   733→    color: var(--text-primary);
+   734→    margin-bottom: 0.5rem;
+   735→    line-height: 1.3;
+   736→  }
+   737→
+   738→  .seo-text {
+   739→    font-size: 0.88rem;
+   740→    color: var(--text-secondary);
+   741→    line-height: 1.65;
+   742→  }
+   743→
+   744→  /* Responsive */
+   745→  @media (max-width: 520px) {
+   746→    .container {
+   747→      padding: 1.25rem 1rem;
+   748→    }
+   749→    .title {
+   750→      font-size: 1.4rem;
+   751→    }
+   752→    .service-card {
+   753→      padding: 1rem;
+   754→      gap: 0.75rem;
+   755→    }
+   756→    .card-icon-wrapper {
+   757→      width: 42px;
+   758→      height: 42px;
+   759→    }
+   760→    .card-icon {
+   761→      width: 22px;
+   762→      height: 22px;
+   763→    }
+   764→    .card-cta {
+   765→      display: none;
+   766→    }
+   767→
+   768→  }
+   769→</style>
+   770→
+   771→<script>
+   772→</script>
+   773→
