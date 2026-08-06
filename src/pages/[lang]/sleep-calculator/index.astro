@@ -1,0 +1,16 @@
+---
+import SleepCalculatorContent from '../../../components/SleepCalculatorContent.astro';
+import { languages, defaultLang, type Lang } from '../../../i18n/ui';
+
+// Only non-default languages — default (en) lives at root: /sleep-calculator/
+export function getStaticPaths() {
+  return (Object.keys(languages) as Lang[]).filter((lang) => lang !== defaultLang).map((lang) => ({
+    params: { lang },
+    props: { lang },
+  }));
+}
+
+const { lang } = Astro.props;
+---
+
+<SleepCalculatorContent lang={lang} />

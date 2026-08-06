@@ -1,0 +1,853 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { useTranslations } from '../i18n/utils';
+import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
+import { type Lang } from '../i18n/ui';
+import SiteHeader from './SiteHeader.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import SEOHead from './SEOHead.astro';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const sleepSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": t('sleep.heading'),
+      "url": getAbsoluteLocaleUrl(lang, 'sleep-calculator'),
+      "description": t('sleep.meta.description'),
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      isPartOf: {
+        "@type": "WebSite",
+        "name": "OPN Chat",
+        "url": "https://opnchat.net/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "OPN Chat",
+          item: getAbsoluteLocaleUrl(lang, '')
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: t('bc.sleep'),
+          item: getAbsoluteLocaleUrl(lang, 'sleep-calculator')
+        }
+      ]
+    }
+  ]
+};
+---
+
+<Layout title={t('sleep.meta.title')} lang={lang} service="sleep-calculator">
+  <Fragment slot="meta">
+  <SEOHead
+    lang={lang}
+    description={t('sleep.meta.description')}
+    canonicalUrl={getAbsoluteLocaleUrl(lang, 'sleep-calculator')}
+    ogTitle={t('sleep.meta.og.title')}
+    ogDescription={t('sleep.meta.description')}
+    ogUrl={getAbsoluteLocaleUrl(lang, 'sleep-calculator')}
+    schema={sleepSchema}
+    extraMeta={`<meta name="keywords" content="${t('sleep.meta.keywords')}" /><meta name="twitter:card" content="summary" /><meta name="twitter:title" content="${t('sleep.meta.og.title')}" /><meta name="twitter:description" content="${t('sleep.meta.description')}" />`}
+  />
+  </Fragment>
+
+  <div class="container">
+    <!-- Header -->
+    <SiteHeader lang={lang} path="sleep-calculator" activeTool="sleep-calculator" />
+
+    <Breadcrumbs lang={lang} items={[{ label: t('bc.home'), href: getRelativeLocaleUrl(lang) }, { label: t('bc.sleep') }]} />
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1 class="title">{t('sleep.heading')}</h1>
+      <p class="subtitle">{t('sleep.subtitle')}</p>
+    </div>
+
+    <!-- Sleep Calculator App -->
+    <div class="sleep-app" id="sleep-app">
+      
+      <!-- Mode Tabs -->
+      <div class="mode-tabs">
+        <button class="mode-tab active" data-mode="wakeup" data-i18n="sleep.mode.wakeup">
+          ⏰ {t('sleep.mode.wakeup')}
+        </button>
+        <button class="mode-tab" data-mode="bedtime" data-i18n="sleep.mode.bedtime">
+          🛏️ {t('sleep.mode.bedtime')}
+        </button>
+      </div>
+
+      <!-- Time Input Section -->
+      <div class="input-section">
+        <label class="time-label" data-i18n="sleep.input.label">{t('sleep.input.label')}</label>
+        <div class="time-input-wrapper">
+          <input 
+            type="time" 
+            id="time-input" 
+            class="time-input" 
+            value="07:00"
+            step="60"
+          />
+          <button class="now-btn" id="now-btn" data-i18n="sleep.input.now">{t('sleep.input.now')}</button>
+        </div>
+        <p class="input-hint" data-i18n="sleep.input.hint">{t('sleep.input.hint')}</p>
+      </div>
+
+      <!-- Fall Asleep Time -->
+      <div class="fall-asleep-section">
+        <label class="fall-asleep-label">
+          <span data-i18n="sleep.fallAsleep.label">{t('sleep.fallAsleep.label')}</span>
+        </label>
+        <div class="fall-asleep-slider">
+          <input 
+            type="range" 
+            id="fall-asleep-minutes" 
+            min="5" 
+            max="30" 
+            value="14"
+            class="slider"
+          />
+          <span class="slider-value" id="fall-asleep-value">14 {t('sleep.fallAsleep.unit')}</span>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="results-section" id="results-section">
+        <h2 class="results-title" data-i18n="sleep.results.title">{t('sleep.results.title')}</h2>
+        
+        <!-- Primary Recommendation -->
+        <div class="result-card primary" id="primary-result">
+          <div class="result-icon">⭐</div>
+          <div class="result-content">
+            <div class="result-label" data-i18n="sleep.results.best">{t('sleep.results.best')}</div>
+            <div class="result-time" id="primary-time">--:--</div>
+            <div class="result-cycles" id="primary-cycles"></div>
+          </div>
+        </div>
+
+        <!-- Alternative Options -->
+        <div class="alternatives" id="alternatives-container">
+          <!-- Generated by JS -->
+        </div>
+      </div>
+
+      <!-- Sleep Cycles Info -->
+      <div class="info-section">
+        <h3 class="info-title" data-i18n="sleep.info.cyclesTitle">{t('sleep.info.cyclesTitle')}</h3>
+        <div class="cycles-grid">
+          <div class="cycle-item">
+            <span class="cycle-count">3</span>
+            <span class="cycle-duration">~4.5h</span>
+            <span class="cycle-note" data-i18n="sleep.info.cycleNoteShort">{t('sleep.info.cycleNoteShort')}</span>
+          </div>
+          <div class="cycle-item">
+            <span class="cycle-count">4</span>
+            <span class="cycle-duration">~6h</span>
+            <span class="cycle-note" data-i18n="sleep.info.cycleNoteOk">{t('sleep.info.cycleNoteOk')}</span>
+          </div>
+          <div class="cycle-item recommended">
+            <span class="cycle-count">5</span>
+            <span class="cycle-duration">~7.5h</span>
+            <span class="cycle-note" data-i18n="sleep.info.cycleNoteIdeal">{t('sleep.info.cycleNoteIdeal')}</span>
+          </div>
+          <div class="cycle-item">
+            <span class="cycle-count">6</span>
+            <span class="cycle-duration">~9h</span>
+            <span class="cycle-note" data-i18n="sleep.info.cycleNoteLong">{t('sleep.info.cycleNoteLong')}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tips Section -->
+      <div class="tips-section">
+        <h3 class="tips-title" data-i18n="sleep.tips.title">{t('sleep.tips.title')}</h3>
+        <ul class="tips-list">
+          <li data-i18n="sleep.tips.tip1">{t('sleep.tips.tip1')}</li>
+          <li data-i18n="sleep.tips.tip2">{t('sleep.tips.tip2')}</li>
+          <li data-i18n="sleep.tips.tip3">{t('sleep.tips.tip3')}</li>
+          <li data-i18n="sleep.tips.tip4">{t('sleep.tips.tip4')}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    :global(.container) {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 40px 20px 30px;
+    }
+
+    .title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    /* Mode Tabs */
+    .mode-tabs {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 28px;
+      background: var(--bg-secondary);
+      padding: 6px;
+      border-radius: 14px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .mode-tab {
+      flex: 1;
+      padding: 12px 16px;
+      border: none;
+      background: transparent;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .mode-tab:hover {
+      color: var(--text-primary);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .mode-tab.active {
+      background: var(--accent-primary);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+    }
+
+    /* Input Section */
+    .input-section {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .time-label {
+      display: block;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+
+    .time-input-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .time-input {
+      font-size: 2.8rem;
+      font-weight: 700;
+      padding: 16px 24px;
+      border: 3px solid var(--border-color);
+      border-radius: 16px;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      font-family: inherit;
+      letter-spacing: 2px;
+      width: 200px;
+      text-align: center;
+      transition: all 0.25s ease;
+      -webkit-appearance: none;
+      -moz-appearance: textfield;
+    }
+
+    .time-input:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+    }
+
+    /* Chrome/Safari/Edge time input styling */
+    .time-input::-webkit-calendar-picker-indicator {
+      font-size: 1.5rem;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+
+    .time-input::-webkit-calendar-picker-indicator:hover {
+      opacity: 1;
+    }
+
+    .now-btn {
+      padding: 14px 22px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: 2px solid var(--border-color);
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .now-btn:hover {
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+      transform: translateY(-2px);
+    }
+
+    .input-hint {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-top: 10px;
+    }
+
+    /* Fall Asleep Slider */
+    .fall-asleep-section {
+      text-align: center;
+      margin-bottom: 28px;
+      padding: 20px;
+      background: var(--bg-secondary);
+      border-radius: 14px;
+    }
+
+    .fall-asleep-label {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .fall-asleep-slider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      max-width: 350px;
+      margin: 0 auto;
+    }
+
+    .slider {
+      flex: 1;
+      -webkit-appearance: none;
+      height: 8px;
+      border-radius: 4px;
+      background: var(--border-color);
+      outline: none;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--accent-primary);
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+      transition: transform 0.15s;
+    }
+
+    .slider::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    .slider::-moz-range-thumb {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--accent-primary);
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+    }
+
+    .slider-value {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--accent-primary);
+      min-width: 50px;
+    }
+
+    /* Results Section */
+    .results-section {
+      margin-bottom: 32px;
+    }
+
+    .results-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .result-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 24px;
+      background: var(--bg-secondary);
+      border-radius: 16px;
+      margin-bottom: 12px;
+      border: 2px solid transparent;
+      transition: all 0.25s ease;
+    }
+
+    .result-card.primary {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
+      border-color: var(--accent-primary);
+    }
+
+    .result-icon {
+      font-size: 2rem;
+    }
+
+    .result-content {
+      flex: 1;
+    }
+
+    .result-label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+    }
+
+    .result-time {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: 1px;
+    }
+
+    .result-cycles {
+      font-size: 0.85rem;
+      color: var(--accent-primary);
+      font-weight: 500;
+      margin-top: 4px;
+    }
+
+    .alternatives {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .alt-card {
+      padding: 14px 16px;
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      text-align: center;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .alt-card:hover {
+      border-color: var(--accent-primary);
+      transform: translateY(-2px);
+    }
+
+    .alt-time {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .alt-cycles {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    /* Info Section */
+    .info-section {
+      background: var(--bg-secondary);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .info-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      text-align: center;
+    }
+
+    .cycles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+    }
+
+    .cycle-item {
+      text-align: center;
+      padding: 16px 12px;
+      background: var(--bg-primary);
+      border-radius: 12px;
+      border: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .cycle-item.recommended {
+      border-color: var(--accent-primary);
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(168, 85, 247, 0.08));
+    }
+
+    .cycle-count {
+      display: block;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+    }
+
+    .cycle-duration {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-top: 4px;
+    }
+
+    .cycle-note {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 6px;
+      line-height: 1.3;
+    }
+
+    /* Tips Section */
+    .tips-section {
+      background: var(--bg-secondary);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 40px;
+    }
+
+    .tips-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+
+    .tips-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .tips-list li {
+      padding: 10px 0;
+      padding-left: 28px;
+      position: relative;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .tips-list li:last-child {
+      border-bottom: none;
+    }
+
+    .tips-list li::before {
+      content: '💡';
+      position: absolute;
+      left: 0;
+      top: 10px;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .title {
+        font-size: 1.75rem;
+      }
+
+      .time-input {
+        font-size: 2.2rem;
+        width: 170px;
+        padding: 12px 16px;
+      }
+
+      .mode-tab {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+      }
+
+      .result-time {
+        font-size: 1.5rem;
+      }
+
+      .cycles-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+
+  <script>
+    class SleepCalculator {
+      constructor() {
+        this.mode = 'wakeup'; // 'wakeup' or 'bedtime'
+        this.fallAsleepMinutes = 14;
+        this.SLEEP_CYCLE_MINUTES = 90; // Average sleep cycle duration
+        
+        // DOM Elements
+        this.timeInput = document.getElementById('time-input') as HTMLInputElement;
+        this.nowBtn = document.getElementById('now-btn');
+        this.fallAsleepSlider = document.getElementById('fall-asleep-minutes') as HTMLInputElement;
+        this.fallAsleepValue = document.getElementById('fall-asleep-value');
+        this.primaryTime = document.getElementById('primary-time');
+        this.primaryCycles = document.getElementById('primary-cycles');
+        this.alternativesContainer = document.getElementById('alternatives-container');
+        
+        // Labels for i18n
+        this.cyclesLabel = ''; // Will be updated based on current language
+        
+        this.init();
+      }
+
+      private init(): void {
+        this.bindEvents();
+        this.updateFallAsleepLabel();
+        this.calculate();
+      }
+
+      private bindEvents(): void {
+        // Mode tabs
+        document.querySelectorAll('.mode-tab').forEach(tab => {
+          tab.addEventListener('click', (e) => {
+            const target = e.currentTarget as HTMLElement;
+            const mode = target.dataset.mode;
+            if (mode) {
+              this.setMode(mode);
+            }
+          });
+        });
+
+        // Time input change
+        this.timeInput?.addEventListener('change', () => this.calculate());
+        this.timeInput?.addEventListener('input', () => this.calculate());
+
+        // Now button
+        this.nowBtn?.addEventListener('click', () => this.setCurrentTime());
+
+        // Fall asleep slider
+        this.fallAsleepSlider?.addEventListener('input', (e) => {
+          this.fallAsleepMinutes = parseInt((e.target as HTMLInputElement).value);
+          this.updateFallAsleepLabel();
+          this.calculate();
+        });
+      }
+
+      private setMode(mode: string): void {
+        this.mode = mode;
+        
+        // Update active tab
+        document.querySelectorAll('.mode-tab').forEach(tab => {
+          tab.classList.toggle('active', tab.dataset.mode === mode);
+        });
+
+        // Update labels
+        this.updateLabelsForMode();
+        this.calculate();
+      }
+
+      private updateLabelsForMode(): void {
+        const timeLabel = document.querySelector('.time-label');
+        const inputHint = document.querySelector('.input-hint');
+        
+        if (this.mode === 'wakeup') {
+          if (timeLabel) timeLabel.textContent = this.getTranslation('sleep.input.label');
+          if (inputHint) inputHint.textContent = this.getTranslation('sleep.input.hint');
+        } else {
+          if (timeLabel) timeLabel.textContent = this.getTranslation('sleep.input.labelBedtime');
+          if (inputHint) inputHint.textContent = this.getTranslation('sleep.input.hintBedtime');
+        }
+      }
+
+      private getTranslation(key: string): string {
+        // Try to get translation from data-i18n elements or use defaults
+        const translations: Record<string, string> = {
+          'sleep.input.label': 'I need to wake up at...',
+          'sleep.input.hint': 'Calculate optimal bedtimes to wake up refreshed',
+          'sleep.input.labelBedtime': 'I plan to go to sleep at...',
+          'sleep.input.hintBedtime': 'Calculate optimal wake-up times',
+          'sleep.info.cycles': 'cycles',
+          'sleep.info.hours': 'of sleep',
+          'sleep.results.best': 'Best time to',
+          'sleep.results.fallAsleep': 'fall asleep',
+          'sleep.results.wakeUp': 'wake up'
+        };
+        return translations[key] || key;
+      }
+
+      private setCurrentTime(): void {
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        if (this.timeInput) {
+          this.timeInput.value = `${hours}:${minutes}`;
+        }
+        this.calculate();
+      }
+
+      private updateFallAsleepLabel(): void {
+        if (this.fallAsleepValue) {
+          const unit = this.getTranslation('sleep.fallAsleep.unit') || 'min';
+          this.fallAsleepValue.textContent = `${this.fallAsleepMinutes} ${unit}`;
+        }
+      }
+
+      private parseTime(timeStr: string): Date {
+        const [hours, minutes] = timeStr.split(':').map(Number);
+        const date = new Date();
+        date.setHours(hours, minutes, 0, 0);
+        return date;
+      }
+
+      private formatTime(date: Date): string {
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+      }
+
+      private addMinutes(date: Date, minutes: number): Date {
+        const result = new Date(date);
+        result.setTime(result.getTime() + minutes * 60000);
+        return result;
+      }
+
+      private subtractMinutes(date: Date, minutes: number): Date {
+        return this.addMinutes(date, -minutes);
+      }
+
+      calculate(): void {
+        const inputValue = this.timeInput?.value || '07:00';
+        const inputDate = this.parseTime(inputValue);
+        
+        const results: Array<{ cycles: number; time: Date; duration: string }> = [];
+
+        if (this.mode === 'wakeup') {
+          // Calculate bedtimes: given wake up time, when should we go to sleep
+          for (let cycles = 6; cycles >= 3; cycles--) {
+            const totalSleepMinutes = cycles * this.SLEEP_CYCLE_MINUTES;
+            const bedtime = this.subtractMinutes(inputDate, totalSleepMinutes + this.fallAsleepMinutes);
+            results.push({
+              cycles,
+              time: bedtime,
+              duration: `${(totalSleepMinutes / 60).toFixed(1)}h`
+            });
+          }
+        } else {
+          // Calculate wake up times: given bedtime, when should we wake up
+          const fallAsleepTime = this.addMinutes(inputDate, this.fallAsleepMinutes);
+          for (let cycles = 3; cycles <= 6; cycles++) {
+            const totalSleepMinutes = cycles * this.SLEEP_CYCLE_MINUTES;
+            const wakeupTime = this.addMinutes(fallAsleepTime, totalSleepMinutes);
+            results.push({
+              cycles,
+              time: wakeupTime,
+              duration: `${(totalSleepMinutes / 60).toFixed(1)}h`
+            });
+          }
+        }
+
+        this.displayResults(results);
+      }
+
+      private displayResults(results: Array<{ cycles: number; time: Date; duration: string }>): void {
+        // Find best result (5 cycles is ideal)
+        const bestIndex = results.findIndex(r => r.cycles === 5);
+        const bestResult = results[bestIndex >= 0 ? bestIndex : Math.floor(results.length / 2)];
+        const otherResults = results.filter((_, i) => i !== (bestIndex >= 0 ? bestIndex : Math.floor(results.length / 2)));
+
+        // Update primary result
+        if (this.primaryTime && bestResult) {
+          this.primaryTime.textContent = this.formatTime(bestResult.time);
+        }
+        
+        if (this.primaryCycles && bestResult) {
+          const actionText = this.mode === 'wakeup' 
+            ? (this.getTranslation('sleep.results.fallAsleep') || 'fall asleep')
+            : (this.getTranslation('sleep.results.wakeUp') || 'wake up');
+          const cyclesText = `🔄 ${bestResult.cycles} ${this.getTranslation('sleep.info.cycles') || 'cycles'} (${bestResult.duration})`;
+          this.primaryCycles.textContent = `${actionText} · ${cyclesText}`;
+        }
+
+        // Update alternatives
+        if (this.alternativesContainer) {
+          this.alternativesContainer.innerHTML = otherResults.map(result => `
+            <div class="alt-card" data-time="${this.formatTime(result.time)}">
+              <div class="alt-time">${this.formatTime(result.time)}</div>
+              <div class="alt-cycles">${result.cycles} cycles · ${result.duration}</div>
+            </div>
+          `).join('');
+
+          // Add click to copy/set as main time
+          this.alternativesContainer.querySelectorAll('.alt-card').forEach(card => {
+            card.addEventListener('click', () => {
+              const timeValue = card.getAttribute('data-time');
+              if (timeValue && this.timeInput) {
+                this.timeInput.value = timeValue;
+                this.calculate();
+              }
+            });
+          });
+        }
+      }
+    }
+
+    // Initialize on DOM ready
+    document.addEventListener('DOMContentLoaded', () => {
+      new SleepCalculator();
+    });
+
+    // Also handle Astro page transitions
+    document.addEventListener('astro:page-load', () => {
+      const app = document.getElementById('sleep-app');
+      if (app && !(app as any).calculatorInitialized) {
+        new SleepCalculator();
+        (app as any).calculatorInitialized = true;
+      }
+    });
+  </script>
+</Layout>
