@@ -1,0 +1,1502 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { useTranslations } from '../i18n/utils';
+import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
+import { type Lang } from '../i18n/ui';
+import SiteHeader from './SiteHeader.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import SEOHead from './SEOHead.astro';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const pomodoroSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": t('pomodoro.heading'),
+      "url": getAbsoluteLocaleUrl(lang, 'pomodoro'),
+      "description": t('pomodoro.meta.description'),
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "OPN Chat",
+        "url": "https://opnchat.net/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "OPN Chat",
+          "item": getAbsoluteLocaleUrl(lang, '')
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": t('bc.pomodoro'),
+          "item": getAbsoluteLocaleUrl(lang, 'pomodoro')
+        }
+      ]
+    }
+  ]
+};
+---
+
+<Layout title={t('pomodoro.meta.title')} lang={lang} service="pomodoro">
+  <Fragment slot="meta">
+  <SEOHead
+    lang={lang}
+    description={t('pomodoro.meta.description')}
+    canonicalUrl={getAbsoluteLocaleUrl(lang, 'pomodoro')}
+    ogTitle={t('pomodoro.meta.og.title')}
+    ogDescription={t('pomodoro.meta.description')}
+    ogUrl={getAbsoluteLocaleUrl(lang, 'pomodoro')}
+    schema={pomodoroSchema}
+    extraMeta={`<meta name="keywords" content="${t('pomodoro.meta.keywords')}" /><meta name="twitter:card" content="summary" /><meta name="twitter:title" content="${t('pomodoro.meta.og.title')}" /><meta name="twitter:description" content="${t('pomodoro.meta.description')}" />`}
+  />
+  </Fragment>
+
+  <div class="container">
+    <!-- Header -->
+    <SiteHeader lang={lang} path="pomodoro" activeTool="pomodoro" />
+
+    <Breadcrumbs lang={lang} items={[{ label: t('bc.home'), href: getRelativeLocaleUrl(lang) }, { label: t('bc.pomodoro') }]} />
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1 class="title">{t('pomodoro.heading')}</h1>
+      <p class="subtitle">{t('pomodoro.subtitle')}</p>
+    </div>
+
+    <!-- Pomodoro Timer -->
+    <div class="pomodoro-app" id="pomodoro-app">
+      
+      <!-- Mode Tabs -->
+      <div class="mode-tabs">
+        <button class="mode-tab active" data-mode="work" data-i18n="pomodoro.mode.work">
+          🍅 {t('pomodoro.mode.work')}
+        </button>
+        <button class="mode-tab" data-mode="break" data-i18n="pomodoro.mode.break">
+          ☕ {t('pomodoro.mode.break')}
+        </button>
+        <button class="mode-tab" data-mode="longBreak" data-i18n="pomodoro.mode.longBreak">
+          🌴 {t('pomodoro.mode.longBreak')}
+        </button>
+      </div>
+
+      <!-- Circular Timer -->
+      <div class="timer-container">
+        <svg class="timer-svg" viewBox="0 0 260 260">
+          <!-- Background circle -->
+          <circle class="timer-bg" cx="130" cy="130" r="120" />
+          <!-- Progress circle -->
+          <circle 
+            class="timer-progress" 
+            cx="130" 
+            cy="130" 
+            r="120"
+            stroke-dasharray="753.98"
+            stroke-dashoffset="0"
+          />
+        </svg>
+        
+        <div class="timer-display">
+          <span class="time-text" id="time-display">25:00</span>
+          <span class="mode-label" id="mode-label">{t('pomodoro.mode.work')}</span>
+        </div>
+      </div>
+
+      <!-- Session Dots -->
+      <div class="session-dots" id="session-dots">
+        <span class="dot" data-session="1"></span>
+        <span class="dot" data-session="2"></span>
+        <span class="dot" data-session="3"></span>
+        <span class="dot" data-session="4"></span>
+      </div>
+
+      <!-- Controls -->
+      <div class="controls">
+        <button class="control-btn secondary" id="reset-btn" title="{t('pomodoro.reset')}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+            <path d="M3 3v5h5"/>
+          </svg>
+        </button>
+        
+        <button class="control-btn primary" id="start-btn" title="{t('pomodoro.start')}">
+          <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
+            <rect x="6" y="4" width="4" height="16"/>
+            <rect x="14" y="4" width="4" height="16"/>
+          </svg>
+        </button>
+
+        <button class="control-btn secondary" id="skip-btn" title="{t('pomodoro.skip')}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,4 15,12 5,20"/>
+            <line x1="19" y1="5" x2="19" y2="19"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Task Input -->
+      <div class="task-section">
+        <div class="task-input-wrapper">
+          <input 
+            type="text" 
+            class="task-input" 
+            id="task-input"
+            placeholder="{t('pomodoro.task.placeholder')}"
+            maxlength="100"
+          />
+          <button class="add-task-btn" id="add-task-btn" title="{t('pomodoro.task.add')}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </button>
+        </div>
+        
+        <!-- Active Task Display -->
+        <div class="active-task" id="active-task" style="display:none;">
+          <span class="task-text" id="active-task-text"></span>
+          <button class="remove-task-btn" id="remove-task-btn">×</button>
+        </div>
+      </div>
+
+      <!-- Stats Bar -->
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span class="stat-value" id="completed-count">0</span>
+          <span class="stat-label" data-i18n="pomodoro.stats.completed">{t('pomodoro.stats.completed')}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="total-time">0m</span>
+          <span class="stat-label" data-i18n="pomodoro.stats.focusTime">{t('pomodoro.stats.focusTime')}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="current-streak">🔥 0</span>
+          <span class="stat-label" data-i18n="pomodoro.stats.streak">{t('pomodoro.stats.streak')}</span>
+        </div>
+      </div>
+
+      <!-- Settings Toggle -->
+      <button class="settings-toggle" id="settings-toggle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        {t('pomodoro.settings')}
+      </button>
+
+      <!-- Settings Panel -->
+      <div class="settings-panel" id="settings-panel" style="display:none;">
+        <h3 class="settings-title" data-i18n="pomodoro.settingsTitle">{t('pomodoro.settingsTitle')}</h3>
+        
+        <div class="setting-row">
+          <label data-i18n="pomodoro.settings.workDuration">{t('pomodoro.settings.workDuration')}</label>
+          <div class="duration-inputs">
+            <button class="duration-btn minus" data-setting="work" data-change="-5">−</button>
+            <span class="duration-value" id="work-duration">25</span>
+            <button class="duration-btn plus" data-setting="work" data-change="+5">+</button>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <label data-i18n="pomodoro.settings.breakDuration">{t('pomodoro.settings.breakDuration')}</label>
+          <div class="duration-inputs">
+            <button class="duration-btn minus" data-setting="break" data-change="-1">−</button>
+            <span class="duration-value" id="break-duration">5</span>
+            <button class="duration-btn plus" data-setting="break" data-change="+1">+</button>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <label data-i18n="pomodoro.settings.longBreakDuration">{t('pomodoro.settings.longBreakDuration')}</label>
+          <div class="duration-inputs">
+            <button class="duration-btn minus" data-setting="longBreak" data-change="-5">−</button>
+            <span class="duration-value" id="long-break-duration">15</span>
+            <button class="duration-btn plus" data-setting="longBreak" data-change="+5">+</button>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <label data-i18n="pomodoro.settings.sessionsUntilLong">{t('pomodoro.settings.sessionsUntilLong')}</label>
+          <div class="duration-inputs">
+            <button class="duration-btn minus" data-setting="sessions" data-change="-1">−</button>
+            <span class="duration-value" id="sessions-count">4</span>
+            <button class="duration-btn plus" data-setting="sessions" data-change="+1">+</button>
+          </div>
+        </div>
+
+        <div class="setting-row toggle-row">
+          <label data-i18n="pomodoro.settings.autoStartBreaks">{t('pomodoro.settings.autoStartBreaks')}</label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="auto-start-breaks" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-row toggle-row">
+          <label data-i18n="pomodoro.settings.autoStartWork">{t('pomodoro.settings.autoStartWork')}</label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="auto-start-work">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-row toggle-row">
+          <label data-i18n="pomodoro.settings.sound">{t('pomodoro.settings.sound')}</label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="sound-enabled" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Keyboard Shortcuts Hint -->
+      <div class="shortcuts-hint">
+        <kbd>Space</kbd> {t('pomodoro.shortcuts.startPause')} · 
+        <kbd>R</kbd> {t('pomodoro.shortcuts.reset')} · 
+        <kbd>S</kbd> {t('pomodoro.shortcuts.skip')}
+      </div>
+    </div>
+
+    <!-- Tips Section -->
+    <section class="tips-section">
+      <h2 class="tips-heading" data-i18n="pomodoro.tips.heading">{t('pomodoro.tips.heading')}</h2>
+      <ul class="tips-list">
+        <li>{t('pomodoro.tips.tip1')}</li>
+        <li>{t('pomodoro.tips.tip2')}</li>
+        <li>{t('pomodoro.tips.tip3')}</li>
+        <li>{t('pomodoro.tips.tip4')}</li>
+        <li>{t('pomodoro.tips.tip5')}</li>
+      </ul>
+    </section>
+  </div>
+</Layout>
+
+<script is:inline>
+(function() {
+  // ===== POMODORO TIMER CLASS =====
+  class PomodoroTimer {
+    constructor() {
+      // Default settings (in minutes/seconds)
+      this.durations = {
+        work: 25 * 60,
+        break: 5 * 60,
+        longBreak: 15 * 60
+      };
+      this.sessionsUntilLong = 4;
+      
+      // State
+      this.mode = 'work'; // work | break | longBreak
+      this.timeRemaining = this.durations.work;
+      this.isRunning = false;
+      this.intervalId = null;
+      this.currentSession = 1;
+      this.completedPomodoros = 0;
+      this.totalFocusTime = 0; // in minutes
+      this.currentStreak = 0;
+      this.lastCompletedDate = null;
+      
+      // Settings
+      this.autoStartBreaks = true;
+      this.autoStartWork = false;
+      this.soundEnabled = true;
+      
+      // DOM Elements (initialized after DOM ready)
+      this.elements = {};
+      
+      // Audio context for notification sound
+      this.audioContext = null;
+      
+      this.init();
+    }
+    
+    init() {
+      // Wait for DOM to be ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => this.setupDOM());
+      } else {
+        this.setupDOM();
+      }
+    }
+    
+    setupDOM() {
+      // Cache DOM elements
+      this.elements = {
+        timeDisplay: document.getElementById('time-display'),
+        modeLabel: document.getElementById('mode-label'),
+        startBtn: document.getElementById('start-btn'),
+        resetBtn: document.getElementById('reset-btn'),
+        skipBtn: document.getElementById('skip-btn'),
+        sessionDots: document.getElementById('session-dots'),
+        completedCount: document.getElementById('completed-count'),
+        totalTime: document.getElementById('total-time'),
+        currentStreak: document.getElementById('current-streak'),
+        taskInput: document.getElementById('task-input'),
+        addTaskBtn: document.getElementById('add-task-btn'),
+        activeTask: document.getElementById('active-task'),
+        activeTaskText: document.getElementById('active-task-text'),
+        removeTaskBtn: document.getElementById('remove-task-btn'),
+        settingsToggle: document.getElementById('settings-toggle'),
+        settingsPanel: document.getElementById('settings-panel'),
+        timerProgress: document.querySelector('.timer-progress'),
+        modeTabs: document.querySelectorAll('.mode-tab'),
+        durationBtns: document.querySelectorAll('.duration-btn'),
+        workDuration: document.getElementById('work-duration'),
+        breakDuration: document.getElementById('break-duration'),
+        longBreakDuration: document.getElementById('long-break-duration'),
+        sessionsCount: document.getElementById('sessions-count'),
+        autoStartBreaksToggle: document.getElementById('auto-start-breaks'),
+        autoStartWorkToggle: document.getElementById('auto-start-work'),
+        soundEnabledToggle: document.getElementById('sound-enabled')
+      };
+      
+      this.loadState();
+      this.bindEvents();
+      this.updateDisplay();
+      this.updateSessionDots();
+      this.updateStats();
+    }
+    
+    bindEvents() {
+      // Main controls
+      this.elements.startBtn.addEventListener('click', () => this.toggle());
+      this.elements.resetBtn.addEventListener('click', () => this.reset());
+      this.elements.skipBtn.addEventListener('click', () => this.skip());
+      
+      // Mode tabs
+      this.elements.modeTabs.forEach(tab => {
+        tab.addEventListener('click', (e) => {
+          const mode = e.currentTarget.dataset.mode;
+          this.setMode(mode);
+        });
+      });
+      
+      // Task input
+      this.elements.addTaskBtn.addEventListener('click', () => this.addTask());
+      this.elements.taskInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') this.addTask();
+      });
+      this.elements.removeTaskBtn.addEventListener('click', () => this.removeTask());
+      
+      // Settings
+      this.elements.settingsToggle.addEventListener('click', () => this.toggleSettings());
+      this.elements.durationBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => this.changeDuration(e.currentTarget));
+      });
+      
+      // Toggles
+      this.elements.autoStartBreaksToggle.addEventListener('change', (e) => {
+        this.autoStartBreaks = e.target.checked;
+        this.saveState();
+      });
+      this.elements.autoStartWorkToggle.addEventListener('change', (e) => {
+        this.autoStartWork = e.target.checked;
+        this.saveState();
+      });
+      this.elements.soundEnabledToggle.addEventListener('change', (e) => {
+        this.soundEnabled = e.target.checked;
+        this.saveState();
+      });
+      
+      // Keyboard shortcuts
+      document.addEventListener('keydown', (e) => {
+        // Don't trigger if typing in input
+        if (e.target.tagName === 'INPUT') return;
+        
+        switch(e.code) {
+          case 'Space':
+            e.preventDefault();
+            this.toggle();
+            break;
+          case 'KeyR':
+            this.reset();
+            break;
+          case 'KeyS':
+            this.skip();
+            break;
+        }
+      });
+      
+      // Visibility change - pause when tab hidden (optional)
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden && this.isRunning) {
+          // Keep running in background, just update title
+          this.updatePageTitle();
+        }
+      });
+    }
+    
+    toggle() {
+      if (this.isRunning) {
+        this.pause();
+      } else {
+        this.start();
+      }
+    }
+    
+    start() {
+      this.isRunning = true;
+      this.updatePlayButton();
+      
+      this.intervalId = setInterval(() => {
+        this.tick();
+      }, 1000);
+      
+      // Request wake lock on mobile
+      this.requestWakeLock();
+    }
+    
+    pause() {
+      this.isRunning = false;
+      this.updatePlayButton();
+      
+      if (this.intervalId) {
+        clearInterval(this.intervalId);
+        this.intervalId = null;
+      }
+      
+      this.releaseWakeLock();
+    }
+    
+    reset() {
+      this.pause();
+      this.timeRemaining = this.durations[this.mode];
+      this.updateDisplay();
+      this.saveState();
+    }
+    
+    skip() {
+      this.completeSession(true);
+    }
+    
+    tick() {
+      if (this.timeRemaining > 0) {
+        this.timeRemaining--;
+        this.updateDisplay();
+        this.updatePageTitle();
+        this.saveState();
+      } else {
+        this.completeSession(false);
+      }
+    }
+    
+    completeSession(skipped = false) {
+      this.pause();
+      this.playSound();
+      
+      if (this.mode === 'work' && !skipped) {
+        this.completedPomodoros++;
+        this.totalFocusTime += Math.round(this.durations.work / 60);
+        this.currentStreak++;
+        this.lastCompletedDate = new Date().toDateString();
+        
+        // Update session dot
+        const dot = this.elements.sessionDots?.querySelector(`[data-session="${this.currentSession}"]`);
+        if (dot) dot.classList.add('completed');
+        
+        this.currentSession++;
+        
+        if (this.currentSession > this.sessionsUntilLong) {
+          this.currentSession = 1;
+          this.setMode('longBreak');
+          // Reset all dots
+          this.updateSessionDots();
+        } else {
+          this.setMode('break');
+        }
+        
+        if (this.autoStartBreaks && !skipped) {
+          setTimeout(() => this.start(), 1000);
+        }
+      } else {
+        this.setMode('work');
+        if (this.autoStartWork && !skipped) {
+          setTimeout(() => this.start(), 1000);
+        }
+      }
+      
+      this.updateStats();
+      this.showNotification();
+      this.saveState();
+    }
+    
+    setMode(mode) {
+      this.mode = mode;
+      this.timeRemaining = this.durations[mode];
+      this.isRunning = false;
+      
+      // Update tabs
+      this.elements.modeTabs.forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.mode === mode);
+      });
+      
+      // Update mode label with i18n
+      const modeLabels = {
+        work: this.getI18n('pomodoro.mode.work') || 'Focus',
+        break: this.getI18n('pomodoro.mode.break') || 'Break',
+        longBreak: this.getI18n('pomodoro.mode.longBreak') || 'Long Break'
+      };
+      if (this.elements.modeLabel) {
+        this.elements.modeLabel.textContent = modeLabels[mode];
+      }
+      
+      // Update progress color
+      if (this.elements.timerProgress) {
+        this.elements.timerProgress.style.stroke = this.getModeColor(mode);
+      }
+      
+      this.updateDisplay();
+      this.updatePlayButton();
+      this.saveState();
+    }
+    
+    getModeColor(mode) {
+      const colors = {
+        work: '#E53935',
+        break: '#25D366',
+        longBreak: '#5C6BC0'
+      };
+      return colors[mode] || colors.work;
+    }
+    
+    updateDisplay() {
+      const minutes = Math.floor(this.timeRemaining / 60);
+      const seconds = this.timeRemaining % 60;
+      const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      
+      if (this.elements.timeDisplay) {
+        this.elements.timeDisplay.textContent = timeString;
+      }
+      
+      // Update circular progress
+      if (this.elements.timerProgress) {
+        const totalTime = this.durations[this.mode];
+        const progress = this.timeRemaining / totalTime;
+        const circumference = 2 * Math.PI * 120; // r=120
+        const offset = circumference * (1 - progress);
+        this.elements.timerProgress.style.strokeDashoffset = offset;
+      }
+      
+      // Update page title
+      this.updatePageTitle();
+    }
+    
+    updatePageTitle() {
+      const minutes = Math.floor(this.timeRemaining / 60);
+      const seconds = this.timeRemaining % 60;
+      const prefix = this.isRunning ? '⏱' : '🍅';
+      document.title = `${prefix} ${minutes}:${seconds.toString().padStart(2, '0')} — OPN Chat`;
+    }
+    
+    updatePlayButton() {
+      const playIcon = this.elements.startBtn?.querySelector('.play-icon');
+      const pauseIcon = this.elements.startBtn?.querySelector('.pause-icon');
+      
+      if (playIcon && pauseIcon) {
+        playIcon.style.display = this.isRunning ? 'none' : 'block';
+        pauseIcon.style.display = this.isRunning ? 'block' : 'none';
+      }
+    }
+    
+    updateSessionDots() {
+      if (!this.elements.sessionDots) return;
+      
+      const dots = this.elements.sessionDots.querySelectorAll('.dot');
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('completed', index < (this.currentSession - 1));
+      });
+    }
+    
+    updateStats() {
+      if (this.elements.completedCount) {
+        this.elements.completedCount.textContent = this.completedPomodoros;
+      }
+      if (this.elements.totalTime) {
+        this.elements.totalTime.textContent = `${this.totalFocusTime}m`;
+      }
+      if (this.elements.currentStreak) {
+        // Check if streak should reset (new day)
+        const today = new Date().toDateString();
+        if (this.lastCompletedDate && this.lastCompletedDate !== today && this.completedPomodoros > 0) {
+          // Streak continues until next day without completion
+        }
+        this.elements.currentStreak.textContent = `🔥 ${this.currentStreak}`;
+      }
+    }
+    
+    addTask() {
+      const text = this.elements.taskInput.value.trim();
+      if (!text) return;
+      
+      if (this.elements.activeTaskText) {
+        this.elements.activeTaskText.textContent = text;
+      }
+      if (this.elements.activeTask) {
+        this.elements.activeTask.style.display = 'flex';
+      }
+      this.elements.taskInput.value = '';
+      this.saveState();
+    }
+    
+    removeTask() {
+      if (this.elements.activeTaskText) {
+        this.elements.activeTaskText.textContent = '';
+      }
+      if (this.elements.activeTask) {
+        this.elements.activeTask.style.display = 'none';
+      }
+      this.saveState();
+    }
+    
+    toggleSettings() {
+      if (!this.elements.settingsPanel) return;
+      
+      const isVisible = this.elements.settingsPanel.style.display !== 'none';
+      this.elements.settingsPanel.style.display = isVisible ? 'none' : 'block';
+    }
+    
+    changeDuration(btn) {
+      const setting = btn.dataset.setting;
+      const change = parseInt(btn.dataset.change);
+      
+      switch(setting) {
+        case 'work':
+          this.durations.work = Math.max(60, Math.max(1, this.durations.work / 60 + change)) * 60;
+          if (this.elements.workDuration) this.elements.workDuration.textContent = this.durations.work / 60;
+          break;
+        case 'break':
+          this.durations.break = Math.max(60, Math.max(1, this.durations.break / 60 + change)) * 60;
+          if (this.elements.breakDuration) this.elements.breakDuration.textContent = this.durations.break / 60;
+          break;
+        case 'longBreak':
+          this.durations.longBreak = Math.max(60, Math.max(1, this.durations.longBreak / 60 + change)) * 60;
+          if (this.elements.longBreakDuration) this.elements.longBreakDuration.textContent = this.durations.longBreak / 60;
+          break;
+        case 'sessions':
+          this.sessionsUntilLong = Math.max(2, Math.min(10, this.sessionsUntilLong + change));
+          if (this.elements.sessionsCount) this.elements.sessionsCount.textContent = this.sessionsUntilLong;
+          this.updateSessionDots();
+          break;
+      }
+      
+      if (this.mode === setting || (setting === 'sessions')) {
+        this.timeRemaining = this.durations[this.mode];
+        this.updateDisplay();
+      }
+      
+      this.saveState();
+    }
+    
+    // ===== AUDIO =====
+    playSound() {
+      if (!this.soundEnabled) return;
+      
+      try {
+        if (!this.audioContext) {
+          this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        
+        const oscillator = this.audioContext.createOscillator();
+        const gainNode = this.audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(this.audioContext.destination);
+        
+        oscillator.frequency.setValueAtTime(800, this.audioContext.currentTime);
+        oscillator.type = 'sine';
+        
+        gainNode.gain.setValueAtTime(0.3, this.audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.5);
+        
+        oscillator.start(this.audioContext.currentTime);
+        oscillator.stop(this.audioContext.currentTime + 0.5);
+      } catch (e) {
+        console.log('Audio not available:', e);
+      }
+    }
+    
+    showNotification() {
+      if ('Notification' in window && Notification.permission === 'granted') {
+        const messages = {
+          work: this.getI18n('pomodoro.notification.workDone') || 'Time to take a break!',
+          break: this.getI18n('pomodoro.notification.breakDone') || 'Time to focus!',
+          longBreak: this.getI18n('pomodoro.notification.breakDone') || 'Time to focus!'
+        };
+        
+        new Notification('🍅 OPN Chat', {
+          body: messages[this.mode],
+          icon: '/favicon.ico'
+        });
+      }
+    }
+    
+    requestNotificationPermission() {
+      if ('Notification' in window && Notification.permission === 'default') {
+        Notification.requestPermission();
+      }
+    }
+    
+    // ===== WAKE LOCK (Mobile) =====
+    async function getWakeLock() {
+      try {
+        if ('wakeLock' in navigator) {
+          return await navigator.wakeLock.request('screen');
+        }
+      } catch (err) {
+        console.log('Wake Lock error:', err);
+      }
+      return null;
+    }
+    
+    let wakeLock = null;
+    
+    async requestWakeLock() {
+      wakeLock = await getWakeLock();
+    }
+    
+    releaseWakeLock() {
+      if (wakeLock) {
+        wakeLock.release();
+        wakeLock = null;
+      }
+    }
+    
+    // Make methods available on instance
+    this.requestWakeLock = requestWakeLock;
+    this.releaseWakeLock = releaseWakeLock;
+    
+    // ===== STATE PERSISTENCE =====
+    saveState() {
+      const state = {
+        mode: this.mode,
+        timeRemaining: this.timeRemaining,
+        isRunning: this.isRunning,
+        currentSession: this.currentSession,
+        completedPomodoros: this.completedPomodoros,
+        totalFocusTime: this.totalFocusTime,
+        currentStreak: this.currentStreak,
+        lastCompletedDate: this.lastCompletedDate,
+        durations: this.durations,
+        sessionsUntilLong: this.sessionsUntilLong,
+        autoStartBreaks: this.autoStartBreaks,
+        autoStartWork: this.autoStartWork,
+        soundEnabled: this.soundEnabled,
+        taskText: this.elements.activeTaskText?.textContent || ''
+      };
+      
+      try {
+        localStorage.setItem('pomodoro-state', JSON.stringify(state));
+      } catch (e) {
+        console.log('Could not save state:', e);
+      }
+    }
+    
+    loadState() {
+      try {
+        const saved = localStorage.getItem('pomodoro-state');
+        if (saved) {
+          const state = JSON.parse(saved);
+          
+          // Only restore if saved today
+          if (state.lastCompletedDate) {
+            const savedDate = new Date(state.lastCompletedDate);
+            const today = new Date();
+            if (savedDate.toDateString() !== today.toDateString()) {
+              // New day - reset daily stats but keep settings
+              this.durations = state.durations || this.durations;
+              this.sessionsUntilLong = state.sessionsUntilLong || this.sessionsUntilLong;
+              this.autoStartBreaks = state.autoStartBreaks ?? this.autoStartBreaks;
+              this.autoStartWork = state.autoStartWork ?? this.autoStartWork;
+              this.soundEnabled = state.soundEnabled ?? this.soundEnabled;
+              return;
+            }
+          }
+          
+          Object.assign(this, state);
+          
+          // Restore UI after a short delay for DOM
+          setTimeout(() => {
+            this.updateDisplay();
+            this.updateSessionDots();
+            this.updateStats();
+            this.updatePlayButton();
+            
+            // Restore task
+            if (state.taskText && this.elements.activeTaskText) {
+              this.elements.activeTaskText.textContent = state.taskText;
+              if (this.elements.activeTask) {
+                this.elements.activeTask.style.display = 'flex';
+              }
+            }
+            
+            // Restore settings UI
+            if (this.elements.workDuration) this.elements.workDuration.textContent = this.durations.work / 60;
+            if (this.elements.breakDuration) this.elements.breakDuration.textContent = this.durations.break / 60;
+            if (this.elements.longBreakDuration) this.elements.longBreakDuration.textContent = this.durations.longBreak / 60;
+            if (this.elements.sessionsCount) this.elements.sessionsCount.textContent = this.sessionsUntilLong;
+            if (this.elements.autoStartBreaksToggle) this.elements.autoStartBreaksToggle.checked = this.autoStartBreaks;
+            if (this.elements.autoStartWorkToggle) this.elements.autoStartWorkToggle.checked = this.autoStartWork;
+            if (this.elements.soundEnabledToggle) this.elements.soundEnabledToggle.checked = this.soundEnabled;
+            
+            // Update mode tabs
+            this.elements.modeTabs.forEach(tab => {
+              tab.classList.toggle('active', tab.dataset.mode === this.mode);
+            });
+            
+            // Update progress color
+            if (this.elements.timerProgress) {
+              this.elements.timerProgress.style.stroke = this.getModeColor(this.mode);
+            }
+            
+            // Resume if was running
+            if (this.isRunning) {
+              this.start();
+            }
+          }, 100);
+        }
+      } catch (e) {
+        console.log('Could not load state:', e);
+      }
+      
+      // Request notification permission on first interaction
+      document.addEventListener('click', () => this.requestNotificationPermission(), { once: true });
+    }
+    
+    // Helper to get i18n strings from data attributes
+    getI18n(key) {
+      const el = document.querySelector(`[data-i18n="${key}"]`);
+      return el?.textContent || null;
+    }
+  }
+
+  // Initialize timer
+  const timer = new PomodoroTimer();
+})();
+</script>
+
+<style>
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    margin: 0 auto;
+    max-width: 520px;
+    padding: 2rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    color: var(--text-primary);
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+    line-height: 1.5;
+  }
+
+  /* ===== POMODORO APP ===== */
+  .pomodoro-app {
+    background: var(--bg-secondary);
+    border: 1.5px solid var(--border-color);
+    border-radius: 20px;
+    padding: 1.75rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Mode Tabs */
+  .mode-tabs {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .mode-tab {
+    padding: 0.55rem 1rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    border: 1.5px solid var(--border-color);
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .mode-tab:hover {
+    background: var(--bg-input);
+    border-color: var(--text-secondary);
+  }
+
+  .mode-tab.active[data-mode="work"] {
+    background: rgba(229, 57, 53, 0.1);
+    border-color: #E53935;
+    color: #E53935;
+  }
+
+  .mode-tab.active[data-mode="break"] {
+    background: rgba(37, 211, 102, 0.1);
+    border-color: #25D366;
+    color: #25D366;
+  }
+
+  .mode-tab.active[data-mode="longBreak"] {
+    background: rgba(92, 107, 192, 0.1);
+    border-color: #5C6BC0;
+    color: #5C6BC0;
+  }
+
+  /* Timer Container */
+  .timer-container {
+    position: relative;
+    width: 240px;
+    height: 240px;
+    margin: 0 auto;
+  }
+
+  .timer-svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+
+  .timer-bg {
+    fill: none;
+    stroke: var(--border-color);
+    stroke-width: 8;
+  }
+
+  .timer-progress {
+    fill: none;
+    stroke: #E53935; /* Default work color */
+    stroke-width: 8;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.5s ease, stroke 0.3s ease;
+  }
+
+  .timer-display {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  .time-text {
+    display: block;
+    font-size: 3.2rem;
+    font-weight: 800;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    line-height: 1;
+  }
+
+  .mode-label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-top: 0.35rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Session Dots */
+  .session-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+  }
+
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--border-color);
+    transition: all 0.3s ease;
+  }
+
+  .dot.completed {
+    background: #25D366;
+    box-shadow: 0 0 8px rgba(37, 211, 102, 0.4);
+  }
+
+  /* Controls */
+  .controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+  }
+
+  .control-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .control-btn.primary {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #25D366 0%, #1da85a 100%);
+    color: white;
+    box-shadow: 0 4px 16px rgba(37, 211, 102, 0.3);
+  }
+
+  .control-btn.primary:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 24px rgba(37, 211, 102, 0.4);
+  }
+
+  .control-btn.primary:active {
+    transform: scale(0.96);
+  }
+
+  .control-btn.secondary {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--bg-input);
+    color: var(--text-secondary);
+  }
+
+  .control-btn.secondary:hover {
+    background: var(--border-color);
+    color: var(--text-primary);
+  }
+
+  .control-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .control-btn.primary svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  /* Task Section */
+  .task-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .task-input-wrapper {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .task-input {
+    flex: 1;
+    padding: 0.7rem 1rem;
+    font-size: 0.88rem;
+    border: 1.5px solid var(--border-color);
+    border-radius: 10px;
+    background: var(--bg-input);
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .task-input:focus {
+    border-color: var(--opn-primary);
+  }
+
+  .task-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.6;
+  }
+
+  .add-task-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 10px;
+    background: transparent;
+    color: var(--opn-primary);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .add-task-btn:hover {
+    background: rgba(37, 211, 102, 0.1);
+    border-color: var(--opn-primary);
+  }
+
+  .add-task-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .active-task {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 1rem;
+    background: rgba(37, 211, 102, 0.08);
+    border: 1px solid rgba(37, 211, 102, 0.2);
+    border-radius: 8px;
+    animation: slideIn 0.3s ease;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .task-text {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .remove-task-btn {
+    font-size: 1.3rem;
+    color: var(--text-secondary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 0.25rem;
+    line-height: 1;
+  }
+
+  .remove-task-btn:hover {
+    color: #E53935;
+  }
+
+  /* Stats Bar */
+  .stats-bar {
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem 0.5rem;
+    background: var(--bg-input);
+    border-radius: 12px;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  .stat-value {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .stat-label {
+    font-size: 0.68rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  /* Settings Toggle & Panel */
+  .settings-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.7rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: transparent;
+    border: 1.5px dashed var(--border-color);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .settings-toggle:hover {
+    color: var(--text-primary);
+    border-color: var(--text-secondary);
+    background: var(--bg-input);
+  }
+
+  .settings-toggle svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .settings-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.25rem;
+    background: var(--bg-input);
+    border-radius: 14px;
+    animation: slideDown 0.3s ease;
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); max-height: 0; }
+    to { opacity: 1; transform: translateY(0); max-height: 500px; }
+  }
+
+  .settings-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .setting-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .setting-row label:first-child {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+  }
+
+  .toggle-row {
+    padding: 0.4rem 0;
+  }
+
+  .duration-inputs {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .duration-btn {
+    width: 32px;
+    height: 32px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .duration-btn:hover {
+    background: var(--opn-primary);
+    border-color: var(--opn-primary);
+    color: white;
+  }
+
+  .duration-value {
+    min-width: 28px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+  }
+
+  /* Toggle Switch */
+  .toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 26px;
+  }
+
+  .toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--border-color);
+    transition: 0.3s;
+    border-radius: 26px;
+  }
+
+  .toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+  }
+
+  .toggle-switch input:checked + .toggle-slider {
+    background-color: var(--opn-primary);
+  }
+
+  .toggle-switch input:checked + .toggle-slider:before {
+    transform: translateX(22px);
+  }
+
+  /* Shortcuts Hint */
+  .shortcuts-hint {
+    text-align: center;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    opacity: 0.7;
+  }
+
+  .shortcuts-hint kbd {
+    display: inline-block;
+    padding: 0.15rem 0.45rem;
+    font-family: inherit;
+    font-size: 0.68rem;
+    font-weight: 600;
+    background: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    margin: 0 0.15rem;
+  }
+
+  /* Tips Section */
+  .tips-section {
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border: 1.5px solid var(--border-color);
+    border-radius: 16px;
+  }
+
+  .tips-heading {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+  }
+
+  .tips-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .tips-list li {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    padding-left: 1.5rem;
+    position: relative;
+  }
+
+  .tips-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--opn-primary);
+    font-weight: 700;
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    .container {
+      padding: 1.25rem 1rem;
+    }
+
+    .title {
+      font-size: 1.35rem;
+    }
+
+    .pomodoro-app {
+      padding: 1.25rem 1rem;
+    }
+
+    .timer-container {
+      width: 200px;
+      height: 200px;
+    }
+
+    .time-text {
+      font-size: 2.6rem;
+    }
+
+    .mode-tab {
+      padding: 0.45rem 0.75rem;
+      font-size: 0.76rem;
+    }
+
+    .control-btn.primary {
+      width: 56px;
+      height: 56px;
+    }
+
+    .stats-bar {
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .stat-item {
+      min-width: 70px;
+    }
+  }
+
+  /* Dark mode optimizations */
+  :global([data-theme="dark"]) .pomodoro-app {
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  :global([data-theme="dark"]) .timer-bg {
+    stroke: rgba(255, 255, 255, 0.1);
+  }
+
+  :global([data-theme="dark"]) .control-btn.primary {
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.25);
+  }
+</style>

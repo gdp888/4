@@ -451,6 +451,24 @@ const hubSchema = {
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </span>
           </a>
+
+          <!-- Pomodoro Timer Card (NEW!) -->
+          <a href={getRelativeLocaleUrl(lang, 'pomodoro')} class="service-card pomodoro-card popular-card">
+            <div class="popular-badge" title={t('hub.popular.title')}>🆕 {t('hub.popular.new')}</div>
+            <div class="card-icon-wrapper pomodoro-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor" class="card-icon" aria-hidden="true">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+              </svg>
+            </div>
+            <div class="card-content">
+              <h2 class="card-title">{t('hub.service.pomodoro.title')}</h2>
+              <p class="card-desc">{t('hub.service.pomodoro.desc')}</p>
+            </div>
+            <span class="card-cta">
+              {t('hub.service.pomodoro.cta')}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </a>
         </div>
       </div>
 
@@ -784,6 +802,12 @@ const hubSchema = {
     background: rgba(251, 191, 36, 0.12);
     color: #F59E0B;
   }
+
+  .pomodoro-icon {
+    background: rgba(229, 57, 53, 0.12);
+    color: #E53935;
+  }
+
   .bc-icon {
     background: rgba(37, 211, 102, 0.12);
     color: #25D366;

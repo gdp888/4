@@ -1,0 +1,16 @@
+---
+import PomodoroContent from '../../../components/PomodoroContent.astro';
+import { languages, defaultLang, type Lang } from '../../../i18n/ui';
+
+// Only non-default languages — default (en) lives at root: /pomodoro/
+export function getStaticPaths() {
+  return (Object.keys(languages) as Lang[]).filter((lang) => lang !== defaultLang).map((lang) => ({
+    params: { lang },
+    props: { lang },
+  }));
+}
+
+const { lang } = Astro.props;
+---
+
+<PomodoroContent lang={lang} />
