@@ -963,6 +963,19 @@ export default {
     'tz.faq.q5': 'Warum ist das für WhatsApp und Telegram nützlich?',
     'tz.faq.a5': 'Wenn Sie WhatsApp- oder Telegram-Nachrichten an internationale Kontakte senden, hilft die Kenntnis ihrer Ortszeit, Nachrichten nicht um 3 Uhr morgens zu versenden. Dieses Tool zeigt Ihnen das richtige Zeitfenster für jede Stadt.',
 
+    // New UI: Two cards with live clock
+    'tz.card1.label': 'Ihre Zeitzone',
+    'tz.card1.placeholder': 'Ihre Stadt suchen...',
+    'tz.card2.label': 'Zeitzone des Kontakts',
+    'tz.card2.placeholder': 'Stadt des Kontakts suchen...',
+    'tz.timeDiff.label': 'Zeitunterschied',
+    'tz.timeDiff.ahead': 'voraus',
+    'tz.timeDiff.behind': 'hinterher',
+    'tz.daytime.morning': 'Morgen',
+    'tz.daytime.day': 'Tag',
+    'tz.daytime.evening': 'Abend',
+    'tz.daytime.nacht': 'Nacht',
+
     'tz.seo.title': 'Warum einen Zeitzonen-Konverter verwenden?',
     'tz.seo.feature1.title': 'Sofortiger Vergleich',
     'tz.seo.feature1.desc': 'Sehen Sie die Zeit in 12+ Städten gleichzeitig. Keine manuelle Berechnung oder Zeitzonentabellen nötig.',

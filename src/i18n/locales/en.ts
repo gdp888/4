@@ -1045,6 +1045,19 @@ export default {
     'tz.faq.q5': 'Why is this useful for WhatsApp and Telegram?',
     'tz.faq.a5': 'If you send WhatsApp or Telegram messages to international contacts, knowing their local time helps you avoid messaging at 3 AM. This tool shows you the right time window for each city.',
 
+    // New UI: Two cards with live clock
+    'tz.card1.label': 'Your timezone',
+    'tz.card1.placeholder': 'Search your city...',
+    'tz.card2.label': "Contact's timezone",
+    'tz.card2.placeholder': "Search contact's city...",
+    'tz.timeDiff.label': 'Time difference',
+    'tz.timeDiff.ahead': 'ahead of',
+    'tz.timeDiff.behind': 'behind',
+    'tz.daytime.morning': 'Morning',
+    'tz.daytime.day': 'Day',
+    'tz.daytime.evening': 'Evening',
+    'tz.daytime.night': 'Night',
+
     'tz.seo.title': 'Why use a time zone converter?',
     'tz.seo.feature1.title': 'Instant comparison',
     'tz.seo.feature1.desc': 'See time in 12+ cities at once. No manual calculations or timezone tables needed.',

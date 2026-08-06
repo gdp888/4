@@ -1019,6 +1019,19 @@ export default {
     'tz.faq.q5': '¿Por qué es útil para WhatsApp y Telegram?',
     'tz.faq.a5': 'Si envías mensajes de WhatsApp o Telegram a contactos internacionales, conocer su hora local te ayuda a evitar enviar mensajes a las 3 de la madrugada. Esta herramienta te muestra la ventana de tiempo adecuada para cada ciudad.',
 
+    // New UI: Two cards with live clock
+    'tz.card1.label': 'Tu zona horaria',
+    'tz.card1.placeholder': 'Buscar tu ciudad...',
+    'tz.card2.label': 'Zona horaria del contacto',
+    'tz.card2.placeholder': 'Buscar ciudad del contacto...',
+    'tz.timeDiff.label': 'Diferencia horaria',
+    'tz.timeDiff.ahead': 'adelante de',
+    'tz.timeDiff.behind': 'atrás de',
+    'tz.daytime.morning': 'Mañana',
+    'tz.daytime.day': 'Día',
+    'tz.daytime.evening': 'Tarde',
+    'tz.daytime.night': 'Noche',
+
     'tz.seo.title': '¿Por qué usar un conversor de zona horaria?',
     'tz.seo.feature1.title': 'Comparación instantánea',
     'tz.seo.feature1.desc': 'Ve la hora en más de 12 ciudades a la vez. Sin cálculos manuales ni tablas de zonas horarias.',

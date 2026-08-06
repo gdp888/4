@@ -947,6 +947,19 @@ export default {
     'tz.faq.q5': 'Почему это полезно для WhatsApp и Telegram?',
     'tz.faq.a5': 'Если вы отправляете сообщения WhatsApp или Telegram международным контактам, знание их местного времени помогает избежать отправки сообщений в 3 часа ночи. Этот инструмент показывает подходящее временное окно для каждого города.',
 
+    // New UI: Two cards with live clock
+    'tz.card1.label': 'Ваш часовой пояс',
+    'tz.card1.placeholder': 'Поиск вашего города...',
+    'tz.card2.label': 'Часовой пояс собеседника',
+    'tz.card2.placeholder': 'Поиск города собеседника...',
+    'tz.timeDiff.label': 'Разница во времени',
+    'tz.timeDiff.ahead': 'опережает',
+    'tz.timeDiff.behind': 'отстаёт от',
+    'tz.daytime.morning': 'Утро',
+    'tz.daytime.day': 'День',
+    'tz.daytime.evening': 'Вечер',
+    'tz.daytime.night': 'Ночь',
+
     'tz.seo.title': 'Зачем нужен конвертер часовых зон?',
     'tz.seo.feature1.title': 'Мгновенное сравнение',
     'tz.seo.feature1.desc': 'Увидите время в 12+ городах одновременно. Без ручных расчётов и таблиц часовых зон.',

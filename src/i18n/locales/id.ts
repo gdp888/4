@@ -1019,6 +1019,19 @@ export default {
     'tz.faq.q5': 'Mengapa ini berguna untuk WhatsApp dan Telegram?',
     'tz.faq.a5': 'Jika Anda mengirim pesan WhatsApp atau Telegram ke kontak internasional, mengetahui waktu lokal mereka membantu menghindari mengirim pesan di jam 3 pagi. Alat ini menunjukkan jendela waktu yang tepat untuk setiap kota.',
 
+    // New UI: Two cards with live clock
+    'tz.card1.label': 'Zona waktu Anda',
+    'tz.card1.placeholder': 'Cari kota Anda...',
+    'tz.card2.label': 'Zona waktu kontak',
+    'tz.card2.placeholder': 'Cari kota kontak...',
+    'tz.timeDiff.label': 'Perbedaan waktu',
+    'tz.timeDiff.ahead': 'lebih cepat dari',
+    'tz.timeDiff.behind': 'terlambat dari',
+    'tz.daytime.morning': 'Pagi',
+    'tz.daytime.day': 'Siang',
+    'tz.daytime.evening': 'Sore',
+    'tz.daytime.night': 'Malam',
+
     'tz.seo.title': 'Mengapa menggunakan konverter zona waktu?',
     'tz.seo.feature1.title': 'Perbandingan instan',
     'tz.seo.feature1.desc': 'Lihat waktu di 12+ kota sekaligus. Tanpa perhitungan manual atau tabel zona waktu.',

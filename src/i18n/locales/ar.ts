@@ -946,6 +946,19 @@ export default {
     'tz.faq.q5': 'لماذا هذا مفيد لواتساب وتيليجرام?',
     'tz.faq.a5': 'إذا كنت ترسل رسائل واتساب أو تيليجرام إلى جهات اتصال دولية، معرفة وقتهم المحلي يساعدك على تجنب إرسال الرسائل في 3 صباحاً. هذه الأداة تظهر لك الفترة الزمنية المناسبة لكل مدينة.',
 
+    // New UI: Two cards with live clock
+    'tz.card1.label': 'منطقتك الزمنية',
+    'tz.card1.placeholder': 'ابحث عن مدينتك...',
+    'tz.card2.label': 'المنطقة الزمنية للجهة اتصال',
+    'tz.card2.placeholder': 'ابحث عن مدينة الجهة...',
+    'tz.timeDiff.label': 'فرق التوقيت',
+    'tz.timeDiff.ahead': 'متقدماً عن',
+    'tz.timeDiff.behind': 'متأخراً عن',
+    'tz.daytime.morning': 'صباحاً',
+    'tz.daytime.day': 'نهاراً',
+    'tz.daytime.evening': 'مساءً',
+    'tz.daytime.night': 'ليلاً',
+
     'tz.seo.title': 'لماذا تستخدم محوّل المناطق الزمنية?',
     'tz.seo.feature1.title': 'مقارنة فورية',
     'tz.seo.feature1.desc': 'شاهد الوقت في أكثر من 12 مدينة في نفس الوقت. بدون حسابات يدوية أو جداول المناطق الزمنية.',
