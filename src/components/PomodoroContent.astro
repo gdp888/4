@@ -326,6 +326,9 @@ const pomodoroSchema = {
       // Audio context for notification sound
       this.audioContext = null;
       
+      // Wake lock for mobile
+      this._wakeLock = null;
+      
       this.init();
     }
     
@@ -756,33 +759,22 @@ const pomodoroSchema = {
     }
     
     // ===== WAKE LOCK (Mobile) =====
-    async function getWakeLock() {
+    async requestWakeLock() {
       try {
         if ('wakeLock' in navigator) {
-          return await navigator.wakeLock.request('screen');
+          this._wakeLock = await navigator.wakeLock.request('screen');
         }
       } catch (err) {
         console.log('Wake Lock error:', err);
       }
-      return null;
-    }
-    
-    let wakeLock = null;
-    
-    async requestWakeLock() {
-      wakeLock = await getWakeLock();
     }
     
     releaseWakeLock() {
-      if (wakeLock) {
-        wakeLock.release();
-        wakeLock = null;
+      if (this._wakeLock) {
+        this._wakeLock.release();
+        this._wakeLock = null;
       }
     }
-    
-    // Make methods available on instance
-    this.requestWakeLock = requestWakeLock;
-    this.releaseWakeLock = releaseWakeLock;
     
     // ===== STATE PERSISTENCE =====
     saveState() {
