@@ -200,7 +200,16 @@ const tzSchema = {
           <span class="legend-item legend-work"><span class="legend-swatch"></span>{t('tz.timeline.legend.work')}</span>
           <span class="legend-item legend-night"><span class="legend-swatch"></span>{t('tz.timeline.legend.night')}</span>
         </div>
-        <div class="timeline-wrapper" id="timeline-wrapper">
+        <!-- Placeholder shown when no cities added -->
+        <div class="timeline-placeholder" id="timeline-placeholder">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12,6 12,12 16,14"/>
+          </svg>
+          <p class="timeline-placeholder-text">{t('tz.timeline.placeholder')}</p>
+          <p class="timeline-placeholder-hint">↓ {t('tz.timeline.placeholderHint')} ↓</p>
+        </div>
+        <div class="timeline-wrapper" id="timeline-wrapper" style="display:none;">
           <!-- Hour header row -->
           <div class="timeline-header" id="timeline-header"></div>
           <!-- City rows injected by JS -->
@@ -817,14 +826,28 @@ const tzSchema = {
   const timelineNow = document.getElementById('timeline-now');
   const timelineBest = document.getElementById('timeline-best');
   const timelineWrapper = document.getElementById('timeline-wrapper');
+  const timelinePlaceholder = document.getElementById('timeline-placeholder');
 
   function renderTimeline() {
     if (!timelineHeader || !timelineRows || !timelineNow || !timelineBest || !timelineWrapper) return;
-    const baseTz = baseTzSelect?.value || 'Europe/Moscow';
-    const customTime = timeMode === 'custom' ? (customTimeInput?.value || '') : '';
-    const allCities = [baseTz, ...addedCities.filter(c => c !== baseTz)];
-    if (allCities.length < 2) { timelineSection && (timelineSection.style.display = 'none'); return; }
-    timelineSection && (timelineSection.style.display = '');
+    
+    try {
+      const baseTz = baseTzSelect?.value || 'Europe/Moscow';
+      const customTime = timeMode === 'custom' ? (customTimeInput?.value || '') : '';
+      const allCities = [baseTz, ...addedCities.filter(c => c !== baseTz)];
+      
+      // Show placeholder if less than 2 cities, show timeline otherwise
+      if (allCities.length < 2) {
+        timelineSection && (timelineSection.style.display = '');
+        timelinePlaceholder && (timelinePlaceholder.style.display = 'flex');
+        timelineWrapper && (timelineWrapper.style.display = 'none');
+        return;
+      }
+      
+      // Hide placeholder, show timeline
+      timelinePlaceholder && (timelinePlaceholder.style.display = 'none');
+      timelineWrapper && (timelineWrapper.style.display = '');
+      timelineSection && (timelineSection.style.display = '');
 
     // Hour labels with AM/PM support
     const hourLabels = use12h ? [12, 3, 6, 9, 12, 3, 6, 9] : [0, 3, 6, 9, 12, 15, 18, 21];
@@ -914,6 +937,12 @@ const tzSchema = {
         }
       });
     });
+    } catch (err) {
+      console.error('[Timeline] Render error:', err);
+      // Show placeholder on error
+      timelinePlaceholder && (timelinePlaceholder.style.display = 'flex');
+      timelineWrapper && (timelineWrapper.style.display = 'none');
+    }
   }
 
   // --- Best Time rendering ---
@@ -1623,6 +1652,26 @@ const tzSchema = {
   .legend-night .legend-swatch {
     background: linear-gradient(135deg, rgba(15, 23, 42, 0.7), rgba(30, 41, 59, 0.5));
     border: 1px solid rgba(56, 189, 248, 0.2);
+  }
+
+  /* Timeline Placeholder (shown when no cities added) */
+  .timeline-placeholder {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 2.5rem 1.5rem; gap: 0.75rem;
+    text-align: center; color: var(--text-secondary);
+    background: rgba(0,0,0,0.02); border-radius: 8px;
+    min-height: 180px;
+  }
+  .timeline-placeholder svg {
+    opacity: 0.3; margin-bottom: 0.25rem;
+  }
+  .timeline-placeholder-text {
+    font-size: 0.9rem; font-weight: 600; color: var(--text-secondary);
+    margin: 0;
+  }
+  .timeline-placeholder-hint {
+    font-size: 0.75rem; color: var(--opn-primary); font-weight: 500;
+    margin: 0; opacity: 0.8;
   }
 
   .timeline-wrapper {

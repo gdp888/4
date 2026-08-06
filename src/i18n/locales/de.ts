@@ -979,6 +979,8 @@ export default {
     'tz.timeline.legend.night': 'Nacht (21–6)',
     'tz.timeline.now': 'jetzt',
     'tz.timeline.best': 'Beste Zeit',
+    'tz.timeline.placeholder': 'Stadt hinzufügen, um die Timeline anzuzeigen',
+    'tz.timeline.placeholderHint': 'Wählen Sie Ihre Zeitzone unten und fügen Sie eine Kontaktstadt hinzu',
     'tz.besttime.title': 'Beste Zeit für ein Meeting',
     'tz.besttime.no_overlap': 'Keine Überschneidung der Arbeitszeiten',
     'tz.besttime.no_overlap.desc': 'Die gewählten Städte haben keine gemeinsamen Arbeitszeiten. Entfernen Sie einige Städte oder passen Sie die Zeitzonen an.',

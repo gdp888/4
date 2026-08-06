@@ -1035,6 +1035,8 @@ export default {
     'tz.timeline.legend.night': 'Malam (21–6)',
     'tz.timeline.now': 'sekarang',
     'tz.timeline.best': 'Waktu terbaik',
+    'tz.timeline.placeholder': 'Tambahkan kota untuk melihat timeline visual',
+    'tz.timeline.placeholderHint': 'Pilih zona waktu Anda di bawah, lalu tambahkan kota kontak',
     'tz.besttime.title': 'Waktu terbaik untuk meeting',
     'tz.besttime.no_overlap': 'Tidak ada tumpang tindih jam kerja',
     'tz.besttime.no_overlap.desc': 'Kota yang dipilih tidak memiliki jam kerja bersama. Coba hapus beberapa kota atau sesuaikan zona waktu.',

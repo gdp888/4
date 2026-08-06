@@ -962,6 +962,8 @@ export default {
     'tz.timeline.legend.night': 'الليل (21–6)',
     'tz.timeline.now': 'الآن',
     'tz.timeline.best': 'أفضل وقت',
+    'tz.timeline.placeholder': 'أضف مدينة لرؤية الخط الزمني المرئي',
+    'tz.timeline.placeholderHint': 'حدد منطقتك الزمنية أدناه، ثم أضف مدينة للتواصل',
     'tz.besttime.title': 'أفضل وقت للقاء',
     'tz.besttime.no_overlap': 'لا يوجد تقاطع في ساعات العمل',
     'tz.besttime.no_overlap.desc': 'المدن المختدة ليس لديها ساعات عمل مشتركة. حاول إزالة بعض المدن أو تعديل المناطق الزمنية.',

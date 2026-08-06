@@ -1035,6 +1035,8 @@ export default {
     'tz.timeline.legend.night': 'Noite (21–6)',
     'tz.timeline.now': 'agora',
     'tz.timeline.best': 'Melhor horário',
+    'tz.timeline.placeholder': 'Adicione uma cidade para ver a linha do tempo visual',
+    'tz.timeline.placeholderHint': 'Selecione seu fuso horário abaixo, depois adicione uma cidade de contato',
     'tz.besttime.title': 'Melhor horário para reunião',
     'tz.besttime.no_overlap': 'Sem sobreposição de horários de trabalho',
     'tz.besttime.no_overlap.desc': 'As cidades selecionadas não têm horários de trabalho em comum. Tente remover algumas cidades ou ajustar os fusos horários.',

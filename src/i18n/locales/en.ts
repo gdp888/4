@@ -1061,6 +1061,8 @@ export default {
     'tz.timeline.legend.night': 'Night (21–6)',
     'tz.timeline.now': 'now',
     'tz.timeline.best': 'Best time',
+    'tz.timeline.placeholder': 'Add a city to see the visual timeline',
+    'tz.timeline.placeholderHint': 'Select your timezone below, then add a contact city',
     'tz.besttime.title': 'Best time to meet',
     'tz.besttime.no_overlap': 'No working-hour overlap found',
     'tz.besttime.no_overlap.desc': 'The selected cities have no common working hours. Try removing some cities or adjusting time zones.',

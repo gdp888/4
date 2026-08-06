@@ -963,6 +963,8 @@ export default {
     'tz.timeline.legend.night': 'Ночь (21–6)',
     'tz.timeline.now': 'сейчас',
     'tz.timeline.best': 'Лучшее время',
+    'tz.timeline.placeholder': 'Добавьте город чтобы увидеть визуальный таймлайн',
+    'tz.timeline.placeholderHint': 'Выберите ваш часовой пояс ниже, затем добавьте город собеседника',
     'tz.besttime.title': 'Лучшее время для встречи',
     'tz.besttime.no_overlap': 'Пересечение рабочих часов не найдено',
     'tz.besttime.no_overlap.desc': 'Выбранные города не имеют общих рабочих часов. Попробуйте убрать некоторые города или изменить часовые пояса.',
