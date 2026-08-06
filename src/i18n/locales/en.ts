@@ -11,6 +11,9 @@ export default {
     // Header
     'header.title': 'OPN Chat',
     'nav.menu': 'Menu',
+    'nav.search.placeholder': 'Search tools...',
+    'nav.search.label': 'Search navigation',
+    'nav.search.noResults': 'No tools found',
     'header.subtitle': 'Message WhatsApp Without Saving Number',
     'header.description': 'Write WhatsApp Message Without Saving Number',
 
@@ -539,6 +542,9 @@ export default {
     'hub.category.watools': '📱 WhatsApp Tools',
     'hub.category.texttools': '✏️ Text Tools',
     'hub.category.utilities': '🛠️ Utilities',
+    // Popular badge
+    'hub.popular.title': 'Most popular tool — recommended for new users',
+    'hub.popular.label': 'Popular',
     'hub.service.whatsapp.title': 'WhatsApp without saving number',
     'hub.service.whatsapp.desc': 'Message any WhatsApp number without saving it to your contacts. Fast, private, free.',
     'hub.service.whatsapp.cta': 'Open WhatsApp',

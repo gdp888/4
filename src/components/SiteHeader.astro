@@ -114,20 +114,49 @@ const icons: Record<string, string> = {
     </button>
   </div>
 
-  {tools.map((cat) => (
-    <div class="nav-category">
-      <h3 class="nav-cat-title">{t(cat.category)}</h3>
-      {cat.items.map((item) => (
-        <a
-          href={getRelativeLocaleUrl(lang, item.slug)}
-          class:list={['nav-link', { 'nav-link-active': item.slug === activeTool }]}
-        >
-          <Fragment set:html={icons[item.icon]} />
-          {t(item.key)}
-        </a>
-      ))}
-    </div>
-  ))}
+  <!-- Search input for mobile menu -->
+  <div class="nav-search-wrapper">
+    <svg class="nav-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <circle cx="11" cy="11" r="8"/>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+    <input
+      type="text"
+      class="nav-search-input"
+      id="nav-search-input"
+      placeholder={t('nav.search.placeholder')}
+      aria-label={t('nav.search.label')}
+    />
+    <button type="button" class="nav-search-clear" id="nav-search-clear" aria-label="Clear search" style="display: none;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="nav-search-results-info" id="nav-search-results-info" style="display: none;"></div>
+
+  <div class="nav-categories-wrapper" id="nav-categories-wrapper">
+    {tools.map((cat) => (
+      <div class="nav-category" data-category>
+        <h3 class="nav-cat-title">{t(cat.category)}</h3>
+        {cat.items.map((item) => (
+          <a
+            href={getRelativeLocaleUrl(lang, item.slug)}
+            class:list={['nav-link', { 'nav-link-active': item.slug === activeTool }]}
+            data-searchable
+            data-search-text={t(item.key).toLowerCase()}
+          >
+            <Fragment set:html={icons[item.icon]} />
+            {t(item.key)}
+          </a>
+        ))}
+      </div>
+    ))}
+  </div>
+  <div class="nav-no-results" id="nav-no-results" style="display: none;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+    <span>{t('nav.search.noResults')}</span>
+  </div>
 </nav>
 
 <script is:inline>
@@ -191,6 +220,140 @@ const icons: Record<string, string> = {
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') closeDrawer();
     });
+
+    // ===== Mobile Nav Search =====
+    (function() {
+      var searchInput = null;
+      var searchClear = null;
+      var categoriesWrapper = null;
+      var noResults = null;
+      var resultsInfo = null;
+
+      function initSearchElements() {
+        searchInput = document.getElementById('nav-search-input');
+        searchClear = document.getElementById('nav-search-clear');
+        categoriesWrapper = document.getElementById('nav-categories-wrapper');
+        noResults = document.getElementById('nav-no-results');
+        resultsInfo = document.getElementById('nav-search-results-info');
+      }
+
+      function filterNav(query) {
+        if (!searchInput || !categoriesWrapper) { initSearchElements(); }
+        if (!categoriesWrapper) return;
+
+        var q = query.toLowerCase().trim();
+        var categories = categoriesWrapper.querySelectorAll('[data-category]');
+        var totalVisible = 0;
+
+        // Show all categories wrapper, hide no-results
+        categoriesWrapper.style.display = '';
+        if (noResults) noResults.style.display = 'none';
+
+        if (!q) {
+          // Reset: show everything
+          categories.forEach(function(cat) {
+            cat.style.display = '';
+            cat.querySelectorAll('.nav-link').forEach(function(link) {
+              link.style.display = '';
+            });
+          });
+          if (searchClear) searchClear.style.display = 'none';
+          if (resultsInfo) resultsInfo.style.display = 'none';
+          return;
+        }
+
+        // Show clear button
+        if (searchClear) searchClear.style.display = 'flex';
+
+        categories.forEach(function(cat) {
+          var links = cat.querySelectorAll('[data-searchable]');
+          var visibleCount = 0;
+
+          links.forEach(function(link) {
+            var text = link.getAttribute('data-search-text') || '';
+            if (text.indexOf(q) !== -1) {
+              link.style.display = '';
+              visibleCount++;
+            } else {
+              link.style.display = 'none';
+            }
+          });
+
+          // Hide category header if no visible links
+          if (visibleCount > 0) {
+            cat.style.display = '';
+            totalVisible += visibleCount;
+          } else {
+            cat.style.display = 'none';
+          }
+        });
+
+        // Show/hide no results message
+        if (totalVisible === 0) {
+          categoriesWrapper.style.display = 'none';
+          if (noResults) noResults.style.display = 'flex';
+        }
+
+        // Show results count
+        if (resultsInfo && totalVisible > 0) {
+          resultsInfo.textContent = totalVisible + ' found';
+          resultsInfo.style.display = '';
+        } else if (resultsInfo) {
+          resultsInfo.style.display = 'none';
+        }
+      }
+
+      // Delegated events for search
+      document.addEventListener('input', function(e) {
+        if (e.target && e.target.id === 'nav-search-input') {
+          filterNav(e.target.value);
+        }
+      });
+
+      document.addEventListener('click', function(e) {
+        // Clear button
+        if (e.target.closest('#nav-search-clear')) {
+          if (!searchInput) initSearchElements();
+          if (searchInput) {
+            searchInput.value = '';
+            filterNav('');
+            searchInput.focus();
+          }
+          return;
+        }
+      });
+
+      // Auto-focus search when drawer opens
+      var originalOpen = openDrawer;
+      openDrawer = function() {
+        originalOpen();
+        setTimeout(function() {
+          if (!searchInput) initSearchElements();
+          if (searchInput) searchInput.focus();
+        }, 300); // After slide-in animation
+      };
+
+      // Clear search when drawer closes
+      var originalClose = closeDrawer;
+      closeClose = function() {
+        if (!searchInput) initSearchElements();
+        if (searchInput) {
+          searchInput.value = '';
+          filterNav('');
+        }
+        originalClose();
+      };
+      
+      // Fix: use the correct function name
+      closeDrawer = function() {
+        if (!searchInput) initSearchElements();
+        if (searchInput) {
+          searchInput.value = '';
+          filterNav('');
+        }
+        originalClose();
+      };
+    })();
   })();
 </script>
 
@@ -349,6 +512,102 @@ const icons: Record<string, string> = {
   .nav-drawer-close svg {
     width: 20px;
     height: 20px;
+  }
+
+  /* ===== Nav Search ===== */
+  .nav-search-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0.75rem 0.5rem;
+    padding: 0 0.6rem;
+    background: var(--bg-input, rgba(128, 128, 128, 0.08));
+    border: 1.5px solid var(--border-color);
+    border-radius: 10px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .nav-search-wrapper:focus-within {
+    border-color: var(--opn-primary);
+    box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.1);
+  }
+
+  .nav-search-icon {
+    width: 16px;
+    height: 16px;
+    color: var(--text-secondary);
+    flex-shrink: 0;
+  }
+
+  .nav-search-input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.5rem 0;
+    font-size: 0.85rem;
+    line-height: 1.3;
+    color: var(--text-primary);
+    background: transparent;
+    border: none;
+    outline: none;
+  }
+
+  .nav-search-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.7;
+  }
+
+  .nav-search-clear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: rgba(128, 128, 128, 0.15);
+    color: var(--text-secondary);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .nav-search-clear:hover {
+    background: rgba(128, 128, 128, 0.25);
+    color: var(--text-primary);
+  }
+
+  .nav-search-clear svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .nav-search-results-info {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    padding: 0 1rem;
+    text-align: center;
+    opacity: 0.8;
+  }
+
+  .nav-no-results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 2rem 1rem;
+    color: var(--text-secondary);
+    text-align: center;
+  }
+
+  .nav-no-results svg {
+    width: 40px;
+    height: 40px;
+    opacity: 0.4;
+  }
+
+  .nav-no-results span {
+    font-size: 0.85rem;
   }
 
   /* Nav categories */

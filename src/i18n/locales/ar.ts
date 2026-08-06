@@ -10,6 +10,9 @@ export default {
     // Header
     'header.title': 'OPN Chat',
     'nav.menu': 'القائمة',
+    'nav.search.placeholder': 'بحث الأدوات...',
+    'nav.search.label': 'البحث في التنقل',
+    'nav.search.noResults': 'لم يتم العثور على أدوات',
     'header.subtitle': 'رسالة واتساب بدون حفظ الرقم',
     'header.description': 'اكتب رسالة واتساب بدون حفظ الرقم',
     // Form
@@ -445,6 +448,9 @@ export default {
     'hub.category.watools': '📱 أدوات واتساب',
     'hub.category.texttools': '✏️ أدوات النصوص',
     'hub.category.utilities': '🛠️ أدوات مساعدة',
+    // Popular badge
+    'hub.popular.title': 'الأداة الأكثر شعبية — موصى بها للمستخدمين الجدد',
+    'hub.popular.label': 'شائع',
     'hub.service.whatsapp.title': 'واتساب بدون حفظ الرقم',
     'hub.service.whatsapp.desc': 'أرسل رسالة واتساب بدون حفظ الرقم. مجاني، خاص، بدون تسجيل. أدخل الرقم وابدأ المحادثة فوراً.',
     'hub.service.whatsapp.cta': 'فتح محادثة واتساب',

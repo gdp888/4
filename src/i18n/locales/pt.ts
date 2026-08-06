@@ -11,6 +11,9 @@ export default {
     // Header
     'header.title': 'OPN Chat',
     'nav.menu': 'Menu',
+    'nav.search.placeholder': 'Pesquisar ferramentas...',
+    'nav.search.label': 'Pesquisar navegação',
+    'nav.search.noResults': 'Nenhuma ferramenta encontrada',
     'header.subtitle': 'Enviar Mensagem no WhatsApp Sem Salvar Contato',
     'header.description': 'Enviar Mensagem no WhatsApp Sem Salvar Contato',
 
@@ -513,6 +516,9 @@ export default {
     'hub.category.watools': '📱 Ferramentas WhatsApp',
     'hub.category.texttools': '✏️ Ferramentas de texto',
     'hub.category.utilities': '🛠️ Utilitários',
+    // Popular badge
+    'hub.popular.title': 'Ferramenta mais popular — recomendada para novos usuários',
+    'hub.popular.label': 'Popular',
     'hub.service.whatsapp.title': 'WhatsApp sem salvar número',
     'hub.service.whatsapp.desc': 'Envie uma mensagem para qualquer número do WhatsApp sem salvar nos seus contatos. Rápido, privado, grátis.',
     'hub.service.whatsapp.cta': 'Abrir WhatsApp',

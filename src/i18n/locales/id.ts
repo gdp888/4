@@ -11,6 +11,9 @@ export default {
     // Header
     'header.title': 'OPN Chat',
     'nav.menu': 'Menu',
+    'nav.search.placeholder': 'Cari alat...',
+    'nav.search.label': 'Cari navigasi',
+    'nav.search.noResults': 'Alat tidak ditemukan',
     'header.subtitle': 'Kirim Pesan WhatsApp Tanpa Simpan Nomor',
     'header.description': 'Kirim Pesan WhatsApp Tanpa Simpan Nomor',
 
@@ -513,6 +516,9 @@ export default {
     'hub.category.watools': '📱 Alat WhatsApp',
     'hub.category.texttools': '✏️ Alat Teks',
     'hub.category.utilities': '🛠️ Utilitas',
+    // Popular badge
+    'hub.popular.title': 'Alat paling populer — direkomendasikan untuk pengguna baru',
+    'hub.popular.label': 'Populer',
     'hub.service.whatsapp.title': 'WhatsApp tanpa simpan nomor',
     'hub.service.whatsapp.desc': 'Kirim pesan ke nomor WhatsApp mana pun tanpa menyimpannya ke kontak Anda. Cepat, privat, gratis.',
     'hub.service.whatsapp.cta': 'Buka WhatsApp',

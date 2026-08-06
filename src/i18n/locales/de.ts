@@ -11,6 +11,9 @@ export default {
     // Header
     'header.title': 'OPN Chat',
     'nav.menu': 'Menü',
+    'nav.search.placeholder': 'Werkzeuge suchen...',
+    'nav.search.label': 'Navigation durchsuchen',
+    'nav.search.noResults': 'Keine Werkzeuge gefunden',
     'header.subtitle': 'WhatsApp-Nachricht ohne Nummer speichern',
     'header.description': 'WhatsApp-Nachricht schreiben ohne Nummer speichern',
 
@@ -460,6 +463,9 @@ export default {
     'hub.category.watools': '📱 WhatsApp-Tools',
     'hub.category.texttools': '✏️ Textwerkzeuge',
     'hub.category.utilities': '🛠️ Werkzeuge',
+    // Popular badge
+    'hub.popular.title': 'Beliebtestes Tool — empfohlen für neue Benutzer',
+    'hub.popular.label': 'Beliebt',
     'hub.service.whatsapp.title': 'WhatsApp ohne Nummer speichern',
     'hub.service.whatsapp.desc': 'Nachricht senden, ohne Nummer zu speichern',
     'hub.service.whatsapp.cta': 'Chat öffnen',

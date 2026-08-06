@@ -11,6 +11,9 @@ export default {
     // Header
     'header.title': 'OPN Chat',
     'nav.menu': 'Menú',
+    'nav.search.placeholder': 'Buscar herramientas...',
+    'nav.search.label': 'Buscar navegación',
+    'nav.search.noResults': 'No se encontraron herramientas',
     'header.subtitle': 'Mensaje por WhatsApp Sin Guardar el Número',
     'header.description': 'Enviar mensaje por WhatsApp sin guardar el número',
 
@@ -513,6 +516,9 @@ export default {
     'hub.category.watools': '📱 Herramientas WhatsApp',
     'hub.category.texttools': '✏️ Herramientas de texto',
     'hub.category.utilities': '🛠️ Utilidades',
+    // Popular badge
+    'hub.popular.title': 'Herramienta más popular — recomendada para nuevos usuarios',
+    'hub.popular.label': 'Popular',
     'hub.service.whatsapp.title': 'WhatsApp sin guardar número',
     'hub.service.whatsapp.desc': 'Envía un mensaje a cualquier número de WhatsApp sin guardarlo en tus contactos. Rápido, privado, gratis.',
     'hub.service.whatsapp.cta': 'Abrir WhatsApp',

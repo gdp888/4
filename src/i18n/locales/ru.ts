@@ -7,9 +7,13 @@ export default {
     'meta.og.description': 'Отправьте сообщение в WhatsApp без сохранения номера. Бесплатно, приватно, без регистрации.',
     'meta.twitter.title': 'WhatsApp Без Сохранения Номера — Бесплатно и Приватно',
     'meta.twitter.description': 'Отправьте сообщение в WhatsApp без сохранения номера. Бесплатно, приватно, без регистрации.',
+
     // Header
     'header.title': 'OPN Chat',
     'nav.menu': 'Меню',
+    'nav.search.placeholder': 'Поиск инструментов...',
+    'nav.search.label': 'Поиск по навигации',
+    'nav.search.noResults': 'Ничего не найдено',
     'header.subtitle': 'Сообщение в WhatsApp без сохранения номера',
     'header.description': 'Написать сообщение в WhatsApp без сохранения номера',
     // Form
@@ -445,6 +449,9 @@ export default {
     'hub.category.watools': '📱 Инструменты WhatsApp',
     'hub.category.texttools': '✏️ Текстовые инструменты',
     'hub.category.utilities': '🛠️ Утилиты',
+    // Popular badge
+    'hub.popular.title': 'Самый популярный инструмент — рекомендуем для новых пользователей',
+    'hub.popular.label': 'Популярный',
     'hub.service.whatsapp.title': 'WhatsApp без сохранения номера',
     'hub.service.whatsapp.desc': 'Напишите на любой номер WhatsApp без сохранения в контакты. Быстро, приватно, бесплатно.',
     'hub.service.whatsapp.cta': 'Открыть WhatsApp',
