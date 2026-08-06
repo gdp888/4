@@ -488,27 +488,61 @@ const hubSchema = {
 
   }
 
-  /* Hero */
+  /* Hero — Enhanced with gradient background */
   .hero {
     text-align: center;
     margin-bottom: 0.5rem;
+    padding: 2rem 1.5rem;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(37, 211, 102, 0.05) 0%, rgba(42, 171, 238, 0.05) 50%, rgba(139, 92, 246, 0.05) 100%);
+    border: 1px solid rgba(37, 211, 102, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Decorative glow orbs */
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 50%, rgba(37, 211, 102, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 70% 50%, rgba(42, 171, 238, 0.06) 0%, transparent 50%);
+    animation: hero-glow 8s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+
+  @keyframes hero-glow {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    100% { transform: translate(2%, 1%) rotate(3deg); }
   }
 
   .title {
-    font-size: 1.75rem;
+    font-size: 1.85rem;
     font-weight: 800;
     letter-spacing: -0.03em;
     line-height: 1.2;
     color: var(--text-primary);
+    position: relative;
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--opn-primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   /* title is now pure description — brand lives in the logo */
 
   .subtitle {
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     color: var(--text-secondary);
-    margin-top: 0.5rem;
-    line-height: 1.5;
+    margin-top: 0.75rem;
+    line-height: 1.6;
+    position: relative;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   /* Service Cards Grid */
@@ -536,6 +570,13 @@ const hubSchema = {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    opacity: 0;
+    animation: heading-enter 0.4s ease forwards;
+  }
+
+  @keyframes heading-enter {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: translateX(0); }
   }
 
   .category-heading::after {
@@ -552,6 +593,7 @@ const hubSchema = {
     gap: 0.7rem;
   }
 
+  /* Service Cards — Enhanced hover effects */
   .service-card {
     display: flex;
     align-items: center;
@@ -561,15 +603,49 @@ const hubSchema = {
     border: 1.5px solid var(--border-color);
     border-radius: 14px;
     text-decoration: none;
-    transition: all 0.25s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     position: relative;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: card-enter 0.5s ease forwards;
+  }
+
+  /* Staggered animation delays for cards */
+  .category-cards .service-card:nth-child(1) { animation-delay: 0.05s; }
+  .category-cards .service-card:nth-child(2) { animation-delay: 0.1s; }
+  .category-cards .service-card:nth-child(3) { animation-delay: 0.15s; }
+  .category-cards .service-card:nth-child(4) { animation-delay: 0.2s; }
+  .category-cards .service-card:nth-child(5) { animation-delay: 0.25s; }
+  .category-cards .service-card:nth-child(6) { animation-delay: 0.3s; }
+
+  @keyframes card-enter {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .service-card:hover {
     border-color: var(--opn-primary);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.1);
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 12px 32px rgba(37, 211, 102, 0.15),
+                0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Icon hover effect */
+  .service-card:hover .card-icon-wrapper {
+    transform: scale(1.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .card-icon-wrapper {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.3s ease;
   }
 
   /* Popular Card - subtle highlight */
@@ -580,7 +656,9 @@ const hubSchema = {
 
   .popular-card:hover {
     border-color: #F59E0B;
-    box-shadow: 0 8px 24px rgba(245, 158, 11, 0.12);
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 12px 32px rgba(245, 158, 11, 0.18),
+                0 4px 12px rgba(0, 0, 0, 0.05);
   }
 
   /* Popular Badge */
