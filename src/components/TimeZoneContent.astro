@@ -608,9 +608,11 @@ const tzSchema = {
   }
 
   .timeline-wrapper {
+    position: relative; /* Contain absolute children */
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
+    min-height: 100px;
   }
 
   .timeline-header {
@@ -633,6 +635,7 @@ const tzSchema = {
     background: #EF4444;
     z-index: 5;
     pointer-events: none;
+    border-radius: 1px;
   }
 
   .timeline-best {
