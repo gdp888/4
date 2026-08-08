@@ -1184,6 +1184,9 @@ export default {
     'hub.service.meetingscheduler.title': 'جدولة الاجتماعات',
     'hub.service.meetingscheduler.desc': 'اعثر على أفضل وقت للاتصال عبر المناطق الزمنية. جدول زمني مرئي للتداخل، رابط اجتماع واتساب بنقرة واحدة. مجاني وخاص.',
     'hub.service.meetingscheduler.cta': 'جدول اجتماعًا',
+    'hub.service.scheduler.title': 'مجدول واتساب',
+    'hub.service.scheduler.desc': 'جدولة رسائل واتساب للإرسال لاحقاً. اختر التاريخ والوقت، احصل على رابط تذكير. مجاني، خاص.',
+    'hub.service.scheduler.cta': 'جدولة',
 
     'footer.meetingscheduler.link': 'جدولة الاجتماعات',
     'footer.section.messengers': 'تطبيقات مراسلة أخرى',
@@ -1540,4 +1543,67 @@ export default {
     'banner.free': 'مجاني تماماً',
     'banner.private': 'خاص بالكامل',
     'banner.close': 'إغلاق الشريط',
+
+    // WhatsApp Scheduler
+    'scheduler.meta.title': 'مجدول واتساب — جدولة الرسائل للإرسال لاحقاً | OPN Chat',
+    'scheduler.meta.description': 'جدولة رسائل واتساب للإرسال في الوقت المثالي. مجاني، بدون تسجيل. خطط لرسائلك مسبقاً.',
+    'scheduler.meta.keywords': 'مجدول واتساب, جدولة رسالة, إرسال لاحقاً, wa.me مؤقت, opnchat',
+
+    'scheduler.header.title': 'مجدول واتساب',
+    'scheduler.header.subtitle': 'جدولة الرسائل للإرسال لاحقاً',
+
+    'scheduler.bc.home': 'OPN Chat',
+    'scheduler.bc.scheduler': 'المجدول',
+
+    'scheduler.howItWorks.title': 'كيف يعمل',
+    'scheduler.howItWorks.step1.title': 'أدخل البيانات',
+    'scheduler.howItWorks.step1.desc': 'أضف رقم الهاتف ورسالتك',
+    'scheduler.howItWorks.step2.title': 'التاريخ والوقت',
+    'scheduler.howItWorks.step2.desc': 'اختر متى يجب أن تكون الرسالة جاهزة',
+    'scheduler.howItWorks.step3.title': 'احصل على الرابط',
+    'scheduler.howItWorks.step3.desc': 'استلم رابطاً لفتح واتساب في الوقت المناسب',
+
+    'scheduler.form.title': 'جدولة رسالة',
+    'scheduler.form.phone.label': 'رقم الهاتف (مع رمز الدولة)',
+    'scheduler.form.phone.placeholder': '966501234567',
+    'scheduler.form.phone.hint': 'أدخل رمز الدولة (مثلاً: 966 السعودية، 1 أمريكا، 44 بريطانيا)',
+    'scheduler.form.message.label': 'الرسالة',
+    'scheduler.form.message.optional': '(اختياري)',
+    'scheduler.form.message.placeholder': 'مرحباً! أردت الكتابة بخصوص...',
+    'scheduler.form.date.label': 'التاريخ',
+    'scheduler.form.time.label': 'الوقت',
+    'scheduler.form.submit': 'جدولة الرسالة',
+
+    'scheduler.success.title': 'تم جدولة الرسالة! ✓',
+    'scheduler.success.linkText': 'رابط التذكير الخاص بك:',
+    'scheduler.success.copyLink': 'نسخ الرابط',
+    'scheduler.success.another': 'جدولة رسالة أخرى',
+
+    'scheduler.tasks.title': 'رسائلك المجدولة',
+    'scheduler.tasks.empty': 'لا توجد رسائل مجدولة بعد. أنشئ الأولى أعلاه!',
+
+    'scheduler.features.title': 'لماذا استخدام جدولنا؟',
+    'scheduler.feature1.title': 'التوقيت المثالي',
+    'scheduler.feature1.desc': 'أرسل الرسائل في الوقت الدقيق، في أي منطقة زمنية',
+    'scheduler.feature2.title': 'روابط قابلة للمشاركة',
+    'scheduler.feature2.desc': 'احصل على رابط يفتح واتساب برسالتك عند الجاهزية',
+    'scheduler.feature3.title': '100% خاص',
+    'scheduler.feature3.desc': 'بياناتك تبقى على جهازك. لا نخزن معلومات شخصية',
+    'scheduler.feature4.title': 'متعدد اللغات',
+    'scheduler.feature4.desc': 'متوفر بـ 7 لغات مع كشف تلقائي للمنطقة الزمنية',
+
+    'scheduler.faq.title': 'أسئلة شائعة',
+    'scheduler.faq.q1.q': 'هل يتم الإرسال تلقائياً؟',
+    'scheduler.faq.q1.a': 'لا — ننشئ رابط واتساب برسالتك المُعبأة مسبقاً في الوقت المجدول. أنت تضغط إرسال يدوياً.',
+    'scheduler.faq.q2.q': 'هل هو مجاني؟',
+    'scheduler.faq.q2.a': 'نعم! مجدول واتساب مجاني تماماً بدون حدود لعدد الرسائل.',
+    'scheduler.faq.q3.q': 'هل سترسل إذا كنت غير متصل؟',
+    'scheduler.faq.q3.a': 'الرابط سيكون جاهزاً في الوقت المجدول، لكنك تحتاج إنترنت وواتساب مثبت.',
+    'scheduler.faq.q4.q': 'هل يمكنني تعديل أو إلغاء رسالة؟',
+    'scheduler.faq.q4.a': 'نعم! يمكنك إدارة جميع رسائلك المجدولة من القائمة أدناه.',
+
+    'scheduler.seo.contentTitle': 'حول مجدول واتساب',
+    'scheduler.seo.content1': 'يمكنك مجدول واتساب من OPN Chat تخطيط رسائلك مسبقاً. مثالي للمحترفين الذين يريدون تحضير المتابعات أو الرسائل المدروسة بعناية.',
+    'scheduler.seo.content2': 'عكس الأدوات الأخرى، جدولنا يحترم الخصوصية — الرسالات تُحضر محلياً والرابط يُنشأ فقط عند الحاجة.',
+    'scheduler.seo.content3': 'يدعم جميع الدول حيث واتساب متاح. يعمل مع الحسابات الشخصية والأعمال. بدون تسجيل أو تحميل تطبيق.',
 } as const;

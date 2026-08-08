@@ -1201,6 +1201,9 @@ export default {
     'hub.service.meetingscheduler.title': 'Meeting-Planer',
     'hub.service.meetingscheduler.desc': 'Finden Sie die beste Uhrzeit für einen Anruf über Zeitzonen hinweg. Visuelle Überschneidungszeitleiste, WhatsApp-Meetinglink mit einem Klick. Kostenlos & privat.',
     'hub.service.meetingscheduler.cta': 'Meeting planen',
+    'hub.service.scheduler.title': 'WhatsApp Planer',
+    'hub.service.scheduler.desc': 'Planen Sie WhatsApp-Nachrichten für später. Datum & Uhrzeit wählen, Erinnerungslink erhalten. Kostenlos, privat.',
+    'hub.service.scheduler.cta': 'Planen',
 
     'footer.meetingscheduler.link': 'Meeting-Planer',
     'footer.section.messengers': 'Weitere Messenger',
@@ -1557,4 +1560,67 @@ export default {
     'banner.free': '100% Kostenlos',
     'banner.private': 'Vollständig Privat',
     'banner.close': 'Banner schließen',
+
+    // WhatsApp Scheduler
+    'scheduler.meta.title': 'WhatsApp Planer — Nachrichten Zeitlich Planen | OPN Chat',
+    'scheduler.meta.description': 'Planen Sie WhatsApp-Nachrichten für den perfekten Zeitpunkt. Kostenlos, ohne Anmeldung. Planen Sie Ihre Nachrichten im Voraus.',
+    'scheduler.meta.keywords': 'whatsapp planer, nachricht zeitplanen, später senden, wa.me timer, opnchat',
+
+    'scheduler.header.title': 'WhatsApp Planer',
+    'scheduler.header.subtitle': 'Nachrichten für Späteres Senden Planen',
+
+    'scheduler.bc.home': 'OPN Chat',
+    'scheduler.bc.scheduler': 'Planer',
+
+    'scheduler.howItWorks.title': 'So Funktioniert Es',
+    'scheduler.howItWorks.step1.title': 'Daten Eingeben',
+    'scheduler.howItWorks.step1.desc': 'Fügen Sie die Telefonnummer und Ihre Nachricht hinzu',
+    'scheduler.howItWorks.step2.title': 'Datum & Uhrzeit',
+    'scheduler.howItWorks.step2.desc': 'Wählen Sie wann die Nachricht bereit sein soll',
+    'scheduler.howItWorks.step3.title': 'Link Erhalten',
+    'scheduler.howItWorks.step3.desc': 'Erhalten Sie einen Link um WhatsApp zur richtigen Zeit zu öffnen',
+
+    'scheduler.form.title': 'Nachricht Planen',
+    'scheduler.form.phone.label': 'Telefonnummer (mit Ländervorwahl)',
+    'scheduler.form.phone.placeholder': '4915123456789',
+    'scheduler.form.phone.hint': 'Ländervorwahl angeben (z.B.: 49 Deutschland, 1 USA, 44 UK)',
+    'scheduler.form.message.label': 'Nachricht',
+    'scheduler.form.message.optional': '(optional)',
+    'scheduler.form.message.placeholder': 'Hallo! Ich wollte mich wegen... erkundigen',
+    'scheduler.form.date.label': 'Datum',
+    'scheduler.form.time.label': 'Uhrzeit',
+    'scheduler.form.submit': 'Nachricht Planen',
+
+    'scheduler.success.title': 'Nachricht Geplant! ✓',
+    'scheduler.success.linkText': 'Ihr Erinnerungslink:',
+    'scheduler.success.copyLink': 'Link Kopieren',
+    'scheduler.success.another': 'Weitere Nachricht Planen',
+
+    'scheduler.tasks.title': 'Ihre Geplanten Nachrichten',
+    'scheduler.tasks.empty': 'Noch keine geplanten Nachrichten. Erstellen Sie eine oben!',
+
+    'scheduler.features.title': 'Warum Unser Planer Nutzen?',
+    'scheduler.feature1.title': 'Perfekter Zeitpunkt',
+    'scheduler.feature1.desc': 'Senden Sie Nachrichten zum exakten Zeitpunkt, in jeder Zeitzone',
+    'scheduler.feature2.title': 'Teilbare Links',
+    'scheduler.feature2.desc': 'Erhalten Sie einen Link der WhatsApp mit Ihrer Nachricht öffnet wenn bereit',
+    'scheduler.feature3.title': '100% Privat',
+    'scheduler.feature3.desc': 'Ihre Daten bleiben auf Ihrem Gerät. Wir speichern keine persönlichen Infos',
+    'scheduler.feature4.title': 'Mehrsprachig',
+    'scheduler.feature4.desc': 'Verfügbar in 7 Sprachen mit automatischer Zeitzonerkennung',
+
+    'scheduler.faq.title': 'Häufig Gestellte Fragen',
+    'scheduler.faq.q1.q': 'Wird die Nachricht automatisch gesendet?',
+    'scheduler.faq.q1.a': 'Nein — wir generieren einen WhatsApp-Link mit Ihrer vorausgefüllten Nachricht zum geplanten Zeitpunkt. Sie klicken manuell auf Senden.',
+    'scheduler.faq.q2.q': 'Ist die Nutzung kostenlos?',
+    'scheduler.faq.q2.a': 'Ja! Der WhatsApp-Planer ist vollständig kostenlos ohne Begrenzung der Nachrichtenanzahl.',
+    'scheduler.faq.q3.q': 'Wird sie gesendet wenn ich offline bin?',
+    'scheduler.faq.q3.a': 'Der Link ist zum geplanten Zeitpunkt bereit, aber Sie benötigen Internet und installiertes WhatsApp.',
+    'scheduler.faq.q4.q': 'Kann ich eine Nachricht bearbeiten oder stornieren?',
+    'scheduler.faq.q4.a': 'Ja! Sie können alle geplanten Nachrichten von der Liste unten verwalten.',
+
+    'scheduler.seo.contentTitle': 'Über Den WhatsApp-Planer',
+    'scheduler.seo.content1': 'Der WhatsApp-Planer von OPN Chat ermöglicht es Ihnen, Nachrichten im Voraus zu planen. Perfekt für Profis, die Follow-ups oder sorgfältig formulierte Nachrichten vorbereiten möchten.',
+    'scheduler.seo.content2': 'Im Gegensatz zu anderen Tools respektiert unser Planer die Privatsphäre — Nachrichten werden lokal vorbereitet und der Link nur bei Bedarf generiert.',
+    'scheduler.seo.content3': 'Unterstützt alle Länder wo WhatsApp verfügbar ist. Funktioniert mit persönlichen und Geschäftskonten. Ohne Registrierung oder App-Download.',
 } as const;

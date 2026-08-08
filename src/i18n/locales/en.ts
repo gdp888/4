@@ -1283,6 +1283,9 @@ export default {
     'hub.service.meetingscheduler.title': 'Meeting Scheduler',
     'hub.service.meetingscheduler.desc': 'Find the best time for a call across time zones. Visual overlap timeline, one-click WhatsApp meeting link. Free & private.',
     'hub.service.meetingscheduler.cta': 'Schedule Meeting',
+    'hub.service.scheduler.title': 'WhatsApp Scheduler',
+    'hub.service.scheduler.desc': 'Schedule WhatsApp messages to send later. Set date & time, get a reminder link. Free, private, works across timezones.',
+    'hub.service.scheduler.cta': 'Schedule Message',
 
     'footer.meetingscheduler.link': 'Meeting Scheduler',
 
@@ -1703,4 +1706,67 @@ export default {
     'banner.free': '100% Free',
     'banner.private': 'Fully Private',
     'banner.close': 'Close banner',
+
+    // WhatsApp Scheduler
+    'scheduler.meta.title': 'WhatsApp Scheduler — Schedule Messages to Send Later | OPN Chat',
+    'scheduler.meta.description': 'Schedule WhatsApp messages to be sent at the perfect time. Free, no sign-up needed. Plan your messages in advance and never miss a moment.',
+    'scheduler.meta.keywords': 'whatsapp scheduler, schedule whatsapp message, send whatsapp later, delayed whatsapp, wa.me scheduler, whatsapp timer, plan message, opnchat',
+
+    'scheduler.header.title': 'WhatsApp Scheduler',
+    'scheduler.header.subtitle': 'Schedule Messages to Send Later',
+
+    'scheduler.bc.home': 'OPN Chat',
+    'scheduler.bc.scheduler': 'Scheduler',
+
+    'scheduler.howItWorks.title': 'How It Works',
+    'scheduler.howItWorks.step1.title': 'Enter Details',
+    'scheduler.howItWorks.step1.desc': 'Add the phone number and your message',
+    'scheduler.howItWorks.step2.title': 'Set Date & Time',
+    'scheduler.howItWorks.step2.desc': 'Choose when you want the message to be ready',
+    'scheduler.howItWorks.step3.title': 'Get Reminder Link',
+    'scheduler.howItWorks.step3.desc': 'Receive a link to open WhatsApp at the right time',
+
+    'scheduler.form.title': 'Schedule a Message',
+    'scheduler.form.phone.label': 'Phone Number (with country code)',
+    'scheduler.form.phone.placeholder': '79518994988',
+    'scheduler.form.phone.hint': 'Include country code (e.g., 7 for Russia, 1 for USA, 44 for UK)',
+    'scheduler.form.message.label': 'Message',
+    'scheduler.form.message.optional': '(optional)',
+    'scheduler.form.message.placeholder': 'Hi! I wanted to reach out about...',
+    'scheduler.form.date.label': 'Date',
+    'scheduler.form.time.label': 'Time',
+    'scheduler.form.submit': 'Schedule Message',
+
+    'scheduler.success.title': 'Message Scheduled! ✓',
+    'scheduler.success.linkText': 'Your reminder link:',
+    'scheduler.success.copyLink': 'Copy Link',
+    'scheduler.success.another': 'Schedule Another Message',
+
+    'scheduler.tasks.title': 'Your Scheduled Messages',
+    'scheduler.tasks.empty': 'No scheduled messages yet. Create one above!',
+
+    'scheduler.features.title': 'Why Use Our Scheduler?',
+    'scheduler.feature1.title': 'Perfect Timing',
+    'scheduler.feature1.desc': 'Send messages at the exact right time, across any timezone',
+    'scheduler.feature2.title': 'Shareable Links',
+    'scheduler.feature2.desc': 'Get a link that opens WhatsApp with your message when ready',
+    'scheduler.feature3.title': '100% Private',
+    'scheduler.feature3.desc': 'Your data stays on your device. We don\'t store personal info',
+    'scheduler.feature4.title': 'Multi-language',
+    'scheduler.feature4.desc': 'Available in 7 languages with automatic timezone detection',
+
+    'scheduler.faq.title': 'Frequently Asked Questions',
+    'scheduler.faq.q1.q': 'Does it send the message automatically?',
+    'scheduler.faq.q1.a': 'No — we generate a WhatsApp link that opens with your pre-filled message at the scheduled time. You click send manually. This ensures WhatsApp\'s terms are respected.',
+    'scheduler.faq.q2.q': 'Is this free to use?',
+    'scheduler.faq.q2.a': 'Yes! The WhatsApp Scheduler is completely free with no limits on the number of scheduled messages.',
+    'scheduler.faq.q3.q': 'Will the message send if I\'m offline?',
+    'scheduler.faq.q3.a': 'The reminder link will be ready at the scheduled time, but you need internet access and WhatsApp installed to open and send it.',
+    'scheduler.faq.q4.q': 'Can I edit or cancel a scheduled message?',
+    'scheduler.faq.q4.a': 'Yes! You can manage all your scheduled messages from the list below. Delete any task you no longer need.',
+
+    'scheduler.seo.contentTitle': 'About WhatsApp Scheduler',
+    'scheduler.seo.content1': 'The WhatsApp Scheduler by OPN Chat lets you plan your messages in advance. Perfect for business professionals who want to prepare follow-ups, birthday wishes across timezones, or carefully crafted messages.',
+    'scheduler.seo.content2': 'Unlike other tools, our scheduler respects privacy — messages are prepared locally and the WhatsApp link is generated only when needed. No server stores your actual message content longer than necessary.',
+    'scheduler.seo.content3': 'Supports all countries where WhatsApp is available. Works with both personal and business WhatsApp accounts. No registration or app download required.',
 } as const;

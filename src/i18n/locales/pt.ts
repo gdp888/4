@@ -1257,6 +1257,9 @@ export default {
     'hub.service.meetingscheduler.title': 'Agendador de reuniões',
     'hub.service.meetingscheduler.desc': 'Encontre o melhor horário para uma chamada entre fusos horários. Linha do tempo visual de sobreposição, link de reunião por WhatsApp com um clique. Grátis e privado.',
     'hub.service.meetingscheduler.cta': 'Agendar reunião',
+    'hub.service.scheduler.title': 'Agendador WhatsApp',
+    'hub.service.scheduler.desc': 'Agende mensagens do WhatsApp para enviar depois. Escolha data e hora, receba um link de lembrete. Grátis, privado.',
+    'hub.service.scheduler.cta': 'Agendar',
 
     'footer.meetingscheduler.link': 'Agendador de reuniões',
     'footer.section.messengers': 'Outros mensageiros',
@@ -1613,4 +1616,67 @@ export default {
     'banner.free': '100% Grátis',
     'banner.private': 'Totalmente Privado',
     'banner.close': 'Fechar banner',
+
+    // WhatsApp Scheduler
+    'scheduler.meta.title': 'Agendador WhatsApp — Agende Mensagens para Enviar Depois | OPN Chat',
+    'scheduler.meta.description': 'Agende mensagens do WhatsApp para enviar no momento perfeito. Grátis, sem cadastro. Planeje suas mensagens com antecedência.',
+    'scheduler.meta.keywords': 'agendador whatsapp, agendar mensagem whatsapp, enviar depois, wa.me temporizador, opnchat',
+
+    'scheduler.header.title': 'Agendador WhatsApp',
+    'scheduler.header.subtitle': 'Agende Mensagens para Enviar Depois',
+
+    'scheduler.bc.home': 'OPN Chat',
+    'scheduler.bc.scheduler': 'Agendador',
+
+    'scheduler.howItWorks.title': 'Como Funciona',
+    'scheduler.howItWorks.step1.title': 'Insira Dados',
+    'scheduler.howItWorks.step1.desc': 'Adicione o número de telefone e sua mensagem',
+    'scheduler.howItWorks.step2.title': 'Data e Hora',
+    'scheduler.howItWorks.step2.desc': 'Escolha quando a mensagem deve ficar pronta',
+    'scheduler.howItWorks.step3.title': 'Receba Link',
+    'scheduler.howItWorks.step3.desc': 'Receba um link para abrir WhatsApp na hora certa',
+
+    'scheduler.form.title': 'Agendar Mensagem',
+    'scheduler.form.phone.label': 'Número de Telefone (com código do país)',
+    'scheduler.form.phone.placeholder': '5511999998888',
+    'scheduler.form.phone.hint': 'Inclua o código do país (ex: 55 Brasil, 351 Portugal, 1 EUA)',
+    'scheduler.form.message.label': 'Mensagem',
+    'scheduler.form.message.optional': '(opcional)',
+    'scheduler.form.message.placeholder': 'Olá! Queria falar sobre...',
+    'scheduler.form.date.label': 'Data',
+    'scheduler.form.time.label': 'Hora',
+    'scheduler.form.submit': 'Agendar Mensagem',
+
+    'scheduler.success.title': 'Mensagem Agendada! ✓',
+    'scheduler.success.linkText': 'Seu link de lembrete:',
+    'scheduler.success.copyLink': 'Copiar Link',
+    'scheduler.success.another': 'Agendar Outra Mensagem',
+
+    'scheduler.tasks.title': 'Suas Mensagens Agendadas',
+    'scheduler.tasks.empty': 'Nenhuma mensagem agendada ainda. Crie uma acima!',
+
+    'scheduler.features.title': 'Por Que Usar Nosso Agendador?',
+    'scheduler.feature1.title': 'Momento Perfeito',
+    'scheduler.feature1.desc': 'Envie mensagens no momento exato, em qualquer fuso horário',
+    'scheduler.feature2.title': 'Links Compartilháveis',
+    'scheduler.feature2.desc': 'Receba um link que abre WhatsApp com sua mensagem quando pronto',
+    'scheduler.feature3.title': '100% Privado',
+    'scheduler.feature3.desc': 'Seus dados ficam no seu dispositivo. Não armazenamos info pessoal',
+    'scheduler.feature4.title': 'Multi-idiomas',
+    'scheduler.feature4.desc': 'Disponível em 7 idiomas com detecção automática de fuso horário',
+
+    'scheduler.faq.title': 'Perguntas Frequentes',
+    'scheduler.faq.q1.q': 'A mensagem é enviada automaticamente?',
+    'scheduler.faq.q1.a': 'Não — geramos um link do WhatsApp com sua mensagem preenchida no horário agendado. Você clica enviar manualmente.',
+    'scheduler.faq.q2.q': 'É grátis usar?',
+    'scheduler.faq.q2.a': 'Sim! O Agendador WhatsApp é completamente grátis sem limites de mensagens.',
+    'scheduler.faq.q3.q': 'Será enviado se eu estiver offline?',
+    'scheduler.faq.q3.a': 'O link estará pronto no horário agendado, mas você precisa de internet e WhatsApp instalado.',
+    'scheduler.faq.q4.q': 'Posso editar ou cancelar uma mensagem?',
+    'scheduler.faq.q4.a': 'Sim! Você pode gerenciar todas suas mensagens agendadas da lista abaixo.',
+
+    'scheduler.seo.contentTitle': 'Sobre o Agendador WhatsApp',
+    'scheduler.seo.content1': 'O Agendador WhatsApp do OPN Chat permite planejar suas mensagens com antecedência. Perfeito para profissionais que querem preparar follow-ups ou mensagens cuidadosamente escritas.',
+    'scheduler.seo.content2': 'Diferente de outras ferramentas, nosso agendador respeita a privacidade — mensagens são preparadas localmente e o link só é gerado quando necessário.',
+    'scheduler.seo.content3': 'Suporta todos os países onde WhatsApp está disponível. Funciona com contas pessoais e de negócios. Sem cadastro ou download.',
 } as const;

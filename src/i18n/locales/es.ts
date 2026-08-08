@@ -1257,6 +1257,9 @@ export default {
     'hub.service.meetingscheduler.title': 'Programador de reuniones',
     'hub.service.meetingscheduler.desc': 'Encuentra el mejor horario para una llamada entre zonas horarias. Línea de tiempo visual de superposición, enlace de reunión por WhatsApp con un clic. Gratis y privado.',
     'hub.service.meetingscheduler.cta': 'Programar reunión',
+    'hub.service.scheduler.title': 'Programador WhatsApp',
+    'hub.service.scheduler.desc': 'Programa mensajes de WhatsApp para enviar después. Elige fecha y hora, obtén un enlace de recordatorio. Gratis, privado.',
+    'hub.service.scheduler.cta': 'Programar',
 
     'footer.meetingscheduler.link': 'Programador de reuniones',
     'footer.section.messengers': 'Otros mensajeros',
@@ -1613,4 +1616,67 @@ export default {
     'banner.free': '100% Gratis',
     'banner.private': 'Totalmente Privado',
     'banner.close': 'Cerrar banner',
+
+    // WhatsApp Scheduler
+    'scheduler.meta.title': 'Programador WhatsApp — Programa Mensajes para Enviar Después | OPN Chat',
+    'scheduler.meta.description': 'Programa mensajes de WhatsApp para enviarlos en el momento perfecto. Gratis, sin registro. Planifica tus mensajes por adelantado.',
+    'scheduler.meta.keywords': 'programador whatsapp, programar mensaje whatsapp, enviar después, wa.me temporizador, opnchat',
+
+    'scheduler.header.title': 'Programador WhatsApp',
+    'scheduler.header.subtitle': 'Programa Mensajes para Enviar Después',
+
+    'scheduler.bc.home': 'OPN Chat',
+    'scheduler.bc.scheduler': 'Programador',
+
+    'scheduler.howItWorks.title': 'Cómo Funciona',
+    'scheduler.howItWorks.step1.title': 'Ingresa Datos',
+    'scheduler.howItWorks.step1.desc': 'Agrega el número de teléfono y tu mensaje',
+    'scheduler.howItWorks.step2.title': 'Fecha y Hora',
+    'scheduler.howItWorks.step2.desc': 'Elige cuándo quieres que el mensaje esté listo',
+    'scheduler.howItWorks.step3.title': 'Obtén Enlace',
+    'scheduler.howItWorks.step3.desc': 'Recibe un enlace para abrir WhatsApp a la hora correcta',
+
+    'scheduler.form.title': 'Programar Mensaje',
+    'scheduler.form.phone.label': 'Número de Teléfono (con código de país)',
+    'scheduler.form.phone.placeholder': '34612345678',
+    'scheduler.form.phone.hint': 'Incluye el código de país (ej: 34 España, 52 México, 1 USA)',
+    'scheduler.form.message.label': 'Mensaje',
+    'scheduler.form.message.optional': '(opcional)',
+    'scheduler.form.message.placeholder': '¡Hola! Quería contactarte sobre...',
+    'scheduler.form.date.label': 'Fecha',
+    'scheduler.form.time.label': 'Hora',
+    'scheduler.form.submit': 'Programar Mensaje',
+
+    'scheduler.success.title': '¡Mensaje Programado! ✓',
+    'scheduler.success.linkText': 'Tu enlace de recordatorio:',
+    'scheduler.success.copyLink': 'Copiar Enlace',
+    'scheduler.success.another': 'Programar Otro Mensaje',
+
+    'scheduler.tasks.title': 'Tus Mensajes Programados',
+    'scheduler.tasks.empty': 'Sin mensajes programados aún. ¡Crea uno arriba!',
+
+    'scheduler.features.title': '¿Por Qué Usar Nuestro Programador?',
+    'scheduler.feature1.title': 'Momento Perfecto',
+    'scheduler.feature1.desc': 'Envía mensajes en el momento exacto, en cualquier zona horaria',
+    'scheduler.feature2.title': 'Enlaces Compartibles',
+    'scheduler.feature2.desc': 'Obtén un enlace que abre WhatsApp con tu mensaje cuando esté listo',
+    'scheduler.feature3.title': '100% Privado',
+    'scheduler.feature3.desc': 'Tus datos se quedan en tu dispositivo. No guardamos información personal',
+    'scheduler.feature4.title': 'Multi-idioma',
+    'scheduler.feature4.desc': 'Disponible en 7 idiomas con detección automática de zona horaria',
+
+    'scheduler.faq.title': 'Preguntas Frecuentes',
+    'scheduler.faq.q1.q': '¿Se envía el mensaje automáticamente?',
+    'scheduler.faq.q1.a': 'No — generamos un enlace de WhatsApp con tu mensaje prellenado a la hora programada. Tú haces clic en enviar manualmente.',
+    'scheduler.faq.q2.q': '¿Es gratis usarlo?',
+    'scheduler.faq.q2.a': '¡Sí! El Programador de WhatsApp es completamente gratis sin límites de mensajes programados.',
+    'scheduler.faq.q3.q': '¿Se enviará si estoy sin conexión?',
+    'scheduler.faq.q3.a': 'El enlace estará listo a la hora programada, pero necesitas internet y WhatsApp instalado para abrirlo y enviarlo.',
+    'scheduler.faq.q4.q': '¿Puedo editar o cancelar un mensaje programado?',
+    'scheduler.faq.q4.a': '¡Sí! Puedes gestionar todos tus mensajes programados desde la lista de abajo.',
+
+    'scheduler.seo.contentTitle': 'Acerca del Programador WhatsApp',
+    'scheduler.seo.content1': 'El Programador de WhatsApp de OPN Chat te permite planificar tus mensajes por adelantado. Perfecto para profesionales que quieren preparar seguimientos o mensajes cuidadosamente redactados.',
+    'scheduler.seo.content2': 'A diferencia de otras herramientas, nuestro programador respeta la privacidad — los mensajes se preparan localmente y el enlace solo se genera cuando es necesario.',
+    'scheduler.seo.content3': 'Soporta todos los países donde WhatsApp está disponible. Funciona con cuentas personales y de empresa. Sin registro ni descarga de app.',
 } as const;

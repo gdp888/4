@@ -60,6 +60,7 @@ const tools = [
   { category: 'sidebar.beta', items: [
     { slug: 'timezone', key: 'hub.service.timezone.title', icon: 'clock', iconType: 'stroke' },
     { slug: 'meeting-scheduler', key: 'hub.service.meetingscheduler.title', icon: 'calendar', iconType: 'stroke' },
+    { slug: 'scheduler', key: 'hub.service.scheduler.title', icon: 'scheduler', iconType: 'stroke' },
   ]},
 ];
 
@@ -80,6 +81,7 @@ const icons = {
   reply: `<svg viewBox="0 0 24 24" fill="currentColor" class="sidebar-icon" aria-hidden="true"><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></svg>`,
   calendar: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="sidebar-icon" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
   broadcast: `<svg viewBox="0 0 24 24" fill="currentColor" class="sidebar-icon" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>`,
+  scheduler: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="sidebar-icon" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><polyline points="11 15 14 12 11 9"/><circle cx="13" cy="12" r="1" fill="currentColor"/></svg>`,
   vb: `<svg viewBox="0 0 24 24" fill="currentColor" class="sidebar-icon" aria-hidden="true"><path d="M11.4 0C5.1 0 0 5.1 0 11.4c0 2.4.7 4.6 2 6.5L.1 23.5l5.8-1.9c1.8 1.1 3.9 1.7 6.1 1.7 6.3 0 11.4-5.1 11.4-11.4S17.7 0 11.4 0zm6.7 16.1c-.3.8-1.6 1.6-2.2 1.7-.6.1-1.2.2-4-1.1-3.3-1.5-5.4-4.9-5.6-5.1-.2-.3-1.5-2-1.5-3.8 0-1.8.9-2.7 1.3-3.1.4-.4.8-.5 1.1-.5h.8c.3 0 .6 0 .9.6.3.7 1.1 2.7 1.2 2.9.1.2.1.4 0 .6-.1.2-.1.4-.3.6-.2.2-.4.5-.6.7-.2.2-.4.4-.2.7.2.3.9 1.3 1.9 2.2.9.7.1.8.4.6.7-.2.3-.3.5-.5.8-.2.3-.4.6-.2.9.2.3 1.1 1.2 2.3 1.8s1.8.8 2.1.9c.3.1.5.1.7-.1.2-.2.8-1 1-1.3.2-.3.4-.3.7-.1.2.1.5.3.7.4.2.1.5.3.7.1.2.1.5 0 .7-.1.3-.6 1.1-1.4 1.9z"/></svg>`,
   sg: `<svg viewBox="0 0 24 24" fill="currentColor" class="sidebar-icon" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.98 4-3.08 6-3.08 1.99 0 5.97 1.1 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>`,
   kt: `<svg viewBox="0 0 24 24" fill="currentColor" class="sidebar-icon" aria-hidden="true"><path d="M12 2C8.5 2 5.4 3.6 3.7 6C2.2 8.1 1.3 10.7 1.3 13.5c0 2.5.8 4.9 2.2 6.8L1.9 23l3.2-.9c2 1.3 4.4 2 6.9 2 6.6 0 12-4.5 12-10.1S18.6 2 12 2zm-1 14h-2v-2h2v2zm0-3.5h-2V7h2v5.5zm4.5 3.5h-2v-2h2v2zm0-3.5h-2V7h2v5.5z"/></svg>`,

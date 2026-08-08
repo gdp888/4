@@ -1257,6 +1257,9 @@ export default {
     'hub.service.meetingscheduler.title': 'Penjadwal Rapat',
     'hub.service.meetingscheduler.desc': 'Temukan waktu terbaik untuk panggilan lintas zona waktu. Timeline visual tumpang tindih, tautan rapat WhatsApp satu klik. Gratis & pribadi.',
     'hub.service.meetingscheduler.cta': 'Jadwalkan Rapat',
+    'hub.service.scheduler.title': 'Penjadwal WhatsApp',
+    'hub.service.scheduler.desc': 'Jadwalkan pesan WhatsApp untuk dikirim nanti. Pilih tanggal & waktu, dapatkan link pengingat. Gratis, privat.',
+    'hub.service.scheduler.cta': 'Jadwalkan',
 
     'footer.meetingscheduler.link': 'Penjadwal Rapat',
     'footer.section.messengers': 'Aplikasi pesan lain',
@@ -1613,4 +1616,67 @@ export default {
     'banner.free': '100% Gratis',
     'banner.private': 'Sepenuhnya Privat',
     'banner.close': 'Tutup banner',
+
+    // WhatsApp Scheduler
+    'scheduler.meta.title': 'Penjadwal WhatsApp — Jadwalkan Pesan untuk Dikirim Nanti | OPN Chat',
+    'scheduler.meta.description': 'Jadwalkan pesan WhatsApp untuk dikirim di waktu yang tepat. Gratis, tanpa daftar. Rencanakan pesan Anda sebelumnya.',
+    'scheduler.meta.keywords': 'penjadwal whatsapp, jadwalkan pesan whatsapp, kirim nanti, wa.me timer, opnchat',
+
+    'scheduler.header.title': 'Penjadwal WhatsApp',
+    'scheduler.header.subtitle': 'Jadwalkan Pesan untuk Dikirim Nanti',
+
+    'scheduler.bc.home': 'OPN Chat',
+    'scheduler.bc.scheduler': 'Penjadwal',
+
+    'scheduler.howItWorks.title': 'Cara Kerja',
+    'scheduler.howItWorks.step1.title': 'Masukkan Data',
+    'scheduler.howItWorks.step1.desc': 'Tambahkan nomor telepon dan pesan Anda',
+    'scheduler.howItWorks.step2.title': 'Tanggal & Waktu',
+    'scheduler.howItWorks.step2.desc': 'Pilih kapan pesan harus siap',
+    'scheduler.howItWorks.step3.title': 'Dapatkan Link',
+    'scheduler.howItWorks.step3.desc': 'Terima link untuk membuka WhatsApp di waktu yang tepat',
+
+    'scheduler.form.title': 'Jadwalkan Pesan',
+    'scheduler.form.phone.label': 'Nomor Telepon (dengan kode negara)',
+    'scheduler.form.phone.placeholder': '6281234567890',
+    'scheduler.form.phone.hint': 'Sertakan kode negara (contoh: 62 Indonesia, 1 AS, 55 Brasil)',
+    'scheduler.form.message.label': 'Pesan',
+    'scheduler.form.message.optional': '(opsional)',
+    'scheduler.form.message.placeholder': 'Halo! Saya ingin menanyakan tentang...',
+    'scheduler.form.date.label': 'Tanggal',
+    'scheduler.form.time.label': 'Waktu',
+    'scheduler.form.submit': 'Jadwalkan Pesan',
+
+    'scheduler.success.title': 'Pesan Dijadwalkan! ✓',
+    'scheduler.success.linkText': 'Link pengingat Anda:',
+    'scheduler.success.copyLink': 'Salin Link',
+    'scheduler.success.another': 'Jadwalkan Pesan Lain',
+
+    'scheduler.tasks.title': 'Pesan Terjadwal Anda',
+    'scheduler.tasks.empty': 'Belum ada pesan terjadwal. Buat pertama di atas!',
+
+    'scheduler.features.title': 'Mengapa Gunakan Penjadwal Kami?',
+    'scheduler.feature1.title': 'Waktu Tepat',
+    'scheduler.feature1.desc': 'Kirim pesan di waktu yang tepat, di zona waktu apa pun',
+    'scheduler.feature2.title': 'Link Dapat Dibagikan',
+    'scheduler.feature2.desc': 'Dapatkan link yang membuka WhatsApp dengan pesan Anda saat siap',
+    'scheduler.feature3.title': '100% Privat',
+    'scheduler.feature3.desc': 'Data Anda tetap di perangkat. Kami tidak menyimpan info pribadi',
+    'scheduler.feature4.title': 'Multi-bahasa',
+    'scheduler.feature4.desc': 'Tersedia dalam 7 bahasa dengan deteksi zona otomatis',
+
+    'scheduler.faq.title': 'Pertanyaan Umum',
+    'scheduler.faq.q1.q': 'Apakah pesan dikirim otomatis?',
+    'scheduler.faq.q1.a': 'Tidak — kami menghasilkan link WhatsApp dengan pesan terisi di waktu terjadwal. Anda klik kirim secara manual.',
+    'scheduler.faq.q2.q': 'Apakah gratis?',
+    'scheduler.faq.q2.a': 'Ya! Penjadwal WhatsApp sepenuhnya gratis tanpa batas jumlah pesan.',
+    'scheduler.faq.q3.q': 'Apakah akan terkirim jika saya offline?',
+    'scheduler.faq.q3.a': 'Link akan siap di waktu terjadwal, tapi Anda perlu internet dan WhatsApp terinstal.',
+    'scheduler.faq.q4.q': 'Bisakah saya edit atau batalkan pesan?',
+    'scheduler.faq.q4.a': 'Ya! Anda dapat mengelola semua pesan terjadwal dari daftar bawah.',
+
+    'scheduler.seo.contentTitle': 'Tentang Penjadwal WhatsApp',
+    'scheduler.seo.content1': 'Penjadwal WhatsApp dari OPN Chat memungkinkan Anda merencanakan pesan sebelumnya. Sempurna untuk profesional yang ingin menyiapkan follow-up atau pesan yang ditulis dengan cermat.',
+    'scheduler.seo.content2': 'Berbeda dengan alat lain, penjadwal kami menghormati privasi — pesan disiapkan secara lokal dan link hanya dibuat saat diperlukan.',
+    'scheduler.seo.content3': 'Mendukung semua negara tempat WhatsApp tersedia. Bekerja dengan akun pribadi dan bisnis. Tanpa registrasi atau download.',
 } as const;

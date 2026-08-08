@@ -1185,6 +1185,9 @@ export default {
     'hub.service.meetingscheduler.title': 'Планировщик встреч',
     'hub.service.meetingscheduler.desc': 'Найдите лучшее время для звонка между часовыми поясами. Визуальная шкала пересечения, ссылка на встречу в WhatsApp в один клик. Бесплатно и приватно.',
     'hub.service.meetingscheduler.cta': 'Запланировать встречу',
+    'hub.service.scheduler.title': 'Планировщик WhatsApp',
+    'hub.service.scheduler.desc': 'Запланируйте отправку сообщений WhatsApp на позже. Укажите дату и время, получите ссылку-напоминание. Бесплатно, приватно.',
+    'hub.service.scheduler.cta': 'Запланировать',
 
     'footer.meetingscheduler.link': 'Планировщик встреч',
     'footer.section.messengers': 'Другие мессенджеры',
@@ -1606,4 +1609,67 @@ export default {
     'banner.free': '100% Бесплатно',
     'banner.private': 'Полностью Приватно',
     'banner.close': 'Закрыть баннер',
+
+    // WhatsApp Scheduler
+    'scheduler.meta.title': 'Планировщик WhatsApp — Отправка сообщений по расписанию | OPN Chat',
+    'scheduler.meta.description': 'Запланируйте отправку сообщений WhatsApp на идеальное время. Бесплатно, без регистрации. Планируйте заранее и никогда не упустите момент.',
+    'scheduler.meta.keywords': 'планировщик whatsapp, отложить сообщение whatsapp, отправить позже, wa.me таймер, расписание сообщений, opnchat',
+
+    'scheduler.header.title': 'Планировщик WhatsApp',
+    'scheduler.header.subtitle': 'Запланируйте сообщения для отправки позже',
+
+    'scheduler.bc.home': 'OPN Chat',
+    'scheduler.bc.scheduler': 'Планировщик',
+
+    'scheduler.howItWorks.title': 'Как это работает',
+    'scheduler.howItWorks.step1.title': 'Введите данные',
+    'scheduler.howItWorks.step1.desc': 'Добавьте номер телефона и сообщение',
+    'scheduler.howItWorks.step2.title': 'Укажите дату и время',
+    'scheduler.howItWorks.step2.desc': 'Выберите когда сообщение будет готово',
+    'scheduler.howItWorks.step3.title': 'Получите ссылку-напоминание',
+    'scheduler.howItWorks.step3.desc': 'Получите ссылку для открытия WhatsApp в нужное время',
+
+    'scheduler.form.title': 'Запланировать сообщение',
+    'scheduler.form.phone.label': 'Номер телефона (с кодом страны)',
+    'scheduler.form.phone.placeholder': '79518994988',
+    'scheduler.form.phone.hint': 'Укажите код страны (например: 7 для России, 1 для США, 44 для Великобритании)',
+    'scheduler.form.message.label': 'Сообщение',
+    'scheduler.form.message.optional': '(необязательно)',
+    'scheduler.form.message.placeholder': 'Привет! Хотел написать по поводу...',
+    'scheduler.form.date.label': 'Дата',
+    'scheduler.form.time.label': 'Время',
+    'scheduler.form.submit': 'Запланировать сообщение',
+
+    'scheduler.success.title': 'Сообщение запланировано! ✓',
+    'scheduler.success.linkText': 'Ваша ссылка-напоминание:',
+    'scheduler.success.copyLink': 'Копировать',
+    'scheduler.success.another': 'Запланировать ещё сообщение',
+
+    'scheduler.tasks.title': 'Ваши запланированные сообщения',
+    'scheduler.tasks.empty': 'Пока нет запланированных сообщений. Создайте первое!',
+
+    'scheduler.features.title': 'Почему наш планировщик?',
+    'scheduler.feature1.title': 'Точное время',
+    'scheduler.feature1.desc': 'Отправляйте сообщения в идеальный момент, в любом часовом поясе',
+    'scheduler.feature2.title': 'Делимые ссылки',
+    'scheduler.feature2.desc': 'Получите ссылку которая открывает WhatsApp с вашим сообщением',
+    'scheduler.feature3.title': '100% Приватно',
+    'scheduler.feature3.desc': 'Ваши данные остаются на устройстве. Мы не храним личную информацию',
+    'scheduler.feature4.title': 'Многоязычность',
+    'scheduler.feature4.desc': 'Доступен на 7 языках с автоопределением часового пояса',
+
+    'scheduler.faq.title': 'Часто задаваемые вопросы',
+    'scheduler.faq.q1.q': 'Сообщение отправляется автоматически?',
+    'scheduler.faq.q1.a': 'Нет — мы генерируем ссылку WhatsApp с вашим сообщением в назначенное время. Вы нажимаете "Отправить" вручную. Это соблюдает условия использования WhatsApp.',
+    'scheduler.faq.q2.q': 'Это бесплатно?',
+    'scheduler.faq.q2.a': 'Да! Планировщик WhatsApp полностью бесплатный без ограничений на количество сообщений.',
+    'scheduler.faq.q3.q': 'Сообщение отправится если я не в сети?',
+    'scheduler.faq.q3.a': 'Ссылка будет готова в назначенное время, но вам нужен интернет и установленный WhatsApp чтобы открыть и отправить.',
+    'scheduler.faq.q4.q': 'Можно редактировать или отменить сообщение?',
+    'scheduler.faq.q4.a': 'Да! Вы можете управлять всеми запланированными сообщениями из списка ниже. Удалите любую задачу.',
+
+    'scheduler.seo.contentTitle': 'О Планировщике WhatsApp',
+    'scheduler.seo.content1': 'Планировщик WhatsApp от OPN Chat позволяет планировать сообщения заранее. Идеально для бизнес-профессионалов которые хотят подготовить последующие сообщения, поздравления с днём рождения в разных часовых поясах или тщательно продуманные тексты.',
+    'scheduler.seo.content2': 'В отличие от других инструментов, наш планировщик уважает приватность — сообщения готовятся локально, а ссылка генерируется только когда нужно. Сервер не хранит содержимое сообщений дольше необходимого.',
+    'scheduler.seo.content3': 'Поддерживает все страны где доступен WhatsApp. Работает как с личными так и с бизнес-аккаунтами. Без регистрации и скачивания приложений.',
 } as const;
