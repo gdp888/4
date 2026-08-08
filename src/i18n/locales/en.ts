@@ -1698,4 +1698,9 @@ export default {
     'sleep.tips.tip2': 'Avoid screens (phone, TV) 1 hour before bed — blue light suppresses melatonin',
     'sleep.tips.tip3': 'Keep your bedroom cool (65-68°F or 18-20°C) and dark',
     'sleep.tips.tip4': 'Avoid caffeine at least 6 hours before bedtime',
+
+    // Top Banner
+    'banner.free': '100% Free',
+    'banner.private': 'Fully Private',
+    'banner.close': 'Close banner',
 } as const;

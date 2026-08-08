@@ -1608,4 +1608,9 @@ export default {
     'kt.seo.faq.a3': 'Sí, si está instalado KakaoTalk para PC. En dispositivos móviles funciona a través de la aplicación KakaoTalk.',
     'kt.seo.faq.q4': '¿Puedo crear un código QR?',
     'kt.seo.faq.a4': '¡Sí! Nuestra herramienta puede crear un código QR para tu KakaoTalk ID o número de teléfono. Otro usuario puede escanearlo con su cámara y agregarte como amigo al instante.',
+
+    // Top Banner
+    'banner.free': '100% Gratis',
+    'banner.private': 'Totalmente Privado',
+    'banner.close': 'Cerrar banner',
 } as const;

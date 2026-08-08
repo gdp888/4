@@ -1535,4 +1535,9 @@ export default {
     'kt.seo.faq.a3': 'نعم، إذا كان KakaoTalk للكمبيوتر مثبتاً. على الأجهزة المحمولة يعمل عبر تطبيق KakaoTalk.',
     'kt.seo.faq.q4': 'هل يمكنني إنشاء رمز QR؟',
     'kt.seo.faq.a4': 'نعم! أداةنا يمكنها إنشاء رمز QR لـ KakaoTalk ID أو رقم هاتفك. مستخدم آخر يمكن مسحه ضوئياً بكاميرته وإضافتك كصديق فوراً.',
+
+    // Top Banner
+    'banner.free': 'مجاني تماماً',
+    'banner.private': 'خاص بالكامل',
+    'banner.close': 'إغلاق الشريط',
 } as const;
