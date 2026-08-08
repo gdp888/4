@@ -1,0 +1,989 @@
+     1→     1→---
+     2→     2→import Layout from '../layouts/Layout.astro';
+     3→     3→import { useTranslations } from '../i18n/utils';
+     4→     4→import { getAbsoluteLocaleUrl } from 'astro:i18n';
+     5→     5→import { languages, type Lang } from '../i18n/ui';
+     6→     6→import SiteHeader from './SiteHeader.astro';
+     7→     7→import Breadcrumbs from './Breadcrumbs.astro';
+     8→     8→import SEOHead from './SEOHead.astro';
+     9→     9→
+    10→    10→export interface Props {
+    11→    11→  lang: Lang;
+    12→    12→}
+    13→    13→
+    14→    14→const { lang } = Astro.props;
+    15→    15→const t = useTranslations(lang);
+    16→    16→
+    17→    17→// Schema.org
+    18→    18→const pageSchema = {
+    19→    19→  "@context": "https://schema.org",
+    20→    20→  "@type": "WebApplication",
+    21→    21→  "name": t('meta.title'),
+    22→    22→  "url": getAbsoluteLocaleUrl(lang, 'scheduler'),
+    23→    23→  "description": t('meta.description'),
+    24→    24→  "applicationCategory": "UtilityApplication",
+    25→    25→  "operatingSystem": "Any",
+    26→    26→  "offers": {
+    27→    27→    "@type": "Offer",
+    28→    28→    "price": "0",
+    29→    29→    "priceCurrency": "USD"
+    30→    30→  },
+    31→    31→  "featureList": [
+    32→    32→    t('feature1.title') + ': ' + t('feature1.desc'),
+    33→    33→    t('feature2.title') + ': ' + t('feature2.desc'),
+    34→    34→    t('feature3.title') + ': ' +('feature3.desc'),
+    35→    35→  ]
+    36→    36→};
+    37→    37→---
+    38→    38→
+    39→    39→<SEOHead
+    40→    40→  title={t('meta.title')}
+    41→    41→  description={t('meta.description')}
+    42→    42→  lang={lang}
+    43→    43→  path="/scheduler"
+    44→    44→/>
+    45→    45→<Layout title={t('meta.title')} lang={lang} service="whatsapp">
+    46→    46→  <SiteHeader 
+    47→    47→    title={t('header.title')}
+    48→    48→    subtitle={t('header.subtitle')}
+    49→    49→    lang={lang}
+    50→    50→  />
+    51→    51→  
+    52→    52→  <Breadcrumbs
+    53→    53→    items={[
+    54→    54→      { label: t('bc.home'), href: '/' },
+    55→    55→      { label: t('bc.scheduler'), href: '/scheduler' }
+    56→    56→    ]}
+    57→    57→    lang={lang}
+    58→    58→  />
+    59→    59→
+    60→    60→  <!-- Main Content -->
+    61→    61→  <main class="scheduler-container">
+    62→    62→    <!-- How It Works -->
+    63→    63→    <section class="how-it-works">
+    64→    64→      <h2 class="section-title">{t('howItWorks.title')}</h2>
+    65→    65→      <div class="steps-grid">
+    66→    66→        <div class="step-card">
+    67→    67→          <div class="step-number">1</div>
+    68→    68→          <h3>{t('howItWorks.step1.title')}</h3>
+    69→    69→          <p>{t('howItWorks.step1.desc')}</p>
+    70→    70→        </div>
+    71→    71→        <div class="step-card">
+    72→    72→          <div class="step-number">2</div>
+    73→    73→          <h3>{t('howItWorks.step2.title')}</h3>
+    74→    74→          <p>{t('howItWorks.step2.desc')}</p>
+    75→    75→        </div>
+    76→    76→        <div class="step-card">
+    77→    77→          <div class="step-number">3</div>
+    78→    78→          <h3>{t('howItWorks.step3.title')}</h3>
+    79→    79→          <p>{t('howItWorks.step3.desc')}</p>
+    80→    80→        </div>
+    81→    81→      </div>
+    82→    82→    </section>
+    83→    83→
+    84→    84→    <!-- Scheduler Form -->
+    85→    85→    <section class="scheduler-form-section">
+    86→    86→      <h2 class="section-title">{t('form.title')}</h2>
+    87→    87→      
+    88→    88→      <form id="scheduler-form" class="scheduler-form">
+    89→    89→        <!-- Phone Number Input -->
+    90→    90→        <div class="form-group">
+    91→    91→          <label for="phone" class="form-label">{t('form.phone.label')}</label>
+    92→    92→          <input 
+    93→    93→            type="tel" 
+    94→    94→            id="phone" 
+    95→    95→            name="phone" 
+    96→    96→            class="form-input phone-input"
+    97→    97→            placeholder={t('form.phone.placeholder')}
+    98→    98→            autocomplete="tel"
+    99→    99→            inputmode="numeric"
+   100→   100→            required
+   101→   101→          />
+   102→   102→          <span class="form-hint">{t('form.phone.hint')}</span>
+   103→   103→        </div>
+   104→   104→
+   105→   105→        <!-- Message Input -->
+   106→   106→        <div class="form-group">
+   107→   107→          <label for="message" class="form-label">{t('form.message.label')} <span class="optional">{t('form.message.optional')}</span></label>
+   108→   108→          <textarea 
+   109→   109→            id="message" 
+   110→   110→            name="message" 
+   111→   111→            class="form-input message-textarea"
+   112→   112→            placeholder={t('form.message.placeholder')}
+   113→   113→            rows="4"
+   114→   114→            maxlength="1000"
+   115→   115→          ></textarea>
+   116→   116→          <div class="char-count"><span id="char-count">0</span>/1000</div>
+   117→   117→        </div>
+   118→   118→
+   119→   119→        <!-- Date & Time Inputs -->
+   120→   120→        <div class="datetime-row">
+   121→   121→          <div class="form-group datetime-group">
+   122→   122→            <label for="date" class="form-label">{t('form.date.label')}</label>
+   123→   123→            <input 
+   124→   124→              type="date" 
+   125→   125→              id="date" 
+   126→   126→              name="date" 
+   127→   127→              class="form-input date-input"
+   128→   128→              required
+   129→   129→            />
+   130→   130→          </div>
+   131→   131→          <div class="form-group datetime-group">
+   132→   132→            <label for="time" class="form-label">{t('form.time.label')}</label>
+   133→   133→            <input 
+   134→   134→              type="time" 
+   135→   135→              id="time" 
+   136→   136→              name="time" 
+   137→   137→              class="form-input time-input"
+   138→   138→              required
+   139→   139→            />
+   140→   140→          </div>
+   141→   141→        </div>
+   142→   142→
+   143→   143→        <!-- Timezone Info -->
+   144→   144→        <div class="timezone-info">
+   145→   145→          <svg class="timezone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+   146→   146→            <circle cx="12" cy="12" r="10"/>
+   147→   147→            <path d="M12 6v6l4 2"/>
+   148→   148→          </svg>
+   149→   149→          <span id="timezone-display"></span>
+   150→   150→        </div>
+   151→   151→
+   152→   152→        <!-- Submit Button -->
+   153→   153→        <button type="submit" class="submit-btn" id="submit-btn">
+   154→   154→          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+   155→   155→            <rect x="3" y="4" width="18" height="18" rx="2"/>
+   156→   156→                <line x1="16" y1="2" x2="16" y2="6"/>
+   157→   157→                <line x1="8" y1="2" x2="8" y2="6"/>
+   158→   158→                <line x1="3" y1="10" x2="21" y2="10"/>
+   159→   159→          </svg>
+   160→   160→          {t('form.submit')}
+   161→   161→        </button>
+   162→   162→      </form>
+   163→   163→
+   164→   164→      <!-- Success Message (hidden by default) -->
+   165→   165→      <div id="success-message" class="success-message hidden">
+   166→   166→        <div class="success-icon">✓</div>
+   167→   167→        <h3>{t('success.title')}</h3>
+   168→   168→        <p id="success-details"></p>
+   169→   169→        <div class="task-link-section">
+   170→   170→          <p>{t('success.linkText')}</p>
+   171→   171→          <a id="task-link" href="#" target="_blank" rel="noopener" class="task-link"></a>
+   172→   172→          <button id="copy-link-btn" class="copy-btn" data-copy={t('success.copy')}>
+   173→   173→            {t('success.copyLink')}
+   174→   174→          </button>
+   175→   175→        </div>
+   176→   176→        <button id="schedule-another" class="secondary-btn">{t('success.another')}</button>
+   177→   177→      </div>
+   178→   178→    </section>
+   179→   179→
+   180→   180→    <!-- Scheduled Tasks List -->
+   181→   181→    <section class="tasks-list-section" id="tasks-section">
+   182→   182→      <h2 class="section-title">{t('tasks.title')}</h2>
+   183→   183→      <div id="tasks-list" class="tasks-list">
+   184→   184→        <div class="empty-state">
+   185→   185→          <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+   186→   186→            <rect x="3" y="4" width="18" height="18" rx="2"/>
+   187→   187→            <line x1="16" y1="2" x2="16" y2="6"/>
+   188→   188→            <line x1="8" y1="2" x2="8" y2="6"/>
+   189→   189→            <line x1="3" y1="10" x2="21" y2="10"/>
+   190→   190→            <line x1="9" y1="16" x2="15" y2="16"/>
+   191→   191→          </svg>
+   192→   192→          <p>{t('tasks.empty')}</p>
+   193→   193→        </div>
+   194→   194→      </div>
+   195→   195→    </section>
+   196→   196→
+   197→   197→    <!-- Features Section -->
+   198→   198→    <section class="features-section">
+   199→   199→      <h2 class="section-title">{t('features.title')}</h2>
+   200→   200→      <div class="features-grid">
+   201→   201→        <div class="feature-item">
+   202→   202→          <div class="feature-icon">🕐</div>
+   203→   203→          <h3>{t('feature1.title')}</h3>
+   204→   204→          <p>{t('feature1.desc')}</p>
+   205→   205→        </div>
+   206→   206→        <div class="feature-item">
+   207→   207→          <div class="feature-icon">🔗</div>
+   208→   208→          <h3>{t('feature2.title')}</h3>
+   209→   209→          <p>{t('feature2.desc')}</p>
+   210→   210→        </div>
+   211→   211→        <div class="feature-item">
+   212→   212→          <div class="feature-icon">🔒</div>
+   213→   213→          <h3>{t('feature3.title')}</h3>
+   214→   214→          <p>{t('feature3.desc')}</p>
+   215→   215→        </div>
+   216→   216→        <div class="feature-item">
+   217→   217→          <div class="feature-icon">🌍</div>
+   218→   218→          <h3>{t('feature4.title')}</h3>
+   219→   219→          <p>{t('feature4.desc')}</p>
+   220→   220→        </div>
+   221→   221→      </div>
+   222→   222→    </section>
+   223→   223→
+   224→   224→    <!-- FAQ Section -->
+   225→   225→    <section class="faq-section">
+   226→   226→      <h2 class="section-title">{t('faq.title')}</h2>
+   227→   227→      <div class="faq-list">
+   228→   228→        <details class="faq-item">
+   229→   229→          <summary>{t('faq.q1.q')}</summary>
+   230→   230→          <p>{t('faq.q1.a')}</p>
+   231→   231→        </details>
+   232→   232→        <details class="faq-item">
+   233→   233→          <summary>{t('faq.q2.q')}</summary>
+   234→   234→          <p>{t('faq.q2.a')}</p>
+   235→   235→        </details>
+   236→   236→        <details class="faq-item">
+   237→   237→          <summary>{t('faq.q3.q')}</summary>
+   238→   238→          <p>{t('faq.q3.a')}</p>
+   239→   239→        </details>
+   240→   240→        <details class="faq-item">
+   241→   241→          <summary>{t('faq.q4.q')}</summary>
+   242→   242→          <p>{t('faq.q4.a')}</p>
+   243→   243→        </details>
+   244→   244→      </div>
+   245→   245→    </section>
+   246→   246→  </main>
+   247→   247→
+   248→   248→  <!-- SEO Content -->
+   249→   249→  <section class="seo-section">
+   250→   250→    <h2>{t('seo.contentTitle')}</h2>
+   251→   251→    <p>{t('seo.content1')}</p>
+   252→   252→    <p>{t('seo.content2')}</p>
+   253→   253→    <p>{t('seo.content3')}</p>
+   254→   254→  </section>
+   255→   255→</Layout>
+   256→   256→
+   257→   257→<script define:vars={{ lang }}>
+   258→   258→  // DOM Elements
+   259→   259→  const form = document.getElementById('scheduler-form');
+   260→   260→  const phoneInput = document.getElementById('phone');
+   261→   261→  const messageInput = document.getElementById('message');
+   262→   262→  const dateInput = document.getElementById('date');
+   263→   263→  const timeInput = document.getElementById('time');
+   264→   264→  const charCount = document.getElementById('char-count');
+   265→   265→  const submitBtn = document.getElementById('submit-btn');
+   266→   266→  const successMessage = document.getElementById('success-message');
+   267→   267→  const successDetails = document.getElementById('success-details');
+   268→   268→  const taskLink = document.getElementById('task-link');
+   269→   269→  const copyLinkBtn = document.getElementById('copy-link-btn');
+   270→   270→  const scheduleAnotherBtn = document.getElementById('schedule-another');
+   271→   271→  const tasksList = document.getElementById('tasks-list');
+   272→   272→  const timezoneDisplay = document.getElementById('timezone-display');
+   273→   273→
+   274→   274→  // Set minimum date to today
+   275→   275→  const today = new Date().toISOString().split('T')[0];
+   276→   276→  dateInput.setAttribute('min', today);
+   277→   277→
+   278→   278→  // Display user's timezone
+   279→   279→  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+   280→   280→  timezoneDisplay.textContent = `Timezone: ${userTimezone}`;
+   281→   281→
+   282→   282→  // Character counter
+   283→   283→  messageInput.addEventListener('input', () => {
+   284→   284→    charCount.textContent = messageInput.value.length;
+   285→   285→  });
+   286→   286→
+   287→   287→  // Format phone number as user types
+   288→   288→  phoneInput.addEventListener('input', (e) => {
+   289→   289→    let value = e.target.value.replace(/\D/g, '');
+   290→   290→    if (value.length > 15) value = value.slice(0, 15);
+   291→   291→    e.target.value = value;
+   292→   292→  });
+   293→   293→
+   294→   294→  // Form submission
+   295→   295→  form.addEventListener('submit', async (e) => {
+   296→   296→    e.preventDefault();
+   297→   297→    
+   298→   298→    const phone = phoneInput.value.replace(/\D/g, '');
+   299→   299→    const message = messageInput.value.trim();
+   300→   300→    const date = dateInput.value;
+   301→   301→    const time = timeInput.value;
+   302→   302→
+   303→   303→    // Validate
+   304→   304→    if (phone.length < 8 || phone.length > 15) {
+   305→   305→      alert('Please enter a valid phone number');
+   306→   306→      return;
+   307→   307→    }
+   308→   308→
+   309→   309→    const scheduledDateTime = new Date(`${date}T${time}`);
+   310→   310→    if (scheduledDateTime <= new Date()) {
+   311→   311→      alert('Please select a future date and time');
+   312→   312→      return;
+   313→   313→    }
+   314→   314→
+   315→   315→    // Show loading state
+   316→   316→    submitBtn.disabled = true;
+   317→   317→    submitBtn.innerHTML = '<span class="spinner"></span> Scheduling...';
+   318→   318→
+   319→   319→    try {
+   320→   320→      const response = await fetch('/api/scheduler', {
+   321→   321→        method: 'POST',
+   322→   322→        headers: { 'Content-Type': 'application/json' },
+   323→   323→        body: JSON.stringify({
+   324→   324→          phone,
+   325→   325→          message,
+   326→   326→          scheduledFor: scheduledDateTime.toISOString(),
+   327→   327→          timezone: userTimezone,
+   328→   328→          lang
+   329→   329→        })
+   330→   330→      });
+   331→   331→
+   332→   332→      const data = await response.json();
+   333→   333→
+   334→   334→      if (data.success) {
+   335→   335→        // Show success
+   336→   336→        form.classList.add('hidden');
+   337→   337→        successMessage.classList.remove('hidden');
+   338→   338→        
+   339→   339→        const formattedDate = new Date(data.task.scheduledFor).toLocaleString(lang);
+   340→   340→        successDetails.textContent = `${data.task.phone} at ${formattedDate}`;
+   341→   341→        
+   342→   342→        taskLink.href = `/scheduler/task/${data.task.id}`;
+   343→   343→        taskLink.textContent = `${window.location.origin}/scheduler/task/${data.task.id}`;
+   344→   344→        
+   345→   345→        // Save task ID to localStorage for listing
+   346→   346→        saveTaskLocally(data.task);
+   347→   347→        
+   348→   348→        // Refresh tasks list
+   349→   349→        loadTasks();
+   350→   350→      } else {
+   351→   351→        alert(data.error || 'Failed to schedule message');
+   352→   352→      }
+   353→   353→    } catch (error) {
+   354→   354→      console.error('Error:', error);
+   355→   355→      alert('Network error. Please try again.');
+   356→   356→    }
+   357→   357→
+   358→   358→    submitBtn.disabled = false;
+   359→   359→    submitBtn.innerHTML = `<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+   360→   360→      <rect x="3" y="4" width="18" height="18" rx="2"/>
+   361→   361→      <line x1="16" y1="2" x2="16" y2="6"/>
+   362→   362→      <line x1="8" y1="2" x2="8" y2="6"/>
+   363→   363→      <line x1="3" y1="10" x2="21" y2="10"/>
+   364→   364→    </svg> Schedule Message`;
+   365→   365→  });
+   366→   366→
+   367→   367→  // Copy link button
+   368→   368→  copyLinkBtn.addEventListener('click', async () => {
+   369→   369→    try {
+   370→   370→      await navigator.clipboard.writeText(taskLink.href);
+   371→   371→      copyLinkBtn.textContent = 'Copied!';
+   372→   372→      setTimeout(() => {
+   373→   373→        copyLinkBtn.textContent = copyLinkBtn.dataset.copy;
+   374→   374→      }, 2000);
+   375→   375→    } catch (err) {
+   376→   376→      console.error('Failed to copy:', err);
+   377→   377→    }
+   378→   378→  });
+   379→   379→
+   380→   380→  // Schedule another button
+   381→   381→  scheduleAnotherBtn.addEventListener('click', () => {
+   382→   382→    form.reset();
+   383→   383→    charCount.textContent = '0';
+   384→   384→    form.classList.remove('hidden');
+   385→   385→    successMessage.classList.add('hidden');
+   386→   386→  });
+   387→   387→
+   388→   388→  // Local storage functions for tasks
+   389→   389→  function saveTaskLocally(task) {
+   390→   390→    const tasks = JSON.parse(localStorage.getItem('opnchat-scheduled-tasks') || '[]');
+   391→   391→    tasks.unshift(task);
+   392→   392→    // Keep only last 50 tasks
+   393→   393→    if (tasks.length > 50) tasks.pop();
+   394→   394→    localStorage.setItem('opnchat-scheduled-tasks', JSON.stringify(tasks));
+   395→   395→  }
+   396→   396→
+   397→   397→  function loadTasks() {
+   398→   398→    const tasks = JSON.parse(localStorage.getItem('opnchat-scheduled-tasks') || '[]');
+   399→   399→    
+   400→   400→    if (tasks.length === 0) {
+   401→   401→      tasksList.innerHTML = `
+   402→   402→        <div class="empty-state">
+   403→   403→          <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+   404→   404→            <rect x="3" y="4" width="18" height="18" rx="2"/>
+   405→   405→            <line x1="16" y1="2" x2="16" y2="6"/>
+   406→   406→            <line x1="8" y1="2" x2="8" y2="6"/>
+   407→   407→            <line x1="3" y1="10" x2="21" y2="10"/>
+   408→   408→            <line x1="9" y1="16" x2="15" y2="16"/>
+   409→   409→          </svg>
+   410→   410→          <p>No scheduled messages yet</p>
+   411→   411→        </div>
+   412→   412→      `;
+   413→   413→      return;
+   414→   414→    }
+   415→   415→
+   416→   416→    tasksList.innerHTML = tasks.map(task => {
+   417→   417→      const scheduledDate = new Date(task.scheduledFor);
+   418→   418→      const now = new Date();
+   419→   419→      const isPast = scheduledDate <= now;
+   420→   420→      const statusClass = isPast ? 'status-past' : 'status-pending';
+   421→   421→      const statusText = isPast ? 'Ready to send' : 'Scheduled';
+   422→   422→      
+   423→   423→      return `
+   424→   424→        <div class="task-item ${statusClass}">
+   425→   425→          <div class="task-info">
+   426→   426→            <span class="task-phone">${task.phone.replace(/(\d{1,3})(\d{3})(\d{3})(\d{2,})/, '+$1 $2 $3 $4')}</span>
+   427→   427→            <span class="task-time">${scheduledDate.toLocaleString(lang)}</span>
+   428→   428→          </div>
+   429→   429→          <div class="task-status">${statusText}</div>
+   430→   430→          <a href="/scheduler/task/${task.id}" class="task-view-btn" target="_blank">View</a>
+   431→   431→        </div>
+   432→   432→      `;
+   433→   433→    }).join('');
+   434→   434→  }
+   435→   435→
+   436→   436→  // Load tasks on page init
+   437→   437→  loadTasks();
+   438→   438→</script>
+   439→   439→
+   440→   440→<style>
+   441→   441→  .scheduler-container {
+   442→   442→    max-width: 700px;
+   443→   443→    margin: 0 auto;
+   444→   444→    padding: 0 1rem;
+   445→   445→  }
+   446→   446→
+   447→   447→  .section-title {
+   448→   448→    font-size: 1.5rem;
+   449→   449→    font-weight: 700;
+   450→   450→    margin-bottom: 1.25rem;
+   451→   451→    color: var(--text-primary);
+   452→   452→    text-align: center;
+   453→   453→  }
+   454→   454→
+   455→   455→  /* How It Works */
+   456→   456→  .how-it-works {
+   457→   457→    margin-bottom: 2.5rem;
+   458→   458→  }
+   459→   459→
+   460→   460→  .steps-grid {
+   461→   461→    display: grid;
+   462→   462→    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+   463→   463→    gap: 1rem;
+   464→   464→  }
+   465→   465→
+   466→   466→  .step-card {
+   467→   467→    background: var(--bg-secondary);
+   468→   468→    border: 1px solid var(--border-color);
+   469→   469→    border-radius: 12px;
+   470→   470→    padding: 1.25rem;
+   471→   471→    text-align: center;
+   472→   472→    transition: transform 0.2s, box-shadow 0.2s;
+   473→   473→  }
+   474→   474→
+   475→   475→  .step-card:hover {
+   476→   476→    transform: translateY(-2px);
+   477→   477→    box-shadow: var(--card-shadow);
+   478→   478→  }
+   479→   479→
+   480→   480→  .step-number {
+   481→   481→    width: 36px;
+   482→   482→    height: 36px;
+   483→   483→    background: linear-gradient(135deg, var(--opn-primary), #128C7E);
+   484→   484→    color: white;
+   485→   485→    border-radius: 50%;
+   486→   486→    display: flex;
+   487→   487→    align-items: center;
+   488→   488→    justify-content: center;
+   489→   489→    font-weight: 700;
+   490→   490→    font-size: 1.1rem;
+   491→   491→    margin: 0 auto 0.75rem;
+   492→   492→  }
+   493→   493→
+   494→   494→  .step-card h3 {
+   495→   495→    font-size: 0.95rem;
+   496→   496→    font-weight: 600;
+   497→   497→    margin-bottom: 0.5rem;
+   498→   498→    color: var(--text-primary);
+   499→   499→  }
+   500→   500→
+   501→   501→  .step-card p {
+   502→   502→    font-size: 0.85rem;
+   503→   503→    color: var(--text-secondary);
+   504→   504→    line-height: 1.4;
+   505→   505→  }
+   506→   506→
+   507→   507→  /* Form Styles */
+   508→   508→  .scheduler-form-section {
+   509→   509→    background: var(--bg-secondary);
+   510→   510→    border: 1px solid var(--border-color);
+   511→   511→    border-radius: 16px;
+   512→   512→    padding: 2rem;
+   513→   513→    margin-bottom: 2rem;
+   514→   514→  }
+   515→   515→
+   516→   516→  .form-group {
+   517→   517→    margin-bottom: 1.25rem;
+   518→   518→  }
+   519→   519→
+   520→   520→  .form-label {
+   521→   521→    display: block;
+   522→   522→    font-size: 0.9rem;
+   523→   523→    font-weight: 600;
+   524→   524→    margin-bottom: 0.5rem;
+   525→   525→    color: var(--text-primary);
+   526→   526→  }
+   527→   527→
+   528→   528→  .optional {
+   529→   529→    font-weight: 400;
+   530→   530→    color: var(--text-secondary);
+   531→   531→    font-size: 0.85rem;
+   532→   532→  }
+   533→   533→
+   534→   534→  .form-input {
+   535→   535→    width: 100%;
+   536→   536→    padding: 0.875rem 1rem;
+   537→   537→    background: var(--bg-input);
+   538→   538→    border: 1px solid var(--border-color);
+   539→   539→    border-radius: 10px;
+   540→   540→    color: var(--text-primary);
+   541→   541→    font-size: 1rem;
+   542→   542→    font-family: inherit;
+   543→   543→    transition: border-color 0.2s, box-shadow 0.2s;
+   544→   544→  }
+   545→   545→
+   546→   546→  .form-input:focus {
+   547→   547→    outline: none;
+   548→   548→    border-color: var(--opn-primary);
+   549→   549→    box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.15);
+   550→   550→  }
+   551→   551→
+   552→   552→  .form-input::placeholder {
+   553→   553→    color: var(--text-secondary);
+   554→   554→    opacity: 0.7;
+   555→   555→  }
+   556→   556→
+   557→   557→  .form-hint {
+   558→   558→    display: block;
+   559→   559→    font-size: 0.8rem;
+   560→   560→    color: var(--text-secondary);
+   561→   561→    margin-top: 0.375rem;
+   562→   562→  }
+   563→   563→
+   564→   564→  .message-textarea {
+   565→   565→    resize: vertical;
+   566→   566→    min-height: 100px;
+   567→   567→  }
+   568→   568→
+   569→   569→  .char-count {
+   570→   570→    text-align: right;
+   571→   571→    font-size: 0.8rem;
+   572→   572→    color: var(--text-secondary);
+   573→   573→    margin-top: 0.375rem;
+   574→   574→  }
+   575→   575→
+   576→   576→  .datetime-row {
+   577→   577→    display: grid;
+   578→   578→    grid-template-columns: 1fr 1fr;
+   579→   579→    gap: 1rem;
+   580→   580→  }
+   581→   581→
+   582→   582→  .datetime-group {
+   583→   583→    margin-bottom: 0;
+   584→   584→  }
+   585→   585→
+   586→   586→  .date-input,
+   587→   587→  .time-input {
+   588→   588→    cursor: pointer;
+   589→   589→  }
+   590→   590→
+   591→   591→  /* Timezone info */
+   592→   592→  .timezone-info {
+   593→   593→    display: flex;
+   594→   594→    align-items: center;
+   595→   595→    gap: 0.5rem;
+   596→   596→    padding: 0.75rem 1rem;
+   597→   597→    background: rgba(56, 189, 248, 0.1);
+   598→   598→    border: 1px solid rgba(56, 189, 248, 0.2);
+   599→   599→    border-radius: 8px;
+   600→   600→    font-size: 0.85rem;
+   601→   601→    color: var(--text-secondary);
+   602→   602→    margin-bottom: 1.25rem;
+   603→   603→  }
+   604→   604→
+   605→   605→  .timezone-icon {
+   606→   606→    width: 16px;
+   607→   607→    height: 16px;
+   608→   608→    flex-shrink: 0;
+   609→   609→  }
+   610→   610→
+   611→   611→  /* Submit Button */
+   612→   612→  .submit-btn {
+   613→   613→    width: 100%;
+   614→   614→    padding: 1rem 1.5rem;
+   615→   615→    background: linear-gradient(135deg, #25D366, #128C7E);
+   616→   616→    color: white;
+   617→   617→    border: none;
+   618→   618→    border-radius: 10px;
+   619→   619→    font-size: 1rem;
+   620→   620→    font-weight: 600;
+   621→   621→    font-family: inherit;
+   622→   622→    cursor: pointer;
+   623→   623→    display: flex;
+   624→   624→    align-items: center;
+   625→   625→    justify-content: center;
+   626→   626→    gap: 0.5rem;
+   627→   627→    transition: transform 0.2s, box-shadow 0.2s;
+   628→   628→  }
+   629→   629→
+   630→   630→  .submit-btn:hover:not(:disabled) {
+   631→   631→    transform: translateY(-1px);
+   632→   632→    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
+   633→   633→  }
+   634→   634→
+   635→   635→  .submit-btn:disabled {
+   636→   636→    opacity: 0.7;
+   637→   637→    cursor: not-allowed;
+   638→   638→  }
+   639→   639→
+   640→   640→  .btn-icon {
+   641→   641→    width: 20px;
+   642→   642→    height: 20px;
+   643→   643→  }
+   644→   644→
+   645→   645→  /* Success Message */
+   646→   646→  .success-message {
+   647→   647→    text-align: center;
+   648→   648→    padding: 2rem;
+   649→   649→  }
+   650→   650→
+   651→   651→  .success-message.hidden {
+   652→   652→    display: none;
+   653→   653→  }
+   654→   654→
+   655→   655→  .form.hidden {
+   656→   656→    display: none;
+   657→   657→  }
+   658→   658→
+   659→   659→  .success-icon {
+   660→   660→    width: 64px;
+   661→   661→    height: 64px;
+   662→   662→    background: linear-gradient(135deg, #25D366, #128C7E);
+   663→   663→    color: white;
+   664→   664→    border-radius: 50%;
+   665→   665→    display: flex;
+   666→   666→    align-items: center;
+   667→   667→    justify-content: center;
+   668→   668→    font-size: 2rem;
+   669→   669→    font-weight: 700;
+   670→   670→    margin: 0 auto 1rem;
+   671→   671→  }
+   672→   672→
+   673→   673→  .success-message h3 {
+   674→   674→    font-size: 1.35rem;
+   675→   675→    font-weight: 700;
+   676→   676→    margin-bottom: 0.5rem;
+   677→   677→    color: var(--text-primary);
+   678→   678→  }
+   679→   679→
+   680→   680→  .success-message p {
+   681→   681→    color: var(--text-secondary);
+   682→   682→    margin-bottom: 1rem;
+   683→   683→  }
+   684→   684→
+   685→   685→  .task-link-section {
+   686→   686→    background: var(--bg-input);
+   687→   687→    border-radius: 10px;
+   688→   688→    padding: 1rem;
+   689→   689→    margin: 1.25rem 0;
+   690→   690→  }
+   691→   691→
+   692→   692→  .task-link-section p {
+   693→   693→    font-size: 0.9rem;
+   694→   694→    margin-bottom: 0.5rem;
+   695→   695→  }
+   696→   696→
+   697→   697→  .task-link {
+   698→   698→    display: block;
+   699→   699→    word-break: break-all;
+   700→   700→    color: var(--opn-primary);
+   701→   701→    font-size: 0.85rem;
+   702→   702→    margin-bottom: 0.75rem;
+   703→   703→  }
+   704→   704→
+   705→   705→  .copy-btn {
+   706→   706→    padding: 0.5rem 1rem;
+   707→   707→    background: var(--bg-secondary);
+   708→   708→    border: 1px solid var(--border-color);
+   709→   709→    border-radius: 6px;
+   710→   710→    color: var(--text-primary);
+   711→   711→    font-size: 0.85rem;
+   712→   712→    cursor: pointer;
+   713→   713→    transition: all 0.2s;
+   714→   714→  }
+   715→   715→
+   716→   716→  .copy-btn:hover {
+   717→   717→    background: var(--opn-primary);
+   718→   718→    color: white;
+   719→   719→    border-color: var(--opn-primary);
+   720→   720→  }
+   721→   721→
+   722→   722→  .secondary-btn {
+   723→   723→    padding: 0.75rem 1.5rem;
+   724→   724→    background: transparent;
+   725→   725→    border: 1px solid var(--border-color);
+   726→   726→    border-radius: 8px;
+   727→   727→    color: var(--text-primary);
+   728→   728→    font-size: 0.95rem;
+   729→   729→    cursor: pointer;
+   730→   730→    transition: all 0.2s;
+   731→   731→  }
+   732→   732→
+   733→   733→  .secondary-btn:hover {
+   734→   734→    background: var(--bg-input);
+   735→   735→    border-color: var(--opn-primary);
+   736→   736→  }
+   737→   737→
+   738→   738→  /* Tasks List */
+   739→   739→  .tasks-list-section {
+   740→   740→    margin-bottom: 2rem;
+   741→   741→  }
+   742→   742→
+   743→   743→  .tasks-list {
+   744→   744→    display: flex;
+   745→   745→    flex-direction: column;
+   746→   746→    gap: 0.75rem;
+   747→   747→  }
+   748→   748→
+   749→   749→  .empty-state {
+   750→   750→    text-align: center;
+   751→   751→    padding: 2.5rem 1rem;
+   752→   752→    color: var(--text-secondary);
+   753→   753→  }
+   754→   754→
+   755→   755→  .empty-icon {
+   756→   756→    width: 48px;
+   757→   757→    height: 48px;
+   758→   758→    margin: 0 auto 1rem;
+   759→   759→    opacity: 0.5;
+   760→   760→  }
+   761→   761→
+   762→   762→  .task-item {
+   763→   763→    display: flex;
+   764→   764→    align-items: center;
+   765→   765→    gap: 1rem;
+   766→   766→    padding: 1rem 1.25rem;
+   767→   767→    background: var(--bg-secondary);
+   768→   768→    border: 1px solid var(--border-color);
+   769→   769→    border-radius: 10px;
+   770→   770→    transition: transform 0.2s;
+   771→   771→  }
+   772→   772→
+   773→   773→  .task-item:hover {
+   774→   774→    transform: translateX(4px);
+   775→   775→  }
+   776→   776→
+   777→   777→  .task-info {
+   778→   778→    flex: 1;
+   779→   779→    display: flex;
+   780→   780→    flex-direction: column;
+   781→   781→    gap: 0.25rem;
+   782→   782→  }
+   783→   783→
+   784→   784→  .task-phone {
+   785→   785→    font-weight: 600;
+   786→   786→    color: var(--text-primary);
+   787→   787→  }
+   788→   788→
+   789→   789→  .task-time {
+   790→   790→    font-size: 0.85rem;
+   791→   791→    color: var(--text-secondary);
+   792→   792→  }
+   793→   793→
+   794→   794→  .task-status {
+   795→   795→    font-size: 0.8rem;
+   796→   796→    font-weight: 600;
+   797→   797→    padding: 0.25rem 0.75rem;
+   798→   798→    border-radius: 20px;
+   799→   799→  }
+   800→   800→
+   801→   801→  .status-pending {
+   802→   802→    background: rgba(37, 211, 102, 0.15);
+   803→   803→    color: #25D366;
+   804→   804→  }
+   805→   805→
+   806→   806→  .status-past {
+   807→   807→    background: rgba(56, 189, 248, 0.15);
+   808→   808→    color: #38bdf8;
+   809→   809→  }
+   810→   810→
+   811→   811→  .task-view-btn {
+   812→   812→    padding: 0.4rem 0.875rem;
+   813→   813→    background: var(--opn-primary);
+   814→   814→    color: white;
+   815→   815→    border-radius: 6px;
+   816→   816→    font-size: 0.85rem;
+   817→   817→    font-weight: 500;
+   818→   818→    text-decoration: none;
+   819→   819→    transition: opacity 0.2s;
+   820→   820→  }
+   821→   821→
+   822→   822→  .task-view-btn:hover {
+   823→   823→    opacity: 0.9;
+   824→   824→  }
+   825→   825→
+   826→   826→  /* Features */
+   827→   827→  .features-section {
+   828→   828→    margin-bottom: 2rem;
+   829→   829→  }
+   830→   830→
+   831→   831→  .features-grid {
+   832→   832→    display: grid;
+   833→   833→    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+   834→   834→    gap: 1rem;
+   835→   835→  }
+   836→   836→
+   837→   837→  .feature-item {
+   838→   838→    background: var(--bg-secondary);
+   839→   839→    border: 1px solid var(--border-color);
+   840→   840→    border-radius: 12px;
+   841→   841→    padding: 1.25rem;
+   842→   842→    text-align: center;
+   843→   843→  }
+   844→   844→
+   845→   845→  .feature-icon {
+   846→   846→    font-size: 2rem;
+   847→   847→    margin-bottom: 0.75rem;
+   848→   848→  }
+   849→   849→
+   850→   850→  .feature-item h3 {
+   851→   851→    font-size: 0.95rem;
+   852→   852→    font-weight: 600;
+   853→   853→    margin-bottom: 0.5rem;
+   854→   854→    color: var(--text-primary);
+   855→   855→  }
+   856→   856→
+   857→   857→  .feature-item p {
+   858→   858→    font-size: 0.85rem;
+   859→   859→    color: var(--text-secondary);
+   860→   860→    line-height: 1.4;
+   861→   861→  }
+   862→   862→
+   863→   863→  /* FAQ */
+   864→   864→  .faq-section {
+   865→   865→    margin-bottom: 2rem;
+   866→   866→  }
+   867→   867→
+   868→   868→  .faq-list {
+   869→   869→    display: flex;
+   870→   870→    flex-direction: column;
+   871→   871→    gap: 0.75rem;
+   872→   872→  }
+   873→   873→
+   874→   874→  .faq-item {
+   875→   875→    background: var(--bg-secondary);
+   876→   876→    border: 1px solid var(--border-color);
+   877→   877→    border-radius: 10px;
+   878→   878→    overflow: hidden;
+   879→   879→  }
+   880→   880→
+   881→   881→  .faq-item summary {
+   882→   882→    padding: 1rem 1.25rem;
+   883→   883→    font-weight: 600;
+   884→   884→    cursor: pointer;
+   885→   885→    list-style: none;
+   886→   886→    display: flex;
+   887→   887→    align-items: center;
+   888→   888→    justify-content: space-between;
+   889→   889→    color: var(--text-primary);
+   890→   890→  }
+   891→   891→
+   892→   892→  .faq-item summary::-webkit-details-marker {
+   893→   893→    display: none;
+   894→   894→  }
+   895→   895→
+   896→   896→  .faq-item summary::after {
+   897→   897→    content: '+';
+   898→   898→    font-size: 1.25rem;
+   899→   899→    color: var(--opn-primary);
+   900→   900→    transition: transform 0.2s;
+   901→   901→  }
+   902→   902→
+   903→   903→  .faq-item[open] summary::after {
+   904→   904→    transform: rotate(45deg);
+   905→   905→  }
+   906→   906→
+   907→   907→  .faq-item p {
+   908→   908→    padding: 0 1.25rem 1rem;
+   909→   909→    color: var(--text-secondary);
+   910→   910→    line-height: 1.6;
+   911→   911→  }
+   912→   912→
+   913→   913→  /* SEO Section */
+   914→   914→  .seo-section {
+   915→   915→    background: var(--bg-secondary);
+   916→   916→    border: 1px solid var(--border-color);
+   917→   917→    border-radius: 12px;
+   918→   918→    padding: 1.5rem;
+   919→   919→    margin-bottom: 2rem;
+   920→   920→  }
+   921→   921→
+   922→   922→  .seo-section h2 {
+   923→   923→    font-size: 1.1rem;
+   924→   924→    font-weight: 700;
+   925→   925→    margin-bottom: 0.75rem;
+   926→   926→    color: var(--text-primary);
+   927→   927→  }
+   928→   928→
+   929→   929→  .seo-section p {
+   930→   930→    color: var(--text-secondary);
+   931→   931→    line-height: 1.7;
+   932→   932→    margin-bottom: 0.75rem;
+   933→   933→    font-size: 0.95rem;
+   934→   934→  }
+   935→   935→
+   936→   936→  .seo-section p:last-child {
+   937→   937→    margin-bottom: 0;
+   938→   938→  }
+   939→   939→
+   940→   940→  /* Spinner animation */
+   941→   941→  .spinner {
+   942→   942→    width: 18px;
+   943→   943→    height: 18px;
+   944→   944→    border: 2px solid rgba(255,255,255,0.3);
+   945→   945→    border-top-color: white;
+   946→   946→    border-radius: 50%;
+   947→   947→    animation: spin 0.8s linear infinite;
+   948→   948→    display: inline-block;
+   949→   949→  }
+   950→   950→
+   951→   951→  @keyframes spin {
+   952→   952→    to { transform: rotate(360deg); }
+   953→   953→  }
+   954→   954→
+   955→   955→  /* Responsive */
+   956→   956→  @media (max-width: 520px) {
+   957→   957→    .datetime-row {
+   958→   958→      grid-template-columns: 1fr;
+   959→   959→    }
+   960→   960→
+   961→   961→    .steps-grid {
+   962→   962→      grid-template-columns: 1fr;
+   963→   963→    }
+   964→   964→
+   965→   965→    .scheduler-form-section {
+   966→   966→      padding: 1.25rem;
+   967→   967→    }
+   968→   968→
+   969→   969→    .task-item {
+   970→   970→      flex-wrap: wrap;
+   971→   971→    }
+   972→   972→
+   973→   973→    .task-view-btn {
+   974→   974→      width: 100%;
+   975→   975→      text-align: center;
+   976→   976→      margin-top: 0.5rem;
+   977→   977→    }
+   978→   978→  }
+   979→   979→
+   980→   980→  /* RTL Support */
+   981→   981→  [dir="rtl"] .task-item:hover {
+   982→   982→    transform: translateX(-4px);
+   983→   983→  }
+   984→   984→
+   985→   985→  [dir="rtl"] .faq-item summary {
+   986→   986→    flex-direction: row-reverse;
+   987→   987→  }
+   988→   988→</style>
+   989→   989→
