@@ -291,7 +291,14 @@ const pageSchema = {
     e.target.value = value;
   });
 
-  // Form submission
+  // Generate unique task ID client-side
+  function generateTaskId() {
+    const timestamp = Date.now().toString(36);
+    const randomPart = Math.random().toString(36).substring(2, 10);
+    return `task_${timestamp}_${randomPart}`;
+  }
+
+  // Form submission - with localStorage fallback
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -302,13 +309,13 @@ const pageSchema = {
 
     // Validate
     if (phone.length < 8 || phone.length > 15) {
-      alert('Please enter a valid phone number');
+      alert(lang === 'ru' ? 'Введите корректный номер телефона' : 'Please enter a valid phone number');
       return;
     }
 
     const scheduledDateTime = new Date(`${date}T${time}`);
     if (scheduledDateTime <= new Date()) {
-      alert('Please select a future date and time');
+      alert(lang === 'ru' ? 'Выберите будущую дату и время' : 'Please select a future date and time');
       return;
     }
 
@@ -316,7 +323,22 @@ const pageSchema = {
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<span class="spinner"></span> Scheduling...';
 
+    // Create task object (used for both API and localStorage)
+    const taskId = generateTaskId();
+    const task = {
+      id: taskId,
+      phone: phone,
+      message: message,
+      scheduledFor: scheduledDateTime.toISOString(),
+      timezone: userTimezone,
+      lang: lang,
+      status: 'scheduled',
+      createdAt: new Date().toISOString(),
+      whatsappLink: `https://wa.me/${phone}${message ? '?text=' + encodeURIComponent(message) : ''}`
+    };
+
     try {
+      // Try API first (for future server-side implementation)
       const response = await fetch('/api/scheduler', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -329,39 +351,41 @@ const pageSchema = {
         })
       });
 
-      const data = await response.json();
-
-      if (data.success) {
-        // Show success
-        form.classList.add('hidden');
-        successMessage.classList.remove('hidden');
-        
-        const formattedDate = new Date(data.task.scheduledFor).toLocaleString(lang);
-        successDetails.textContent = `${data.task.phone} at ${formattedDate}`;
-        
-        taskLink.href = `/scheduler/task/${data.task.id}`;
-        taskLink.textContent = `${window.location.origin}/scheduler/task/${data.task.id}`;
-        
-        // Save task ID to localStorage for listing
-        saveTaskLocally(data.task);
-        
-        // Refresh tasks list
-        loadTasks();
-      } else {
-        alert(data.error || 'Failed to schedule message');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          // Use server-returned task data
+          Object.assign(task, data.task);
+        }
       }
     } catch (error) {
-      console.error('Error:', error);
-      alert('Network error. Please try again.');
+      // API not available - continue with localStorage only
+      console.log('API not available, using localStorage mode');
     }
+
+    // Save to localStorage (always, as backup/source of truth for now)
+    saveTaskLocally(task);
+
+    // Show success
+    form.classList.add('hidden');
+    successMessage.classList.remove('hidden');
+    
+    const formattedDate = new Date(task.scheduledFor).toLocaleString(lang);
+    successDetails.textContent = `+${task.phone.replace(/(\d{1,3})(\d{3})(\d{3})(\d{2,})/, '$1 $2 $3 $4')} at ${formattedDate}`;
+    
+    taskLink.href = `/scheduler/task/${task.id}`;
+    taskLink.textContent = `${window.location.origin}/scheduler/task/${task.id}`;
+    
+    // Refresh tasks list
+    loadTasks();
 
     submitBtn.disabled = false;
     submitBtn.innerHTML = `<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <rect x="3" y="4" width="18" height="18" rx="2"/>
-      <line x1="16" y1="2" x2="16" y2="6"/>
-      <line x1="8" y1="2" x2="8" y2="6"/>
-      <line x1="3" y1="10" x2="21" y2="10"/>
-    </svg> Schedule Message`;
+      <line x1="16" y1="2" x2="16" y="6"/>
+      <line x1="8" y1="2" x2="8" y="6"/>
+      <line x1="3" y1="10" x2="21" y="10"/>
+    </svg> ${lang === 'ru' ? 'Запланировать сообщение' : 'Schedule Message'}`;
   });
 
   // Copy link button
