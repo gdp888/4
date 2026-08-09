@@ -1741,14 +1741,49 @@ const tzSchema = {
   const searchIndex: SearchEntry[] = buildSearchIndex();
 
   // ===== SPACETIME INTEGRATION =====
-  // Check if Spacetime is loaded
-  function getSpacetime() {
+  // Check if Spacetime is loaded with retry logic (CDN may load after DOMContentLoaded)
+  let spacetimeCache: typeof window.spacetime | null = null;
+  let spacetimePromise: Promise<typeof window.spacetime | null> | null = null;
+
+  function getSpacetimeSync(): typeof window.spacetime | null {
+    if (spacetimeCache) return spacetimeCache;
     if (typeof (window as any).spacetime !== 'undefined') {
-      return (window as any).spacetime;
+      spacetimeCache = (window as any).spacetime;
+      return spacetimeCache;
     }
-    // Fallback to native Intl API
-    console.warn('Spacetime not loaded, using fallback');
     return null;
+  }
+
+  async function getSpacetime(maxRetries = 10, delay = 100): Promise<typeof window.spacetime | null> {
+    // Return cached result if available
+    if (spacetimeCache) return spacetimeCache;
+    
+    // If already waiting, return same promise
+    if (spacetimePromise) return spacetimePromise;
+    
+    spacetimePromise = (async () => {
+      for (let i = 0; i < maxRetries; i++) {
+        if (typeof (window as any).spacetime !== 'undefined') {
+          spacetimeCache = (window as any).spacetime;
+          console.log('✅ Spacetime library loaded successfully (v' + spacetimeCache.version + ')');
+          return spacetimeCache;
+        }
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+      console.warn('Spacetime not loaded after retries, using fallback');
+      return null;
+    })();
+    
+    return spacetimePromise;
+  }
+
+  // Sync version for backward compatibility (logs warning)
+  function getSpacetime() {
+    const sp = getSpacetimeSync();
+    if (!sp) {
+      console.warn('Spacetime not loaded yet, using fallback (async operations preferred)');
+    }
+    return sp;
   }
 
   /**
@@ -1788,16 +1823,16 @@ const tzSchema = {
   }
 
   /**
-   * Convert specific time between timezones using Spacetime
+   * Convert specific time between timezones using Spacetime (async with retry)
    */
-  function convertTimeWithSpacetime(fromTZ: string, dateStr: string, timeStr: string, toTZ: string): {
+  async function convertTimeWithSpacetime(fromTZ: string, dateStr: string, timeStr: string, toTZ: string): Promise<{
     resultDate: Date;
     formatted: string;
     dateFormatted: string;
     offsetDiff: string;
     isDST: boolean;
-  } | null {
-    const sp = getSpacetime();
+  } | null> {
+    const sp = await getSpacetime();
     
     if (!sp) {
       console.error('Spacetime not available');
@@ -2207,9 +2242,9 @@ const tzSchema = {
   }
 
   /**
-   * Perform time conversion using Spacetime
+   * Perform time conversion using Spacetime (async)
    */
-  function performConversion(): void {
+  async function performConversion(): Promise<void> {
     if (!convFromTz || !convToDate || !convFromTime || !convToTz || !convResult) return;
     
     const fromTZ = convFromTz.value;
@@ -2222,7 +2257,10 @@ const tzSchema = {
       return;
     }
     
-    const result = convertTimeWithSpacetime(fromTZ, toDate, toTime, toTZ);
+    // Show loading state
+    convResult.innerHTML = '<span class="result-placeholder">Converting...</span>';
+    
+    const result = await convertTimeWithSpacetime(fromTZ, toDate, toTime, toTZ);
     
     if (!result) {
       convResult.innerHTML = '<span class="result-placeholder">Conversion error</span>';
