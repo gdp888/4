@@ -1,0 +1,450 @@
+     1→14:10:49.652 Running build in Washington, D.C., USA (East) – iad1
+     2→14:10:49.653 Build machine configuration: 2 cores, 8 GB
+     3→14:10:49.780 Cloning github.com/gdp888/4 (Branch: main, Commit: 3966d72)
+     4→14:10:50.690 Warning: Failed to fetch one or more git submodules
+     5→14:10:50.691 Cloning completed: 911.000ms
+     6→14:10:50.786 Restored build cache from previous deployment (PYS7ZX2PuywdBErezaesc2yWAU5n)
+     7→14:10:51.080 Running "vercel build"
+     8→14:10:51.098 Vercel CLI 58.1.0
+     9→14:10:51.836 Installing dependencies...
+    10→14:10:52.909 
+    11→14:10:52.910 up to date in 938ms
+    12→14:10:52.911 
+    13→14:10:52.911 153 packages are looking for funding
+    14→14:10:52.911   run `npm fund` for details
+    15→14:10:52.946 Running "npm run build"
+    16→14:10:53.346 
+    17→14:10:53.347 > whatsapp-direct@1.0.0 build
+    18→14:10:53.347 > astro build
+    19→14:10:53.348 
+    20→14:10:55.056 11:10:55 [content] Syncing content
+    21→14:10:55.116 11:10:55 [content] Synced content
+    22→14:10:55.117 11:10:55 [types] Generated 542ms
+    23→14:10:55.118 11:10:55 [build] output: "static"
+    24→14:10:55.118 11:10:55 [build] mode: "static"
+    25→14:10:55.118 11:10:55 [build] directory: /vercel/path0/dist/
+    26→14:10:55.119 11:10:55 [build] Collecting build info...
+    27→14:10:55.120 11:10:55 [build] ✓ Completed in 585ms.
+    28→14:10:55.121 11:10:55 [build] Building static entrypoints...
+    29→14:10:57.983 11:10:57 [WARN] [vite] [plugin vite:esbuild] src/i18n/locales/en.ts: Duplicate key "bc.kakaotalk" in object literal
+    30→14:10:57.983 1543|  
+    31→14:10:57.983 1544|      // KakaoTalk
+    32→14:10:57.983 1545|      'bc.kakaotalk': 'KakaoTalk',
+    33→14:10:57.983    |      ^
+    34→14:10:57.984 1546|      'kt.meta.title': 'KakaoTalk Chat Without Saving Number — Free & Private | OPN Chat',
+    35→14:10:57.985 1547|      'kt.meta.description': 'Chat on KakaoTalk without saving contact or by KakaoTalk ID. Free, private, no registration. The most popular messenger in South Korea.',
+    36→14:10:57.985 
+    37→14:10:58.144 11:10:58 [WARN] [vite] [plugin vite:esbuild] src/i18n/locales/ru.ts: Duplicate key "bc.kakaotalk" in object literal
+    38→14:10:58.145 1446|  
+    39→14:10:58.145 1447|      // KakaoTalk
+    40→14:10:58.146 1448|      'bc.kakaotalk': 'KakaoTalk',
+    41→14:10:58.146    |      ^
+    42→14:10:58.146 1449|      'kt.meta.title': 'KakaoTalk без сохранения номера — бесплатно и приватно | OPN Chat',
+    43→14:10:58.146 1450|      'kt.meta.description': 'Напишите в KakaoTalk без сохранения номера или по KakaoTalk ID. Бесплатно, приватно, без регистрации. Самый популярный мессенджер Южной Кореи.',
+    44→14:10:58.147 
+    45→14:10:59.491 11:10:59 [vite] ✓ built in 4.33s
+    46→14:10:59.492 11:10:59 [build] ✓ Completed in 4.37s.
+    47→14:10:59.494 
+    48→14:10:59.495  building client (vite) 
+    49→14:10:59.521 11:10:59 [vite] transforming...
+    50→14:10:59.947 11:10:59 [vite] ✓ 36 modules transformed.
+    51→14:10:59.951 11:10:59 [WARN] [vite] Generated an empty chunk: "DisclaimerContent.astro_astro_type_script_index_0_lang".
+    52→14:10:59.974 11:10:59 [WARN] [vite] Generated an empty chunk: "HubContent.astro_astro_type_script_index_0_lang".
+    53→14:10:59.974 11:10:59 [WARN] [vite] Generated an empty chunk: "PrivacyContent.astro_astro_type_script_index_0_lang".
+    54→14:11:00.016 11:11:00 [vite] rendering chunks...
+    55→14:11:00.058 11:11:00 [vite] computing gzip size...
+    56→14:11:00.066 11:11:00 [vite] dist/_astro/page.iLraDZas.js                                                           0.04 kB │ gzip:  0.06 kB
+    57→14:11:00.067 11:11:00 [vite] dist/_astro/TimeZoneContent.astro_astro_type_script_index_1_lang.8RDJxqB4.js           0.07 kB │ gzip:  0.08 kB
+    58→14:11:00.067 11:11:00 [vite] dist/_astro/index.RPDjT9T-.js                                                          2.30 kB │ gzip:  1.04 kB
+    59→14:11:00.069 11:11:00 [vite] dist/_astro/SleepCalculatorContent.astro_astro_type_script_index_0_lang.BIii8Xkn.js    4.56 kB │ gzip:  1.57 kB
+    60→14:11:00.069 11:11:00 [vite] dist/_astro/ConverterContent.astro_astro_type_script_index_0_lang.BJz97pcQ.js          5.13 kB │ gzip:  1.82 kB
+    61→14:11:00.070 11:11:00 [vite] dist/_astro/QrContent.astro_astro_type_script_index_0_lang.CyiOi7RZ.js                 5.61 kB │ gzip:  1.70 kB
+    62→14:11:00.070 11:11:00 [vite] dist/_astro/MeetingSchedulerContent.astro_astro_type_script_index_0_lang.DtpmmBaY.js   6.35 kB │ gzip:  2.32 kB
+    63→14:11:00.071 11:11:00 [vite] dist/_astro/WordCounterContent.astro_astro_type_script_index_0_lang.CJM-Sgkw.js        6.54 kB │ gzip:  2.86 kB
+    64→14:11:00.071 11:11:00 [vite] dist/_astro/FancyTextContent.astro_astro_type_script_index_0_lang.BUj1HY71.js          8.11 kB │ gzip:  3.40 kB
+    65→14:11:00.072 11:11:00 [vite] dist/_astro/ClientRouter.astro_astro_type_script_index_0_lang.cwZ9zkQ6.js             13.11 kB │ gzip:  4.54 kB
+    66→14:11:00.072 11:11:00 [vite] dist/_astro/TimeZoneContent.astro_astro_type_script_index_0_lang.xceShgqk.js          16.69 kB │ gzip:  5.64 kB
+    67→14:11:00.074 11:11:00 [vite] dist/_astro/TextComposerContent.astro_astro_type_script_index_0_lang.DTK8_fxs.js      30.53 kB │ gzip: 11.18 kB
+    68→14:11:00.074 11:11:00 [vite] dist/_astro/EmojiPickerContent.astro_astro_type_script_index_0_lang.C84WQerd.js       68.28 kB │ gzip: 16.35 kB
+    69→14:11:00.075 11:11:00 [vite] ✓ built in 568ms
+    70→14:11:00.078 
+    71→14:11:00.079  generating static routes 
+    72→14:11:00.101 11:11:00 ▶ src/pages/404.astro
+    73→14:11:00.116 11:11:00   └─ /404.html (+14ms) 
+    74→14:11:00.121 11:11:00 ▶ src/pages/[lang]/blog/[slug].astro
+    75→14:11:00.148 11:11:00   ├─ /es/blog/signal-without-saving-number-es/index.html (+10ms) 
+    76→14:11:00.155 11:11:00   ├─ /es/blog/telegram-without-saving-number-es/index.html (+7ms) 
+    77→14:11:00.161 11:11:00   ├─ /es/blog/viber-without-saving-number-es/index.html (+6ms) 
+    78→14:11:00.167 11:11:00   ├─ /es/blog/whatsapp-link-generator-es/index.html (+6ms) 
+    79→14:11:00.173 11:11:00   ├─ /es/blog/whatsapp-text-formatting-es/index.html (+6ms) 
+    80→14:11:00.178 11:11:00   ├─ /es/blog/whatsapp-widget-website-es/index.html (+6ms) 
+    81→14:11:00.183 11:11:00   ├─ /es/blog/whatsapp-without-saving-number-es/index.html (+5ms) 
+    82→14:11:00.192 11:11:00   ├─ /pt/blog/signal-without-saving-number-pt/index.html (+8ms) 
+    83→14:11:00.196 11:11:00   ├─ /pt/blog/telegram-without-saving-number-pt/index.html (+5ms) 
+    84→14:11:00.200 11:11:00   ├─ /pt/blog/viber-without-saving-number-pt/index.html (+4ms) 
+    85→14:11:00.205 11:11:00   ├─ /pt/blog/whatsapp-link-generator-pt/index.html (+5ms) 
+    86→14:11:00.212 11:11:00   ├─ /pt/blog/whatsapp-text-formatting-pt/index.html (+7ms) 
+    87→14:11:00.219 11:11:00   ├─ /pt/blog/whatsapp-widget-website-pt/index.html (+7ms) 
+    88→14:11:00.223 11:11:00   ├─ /pt/blog/whatsapp-without-saving-number-pt/index.html (+3ms) 
+    89→14:11:00.229 11:11:00   ├─ /id/blog/signal-without-saving-number-id/index.html (+6ms) 
+    90→14:11:00.236 11:11:00   ├─ /id/blog/telegram-without-saving-number-id/index.html (+7ms) 
+    91→14:11:00.240 11:11:00   ├─ /id/blog/viber-without-saving-number-id/index.html (+4ms) 
+    92→14:11:00.244 11:11:00   ├─ /id/blog/whatsapp-link-generator-id/index.html (+4ms) 
+    93→14:11:00.247 11:11:00   ├─ /id/blog/whatsapp-text-formatting-id/index.html (+4ms) 
+    94→14:11:00.254 11:11:00   ├─ /id/blog/whatsapp-widget-website-id/index.html (+6ms) 
+    95→14:11:00.260 11:11:00   ├─ /id/blog/whatsapp-without-saving-number-id/index.html (+5ms) 
+    96→14:11:00.264 11:11:00   ├─ /ru/blog/signal-without-saving-number-ru/index.html (+4ms) 
+    97→14:11:00.270 11:11:00   ├─ /ru/blog/telegram-without-saving-number-ru/index.html (+6ms) 
+    98→14:11:00.274 11:11:00   ├─ /ru/blog/viber-without-saving-number-ru/index.html (+4ms) 
+    99→14:11:00.277 11:11:00   ├─ /ru/blog/whatsapp-link-generator-ru/index.html (+4ms) 
+   100→14:11:00.282 11:11:00   ├─ /ru/blog/whatsapp-text-formatting-ru/index.html (+4ms) 
+   101→14:11:00.286 11:11:00   ├─ /ru/blog/whatsapp-widget-website-ru/index.html (+4ms) 
+   102→14:11:00.290 11:11:00   ├─ /ru/blog/whatsapp-without-saving-number-ru/index.html (+4ms) 
+   103→14:11:00.313 11:11:00   ├─ /de/blog/signal-without-saving-number-de/index.html (+22ms) 
+   104→14:11:00.319 11:11:00   ├─ /de/blog/telegram-without-saving-number-de/index.html (+6ms) 
+   105→14:11:00.326 11:11:00   ├─ /de/blog/viber-without-saving-number-de/index.html (+7ms) 
+   106→14:11:00.330 11:11:00   ├─ /de/blog/whatsapp-link-generator-de/index.html (+4ms) 
+   107→14:11:00.334 11:11:00   ├─ /de/blog/whatsapp-text-formatting-de/index.html (+3ms) 
+   108→14:11:00.338 11:11:00   ├─ /de/blog/whatsapp-widget-website-de/index.html (+4ms) 
+   109→14:11:00.344 11:11:00   ├─ /de/blog/whatsapp-without-saving-number-de/index.html (+4ms) 
+   110→14:11:00.347 11:11:00   ├─ /ar/blog/signal-without-saving-number-ar/index.html (+5ms) 
+   111→14:11:00.351 11:11:00   ├─ /ar/blog/telegram-without-saving-number-ar/index.html (+4ms) 
+   112→14:11:00.355 11:11:00   ├─ /ar/blog/viber-without-saving-number-ar/index.html (+4ms) 
+   113→14:11:00.359 11:11:00   ├─ /ar/blog/whatsapp-link-generator-ar/index.html (+4ms) 
+   114→14:11:00.363 11:11:00   ├─ /ar/blog/whatsapp-text-formatting-ar/index.html (+4ms) 
+   115→14:11:00.367 11:11:00   ├─ /ar/blog/whatsapp-widget-website-ar/index.html (+4ms) 
+   116→14:11:00.371 11:11:00   └─ /ar/blog/whatsapp-without-saving-number-ar/index.html (+5ms) 
+   117→14:11:00.374 11:11:00 ▶ src/pages/[lang]/blog/index.astro
+   118→14:11:00.382 11:11:00   ├─ /es/blog/index.html (+8ms) 
+   119→14:11:00.387 11:11:00   ├─ /pt/blog/index.html (+4ms) 
+   120→14:11:00.390 11:11:00   ├─ /id/blog/index.html (+4ms) 
+   121→14:11:00.395 11:11:00   ├─ /ru/blog/index.html (+5ms) 
+   122→14:11:00.400 11:11:00   ├─ /de/blog/index.html (+5ms) 
+   123→14:11:00.405 11:11:00   └─ /ar/blog/index.html (+4ms) 
+   124→14:11:00.407 11:11:00 ▶ src/pages/[lang]/broadcast/index.astro
+   125→14:11:00.412 11:11:00   ├─ /es/broadcast/index.html (+4ms) 
+   126→14:11:00.420 11:11:00   ├─ /pt/broadcast/index.html (+8ms) 
+   127→14:11:00.424 11:11:00   ├─ /id/broadcast/index.html (+4ms) 
+   128→14:11:00.431 11:11:00   ├─ /ru/broadcast/index.html (+6ms) 
+   129→14:11:00.434 11:11:00   ├─ /de/broadcast/index.html (+3ms) 
+   130→14:11:00.437 11:11:00   └─ /ar/broadcast/index.html (+3ms) 
+   131→14:11:00.439 11:11:00 ▶ src/pages/[lang]/disclaimer/index.astro
+   132→14:11:00.442 11:11:00   ├─ /es/disclaimer/index.html (+3ms) 
+   133→14:11:00.446 11:11:00   ├─ /pt/disclaimer/index.html (+4ms) 
+   134→14:11:00.449 11:11:00   ├─ /id/disclaimer/index.html (+3ms) 
+   135→14:11:00.453 11:11:00   ├─ /ru/disclaimer/index.html (+3ms) 
+   136→14:11:00.461 11:11:00   ├─ /de/disclaimer/index.html (+8ms) 
+   137→14:11:00.464 11:11:00   └─ /ar/disclaimer/index.html (+3ms) 
+   138→14:11:00.468 11:11:00 ▶ src/pages/[lang]/emoji-picker/index.astro
+   139→14:11:00.471 11:11:00   ├─ /es/emoji-picker/index.html (+5ms) 
+   140→14:11:00.475 11:11:00   ├─ /pt/emoji-picker/index.html (+4ms) 
+   141→14:11:00.480 11:11:00   ├─ /id/emoji-picker/index.html (+4ms) 
+   142→14:11:00.483 11:11:00   ├─ /ru/emoji-picker/index.html (+3ms) 
+   143→14:11:00.487 11:11:00   ├─ /de/emoji-picker/index.html (+4ms) 
+   144→14:11:00.491 11:11:00   └─ /ar/emoji-picker/index.html (+3ms) 
+   145→14:11:00.493 11:11:00 ▶ src/pages/[lang]/fancy-text/index.astro
+   146→14:11:00.496 11:11:00   ├─ /es/fancy-text/index.html (+3ms) 
+   147→14:11:00.499 11:11:00   ├─ /pt/fancy-text/index.html (+3ms) 
+   148→14:11:00.503 11:11:00   ├─ /id/fancy-text/index.html (+3ms) 
+   149→14:11:00.512 11:11:00   ├─ /ru/fancy-text/index.html (+9ms) 
+   150→14:11:00.527 11:11:00   ├─ /de/fancy-text/index.html (+14ms) 
+   151→14:11:00.531 11:11:00   └─ /ar/fancy-text/index.html (+4ms) 
+   152→14:11:00.533 11:11:00 ▶ src/pages/[lang]/index.astro
+   153→14:11:00.540 11:11:00   ├─ /es/index.html (+4ms) 
+   154→14:11:00.541 11:11:00   ├─ /pt/index.html (+4ms) 
+   155→14:11:00.546 11:11:00   ├─ /id/index.html (+5ms) 
+   156→14:11:00.549 11:11:00   ├─ /ru/index.html (+3ms) 
+   157→14:11:00.553 11:11:00   ├─ /de/index.html (+4ms) 
+   158→14:11:00.560 11:11:00   └─ /ar/index.html (+7ms) 
+   159→14:11:00.562 11:11:00 ▶ src/pages/[lang]/instagram/index.astro
+   160→14:11:00.567 11:11:00   ├─ /es/instagram/index.html (+4ms) 
+   161→14:11:00.572 11:11:00   ├─ /pt/instagram/index.html (+3ms) 
+   162→14:11:00.573 11:11:00   ├─ /id/instagram/index.html (+3ms) 
+   163→14:11:00.577 11:11:00   ├─ /ru/instagram/index.html (+3ms) 
+   164→14:11:00.580 11:11:00   ├─ /de/instagram/index.html (+3ms) 
+   165→14:11:00.582 11:11:00   └─ /ar/instagram/index.html (+3ms) 
+   166→14:11:00.585 11:11:00 ▶ src/pages/[lang]/kakaotalk/index.astro
+   167→14:11:00.591 11:11:00   ├─ /es/kakaotalk/index.html (+6ms) 
+   168→14:11:00.595 11:11:00   ├─ /pt/kakaotalk/index.html (+4ms) 
+   169→14:11:00.598 11:11:00   ├─ /id/kakaotalk/index.html (+3ms) 
+   170→14:11:00.601 11:11:00   ├─ /ru/kakaotalk/index.html (+3ms) 
+   171→14:11:00.604 11:11:00   ├─ /de/kakaotalk/index.html (+3ms) 
+   172→14:11:00.608 11:11:00   └─ /ar/kakaotalk/index.html (+3ms) 
+   173→14:11:00.610 11:11:00 ▶ src/pages/[lang]/meeting-scheduler/index.astro
+   174→14:11:00.615 11:11:00   ├─ /es/meeting-scheduler/index.html (+5ms) 
+   175→14:11:00.624 11:11:00   ├─ /pt/meeting-scheduler/index.html (+5ms) 
+   176→14:11:00.626 11:11:00   ├─ /id/meeting-scheduler/index.html (+6ms) 
+   177→14:11:00.629 11:11:00   ├─ /ru/meeting-scheduler/index.html (+3ms) 
+   178→14:11:00.632 11:11:00   ├─ /de/meeting-scheduler/index.html (+3ms) 
+   179→14:11:00.636 11:11:00   └─ /ar/meeting-scheduler/index.html (+3ms) 
+   180→14:11:00.638 11:11:00 ▶ src/pages/[lang]/notepad/index.astro
+   181→14:11:00.642 11:11:00   ├─ /es/notepad/index.html (+4ms) 
+   182→14:11:00.645 11:11:00   ├─ /pt/notepad/index.html (+3ms) 
+   183→14:11:00.648 11:11:00   ├─ /id/notepad/index.html (+3ms) 
+   184→14:11:00.654 11:11:00   ├─ /ru/notepad/index.html (+4ms) 
+   185→14:11:00.656 11:11:00   ├─ /de/notepad/index.html (+4ms) 
+   186→14:11:00.659 11:11:00   └─ /ar/notepad/index.html (+3ms) 
+   187→14:11:00.662 11:11:00 ▶ src/pages/[lang]/password/index.astro
+   188→14:11:00.666 11:11:00   ├─ /es/password/index.html (+4ms) 
+   189→14:11:00.670 11:11:00   ├─ /pt/password/index.html (+4ms) 
+   190→14:11:00.675 11:11:00   ├─ /id/password/index.html (+4ms) 
+   191→14:11:00.678 11:11:00   ├─ /ru/password/index.html (+3ms) 
+   192→14:11:00.681 11:11:00   ├─ /de/password/index.html (+3ms) 
+   193→14:11:00.684 11:11:00   └─ /ar/password/index.html (+3ms) 
+   194→14:11:00.686 11:11:00 ▶ src/pages/[lang]/pomodoro/index.astro
+   195→14:11:00.691 11:11:00   ├─ /es/pomodoro/index.html (+4ms) 
+   196→14:11:00.695 11:11:00   ├─ /pt/pomodoro/index.html (+3ms) 
+   197→14:11:00.699 11:11:00   ├─ /id/pomodoro/index.html (+4ms) 
+   198→14:11:00.702 11:11:00   ├─ /ru/pomodoro/index.html (+3ms) 
+   199→14:11:00.705 11:11:00   ├─ /de/pomodoro/index.html (+3ms) 
+   200→14:11:00.709 11:11:00   └─ /ar/pomodoro/index.html (+4ms) 
+   201→14:11:00.713 11:11:00 ▶ src/pages/[lang]/privacy/index.astro
+   202→14:11:00.720 11:11:00   ├─ /es/privacy/index.html (+6ms) 
+   203→14:11:00.723 11:11:00   ├─ /pt/privacy/index.html (+3ms) 
+   204→14:11:00.727 11:11:00   ├─ /id/privacy/index.html (+4ms) 
+   205→14:11:00.731 11:11:00   ├─ /ru/privacy/index.html (+4ms) 
+   206→14:11:00.734 11:11:00   ├─ /de/privacy/index.html (+3ms) 
+   207→14:11:00.745 11:11:00   └─ /ar/privacy/index.html (+11ms) 
+   208→14:11:00.748 11:11:00 ▶ src/pages/[lang]/qr-code/index.astro
+   209→14:11:00.752 11:11:00   ├─ /es/qr-code/index.html (+4ms) 
+   210→14:11:00.765 11:11:00   ├─ /pt/qr-code/index.html (+12ms) 
+   211→14:11:00.768 11:11:00   ├─ /id/qr-code/index.html (+3ms) 
+   212→14:11:00.772 11:11:00   ├─ /ru/qr-code/index.html (+4ms) 
+   213→14:11:00.775 11:11:00   ├─ /de/qr-code/index.html (+3ms) 
+   214→14:11:00.778 11:11:00   └─ /ar/qr-code/index.html (+3ms) 
+   215→14:11:00.781 11:11:00 ▶ src/pages/[lang]/quick-replies/index.astro
+   216→14:11:00.786 11:11:00   ├─ /es/quick-replies/index.html (+5ms) 
+   217→14:11:00.790 11:11:00   ├─ /pt/quick-replies/index.html (+4ms) 
+   218→14:11:00.793 11:11:00   ├─ /id/quick-replies/index.html (+4ms) 
+   219→14:11:00.797 11:11:00   ├─ /ru/quick-replies/index.html (+4ms) 
+   220→14:11:00.800 11:11:00   ├─ /de/quick-replies/index.html (+3ms) 
+   221→14:11:00.803 11:11:00   └─ /ar/quick-replies/index.html (+3ms) 
+   222→14:11:00.806 11:11:00 ▶ src/pages/[lang]/scheduler/index.astro
+   223→14:11:00.811 11:11:00   ├─ /es/scheduler/index.html (+5ms) 
+   224→14:11:00.814 11:11:00   ├─ /pt/scheduler/index.html (+3ms) 
+   225→14:11:00.816 11:11:00   ├─ /id/scheduler/index.html (+3ms) 
+   226→14:11:00.819 11:11:00   ├─ /ru/scheduler/index.html (+3ms) 
+   227→14:11:00.822 11:11:00   ├─ /de/scheduler/index.html (+3ms) 
+   228→14:11:00.824 11:11:00   └─ /ar/scheduler/index.html (+2ms) 
+   229→14:11:00.826 11:11:00 ▶ src/pages/[lang]/signal/index.astro
+   230→14:11:00.830 11:11:00   ├─ /es/signal/index.html (+4ms) 
+   231→14:11:00.833 11:11:00   ├─ /pt/signal/index.html (+3ms) 
+   232→14:11:00.837 11:11:00   ├─ /id/signal/index.html (+3ms) 
+   233→14:11:00.841 11:11:00   ├─ /ru/signal/index.html (+4ms) 
+   234→14:11:00.844 11:11:00   ├─ /de/signal/index.html (+3ms) 
+   235→14:11:00.847 11:11:00   └─ /ar/signal/index.html (+3ms) 
+   236→14:11:00.849 11:11:00 ▶ src/pages/[lang]/sleep-calculator/index.astro
+   237→14:11:00.852 11:11:00   ├─ /es/sleep-calculator/index.html (+3ms) 
+   238→14:11:00.855 11:11:00   ├─ /pt/sleep-calculator/index.html (+3ms) 
+   239→14:11:00.858 11:11:00   ├─ /id/sleep-calculator/index.html (+3ms) 
+   240→14:11:00.861 11:11:00   ├─ /ru/sleep-calculator/index.html (+3ms) 
+   241→14:11:00.864 11:11:00   ├─ /de/sleep-calculator/index.html (+3ms) 
+   242→14:11:00.869 11:11:00   └─ /ar/sleep-calculator/index.html (+5ms) 
+   243→14:11:00.871 11:11:00 ▶ src/pages/[lang]/telegram/index.astro
+   244→14:11:00.876 11:11:00   ├─ /es/telegram/index.html (+4ms) 
+   245→14:11:00.878 11:11:00   ├─ /pt/telegram/index.html (+3ms) 
+   246→14:11:00.886 11:11:00   ├─ /id/telegram/index.html (+7ms) 
+   247→14:11:00.894 11:11:00   ├─ /ru/telegram/index.html (+4ms) 
+   248→14:11:00.894 11:11:00   ├─ /de/telegram/index.html (+3ms) 
+   249→14:11:00.928 11:11:00   └─ /ar/telegram/index.html (+4ms) 
+   250→14:11:00.930 11:11:00 ▶ src/pages/[lang]/text-composer/index.astro
+   251→14:11:00.931 11:11:00   ├─ /es/text-composer/index.html (+4ms) 
+   252→14:11:00.931 11:11:00   ├─ /pt/text-composer/index.html (+5ms) 
+   253→14:11:00.931 11:11:00   ├─ /id/text-composer/index.html (+6ms) 
+   254→14:11:00.931 11:11:00   ├─ /ru/text-composer/index.html (+3ms) 
+   255→14:11:00.931 11:11:00   ├─ /de/text-composer/index.html (+5ms) 
+   256→14:11:00.932 11:11:00   └─ /ar/text-composer/index.html (+5ms) 
+   257→14:11:00.935 11:11:00 ▶ src/pages/[lang]/tg-link/index.astro
+   258→14:11:00.938 11:11:00   ├─ /es/tg-link/index.html (+4ms) 
+   259→14:11:00.944 11:11:00   ├─ /pt/tg-link/index.html (+3ms) 
+   260→14:11:00.945 11:11:00   ├─ /id/tg-link/index.html (+3ms) 
+   261→14:11:00.948 11:11:00   ├─ /ru/tg-link/index.html (+3ms) 
+   262→14:11:00.951 11:11:00   ├─ /de/tg-link/index.html (+3ms) 
+   263→14:11:00.954 11:11:00   └─ /ar/tg-link/index.html (+3ms) 
+   264→14:11:00.956 11:11:00 ▶ src/pages/[lang]/timezone/index.astro
+   265→14:11:00.963 11:11:00   ├─ /es/timezone/index.html (+6ms) 
+   266→14:11:00.966 11:11:00   ├─ /pt/timezone/index.html (+4ms) 
+   267→14:11:00.970 11:11:00   ├─ /id/timezone/index.html (+3ms) 
+   268→14:11:00.972 11:11:00   ├─ /ru/timezone/index.html (+3ms) 
+   269→14:11:00.976 11:11:00   ├─ /de/timezone/index.html (+3ms) 
+   270→14:11:00.988 11:11:00   └─ /ar/timezone/index.html (+13ms) 
+   271→14:11:00.990 11:11:00 ▶ src/pages/[lang]/unit-converter/index.astro
+   272→14:11:00.995 11:11:00   ├─ /es/unit-converter/index.html (+4ms) 
+   273→14:11:00.998 11:11:00   ├─ /pt/unit-converter/index.html (+3ms) 
+   274→14:11:01.001 11:11:00   ├─ /id/unit-converter/index.html (+4ms) 
+   275→14:11:01.004 11:11:01   ├─ /ru/unit-converter/index.html (+3ms) 
+   276→14:11:01.008 11:11:01   ├─ /de/unit-converter/index.html (+3ms) 
+   277→14:11:01.011 11:11:01   └─ /ar/unit-converter/index.html (+3ms) 
+   278→14:11:01.014 11:11:01 ▶ src/pages/[lang]/viber/index.astro
+   279→14:11:01.018 11:11:01   ├─ /es/viber/index.html (+4ms) 
+   280→14:11:01.022 11:11:01   ├─ /pt/viber/index.html (+3ms) 
+   281→14:11:01.025 11:11:01   ├─ /id/viber/index.html (+3ms) 
+   282→14:11:01.029 11:11:01   ├─ /ru/viber/index.html (+3ms) 
+   283→14:11:01.032 11:11:01   ├─ /de/viber/index.html (+3ms) 
+   284→14:11:01.034 11:11:01   └─ /ar/viber/index.html (+3ms) 
+   285→14:11:01.037 11:11:01 ▶ src/pages/[lang]/wa-link/index.astro
+   286→14:11:01.044 11:11:01   ├─ /es/wa-link/index.html (+5ms) 
+   287→14:11:01.048 11:11:01   ├─ /pt/wa-link/index.html (+5ms) 
+   288→14:11:01.051 11:11:01   ├─ /id/wa-link/index.html (+4ms) 
+   289→14:11:01.054 11:11:01   ├─ /ru/wa-link/index.html (+3ms) 
+   290→14:11:01.057 11:11:01   ├─ /de/wa-link/index.html (+3ms) 
+   291→14:11:01.060 11:11:01   └─ /ar/wa-link/index.html (+3ms) 
+   292→14:11:01.063 11:11:01 ▶ src/pages/[lang]/wa-widget/index.astro
+   293→14:11:01.067 11:11:01   ├─ /es/wa-widget/index.html (+4ms) 
+   294→14:11:01.071 11:11:01   ├─ /pt/wa-widget/index.html (+3ms) 
+   295→14:11:01.074 11:11:01   ├─ /id/wa-widget/index.html (+3ms) 
+   296→14:11:01.077 11:11:01   ├─ /ru/wa-widget/index.html (+3ms) 
+   297→14:11:01.080 11:11:01   ├─ /de/wa-widget/index.html (+3ms) 
+   298→14:11:01.083 11:11:01   └─ /ar/wa-widget/index.html (+3ms) 
+   299→14:11:01.085 11:11:01 ▶ src/pages/[lang]/whatsapp-text-formatter/index.astro
+   300→14:11:01.090 11:11:01   ├─ /es/whatsapp-text-formatter/index.html (+5ms) 
+   301→14:11:01.093 11:11:01   ├─ /pt/whatsapp-text-formatter/index.html (+3ms) 
+   302→14:11:01.096 11:11:01   ├─ /id/whatsapp-text-formatter/index.html (+3ms) 
+   303→14:11:01.099 11:11:01   ├─ /ru/whatsapp-text-formatter/index.html (+3ms) 
+   304→14:11:01.102 11:11:01   ├─ /de/whatsapp-text-formatter/index.html (+3ms) 
+   305→14:11:01.106 11:11:01   └─ /ar/whatsapp-text-formatter/index.html (+4ms) 
+   306→14:11:01.109 11:11:01 ▶ src/pages/[lang]/whatsapp/index.astro
+   307→14:11:01.115 11:11:01   ├─ /es/whatsapp/index.html (+5ms) 
+   308→14:11:01.118 11:11:01   ├─ /pt/whatsapp/index.html (+3ms) 
+   309→14:11:01.121 11:11:01   ├─ /id/whatsapp/index.html (+3ms) 
+   310→14:11:01.124 11:11:01   ├─ /ru/whatsapp/index.html (+3ms) 
+   311→14:11:01.127 11:11:01   ├─ /de/whatsapp/index.html (+3ms) 
+   312→14:11:01.133 11:11:01   └─ /ar/whatsapp/index.html (+6ms) 
+   313→14:11:01.135 11:11:01 ▶ src/pages/[lang]/word-counter/index.astro
+   314→14:11:01.146 11:11:01   ├─ /es/word-counter/index.html (+10ms) 
+   315→14:11:01.149 11:11:01   ├─ /pt/word-counter/index.html (+3ms) 
+   316→14:11:01.152 11:11:01   ├─ /id/word-counter/index.html (+3ms) 
+   317→14:11:01.155 11:11:01   ├─ /ru/word-counter/index.html (+3ms) 
+   318→14:11:01.158 11:11:01   ├─ /de/word-counter/index.html (+3ms) 
+   319→14:11:01.161 11:11:01   └─ /ar/word-counter/index.html (+3ms) 
+   320→14:11:01.163 11:11:01 ▶ src/pages/blog/[slug].astro
+   321→14:11:01.169 11:11:01   ├─ /blog/signal-without-saving-number-ar/index.html (+5ms) 
+   322→14:11:01.172 11:11:01   ├─ /blog/signal-without-saving-number-de/index.html (+3ms) 
+   323→14:11:01.177 11:11:01   ├─ /blog/signal-without-saving-number-es/index.html (+4ms) 
+   324→14:11:01.181 11:11:01   ├─ /blog/signal-without-saving-number-id/index.html (+4ms) 
+   325→14:11:01.184 11:11:01   ├─ /blog/signal-without-saving-number-pt/index.html (+4ms) 
+   326→14:11:01.188 11:11:01   ├─ /blog/signal-without-saving-number-ru/index.html (+4ms) 
+   327→14:11:01.201 11:11:01   ├─ /blog/signal-without-saving-number/index.html (+13ms) 
+   328→14:11:01.208 11:11:01   ├─ /blog/telegram-without-saving-number-ar/index.html (+7ms) 
+   329→14:11:01.212 11:11:01   ├─ /blog/telegram-without-saving-number-de/index.html (+4ms) 
+   330→14:11:01.215 11:11:01   ├─ /blog/telegram-without-saving-number-es/index.html (+3ms) 
+   331→14:11:01.219 11:11:01   ├─ /blog/telegram-without-saving-number-id/index.html (+3ms) 
+   332→14:11:01.223 11:11:01   ├─ /blog/telegram-without-saving-number-pt/index.html (+4ms) 
+   333→14:11:01.227 11:11:01   ├─ /blog/telegram-without-saving-number-ru/index.html (+3ms) 
+   334→14:11:01.230 11:11:01   ├─ /blog/telegram-without-saving-number/index.html (+3ms) 
+   335→14:11:01.233 11:11:01   ├─ /blog/viber-without-saving-number-ar/index.html (+3ms) 
+   336→14:11:01.236 11:11:01   ├─ /blog/viber-without-saving-number-de/index.html (+3ms) 
+   337→14:11:01.243 11:11:01   ├─ /blog/viber-without-saving-number-es/index.html (+7ms) 
+   338→14:11:01.247 11:11:01   ├─ /blog/viber-without-saving-number-id/index.html (+4ms) 
+   339→14:11:01.250 11:11:01   ├─ /blog/viber-without-saving-number-pt/index.html (+3ms) 
+   340→14:11:01.253 11:11:01   ├─ /blog/viber-without-saving-number-ru/index.html (+3ms) 
+   341→14:11:01.256 11:11:01   ├─ /blog/viber-without-saving-number/index.html (+3ms) 
+   342→14:11:01.259 11:11:01   ├─ /blog/whatsapp-click-to-chat-guide/index.html (+3ms) 
+   343→14:11:01.263 11:11:01   ├─ /blog/whatsapp-direct-message/index.html (+3ms) 
+   344→14:11:01.266 11:11:01   ├─ /blog/whatsapp-link-generator-ar/index.html (+4ms) 
+   345→14:11:01.270 11:11:01   ├─ /blog/whatsapp-link-generator-de/index.html (+4ms) 
+   346→14:11:01.276 11:11:01   ├─ /blog/whatsapp-link-generator-es/index.html (+5ms) 
+   347→14:11:01.284 11:11:01   ├─ /blog/whatsapp-link-generator-id/index.html (+5ms) 
+   348→14:11:01.285 11:11:01   ├─ /blog/whatsapp-link-generator-pt/index.html (+4ms) 
+   349→14:11:01.290 11:11:01   ├─ /blog/whatsapp-link-generator-ru/index.html (+4ms) 
+   350→14:11:01.297 11:11:01   ├─ /blog/whatsapp-link-generator/index.html (+7ms) 
+   351→14:11:01.301 11:11:01   ├─ /blog/whatsapp-text-formatting-ar/index.html (+4ms) 
+   352→14:11:01.304 11:11:01   ├─ /blog/whatsapp-text-formatting-de/index.html (+3ms) 
+   353→14:11:01.308 11:11:01   ├─ /blog/whatsapp-text-formatting-es/index.html (+4ms) 
+   354→14:11:01.312 11:11:01   ├─ /blog/whatsapp-text-formatting-id/index.html (+3ms) 
+   355→14:11:01.315 11:11:01   ├─ /blog/whatsapp-text-formatting-pt/index.html (+4ms) 
+   356→14:11:01.318 11:11:01   ├─ /blog/whatsapp-text-formatting-ru/index.html (+3ms) 
+   357→14:11:01.322 11:11:01   ├─ /blog/whatsapp-text-formatting/index.html (+3ms) 
+   358→14:11:01.326 11:11:01   ├─ /blog/whatsapp-widget-website-ar/index.html (+4ms) 
+   359→14:11:01.331 11:11:01   ├─ /blog/whatsapp-widget-website-de/index.html (+5ms) 
+   360→14:11:01.334 11:11:01   ├─ /blog/whatsapp-widget-website-es/index.html (+3ms) 
+   361→14:11:01.338 11:11:01   ├─ /blog/whatsapp-widget-website-id/index.html (+4ms) 
+   362→14:11:01.341 11:11:01   ├─ /blog/whatsapp-widget-website-pt/index.html (+3ms) 
+   363→14:11:01.344 11:11:01   ├─ /blog/whatsapp-widget-website-ru/index.html (+3ms) 
+   364→14:11:01.347 11:11:01   ├─ /blog/whatsapp-widget-website/index.html (+3ms) 
+   365→14:11:01.360 11:11:01   ├─ /blog/whatsapp-without-saving-number-ar/index.html (+12ms) 
+   366→14:11:01.363 11:11:01   ├─ /blog/whatsapp-without-saving-number-de/index.html (+4ms) 
+   367→14:11:01.367 11:11:01   ├─ /blog/whatsapp-without-saving-number-es/index.html (+3ms) 
+   368→14:11:01.371 11:11:01   ├─ /blog/whatsapp-without-saving-number-id/index.html (+4ms) 
+   369→14:11:01.374 11:11:01   ├─ /blog/whatsapp-without-saving-number-pt/index.html (+3ms) 
+   370→14:11:01.377 11:11:01   ├─ /blog/whatsapp-without-saving-number-ru/index.html (+3ms) 
+   371→14:11:01.380 11:11:01   └─ /blog/whatsapp-without-saving-number/index.html (+3ms) 
+   372→14:11:01.381 11:11:01 ▶ src/pages/blog/index.astro
+   373→14:11:01.386 11:11:01   └─ /blog/index.html (+4ms) 
+   374→14:11:01.387 11:11:01 ▶ src/pages/broadcast/index.astro
+   375→14:11:01.390 11:11:01   └─ /broadcast/index.html (+3ms) 
+   376→14:11:01.391 11:11:01 ▶ src/pages/disclaimer/index.astro
+   377→14:11:01.394 11:11:01   └─ /disclaimer/index.html (+3ms) 
+   378→14:11:01.395 11:11:01 ▶ src/pages/emoji-picker/index.astro
+   379→14:11:01.398 11:11:01   └─ /emoji-picker/index.html (+3ms) 
+   380→14:11:01.399 11:11:01 ▶ src/pages/fancy-text/index.astro
+   381→14:11:01.402 11:11:01   └─ /fancy-text/index.html (+3ms) 
+   382→14:11:01.403 11:11:01 ▶ src/pages/index.astro
+   383→14:11:01.406 11:11:01   └─ /index.html (+3ms) 
+   384→14:11:01.407 11:11:01 ▶ src/pages/instagram/index.astro
+   385→14:11:01.411 11:11:01   └─ /instagram/index.html (+3ms) 
+   386→14:11:01.412 11:11:01 ▶ src/pages/meeting-scheduler/index.astro
+   387→14:11:01.416 11:11:01   └─ /meeting-scheduler/index.html (+4ms) 
+   388→14:11:01.418 11:11:01 ▶ src/pages/notepad/index.astro
+   389→14:11:01.421 11:11:01   └─ /notepad/index.html (+4ms) 
+   390→14:11:01.422 11:11:01 ▶ src/pages/password/index.astro
+   391→14:11:01.425 11:11:01   └─ /password/index.html (+3ms) 
+   392→14:11:01.426 11:11:01 ▶ src/pages/pomodoro/index.astro
+   393→14:11:01.429 11:11:01   └─ /pomodoro/index.html (+3ms) 
+   394→14:11:01.430 11:11:01 ▶ src/pages/privacy/index.astro
+   395→14:11:01.433 11:11:01   └─ /privacy/index.html (+3ms) 
+   396→14:11:01.434 11:11:01 ▶ src/pages/qr-code/index.astro
+   397→14:11:01.437 11:11:01   └─ /qr-code/index.html (+3ms) 
+   398→14:11:01.438 11:11:01 ▶ src/pages/quick-replies/index.astro
+   399→14:11:01.441 11:11:01   └─ /quick-replies/index.html (+3ms) 
+   400→14:11:01.442 11:11:01 ▶ src/pages/scheduler/index.astro
+   401→14:11:01.445 11:11:01   └─ /scheduler/index.html (+3ms) 
+   402→14:11:01.446 11:11:01 ▶ src/pages/signal/index.astro
+   403→14:11:01.449 11:11:01   └─ /signal/index.html (+3ms) 
+   404→14:11:01.450 11:11:01 ▶ src/pages/sleep-calculator/index.astro
+   405→14:11:01.453 11:11:01   └─ /sleep-calculator/index.html (+3ms) 
+   406→14:11:01.454 11:11:01 ▶ src/pages/telegram/index.astro
+   407→14:11:01.457 11:11:01   └─ /telegram/index.html (+3ms) 
+   408→14:11:01.458 11:11:01 ▶ src/pages/text-composer/index.astro
+   409→14:11:01.460 11:11:01   └─ /text-composer/index.html (+3ms) 
+   410→14:11:01.462 11:11:01 ▶ src/pages/tg-link/index.astro
+   411→14:11:01.464 11:11:01   └─ /tg-link/index.html (+3ms) 
+   412→14:11:01.465 11:11:01 ▶ src/pages/timezone/index.astro
+   413→14:11:01.468 11:11:01   └─ /timezone/index.html (+3ms) 
+   414→14:11:01.470 11:11:01 ▶ src/pages/unit-converter/index.astro
+   415→14:11:01.472 11:11:01   └─ /unit-converter/index.html (+3ms) 
+   416→14:11:01.473 11:11:01 ▶ src/pages/viber/index.astro
+   417→14:11:01.476 11:11:01   └─ /viber/index.html (+3ms) 
+   418→14:11:01.477 11:11:01 ▶ src/pages/wa-link/index.astro
+   419→14:11:01.480 11:11:01   └─ /wa-link/index.html (+3ms) 
+   420→14:11:01.481 11:11:01 ▶ src/pages/wa-widget/index.astro
+   421→14:11:01.483 11:11:01   └─ /wa-widget/index.html (+3ms) 
+   422→14:11:01.484 11:11:01 ▶ src/pages/whatsapp-text-formatter/index.astro
+   423→14:11:01.487 11:11:01   └─ /whatsapp-text-formatter/index.html (+3ms) 
+   424→14:11:01.488 11:11:01 ▶ src/pages/whatsapp/index.astro
+   425→14:11:01.491 11:11:01   └─ /whatsapp/index.html (+3ms) 
+   426→14:11:01.492 11:11:01 ▶ src/pages/word-counter/index.astro
+   427→14:11:01.495 11:11:01   └─ /word-counter/index.html (+3ms) 
+   428→14:11:01.496 11:11:01 ✓ Completed in 1.42s.
+   429→14:11:01.496 
+   430→14:11:01.551 11:11:01 [@astrojs/sitemap] `sitemap-index.xml` created at `dist`
+   431→14:11:01.551 11:11:01 [build] 296 page(s) built in 7.02s
+   432→14:11:01.551 11:11:01 [build] Complete!
+   433→14:11:02.281 Using TypeScript 5.9.3 (local user-provided)
+   434→14:11:04.976 api/scheduler/cron.ts(5,52): error TS2307: Cannot find module '@vercel/node' or its corresponding type declarations.
+   435→14:11:04.976 api/scheduler/cron.ts(6,23): error TS2835: Relative import paths need explicit file extensions in ECMAScript imports when '--moduleResolution' is 'node16' or 'nodenext'. Did you mean './index.js'?
+   436→14:11:04.976 
+   437→14:11:05.064 api/scheduler/index.ts(5,52): error TS2307: Cannot find module '@vercel/node' or its corresponding type declarations.
+   438→14:11:05.064 
+   439→14:11:05.129 Using TypeScript 5.9.3 (local user-provided)
+   440→14:11:05.180 Using TypeScript 5.9.3 (local user-provided)
+   441→14:11:05.201 api/scheduler/[id].ts(5,52): error TS2307: Cannot find module '@vercel/node' or its corresponding type declarations.
+   442→14:11:05.201 api/scheduler/[id].ts(6,43): error TS2835: Relative import paths need explicit file extensions in ECMAScript imports when '--moduleResolution' is 'node16' or 'nodenext'. Did you mean './index.js'?
+   443→14:11:05.201 
+   444→14:11:05.516 Build Completed in /vercel/output [14s]
+   445→14:11:05.558 Deploying outputs...
+   446→14:11:11.828 Deployment completed
+   447→14:11:11.963 Creating build cache...
+   448→14:11:24.223 Created build cache: 12s
+   449→14:11:24.223 Uploading build cache [45.66 MB]
+   450→14:11:25.524 Build cache uploaded: 1.300s
