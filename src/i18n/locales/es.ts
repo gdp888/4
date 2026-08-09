@@ -1059,6 +1059,20 @@ export default {
     'tz.besttime.explain': 'Estas son las horas en que todas las ciudades seleccionadas están en horario laboral (9:00–18:00). Una ventana conveniente para llamadas y mensajes.',
     'tz.besttime.explain.no_overlap': 'Las ciudades seleccionadas no tienen horarios laborales en común. Intente eliminar una ciudad con gran diferencia horaria.',
 
+    // Pestañas de modo
+    'tz.mode.compare': 'Comparar',
+    'tz.mode.worldClock': 'Reloj Mundial',
+    'tz.mode.converter': 'Convertidor',
+
+    // Convertidor de tiempo (Spacetime)
+    'tz.converter.title': 'Convertidor de Hora',
+    'tz.converter.subtitle': 'Convierte cualquier hora entre zonas horarias',
+    'tz.converter.from': 'De',
+    'tz.converter.to': 'A',
+    'tz.converter.convert': 'Convertir',
+    'tz.converter.swap': 'Intercambiar',
+    'tz.converter.result': 'Resultado de Conversión',
+
     // Quick Reply Templates
     'bc.quickreplies': 'Respuestas rápidas',
 

@@ -1003,6 +1003,20 @@ export default {
     'tz.besttime.explain': 'Dies sind die Stunden, in denen alle ausgewählten Städte in Arbeitszeit (9–18 Uhr) sind. Ein praktisches Fenster für Anrufe und Nachrichten.',
     'tz.besttime.explain.no_overlap': 'Die ausgewählten Städte haben keine gemeinsamen Arbeitszeiten. Versuchen Sie, eine Stadt mit großer Zeitdifferenz zu entfernen.',
 
+    // Modus-Tabs
+    'tz.mode.compare': 'Vergleichen',
+    'tz.mode.worldClock': 'Weltuhr',
+    'tz.mode.converter': 'Umrechner',
+
+    // Zeitumrechner (Spacetime)
+    'tz.converter.title': 'Zeitumrechner',
+    'tz.converter.subtitle': 'Konvertieren Sie jede Zeit zwischen Zeitzonen',
+    'tz.converter.from': 'Von',
+    'tz.converter.to': 'Nach',
+    'tz.converter.convert': 'Umrechnen',
+    'tz.converter.swap': 'Tauschen',
+    'tz.converter.result': 'Umrechnungsergebnis',
+
     // Quick Reply Templates
     'bc.quickreplies': 'Schnellantworten',
 

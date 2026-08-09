@@ -1059,6 +1059,20 @@ export default {
     'tz.besttime.explain': 'Ini adalah jam ketika semua kota yang dipilih berada dalam jam kerja (09:00–18:00). Jendela yang nyaman untuk panggilan dan pesan.',
     'tz.besttime.explain.no_overlap': 'Kota yang dipilih tidak memiliki jam kerja bersama. Coba hapus kota dengan perbedaan waktu yang besar.',
 
+    // Tab Mode
+    'tz.mode.compare': 'Bandingkan',
+    'tz.mode.worldClock': 'Jam Dunia',
+    'tz.mode.converter': 'Konverter',
+
+    // Konversi Waktu (Spacetime)
+    'tz.converter.title': 'Konversi Waktu',
+    'tz.converter.subtitle': 'Konversi waktu apa pun antara zona waktu',
+    'tz.converter.from': 'Dari',
+    'tz.converter.to': 'Ke',
+    'tz.converter.convert': 'Konversi',
+    'tz.converter.swap': 'Tukar',
+    'tz.converter.result': 'Hasil Konversi',
+
     // Quick Reply Templates
     'bc.quickreplies': 'Balasan Cepat',
 

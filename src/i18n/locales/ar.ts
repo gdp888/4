@@ -986,6 +986,20 @@ export default {
     'tz.besttime.explain': 'هذه هي الساعات التي تكون فيها جميع المدن المختارة في ساعات العمل (9:00–18:00). نافذة مناسبة للمكالمات والرسائل.',
     'tz.besttime.explain.no_overlap': 'المدن المختارة ليس لديها ساعات عمل مشتركة. حاول إزالة مدينة ذات فرق زمني كبير.',
 
+    // علامات التبويب
+    'tz.mode.compare': 'مقارنة',
+    'tz.mode.worldClock': 'ساعة عالمية',
+    'tz.mode.converter': 'محول',
+
+    // محول الوقت (Spacetime)
+    'tz.converter.title': 'محول الوقت',
+    'tz.converter.subtitle': 'حوّل أي وقت بين المناطق الزمنية',
+    'tz.converter.from': 'من',
+    'tz.converter.to': 'إلى',
+    'tz.converter.convert': 'تحويل',
+    'tz.converter.swap': 'تبديل',
+    'tz.converter.result': 'نتيجة التحويل',
+
     // Quick Reply Templates
     'bc.quickreplies': 'الردود السريعة',
 

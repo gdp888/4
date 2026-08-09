@@ -1085,6 +1085,20 @@ export default {
     'tz.besttime.explain': 'These are the hours when all selected cities are in working hours (9 AM–6 PM). A convenient window for calls and messages.',
     'tz.besttime.explain.no_overlap': 'The selected cities have no common working hours. Try removing a city with a large time difference.',
 
+    // Mode tabs
+    'tz.mode.compare': 'Compare',
+    'tz.mode.worldClock': 'World Clock',
+    'tz.mode.converter': 'Converter',
+
+    // Time Converter (powered by Spacetime)
+    'tz.converter.title': 'Time Converter',
+    'tz.converter.subtitle': 'Convert any specific time between timezones',
+    'tz.converter.from': 'From',
+    'tz.converter.to': 'To',
+    'tz.converter.convert': 'Convert Time',
+    'tz.converter.swap': 'Swap',
+    'tz.converter.result': 'Conversion Result',
+
     // Quick Reply Templates
     'bc.quickreplies': 'Quick Replies',
 

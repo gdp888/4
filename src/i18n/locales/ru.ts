@@ -987,6 +987,20 @@ export default {
     'tz.besttime.explain': 'Это часы, когда во всех выбранных городах рабочее время (9:00–18:00). Удобное окно для звонков и сообщений.',
     'tz.besttime.explain.no_overlap': 'У выбранных городов нет общих рабочих часов. Попробуйте убрать город с сильной разницей во времени.',
 
+    // Вкладки режимов
+    'tz.mode.compare': 'Сравнить',
+    'tz.mode.worldClock': 'Мировое время',
+    'tz.mode.converter': 'Конвертер',
+
+    // Конвертер времени (Spacetime)
+    'tz.converter.title': 'Конвертер времени',
+    'tz.converter.subtitle': 'Конвертируйте любое время между часовыми поясами',
+    'tz.converter.from': 'Откуда',
+    'tz.converter.to': 'Куда',
+    'tz.converter.convert': 'Конвертировать',
+    'tz.converter.swap': 'Поменять',
+    'tz.converter.result': 'Результат конвертации',
+
     // Quick Reply Templates
     'bc.quickreplies': 'Быстрые ответы',
 
