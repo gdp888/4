@@ -1812,7 +1812,7 @@ const tzSchema = {
    * Get current time in timezone using Spacetime (with fallback)
    */
   function getTimeInTZ(timezone: string): Date {
-    const sp = getSpacetime();
+    const sp = getSpacetimeSync(); // Use sync version for live clock updates
     
     if (sp) {
       try {
@@ -2606,12 +2606,12 @@ const tzSchema = {
     setupEventListeners();
     startLiveUpdates();
     
-    // Log Spacetime integration info
-    const sp = getSpacetime();
-    if (sp) {
-      console.log('✅ Spacetime library loaded successfully');
-      console.log('📚 GitHub: https://github.com/spencermountain/spacetime');
-    }
+    // Preload Spacetime in background (non-blocking)
+    getSpacetime().then(sp => {
+      if (sp) {
+        console.log('✅ Spacetime library ready for conversions');
+      }
+    });
   }
 
   // Start when DOM is ready
