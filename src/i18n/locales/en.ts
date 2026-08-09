@@ -1783,4 +1783,59 @@ export default {
     'scheduler.seo.content1': 'The WhatsApp Scheduler by OPN Chat lets you plan your messages in advance. Perfect for business professionals who want to prepare follow-ups, birthday wishes across timezones, or carefully crafted messages.',
     'scheduler.seo.content2': 'Unlike other tools, our scheduler respects privacy — messages are prepared locally and the WhatsApp link is generated only when needed. No server stores your actual message content longer than necessary.',
     'scheduler.seo.content3': 'Supports all countries where WhatsApp is available. Works with both personal and business WhatsApp accounts. No registration or app download required.',
+
+    // Color Picker (cp = color-picker)
+    'bc.color-picker': 'Color Picker',
+
+    'cp.meta.title': 'Color Picker — HEX, RGB, HSL Converter | OPN Chat',
+    'cp.meta.description': 'Free online color picker tool. Convert colors between HEX, RGB, HSL, HSV, and CMYK formats. Generate color palettes, check contrast ratios. 100% private.',
+    'cp.meta.keywords': 'color picker, hex to rgb, rgb to hex, hsl converter, color palette generator, online color tool, web color picker, css color codes',
+    'cp.meta.og.title': 'Color Picker — Free Online Color Tool',
+    'cp.meta.twitter.title': 'Color Picker — Convert & Generate Colors',
+
+    'cp.heading': 'Color Picker & Palette Generator',
+    'cp.heading.short': 'Color Picker',
+    'cp.subtitle': 'Pick, convert, and generate beautiful color palettes. Free & private.',
+    'cp.privacy.badge': 'Runs in your browser. No data sent to servers.',
+
+    'cp.picker.title': 'Pick a Color',
+    'cp.picker.quickColors': 'Quick Colors',
+    'cp.picker.random': 'Random Color',
+
+    'cp.values.title': 'Color Values',
+    'cp.values.hex.label': 'HEX',
+    'cp.values.rgb.label': 'RGB',
+    'cp.values.hsl.label': 'HSL',
+    'cp.values.hsv.label': 'HSV/HSB',
+    'cp.values.cmyk.label': 'CMYK',
+
+    'cp.preview.title': 'Preview',
+    'cp.preview.colorPreview': 'Color Preview',
+    'cp.preview.textOnColor': 'Text on Color',
+    'cp.preview.contrast.white': 'White contrast',
+    'cp.preview.contrast.black': 'Black contrast',
+
+    'cp.palette.title': 'Color Palettes',
+    'cp.palette.complementary': 'Complementary',
+    'cp.palette.analogous': 'Analogous',
+    'cp.palette.triadic': 'Triadic',
+    'cp.palette.splitComplementary': 'Split Comp',
+    'cp.palette.monochromatic': 'Monochrome',
+
+    'cp.copy': 'Copy',
+
+    'cp.faq.q1': 'What is a color picker?',
+    'cp.faq.a1': 'A color picker is a tool that lets you select colors visually and get their values in different formats like HEX, RGB, HSL, and more. It\'s essential for designers, developers, and anyone working with digital colors.',
+    
+    'cp.faq.q2': 'What is the difference between HEX, RGB, and HSL?',
+    'cp.faq.a2': 'HEX is a hexadecimal format used in CSS (#FF5733). RGB represents colors as Red, Green, Blue values (0-255). HSL uses Hue, Saturation, Lightness which is more intuitive for humans. All represent the same color in different ways.',
+    
+    'cp.faq.q3': 'What are WCAG contrast ratios?',
+    'cp.faq.a3': 'WCAG (Web Content Accessibility Guidelines) contrast ratios measure how readable text is against a background color. AAA means excellent readability (7:1+ ratio), AA means good readability (4.5:1+). This helps ensure your designs are accessible.',
+    
+    'cp.faq.q4': 'How do I use the color palette generator?',
+    'cp.faq.a4': 'Select a base color using the picker, then choose a palette type: Complementary (opposite colors), Analogous (adjacent colors), Triadic (3 evenly spaced colors), Split Complementary, or Monochromatic (shades of one color). Click any generated color to use it.',
+    
+    'cp.faq.q5': 'Is this color picker free to use?',
+    'cp.faq.a5': 'Yes! Our Color Picker is completely free with no limits. It runs entirely in your browser — no data is sent to any server. Use it as much as you want for design, development, or any creative project.'
 } as const;
