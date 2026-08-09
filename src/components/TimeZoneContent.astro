@@ -708,8 +708,7 @@ const tzSchema = {
     border: 1px solid transparent;
   }
 
-  .search-result-item:hover,
-  .search-result-item.highlighted {
+  .search-result-item:hover, .search-result-item.highlighted {
     background: rgba(99, 102, 241, 0.1);
     border-color: var(--accent-primary);
   }
@@ -1183,8 +1182,7 @@ const tzSchema = {
     gap: 8px;
   }
 
-  .date-input,
-  .time-input {
+  .date-input, .time-input {
     padding: 12px 14px;
     background: var(--bg-primary);
     border: 1px solid var(--border-color);
@@ -1202,8 +1200,7 @@ const tzSchema = {
     flex: 1;
   }
 
-  .date-input:focus,
-  .time-input:focus {
+  .date-input:focus, .time-input:focus {
     outline: none;
     border-color: var(--accent-primary);
     box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
@@ -1504,6 +1501,180 @@ const tzSchema = {
     display: none;
   }
 
+  /* ===== Timeline elements created via JS innerHTML ===== */
+  /* Must use :global() because these elements lack data-astro-cid attribute */
+  :global(.tl-header-spacer) {
+    position: absolute; left: -95px; top: 0; width: 95px; height: 100%;
+  }
+  :global(.tl-hour-label) {
+    position: absolute; top: 0;
+    font-size: 0.62rem; font-weight: 700; color: var(--text-secondary);
+    transform: translateX(-50%); line-height: 1.6rem;
+    opacity: 0.8;
+  }
+  :global(.tl-row) {
+    display: flex; align-items: stretch; min-height: 38px;
+    border-bottom: 1px solid rgba(128,128,128,0.08);
+    position: relative;
+    transition: background 0.15s;
+    min-width: 0;
+  }
+  :global(.tl-row:hover) {
+    background: rgba(37, 211, 102, 0.03);
+  }
+  :global(.tl-row:last-child) { border-bottom: none; }
+  :global(.tl-row.base-row) {
+    background: rgba(37, 211, 102, 0.04);
+    border-left: 3px solid var(--opn-primary);
+  }
+  :global(.tl-city-label) {
+    width: 95px; flex-shrink: 0; display: flex; flex-direction: column;
+    justify-content: center; padding-right: 0.6rem;
+    overflow: hidden;
+  }
+  :global(.tl-city-name) {
+    font-size: 0.72rem; font-weight: 700; color: var(--text-primary);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    line-height: 1.25;
+  }
+  :global(.tl-city-offset) {
+    font-size: 0.58rem; color: var(--text-secondary); line-height: 1.2;
+    font-weight: 500;
+  }
+  :global(.tl-bar) {
+    flex: 0 0 480px; display: grid; grid-template-columns: repeat(24, 1fr);
+    width: 480px; max-width: none;
+    border-radius: 0; position: relative;
+  }
+  :global(.tl-seg) {
+    height: 100%; min-height: 38px;
+    border-right: 1px solid rgba(255,255,255,0.15);
+    transition: all 0.15s ease;
+    cursor: pointer; position: relative;
+  }
+  :global(.tl-seg:hover) {
+    filter: brightness(1.15);
+    transform: scaleY(1.05);
+    z-index: 2;
+  }
+  :global(.tl-seg.day) {
+    background: linear-gradient(180deg, rgba(148, 163, 184, 0.12) 0%, rgba(148, 163, 184, 0.06) 100%);
+    border-right-color: rgba(148, 163, 184, 0.1);
+  }
+  :global(.tl-seg.work) {
+    background: linear-gradient(180deg, rgba(37, 211, 102, 0.35) 0%, rgba(37, 211, 102, 0.18) 100%);
+    border-right-color: rgba(37, 211, 102, 0.2);
+  }
+  :global(.tl-seg.night) {
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.35) 0%, rgba(30, 41, 59, 0.2) 100%);
+    border-right-color: rgba(56, 189, 248, 0.08);
+  }
+  :global(.tl-seg.current-hour) {
+    box-shadow: inset 0 0 0 2px rgba(37, 211, 102, 0.6);
+    position: relative;
+  }
+  :global(.tl-seg.current-hour::after) {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px; height: 6px;
+    background: var(--opn-primary);
+    border-radius: 50%;
+    z-index: 3;
+  }
+  :global(.tl-seg.work.current-hour) {
+    background: linear-gradient(180deg, rgba(37, 211, 102, 0.5) 0%, rgba(37, 211, 102, 0.3) 100%);
+  }
+  :global(.tl-row.base-row .tl-seg.work) {
+    background: linear-gradient(180deg, rgba(37, 211, 102, 0.45) 0%, rgba(37, 211, 102, 0.25) 100%);
+  }
+  :global(.tl-time-display) {
+    position: absolute; right: 4px; top: 50%;
+    transform: translateY(-50%);
+    display: flex; flex-direction: column; align-items: flex-end; gap: 1px;
+    padding: 3px 6px; border-radius: 6px;
+    background: var(--bg-secondary); border: 1px solid var(--border-color);
+    z-index: 5; min-width: 70px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  :global(.tl-time-display.work) {
+    border-color: rgba(37, 211, 102, 0.35);
+    background: rgba(37, 211, 102, 0.06);
+  }
+  :global(.tl-time-display.night) {
+    border-color: rgba(56, 189, 248, 0.25);
+    background: rgba(15, 23, 42, 0.15);
+  }
+  :global(.tl-current-time) {
+    font-size: 0.85rem; font-weight: 800; color: var(--opn-primary);
+    letter-spacing: -0.02em; font-variant-numeric: tabular-nums; line-height: 1.1;
+  }
+  :global(.tl-time-display.night .tl-current-time) { color: #38bdf8; }
+  :global(.tl-current-date) {
+    font-size: 0.58rem; color: var(--text-secondary); line-height: 1.1;
+    white-space: nowrap;
+  }
+  :global(.tl-now-marker) {
+    position: absolute; top: 0; bottom: 0; width: 3px;
+    z-index: 8; pointer-events: none;
+    transition: left 0.3s ease;
+  }
+  :global(.tl-now-dot) {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px; height: 10px;
+    background: #ef4444; border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+    animation: now-pulse 2s ease-in-out infinite;
+  }
+  @keyframes now-pulse {
+    0%, 100% { box-shadow: 0 0 8px rgba(239, 68, 68, 0.5); }
+    50% { box-shadow: 0 0 14px rgba(239, 68, 68, 0.7); }
+  }
+  :global(.tl-now-label) {
+    position: absolute; top: -1.4rem; left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.6rem; font-weight: 700; color: #ef4444;
+    background: var(--bg-secondary); padding: 0.15rem 0.5rem;
+    border-radius: 4px; white-space: nowrap;
+    line-height: 1.3rem;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    box-shadow: 0 2px 6px rgba(239, 68, 68, 0.15);
+  }
+  :global(.tl-best-badge) {
+    position: absolute; top: 0;
+    height: 1.3rem;
+    background: linear-gradient(135deg, rgba(37, 211, 102, 0.18), rgba(37, 211, 102, 0.08));
+    border: 1px solid rgba(37, 211, 102, 0.4);
+    border-radius: 5px; display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  :global(.tl-best-badge span) {
+    font-size: 0.55rem; font-weight: 800; color: var(--opn-primary);
+    white-space: nowrap; letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+  /* Responsive timeline */
+  @media (max-width: 520px) {
+    :global(.tl-bar) { width: 360px; flex: 0 0 360px; }
+    :global(.tl-seg) { min-height: 32px; }
+    :global(.tl-city-label) { width: 72px; padding-right: 0.4rem; }
+    :global(.tl-city-name) { font-size: 0.62rem; }
+    :global(.tl-city-offset) { font-size: 0.5rem; }
+    :global(.tl-time-display) { padding: 2px 4px; min-width: 60px; transform: translateY(-50%) scale(0.92); right: 2px; }
+    :global(.tl-current-time) { font-size: 0.75rem; }
+    :global(.tl-current-date) { font-size: 0.52rem; }
+    :global(.tl-now-marker) { width: 2px; }
+    :global(.tl-now-dot) { width: 8px; height: 8px; }
+    :global(.tl-hour-label) { font-size: 0.54rem; }
+    :global(.tl-now-label) { font-size: 0.5rem; top: -1.25rem; padding: 0.12rem 0.35rem; }
+    :global(.tl-best-badge) { height: 1.1rem; }
+    :global(.tl-best-badge span) { font-size: 0.48rem; }
+    :global(.tl-seg.current-hour::after) { width: 4px; height: 4px; }
+  }
+
   /* Best Time Card */
   .besttime-card {
     background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(59, 130, 246, 0.1));
@@ -1625,9 +1796,7 @@ const tzSchema = {
   }
 
   /* ========== MEETING MODE ========== */
-  .meeting-workhours-card,
-  .meeting-slot-card,
-  .meeting-result-card {
+  .meeting-workhours-card, .meeting-slot-card, .meeting-result-card {
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
     border-radius: 12px;
@@ -1636,9 +1805,7 @@ const tzSchema = {
     flex-direction: column;
     gap: 0.75rem;
   }
-  .meeting-workhours-card .card-title,
-  .meeting-slot-card .card-title,
-  .meeting-result-card .card-title {
+  .meeting-workhours-card .card-title, .meeting-slot-card .card-title, .meeting-result-card .card-title {
     font-size: 1rem;
     font-weight: 700;
     color: var(--text-primary);
@@ -1818,8 +1985,7 @@ const tzSchema = {
     .meeting-actions {
       flex-direction: column;
     }
-    .meeting-wa-btn,
-    .meeting-copy-btn {
+    .meeting-wa-btn, .meeting-copy-btn {
       width: 100%;
     }
   }
@@ -2322,6 +2488,132 @@ const tzSchema = {
     if (diffMain) diffMain.textContent = diffText;
     if (diffContext) diffContext.textContent = `${selectedCard1.localizedName} → ${selectedCard2.localizedName}`;
     if (diffInfo) diffInfo.style.display = 'block';
+  }
+
+  // ===== Visual 24h Timeline =====
+  // Renders when both Card 1 + Card 2 are selected. Shows 24-hour bar for each
+  // city with work/sleep/overlap coloring + "now" marker.
+  const tlWrapper = document.getElementById('timeline-wrapper');
+  const tlPlaceholder = document.getElementById('timeline-placeholder');
+  const tlHeader = document.getElementById('timeline-header');
+  const tlRows = document.getElementById('timeline-rows');
+  const tlNow = document.getElementById('timeline-now');
+  const tlBest = document.getElementById('timeline-best');
+  const tlSection = document.getElementById('timeline-section');
+
+  function isWorkHour(h: number): boolean { return h >= 9 && h < 18; }
+  function isNightHour(h: number): boolean { return h < 6 || h >= 21; }
+
+  function getHourInTzLocal(tz: string): number {
+    try {
+      const hour = parseInt(new Intl.DateTimeFormat(i18nData?.dataset?.lang || 'en', {
+        timeZone: tz, hour: 'numeric', hour12: false
+      }).format(new Date()));
+      return hour === 24 ? 0 : hour;
+    } catch { return 12; }
+  }
+
+  function getMinuteInTzLocal(tz: string): number {
+    try {
+      return parseInt(new Intl.DateTimeFormat(i18nData?.dataset?.lang || 'en', {
+        timeZone: tz, minute: 'numeric'
+      }).format(new Date()));
+    } catch { return 0; }
+  }
+
+  function renderTimeline(): void {
+    if (!tlWrapper || !tlRows || !tlHeader) return;
+
+    // Need both cities selected
+    if (!selectedCard1 || !selectedCard2) {
+      if (tlPlaceholder) tlPlaceholder.style.display = 'flex';
+      if (tlWrapper) tlWrapper.style.display = 'none';
+      if (tlSection) tlSection.style.display = '';
+      return;
+    }
+
+    if (tlPlaceholder) tlPlaceholder.style.display = 'none';
+    if (tlWrapper) tlWrapper.style.display = '';
+    if (tlSection) tlSection.style.display = '';
+
+    const cities = [selectedCard1, selectedCard2];
+    const workStart = 9, workEnd = 18; // default work hours for coloring
+
+    // Hour labels (0, 3, 6, 9, 12, 15, 18, 21)
+    const hourLabels = [0, 3, 6, 9, 12, 15, 18, 21];
+    tlHeader.innerHTML = '<div class="tl-header-spacer"></div>' +
+      hourLabels.map(h => `<div class="tl-hour-label" style="left:${(h / 24) * 100}%">${h}</div>`).join('');
+
+    // Render rows
+    tlRows.innerHTML = cities.map((city, idx) => {
+      const isBase = idx === 0;
+      const name = city.localizedName + (isBase ? ' ★' : '');
+      const offsetLabel = city.offset;
+      const currentHour = getHourInTzLocal(city.tz);
+      const currentMinute = getMinuteInTzLocal(city.tz);
+      const nowPercent = ((currentHour + currentMinute / 60) / 24) * 100;
+
+      // Generate 24 segments
+      const segments = Array.from({ length: 24 }, (_, h) => {
+        let cls = 'tl-seg';
+        if (isWorkHour(h)) cls += ' work';
+        else if (isNightHour(h)) cls += ' night';
+        else cls += ' day';
+        if (h === currentHour) cls += ' current-hour';
+        return `<div class="${cls}" data-hour="${h}"></div>`;
+      }).join('');
+
+      // Current time display
+      const timeStr = new Intl.DateTimeFormat(i18nData?.dataset?.lang || 'en', {
+        timeZone: city.tz, hour: '2-digit', minute: '2-digit', hour12: false
+      }).format(new Date());
+      const dateStr = new Intl.DateTimeFormat(i18nData?.dataset?.lang || 'en', {
+        timeZone: city.tz, weekday: 'short', month: 'short', day: 'numeric'
+      }).format(new Date());
+      const isNight = isNightHour(currentHour);
+      const isWork = isWorkHour(currentHour);
+      const statusClass = isNight ? 'night' : (isWork ? 'work' : 'day');
+
+      return `
+        <div class="tl-row ${isBase ? 'base-row' : ''}" data-tz="${city.tz}">
+          <div class="tl-city-label">
+            <span class="tl-city-name">${name}</span>
+            <span class="tl-city-offset">${offsetLabel}</span>
+          </div>
+          <div class="tl-bar">${segments}</div>
+          <div class="tl-time-display ${statusClass}">
+            <span class="tl-current-time">${timeStr}</span>
+            <span class="tl-current-date">${dateStr}</span>
+          </div>
+          <div class="tl-now-marker" style="left: ${nowPercent}%">
+            <div class="tl-now-dot"></div>
+          </div>
+        </div>`;
+    }).join('');
+
+    // Global "now" line based on Card 1 (base)
+    if (tlNow && selectedCard1) {
+      const baseHour = getHourInTzLocal(selectedCard1.tz);
+      const baseMinute = getMinuteInTzLocal(selectedCard1.tz);
+      const globalNowPercent = ((baseHour + baseMinute / 60) / 24) * 100;
+      tlNow.style.left = `${globalNowPercent}%`;
+      const nowLabel = i18nData?.dataset?.night || 'Now';
+      tlNow.innerHTML = `<span class="tl-now-label">${nowLabel}</span>`;
+    }
+
+    // Best-time badges (overlap of work hours)
+    if (tlBest && selectedCard1 && selectedCard2) {
+      const overlaps = findMeetingOverlap(selectedCard1.tz, selectedCard2.tz, workStart, workEnd);
+      if (overlaps.length > 0 && overlaps.length < 24) {
+        tlBest.innerHTML = overlaps.map(r => {
+          const left = (r.myStart / 24) * 100;
+          const width = ((r.myEnd - r.myStart) / 24) * 100;
+          return `<div class="tl-best-badge" style="left:${left}%;width:${width}%"><span>${i18nMeetingOverlapWindow}</span></div>`;
+        }).join('');
+      } else {
+        tlBest.innerHTML = '';
+      }
+    }
   }
 
   // Show Live Display
@@ -2949,6 +3241,7 @@ const tzSchema = {
         
         if (card2Search) card2Search.disabled = false;
         updateDiffInfo();
+        renderTimeline();
       }
     });
 
@@ -2957,6 +3250,7 @@ const tzSchema = {
       selectedCard1 = null;
       if (card2Search) card2Search.disabled = true;
       updateDiffInfo();
+      renderTimeline();
     });
 
     // Card 2 search
@@ -2977,6 +3271,7 @@ const tzSchema = {
           card2Hour, card2Minute, card2Second
         );
         updateDiffInfo();
+        renderTimeline();
       }
     });
 
@@ -2984,6 +3279,7 @@ const tzSchema = {
       resetCardToSearch(card2Search, card2Results, card2Live);
       selectedCard2 = null;
       updateDiffInfo();
+      renderTimeline();
     });
 
     // Multi-clock search
