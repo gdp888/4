@@ -94,12 +94,7 @@ const msSchema = {
     <!-- Hero -->
     <div class="hero">
       <h1 class="title">{t('ms.heading')}</h1>
-      <p class="subtitle">{t('ms.subtitle')}</p>
-      <div class="privacy-badge">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        {t('ms.privacy.badge')}
-      </div>
-    </div>
+      <p class="subtitle">{t('ms.subtitle')}</p></div>
 
     <!-- Timezone selectors -->
       <!-- Pass localized strings to client-side JS -->
@@ -622,15 +617,7 @@ const msSchema = {
   }
   .subtitle {
     font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; max-width: 480px;
-  }
-  .privacy-badge {
-    display: inline-flex; align-items: center; gap: 0.35rem;
-    font-size: 0.72rem; color: var(--opn-primary); font-weight: 600;
-    background: rgba(37, 211, 102, 0.1); padding: 0.3rem 0.75rem;
-    border-radius: 20px; border: 1px solid rgba(37, 211, 102, 0.2);
-  }
-
-  /* Timezone row */
+  }/* Timezone row */
   .tz-row {
     display: flex; align-items: center; gap: 0.75rem;
   }

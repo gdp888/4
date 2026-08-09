@@ -90,12 +90,7 @@ const cvSchema = {
     <!-- Hero -->
     <div class="hero">
       <h1 class="title">{t('cv.heading')}</h1>
-      <p class="subtitle">{t('cv.subtitle')}</p>
-      <div class="privacy-badge">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        {t('cv.privacy.badge')}
-      </div>
-    </div>
+      <p class="subtitle">{t('cv.subtitle')}</p></div>
 
     <!-- Converter Tool -->
     <div class="converter">
@@ -241,15 +236,7 @@ const cvSchema = {
     background: linear-gradient(135deg, #f59e0b, #f97316);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
   }
-  .subtitle { font-size: 1rem; color: var(--text-secondary); font-weight: 500; }
-  .privacy-badge {
-    display: inline-flex; align-items: center; gap: 0.4rem;
-    font-size: 0.8rem; color: #f59e0b; background: var(--bg-secondary);
-    border: 1px solid var(--border-color); padding: 0.35rem 0.75rem; border-radius: 20px;
-    margin-top: 0.25rem;
-  }
-
-  /* Converter Box */
+  .subtitle { font-size: 1rem; color: var(--text-secondary); font-weight: 500; }/* Converter Box */
   .converter {
     background: var(--bg-secondary); border: 1.5px solid var(--border-color);
     border-radius: 16px; overflow: hidden;

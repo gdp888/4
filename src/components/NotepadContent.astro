@@ -90,12 +90,7 @@ const npSchema = {
     <!-- Hero -->
     <div class="hero">
       <h1 class="title">{t('np.heading')}</h1>
-      <p class="subtitle">{t('np.subtitle')}</p>
-      <div class="privacy-badge">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        {t('np.privacy.badge')}
-      </div>
-    </div>
+      <p class="subtitle">{t('np.subtitle')}</p></div>
 
     <!-- Notepad Tool -->
     <div class="notepad">
@@ -228,15 +223,7 @@ const npSchema = {
     background: linear-gradient(135deg, #25D366, #6fe89d);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
   }
-  .subtitle { font-size: 1rem; color: var(--text-secondary); font-weight: 500; }
-  .privacy-badge {
-    display: inline-flex; align-items: center; gap: 0.4rem;
-    font-size: 0.8rem; color: var(--opn-primary); background: var(--bg-secondary);
-    border: 1px solid var(--border-color); padding: 0.35rem 0.75rem; border-radius: 20px;
-    margin-top: 0.25rem;
-  }
-
-  /* Notepad Box */
+  .subtitle { font-size: 1rem; color: var(--text-secondary); font-weight: 500; }/* Notepad Box */
   .notepad {
     background: var(--bg-secondary); border: 1.5px solid var(--border-color);
     border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;
