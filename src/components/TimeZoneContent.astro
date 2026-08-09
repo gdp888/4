@@ -1896,8 +1896,12 @@ const tzSchema = {
       // Actually we need to compare the same instant
       
       // Get formatted results (both 24h and 12h formats)
-      const formatted = converted.format('{hours}:{minutes-pad}');
-      const formatted12h = converted.format('{hours-12}:{minutes-pad} {ampm}');
+      const hours24 = converted.hour();
+      const minutes = converted.minute();
+      const hours12 = hours24 === 0 ? 12 : (hours24 > 12 ? hours24 - 12 : hours24);
+      const ampm = hours24 < 12 ? 'am' : 'pm';
+      const formatted = `${String(hours24).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+      const formatted12h = `${hours12}:${String(minutes).padStart(2, '0')} ${ampm}`;
       const dateFormatted = converted.format('{year}-{month-pad}-{day-pad}');
       
       // Check DST status
