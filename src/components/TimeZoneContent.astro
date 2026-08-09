@@ -1868,7 +1868,9 @@ const tzSchema = {
     offsetDiff: string;
     isDST: boolean;
   } | null> {
+    console.log('🔄 convertTimeWithSpacetime called');
     const sp = await getSpacetime();
+    console.log('🔄 getSpacetime returned:', sp ? 'spacetime object' : 'null', '| window.spacetime exists:', typeof (window as any).spacetime !== 'undefined');
     
     if (!sp) {
       console.error('Spacetime not available');
