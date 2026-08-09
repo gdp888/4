@@ -1864,13 +1864,12 @@ const tzSchema = {
   async function convertTimeWithSpacetime(fromTZ: string, dateStr: string, timeStr: string, toTZ: string): Promise<{
     resultDate: Date;
     formatted: string;
+    formatted12h: string;
     dateFormatted: string;
     offsetDiff: string;
     isDST: boolean;
   } | null> {
-    console.log('🔄 convertTimeWithSpacetime called');
     const sp = await getSpacetime();
-    console.log('🔄 getSpacetime returned:', sp ? 'spacetime object' : 'null', '| window.spacetime exists:', typeof (window as any).spacetime !== 'undefined');
     
     if (!sp) {
       console.error('Spacetime not available');
@@ -1896,9 +1895,10 @@ const tzSchema = {
       const diffMs = converted.time() - sourceTime.time(); // This isn't right, need proper calculation
       // Actually we need to compare the same instant
       
-      // Get formatted results
+      // Get formatted results (both 24h and 12h formats)
       const formatted = converted.format('{hours}:{minutes-pad}');
-      const dateFormatted = converted.format('{month-pad}/{day-pad}/{year}');
+      const formatted12h = converted.format('{hours-12}:{minutes-pad} {ampm}');
+      const dateFormatted = converted.format('{year}-{month-pad}-{day-pad}');
       
       // Check DST status
       const isDST = converted.isDST();
@@ -1925,6 +1925,7 @@ const tzSchema = {
       return {
         resultDate: converted.toNativeDate(),
         formatted,
+        formatted12h,
         dateFormatted,
         offsetDiff,
         isDST
@@ -2305,8 +2306,8 @@ const tzSchema = {
       return;
     }
     
-    // Show main result
-    convResult.innerHTML = `<span class="converted-time">${result.formatted}</span>`;
+    // Show main result (use 12-hour format for better UX)
+    convResult.innerHTML = `<span class="converted-time">${result.formatted12h || result.formatted}</span>`;
     
     // Show detailed result
     if (convDetailed && convDetailedBody) {
@@ -2318,7 +2319,7 @@ const tzSchema = {
           <strong>${toDate} ${toTime}</strong> in ${fromEntry?.localizedName || fromTZ}
         </div>
         <div style="margin-bottom: 8px;">
-          → <strong>${result.formatted}</strong> on ${result.dateFormatted} in ${toEntry?.localizedName || toTZ}
+          → <strong>${result.formatted12h || result.formatted}</strong> on ${result.dateFormatted} in ${toEntry?.localizedName || toTZ}
         </div>
         <div style="color: var(--accent-primary); font-weight: 500;">
           ${result.offsetDiff}
