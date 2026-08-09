@@ -1740,72 +1740,86 @@ const tzSchema = {
   const searchIndex: SearchEntry[] = buildSearchIndex();
 
   // ===== SPACETIME INTEGRATION =====
-  // Dynamic loading with proper error handling and caching
-  let spacetimeCache: typeof window.spacetime | null = null;
-  let spacetimePromise: Promise<typeof window.spacetime | null> | null = null;
+  // Dynamic loading with proper error handling
+  let spacetimeLoadPromise: Promise<boolean> | null = null;
   const SPACETIME_CDN_URL = 'https://cdn.jsdelivr.net/npm/spacetime@7.4.0/builds/spacetime.min.js';
 
+  /**
+   * Check if Spacetime is available (sync check)
+   */
+  function isSpacetimeReady(): boolean {
+    return typeof (window as any).spacetime !== 'undefined';
+  }
+
+  /**
+   * Get Spacetime sync (for live clock updates - may return null if not loaded yet)
+   */
   function getSpacetimeSync(): typeof window.spacetime | null {
-    if (spacetimeCache) return spacetimeCache;
-    if (typeof (window as any).spacetime !== 'undefined') {
-      spacetimeCache = (window as any).spacetime;
-      return spacetimeCache;
+    if (isSpacetimeReady()) {
+      return (window as any).spacetime;
     }
     return null;
   }
 
   /**
-   * Get Spacetime library - loads dynamically from CDN if not available
+   * Ensure Spacetime is loaded - loads from CDN if needed
    */
-  async function getSpacetime(): Promise<typeof window.spacetime | null> {
-    // Return cached result if available
-    if (spacetimeCache) return spacetimeCache;
-    
-    // Check if already loaded globally
-    if (typeof (window as any).spacetime !== 'undefined') {
-      spacetimeCache = (window as any).spacetime;
-      console.log('✅ Spacetime already loaded (v' + spacetimeCache.version + ')');
-      return spacetimeCache;
+  async function ensureSpacetime(): Promise<boolean> {
+    // Already available
+    if (isSpacetimeReady()) {
+      return true;
     }
     
-    // If already loading, return same promise
-    if (spacetimePromise) return spacetimePromise;
+    // Already loading
+    if (spacetimeLoadPromise) {
+      return spacetimeLoadPromise;
+    }
     
-    // Load dynamically from CDN
-    spacetimePromise = (async () => {
+    // Load from CDN
+    spacetimeLoadPromise = (async () => {
       try {
         console.log('📦 Loading Spacetime from CDN...');
         
-        // Dynamic script injection
-        const script = document.createElement('script');
-        script.src = SPACETIME_CDN_URL;
-        script.async = true;
-        
-        await new Promise<void>((resolve, reject) => {
-          script.onload = () => resolve();
-          script.onerror = () => reject(new Error('Failed to load Spacetime script'));
+        return new Promise<boolean>((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = SPACETIME_CDN_URL;
+          script.async = true;
+          
+          script.onload = () => {
+            // Wait a tick for the script to execute
+            setTimeout(() => {
+              if (isSpacetimeReady()) {
+                console.log('✅ Spacetime loaded successfully (v' + ((window as any).spacetime).version + ')');
+                console.log('📚 GitHub: https://github.com/spencermountain/spacetime');
+                resolve(true);
+              } else {
+                reject(new Error('Spacetime not available after load'));
+              }
+            }, 50);
+          };
+          
+          script.onerror = () => {
+            reject(new Error('Failed to load Spacetime script'));
+          };
+          
           document.head.appendChild(script);
         });
-        
-        // Wait a tick for the script to execute
-        await new Promise(resolve => setTimeout(resolve, 50));
-        
-        if (typeof (window as any).spacetime !== 'undefined') {
-          spacetimeCache = (window as any).spacetime;
-          console.log('✅ Spacetime loaded successfully (v' + spacetimeCache.version + ')');
-          console.log('📚 GitHub: https://github.com/spencermountain/spacetime');
-          return spacetimeCache;
-        }
-        
-        throw new Error('Spacetime not available after script load');
       } catch (error) {
         console.warn('⚠️ Failed to load Spacetime:', error);
         console.warn('Using Intl API fallback for timezone conversion');
-        return null;
+        return false;
       }
     })();
     
-    return spacetimePromise;
+    return spacetimeLoadPromise;
+  }
+
+  /**
+   * Get Spacetime library (alias for ensureSpacetime + get)
+   */
+  async function getSpacetime(): Promise<typeof window.spacetime | null> {
+    const ready = await ensureSpacetime();
+    return ready ? (window as any).spacetime : null;
   }
 
   /**
