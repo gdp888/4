@@ -123,6 +123,12 @@ const tzSchema = {
     data-converter-convert={t('tz.converter.convert') || 'Convert'}
     data-converter-swap={t('tz.converter.swap') || 'Swap'}
     data-converter-result={t('tz.converter.result') || 'Result'}
+    data-meeting-at={t('tz.meeting.result.meeting_at') || 'Meeting at'}
+    data-meeting-copied={t('tz.meeting.result.copied') || 'Copied!'}
+    data-meeting-copy={t('tz.meeting.result.copy') || 'Copy'}
+    data-meeting-no-overlap={t('tz.meeting.result.no_overlap') || 'No working hours overlap'}
+    data-meeting-no-slots={t('tz.meeting.result.no_slots') || 'No overlapping slots'}
+    data-meeting-overlap-window={t('tz.meeting.result.overlap_window') || 'overlap window'}
     style="display:none"></div>
 
   <!-- ===== MODE TABS: Compare | World Clock | Converter ===== -->
@@ -138,6 +144,10 @@ const tzSchema = {
     <button class="mode-btn" id="mode-converter">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
       {t('tz.mode.converter') || 'Converter'}
+    </button>
+    <button class="mode-btn" id="mode-meeting">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      {t('tz.mode.meeting') || 'Meeting'}
     </button>
   </div>
 
@@ -355,6 +365,51 @@ const tzSchema = {
         <div class="quick-ref-grid" id="quick-ref-grid">
           <!-- Populated by JS -->
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== MEETING MODE: Find best overlap + WhatsApp share ==========
+       Reuses Card 1 + Card 2 cities from Compare mode (no need to re-select).
+       Shows: working hours filter, slot picker, WhatsApp/Copy buttons. -->
+  <div id="meeting-mode" style="display:none">
+    <!-- Working Hours Filter -->
+    <div class="meeting-workhours-card">
+      <h3 class="card-title">{t('tz.meeting.workhours.title')}</h3>
+      <div class="meeting-workhours-row">
+        <div class="meeting-workhours-field">
+          <label for="meeting-work-start">{t('tz.meeting.workhours.start')}</label>
+          <input type="time" id="meeting-work-start" class="meeting-time-input" value="09:00" />
+        </div>
+        <div class="meeting-workhours-field">
+          <label for="meeting-work-end">{t('tz.meeting.workhours.end')}</label>
+          <input type="time" id="meeting-work-end" class="meeting-time-input" value="18:00" />
+        </div>
+      </div>
+      <p class="meeting-workhours-hint">{t('tz.meeting.picker.hint')}</p>
+    </div>
+
+    <!-- Slot Picker -->
+    <div class="meeting-slot-card">
+      <h3 class="card-title">{t('tz.meeting.picker.title')}</h3>
+      <div class="meeting-slot-grid" id="meeting-slot-grid">
+        <!-- Slots injected by JS -->
+      </div>
+    </div>
+
+    <!-- Meeting Result (shown after slot click) -->
+    <div class="meeting-result-card" id="meeting-result-card" style="display:none;">
+      <h3 class="card-title">{t('tz.meeting.result.title')}</h3>
+      <div class="meeting-times" id="meeting-times"></div>
+      <div class="meeting-actions">
+        <button class="meeting-wa-btn" id="meeting-wa-btn" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          {t('tz.meeting.result.wa')}
+        </button>
+        <button class="meeting-copy-btn" id="meeting-copy-btn" type="button">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          {t('tz.meeting.result.copy')}
+        </button>
       </div>
     </div>
   </div>
@@ -1568,6 +1623,211 @@ const tzSchema = {
     color: var(--text-secondary);
     line-height: 1.5;
   }
+
+  /* ========== MEETING MODE ========== */
+  .meeting-workhours-card,
+  .meeting-slot-card,
+  .meeting-result-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .meeting-workhours-card .card-title,
+  .meeting-slot-card .card-title,
+  .meeting-result-card .card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+  }
+  .meeting-workhours-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .meeting-workhours-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    flex: 1;
+    min-width: 120px;
+  }
+  .meeting-workhours-field label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+  .meeting-time-input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    background: var(--bg-input);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: 8px;
+    transition: border 0.15s;
+    font-family: inherit;
+  }
+  .meeting-time-input:focus {
+    outline: none;
+    border-color: var(--opn-primary);
+  }
+  .meeting-workhours-hint {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin: 0;
+  }
+  .meeting-slot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.5rem;
+  }
+  .meeting-slot-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    background: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+    text-align: center;
+  }
+  .meeting-slot-btn:hover {
+    border-color: var(--opn-primary);
+    background: rgba(37, 211, 102, 0.06);
+  }
+  .meeting-slot-btn.selected {
+    background: rgba(37, 211, 102, 0.15);
+    border-color: var(--opn-primary);
+    color: var(--opn-primary);
+  }
+  .meeting-slot-my {
+    color: var(--text-primary);
+  }
+  .meeting-slot-btn.selected .meeting-slot-my {
+    color: var(--opn-primary);
+  }
+  .meeting-slot-sep {
+    color: var(--text-secondary);
+    opacity: 0.6;
+  }
+  .meeting-slot-their {
+    color: var(--text-secondary);
+  }
+  .meeting-slot-btn.selected .meeting-slot-their {
+    color: var(--opn-primary);
+    opacity: 0.85;
+  }
+  .meeting-no-slots {
+    grid-column: 1 / -1;
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+  .meeting-times {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .meeting-time-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    background: var(--bg-input);
+    border-radius: 8px;
+  }
+  .meeting-time-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+  .meeting-time-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--opn-primary);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+  .meeting-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .meeting-wa-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.25rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #fff;
+    background: #25D366;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-family: inherit;
+    flex: 1;
+    min-width: 160px;
+  }
+  .meeting-wa-btn:hover {
+    background: #1da851;
+  }
+  .meeting-copy-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.65rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    font-family: inherit;
+  }
+  .meeting-copy-btn:hover {
+    border-color: var(--text-secondary);
+  }
+  @media (max-width: 520px) {
+    .meeting-slot-grid {
+      grid-template-columns: 1fr;
+    }
+    .meeting-workhours-row {
+      flex-direction: column;
+    }
+    .meeting-actions {
+      flex-direction: column;
+    }
+    .meeting-wa-btn,
+    .meeting-copy-btn {
+      width: 100%;
+    }
+  }
+
+  /* RTL support for meeting mode */
+  [dir="rtl"] .meeting-time-row {
+    flex-direction: row-reverse;
+  }
 </style>
 
 <script>
@@ -1592,7 +1852,7 @@ const tzSchema = {
   // State
   let selectedCard1: SearchEntry | null = null;
   let selectedCard2: SearchEntry | null = null;
-  let currentMode: 'compare' | 'multi' | 'converter' = 'compare';
+  let currentMode: 'compare' | 'multi' | 'converter' | 'meeting' = 'compare';
   let savedCities: SavedCity[] = [];
   let liveInterval: number | undefined = undefined;
 
@@ -1630,6 +1890,8 @@ const tzSchema = {
   const modeCompareBtn = document.getElementById('mode-compare');
   const modeMultiBtn = document.getElementById('mode-multi');
   const modeConverterBtn = document.getElementById('mode-converter');
+  const modeMeetingBtn = document.getElementById('mode-meeting');
+  const meetingModeEl = document.getElementById('meeting-mode');
 
   // Card 1 elements
   const card1Search = document.getElementById('card1-search') as HTMLInputElement | null;
@@ -2402,18 +2664,20 @@ const tzSchema = {
   }
 
   // Mode Switching
-  function switchMode(mode: 'compare' | 'multi' | 'converter'): void {
+  function switchMode(mode: 'compare' | 'multi' | 'converter' | 'meeting'): void {
     currentMode = mode;
 
     // Hide all modes
     if (compareModeEl) compareModeEl.style.display = 'none';
     if (multiModeEl) multiModeEl.style.display = 'none';
     if (converterModeEl) converterModeEl.style.display = 'none';
+    if (meetingModeEl) meetingModeEl.style.display = 'none';
 
     // Remove active from all buttons
     modeCompareBtn?.classList.remove('active');
     modeMultiBtn?.classList.remove('active');
     modeConverterBtn?.classList.remove('active');
+    modeMeetingBtn?.classList.remove('active');
 
     // Show selected mode
     switch (mode) {
@@ -2434,6 +2698,12 @@ const tzSchema = {
           populateConverterSelects();
           populateQuickRef();
         }
+        break;
+      case 'meeting':
+        if (meetingModeEl) meetingModeEl.style.display = 'block';
+        modeMeetingBtn?.classList.add('active');
+        // Render meeting slots using Card 1 + Card 2 cities
+        renderMeetingMode();
         break;
     }
   }
@@ -2458,12 +2728,206 @@ const tzSchema = {
     }
   }
 
+  // ========== MEETING MODE LOGIC ==========
+  // Reuses Card 1 + Card 2 cities from Compare mode (no re-selection needed).
+  // Finds working-hours overlap between the two timezones and renders clickable
+  // 1-hour slots. On slot click → shows WhatsApp + Copy buttons.
+  const meetingWorkStart = document.getElementById('meeting-work-start') as HTMLInputElement | null;
+  const meetingWorkEnd = document.getElementById('meeting-work-end') as HTMLInputElement | null;
+  const meetingSlotGrid = document.getElementById('meeting-slot-grid');
+  const meetingResultCard = document.getElementById('meeting-result-card');
+  const meetingTimes = document.getElementById('meeting-times');
+  const meetingWaBtn = document.getElementById('meeting-wa-btn');
+  const meetingCopyBtn = document.getElementById('meeting-copy-btn');
+
+  // i18n strings for meeting mode (use i18nData — the existing i18n element ref)
+  const i18nMeetingAt = i18nData?.dataset?.meetingAt || 'Meeting at';
+  const i18nMeetingCopied = i18nData?.dataset?.meetingCopied || 'Copied!';
+  const i18nMeetingCopy = i18nData?.dataset?.meetingCopy || 'Copy';
+  const i18nMeetingNoOverlap = i18nData?.dataset?.meetingNoOverlap || 'No working hours overlap';
+  const i18nMeetingNoSlots = i18nData?.dataset?.meetingNoSlots || 'No overlapping slots';
+  const i18nMeetingOverlapWindow = i18nData?.dataset?.meetingOverlapWindow || 'overlap window';
+
+  // Get offset in minutes for a timezone (positive = ahead of UTC)
+  function getOffsetMinutesForTz(tz: string, date?: Date): number {
+    const d = date || new Date();
+    const utcDate = new Date(d.getTime());
+    const tzString = d.toLocaleString('en-US', { timeZone: tz });
+    const tzDate = new Date(tzString);
+    return (tzDate.getTime() - utcDate.getTime()) / 60000;
+  }
+
+  // Find overlap between two working-hour ranges across timezones
+  function findMeetingOverlap(myTz: string, theirTz: string, workStart: number, workEnd: number): { myStart: number; myEnd: number; theirStart: number; theirEnd: number }[] {
+    const myOffset = getOffsetMinutesForTz(myTz);
+    const theirOffset = getOffsetMinutesForTz(theirTz);
+    const diffHours = (theirOffset - myOffset) / 60;
+
+    // Their working hours expressed in my timezone
+    const theirWorkStartInMy = workStart - diffHours;
+    const theirWorkEndInMy = workEnd - diffHours;
+
+    const overlaps: { myStart: number; myEnd: number; theirStart: number; theirEnd: number }[] = [];
+
+    // Check today, yesterday, tomorrow (wrap-around for overnight offsets)
+    for (let dayOffset = -1; dayOffset <= 1; dayOffset++) {
+      const theirStartAdj = theirWorkStartInMy + dayOffset * 24;
+      const theirEndAdj = theirWorkEndInMy + dayOffset * 24;
+
+      const overlapStart = Math.max(workStart, theirStartAdj);
+      const overlapEnd = Math.min(workEnd, theirEndAdj);
+
+      if (overlapEnd > overlapStart && overlapStart >= 0 && overlapEnd <= 24) {
+        overlaps.push({
+          myStart: overlapStart,
+          myEnd: overlapEnd,
+          theirStart: overlapStart + diffHours,
+          theirEnd: overlapEnd + diffHours,
+        });
+      }
+    }
+
+    return overlaps;
+  }
+
+  function formatMeetingHour(h: number): string {
+    const normalized = ((h % 24) + 24) % 24;
+    const hours = Math.floor(normalized);
+    const minutes = Math.round((normalized - hours) * 60);
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+  }
+
+  let selectedMeetingSlot: { myHour: number; theirHour: number } | null = null;
+
+  function renderMeetingMode(): void {
+    if (!meetingSlotGrid) return;
+
+    // Need both Card 1 and Card 2 cities to be selected
+    if (!selectedCard1 || !selectedCard2) {
+      meetingSlotGrid.innerHTML = `<div class="meeting-no-slots">${i18nMeetingNoSlots}. Select both cities in Compare mode first.</div>`;
+      if (meetingResultCard) meetingResultCard.style.display = 'none';
+      return;
+    }
+
+    const myTz = selectedCard1.tz;
+    const theirTz = selectedCard2.tz;
+    const myName = selectedCard1.localizedName;
+    const theirName = selectedCard2.localizedName;
+
+    const workStart = parseInt(meetingWorkStart?.value?.split(':')[0] || '9');
+    const workEnd = parseInt(meetingWorkEnd?.value?.split(':')[0] || '18');
+
+    const overlaps = findMeetingOverlap(myTz, theirTz, workStart, workEnd);
+
+    if (overlaps.length === 0) {
+      meetingSlotGrid.innerHTML = `<div class="meeting-no-slots">${i18nMeetingNoOverlap}</div>`;
+      if (meetingResultCard) meetingResultCard.style.display = 'none';
+      return;
+    }
+
+    // Generate 1-hour slots from overlaps
+    const slots: { myHour: number; theirHour: number }[] = [];
+    for (const overlap of overlaps) {
+      for (let h = Math.ceil(overlap.myStart); h < Math.floor(overlap.myEnd); h++) {
+        if (h >= 0 && h < 24) {
+          const theirH = h + (getOffsetMinutesForTz(theirTz) - getOffsetMinutesForTz(myTz)) / 60;
+          slots.push({ myHour: h, theirHour: theirH });
+        }
+      }
+    }
+
+    if (slots.length === 0) {
+      meetingSlotGrid.innerHTML = `<div class="meeting-no-slots">${i18nMeetingNoSlots}</div>`;
+      if (meetingResultCard) meetingResultCard.style.display = 'none';
+      return;
+    }
+
+    let html = '';
+    slots.forEach((slot, i) => {
+      const myStr = formatMeetingHour(slot.myHour);
+      const theirStr = formatMeetingHour(slot.theirHour);
+      html += `<button class="meeting-slot-btn" data-idx="${i}" data-my-hour="${slot.myHour}" data-their-hour="${slot.theirHour}">
+        <span class="meeting-slot-my">${myStr} ${myName}</span>
+        <span class="meeting-slot-sep">=</span>
+        <span class="meeting-slot-their">${theirStr} ${theirName}</span>
+      </button>`;
+    });
+    meetingSlotGrid.innerHTML = html;
+
+    // Attach click handlers (delegated to avoid per-button listeners)
+    meetingSlotGrid.querySelectorAll('.meeting-slot-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        meetingSlotGrid.querySelectorAll('.meeting-slot-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        const myHour = parseFloat(btn.getAttribute('data-my-hour') || '0');
+        const theirHour = parseFloat(btn.getAttribute('data-their-hour') || '0');
+        selectedMeetingSlot = { myHour, theirHour };
+        showMeetingResult(myTz, theirTz, myHour, theirHour, myName, theirName);
+      });
+    });
+  }
+
+  function showMeetingResult(myTz: string, theirTz: string, myHour: number, theirHour: number, myName: string, theirName: string): void {
+    if (!meetingResultCard || !meetingTimes) return;
+
+    const myStr = formatMeetingHour(myHour);
+    const theirStr = formatMeetingHour(theirHour);
+
+    meetingTimes.innerHTML = `
+      <div class="meeting-time-row">
+        <span class="meeting-time-label">${myName}</span>
+        <span class="meeting-time-value">${myStr}</span>
+      </div>
+      <div class="meeting-time-row">
+        <span class="meeting-time-label">${theirName}</span>
+        <span class="meeting-time-value">${theirStr}</span>
+      </div>
+    `;
+    meetingResultCard.style.display = '';
+
+    // Generate WhatsApp message + wire up buttons
+    const message = `${i18nMeetingAt} ${myStr} (${myName}) / ${theirStr} (${theirName})`;
+    if (meetingWaBtn) {
+      meetingWaBtn.onclick = () => {
+        window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+      };
+    }
+    if (meetingCopyBtn) {
+      meetingCopyBtn.onclick = () => {
+        navigator.clipboard.writeText(message).then(() => {
+          const original = meetingCopyBtn.innerHTML;
+          meetingCopyBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> ${i18nMeetingCopied}`;
+          setTimeout(() => {
+            meetingCopyBtn.innerHTML = original;
+          }, 2000);
+        });
+      };
+    }
+  }
+
+  // Re-render meeting mode when work-hours change
+  meetingWorkStart?.addEventListener('change', () => {
+    if (currentMode === 'meeting') {
+      selectedMeetingSlot = null;
+      if (meetingResultCard) meetingResultCard.style.display = 'none';
+      renderMeetingMode();
+    }
+  });
+  meetingWorkEnd?.addEventListener('change', () => {
+    if (currentMode === 'meeting') {
+      selectedMeetingSlot = null;
+      if (meetingResultCard) meetingResultCard.style.display = 'none';
+      renderMeetingMode();
+    }
+  });
+
   // Event Listeners Setup
   function setupEventListeners(): void {
     // Mode toggle
     modeCompareBtn?.addEventListener('click', () => switchMode('compare'));
     modeMultiBtn?.addEventListener('click', () => switchMode('multi'));
     modeConverterBtn?.addEventListener('click', () => switchMode('converter'));
+    modeMeetingBtn?.addEventListener('click', () => switchMode('meeting'));
 
     // Card 1 search
     card1Search?.addEventListener('input', (e) => {

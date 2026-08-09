@@ -1124,6 +1124,23 @@ export default {
     'tz.city.yangon': 'يانغون',
     'tz.city.honolulu': 'هونولولو',
 
+
+    // Meeting mode keys (merged from MeetingSchedulerContent)
+    'tz.mode.meeting': 'اجتماع',
+    'tz.meeting.workhours.title': 'ساعات العمل (كلاهما)',
+    'tz.meeting.workhours.start': 'البداية',
+    'tz.meeting.workhours.end': 'النهاية',
+    'tz.meeting.picker.title': 'اختر فترة زمنية',
+    'tz.meeting.picker.hint': 'انقر على فترة للمشاركة عبر واتساب',
+    'tz.meeting.result.title': 'وقت الاجتماع المحدد',
+    'tz.meeting.result.wa': 'إرسال إلى واتساب',
+    'tz.meeting.result.copied': 'تم النسخ!',
+    'tz.meeting.result.copy': 'نسخ',
+    'tz.meeting.result.meeting_at': 'اجتماع في',
+    'tz.meeting.result.no_overlap': 'لا يوجد تداخل في ساعات العمل. حاول تعديل ساعات العمل.',
+    'tz.meeting.result.no_slots': 'لا توجد فترات متداخلة متاحة',
+    'tz.meeting.result.overlap_window': 'نافذة التداخل',
+
     // Meeting Scheduler
     'bc.meetingscheduler': 'جدولة الاجتماعات',
     'bc.pomodoro': 'بومودورو',

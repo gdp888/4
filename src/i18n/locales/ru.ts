@@ -1125,6 +1125,23 @@ export default {
     'tz.city.yangon': 'Янгон',
     'tz.city.honolulu': 'Гонолулу',
 
+
+    // Meeting mode keys (merged from MeetingSchedulerContent)
+    'tz.mode.meeting': 'Встреча',
+    'tz.meeting.workhours.title': 'Рабочие часы (оба)',
+    'tz.meeting.workhours.start': 'Начало',
+    'tz.meeting.workhours.end': 'Конец',
+    'tz.meeting.picker.title': 'Выберите время',
+    'tz.meeting.picker.hint': 'Нажмите на слот, чтобы отправить в WhatsApp',
+    'tz.meeting.result.title': 'Выбранное время встречи',
+    'tz.meeting.result.wa': 'Отправить в WhatsApp',
+    'tz.meeting.result.copied': 'Скопировано!',
+    'tz.meeting.result.copy': 'Копировать',
+    'tz.meeting.result.meeting_at': 'Встреча в',
+    'tz.meeting.result.no_overlap': 'Нет пересечения рабочих часов. Попробуйте изменить рабочие часы.',
+    'tz.meeting.result.no_slots': 'Нет доступных пересекающихся слотов',
+    'tz.meeting.result.overlap_window': 'пересечение',
+
     // Meeting Scheduler
     'bc.meetingscheduler': 'Планировщик встреч',
     'bc.pomodoro': 'Помодоро',

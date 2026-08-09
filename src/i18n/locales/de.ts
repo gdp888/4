@@ -1141,6 +1141,23 @@ export default {
     'tz.city.yangon': 'Rangun',
     'tz.city.honolulu': 'Honolulu',
 
+
+    // Meeting mode keys (merged from MeetingSchedulerContent)
+    'tz.mode.meeting': 'Meeting',
+    'tz.meeting.workhours.title': 'Arbeitszeiten (beide)',
+    'tz.meeting.workhours.start': 'Beginn',
+    'tz.meeting.workhours.end': 'Ende',
+    'tz.meeting.picker.title': 'Wählen Sie einen Zeitraum',
+    'tz.meeting.picker.hint': 'Klicken Sie auf einen Slot, um per WhatsApp zu teilen',
+    'tz.meeting.result.title': 'Gewählte Meetingzeit',
+    'tz.meeting.result.wa': 'An WhatsApp senden',
+    'tz.meeting.result.copied': 'Kopiert!',
+    'tz.meeting.result.copy': 'Kopieren',
+    'tz.meeting.result.meeting_at': 'Meeting um',
+    'tz.meeting.result.no_overlap': 'Keine Überschneidung der Arbeitszeiten. Versuchen Sie, die Zeiten anzupassen.',
+    'tz.meeting.result.no_slots': 'Keine überschneidenden Slots verfügbar',
+    'tz.meeting.result.overlap_window': 'Überschneidungsfenster',
+
     // Meeting Scheduler
     'bc.meetingscheduler': 'Meeting-Planer',
     'bc.pomodoro': 'Pomodoro',

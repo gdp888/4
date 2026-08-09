@@ -1223,6 +1223,23 @@ export default {
     'tz.city.yangon': 'Yangon',
     'tz.city.honolulu': 'Honolulu',
 
+
+    // Meeting mode keys (merged from MeetingSchedulerContent)
+    'tz.mode.meeting': 'Meeting',
+    'tz.meeting.workhours.title': 'Working hours (both)',
+    'tz.meeting.workhours.start': 'Start',
+    'tz.meeting.workhours.end': 'End',
+    'tz.meeting.picker.title': 'Pick a time slot',
+    'tz.meeting.picker.hint': 'Click a slot to share via WhatsApp',
+    'tz.meeting.result.title': 'Selected meeting time',
+    'tz.meeting.result.wa': 'Send to WhatsApp',
+    'tz.meeting.result.copied': 'Copied!',
+    'tz.meeting.result.copy': 'Copy',
+    'tz.meeting.result.meeting_at': 'Meeting at',
+    'tz.meeting.result.no_overlap': 'No working hours overlap. Try adjusting working hours.',
+    'tz.meeting.result.no_slots': 'No overlapping slots available',
+    'tz.meeting.result.overlap_window': 'overlap window',
+
     // Meeting Scheduler
     'bc.meetingscheduler': 'Meeting Scheduler',
     'bc.pomodoro': 'Pomodoro',

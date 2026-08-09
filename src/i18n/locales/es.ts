@@ -1197,6 +1197,23 @@ export default {
     'tz.city.yangon': 'Yangón',
     'tz.city.honolulu': 'Honolulú',
 
+
+    // Meeting mode keys (merged from MeetingSchedulerContent)
+    'tz.mode.meeting': 'Reunión',
+    'tz.meeting.workhours.title': 'Horario laboral (ambos)',
+    'tz.meeting.workhours.start': 'Inicio',
+    'tz.meeting.workhours.end': 'Fin',
+    'tz.meeting.picker.title': 'Elige una franja horaria',
+    'tz.meeting.picker.hint': 'Haz clic en una franja para compartir por WhatsApp',
+    'tz.meeting.result.title': 'Hora de reunión seleccionada',
+    'tz.meeting.result.wa': 'Enviar a WhatsApp',
+    'tz.meeting.result.copied': '¡Copiado!',
+    'tz.meeting.result.copy': 'Copiar',
+    'tz.meeting.result.meeting_at': 'Reunión a las',
+    'tz.meeting.result.no_overlap': 'No hay superposición de horarios laborales. Prueba a ajustar el horario.',
+    'tz.meeting.result.no_slots': 'No hay franjas superpuestas disponibles',
+    'tz.meeting.result.overlap_window': 'ventana de superposición',
+
     // Meeting Scheduler
     'bc.meetingscheduler': 'Programador de reuniones',
     'bc.pomodoro': 'Pomodoro',

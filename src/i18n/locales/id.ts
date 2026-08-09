@@ -1197,6 +1197,23 @@ export default {
     'tz.city.yangon': 'Yangon',
     'tz.city.honolulu': 'Honolulu',
 
+
+    // Meeting mode keys (merged from MeetingSchedulerContent)
+    'tz.mode.meeting': 'Rapat',
+    'tz.meeting.workhours.title': 'Jam kerja (kedua)',
+    'tz.meeting.workhours.start': 'Mulai',
+    'tz.meeting.workhours.end': 'Selesai',
+    'tz.meeting.picker.title': 'Pilih slot waktu',
+    'tz.meeting.picker.hint': 'Klik slot untuk berbagi via WhatsApp',
+    'tz.meeting.result.title': 'Waktu rapat yang dipilih',
+    'tz.meeting.result.wa': 'Kirim ke WhatsApp',
+    'tz.meeting.result.copied': 'Tersalin!',
+    'tz.meeting.result.copy': 'Salin',
+    'tz.meeting.result.meeting_at': 'Rapat pukul',
+    'tz.meeting.result.no_overlap': 'Tidak ada tumpang tindih jam kerja. Coba sesuaikan jam kerja.',
+    'tz.meeting.result.no_slots': 'Tidak ada slot tumpang tindih tersedia',
+    'tz.meeting.result.overlap_window': 'jendela tumpang tindih',
+
     // Meeting Scheduler
     'bc.meetingscheduler': 'Penjadwal Rapat',
     'bc.pomodoro': 'Pomodoro',
