@@ -953,6 +953,9 @@ export default {
     'hub.service.emojipicker.title': 'Selector de Emojis y Teclado',
     'hub.service.emojipicker.desc': 'Busca y copia emojis para WhatsApp, Telegram y redes sociales. 9 categorías, búsqueda por palabras, copia instantánea. Gratis y privado.',
     'hub.service.emojipicker.cta': 'Seleccionar Emojis',
+    'hub.service.pdfmerger.title': 'Combinar PDF',
+    'hub.service.pdfmerger.desc': 'Combina varios archivos PDF en uno solo. Gratis, privado, sin necesidad de subir archivos — funciona completamente en tu navegador.',
+    'hub.service.pdfmerger.cta': 'Combinar PDFs',
 
     // Time Zone Converter
     'tz.meta.title': 'Reloj Mundial & Conversor de Zona Horaria — Gratis y Privado | OPN Chat',

@@ -880,6 +880,9 @@ export default {
     'hub.service.emojipicker.title': 'منتقي الإيموجي ولوحة المفاتيح',
     'hub.service.emojipicker.desc': 'ابحث وانسخ الإيموجي لواتساب، تيليجرام ووسائل التواصل. 9 فئات، بحث بالكلمات المفتاحية، نسخ فوري. مجاني وخاص.',
     'hub.service.emojipicker.cta': 'اختر إيموجي',
+    'hub.service.pdfmerger.title': 'دمج ملفات PDF',
+    'hub.service.pdfmerger.desc': 'ادمج عدة ملفات PDF في ملف واحد. مجاني، خاص، بدون الحاجة للرفع — يعمل بالكامل في متصفحك.',
+    'hub.service.pdfmerger.cta': 'دمج PDF',
 
     // Time Zone Converter
     'tz.meta.title': 'ساعة العالم ومحوّل المناطق الزمنية — مجاني وخاص | OPN Chat',

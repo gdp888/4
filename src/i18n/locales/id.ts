@@ -953,6 +953,9 @@ export default {
     'hub.service.emojipicker.title': 'Pemilih Emoji & Keyboard',
     'hub.service.emojipicker.desc': 'Cari dan salin emoji untuk WhatsApp, Telegram, dan media sosial. 9 kategori, pencarian kata kunci, salin instan. Gratis & privat.',
     'hub.service.emojipicker.cta': 'Pilih Emoji',
+    'hub.service.pdfmerger.title': 'Penggabung PDF',
+    'hub.service.pdfmerger.desc': 'Gabungkan beberapa file PDF menjadi satu. Gratis, privat, tanpa perlu upload — bekerja sepenuhnya di browser Anda.',
+    'hub.service.pdfmerger.cta': 'Gabungkan PDF',
 
     // Time Zone Converter
     'tz.meta.title': 'Jam Dunia & Konverter Zona Waktu — Gratis & Privat | OPN Chat',

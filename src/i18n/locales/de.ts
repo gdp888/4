@@ -897,6 +897,9 @@ export default {
     'hub.service.emojipicker.title': 'Emoji-Picker & Keyboard',
     'hub.service.emojipicker.desc': 'Suchen und kopieren Sie Emojis für WhatsApp, Telegram und Social Media. 9 Kategorien, Schlüsselwort-Suche, sofortiges Kopieren. Kostenlos & privat.',
     'hub.service.emojipicker.cta': 'Emojis auswählen',
+    'hub.service.pdfmerger.title': 'PDF zusammenfügen',
+    'hub.service.pdfmerger.desc': 'Mehrere PDF-Dateien zu einer zusammenführen. Kostenlos, privat, kein Upload erforderlich — läuft komplett in Ihrem Browser.',
+    'hub.service.pdfmerger.cta': 'PDFs zusammenfügen',
 
     // Time Zone Converter
     'tz.meta.title': 'Weltzeituhr & Zeitzonen-Konverter — Kostenlos & Privat | OPN Chat',

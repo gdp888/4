@@ -979,6 +979,9 @@ export default {
     'hub.service.emojipicker.title': 'Emoji Picker & Keyboard',
     'hub.service.emojipicker.desc': 'Search and copy emojis for WhatsApp, Telegram, and social media. 9 categories, keyword search, instant copy. Free & private.',
     'hub.service.emojipicker.cta': 'Pick Emojis',
+    'hub.service.pdfmerger.title': 'PDF Merger',
+    'hub.service.pdfmerger.desc': 'Merge multiple PDF files into one. Free, private, no upload required — works entirely in your browser.',
+    'hub.service.pdfmerger.cta': 'Merge PDFs',
 
     // Time Zone Converter
     'tz.meta.title': 'World Clock & Time Zone Converter — Free & Private | OPN Chat',
@@ -1393,9 +1396,13 @@ export default {
 
     'bc.signal': 'Signal',
     'sidebar.signal': 'Signal',
+    'sidebar.kakaotalk': 'KakaoTalk',
     'hub.service.signal.title': 'Signal without Saving Number',
     'hub.service.signal.desc': 'Open a Signal chat without adding a contact. Uses the official signal.me link.',
     'hub.service.signal.cta': 'Open Signal Chat',
+    'hub.service.kakaotalk.title': 'KakaoTalk without Saving Number',
+    'hub.service.kakaotalk.desc': 'Open a KakaoTalk chat without adding a contact. Uses the official Kakaotalk deep link. Fast, private, free.',
+    'hub.service.kakaotalk.cta': 'Open KakaoTalk',
 
     // Instagram Direct (Hub)
     'sidebar.instagram': 'Instagram',

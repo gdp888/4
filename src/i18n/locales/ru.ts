@@ -881,6 +881,9 @@ export default {
     'hub.service.emojipicker.title': 'Выбор эмодзи и клавиатура',
     'hub.service.emojipicker.desc': 'Ищите и копируйте эмодзи для WhatsApp, Telegram и соцсетей. 9 категорий, поиск по ключевым словам, мгновенное копирование. Бесплатно и приватно.',
     'hub.service.emojipicker.cta': 'Выбрать эмодзи',
+    'hub.service.pdfmerger.title': 'Объединение PDF',
+    'hub.service.pdfmerger.desc': 'Объедините несколько PDF-файлов в один. Бесплатно, конфиденциально, без загрузки на сервер — работает полностью в браузере.',
+    'hub.service.pdfmerger.cta': 'Объединить PDF',
 
     // Time Zone Converter
     'tz.meta.title': 'Мировые часы & Конвертер часовых зон — Бесплатно и Приватно | OPN Chat',
@@ -1297,9 +1300,13 @@ export default {
 
     'bc.signal': 'Signal',
     'sidebar.signal': 'Signal',
+    'sidebar.kakaotalk': 'KakaoTalk',
     'hub.service.signal.title': 'Signal без сохранения номера',
     'hub.service.signal.desc': 'Откройте чат Signal без добавления контакта. Использует официальную ссылку signal.me.',
     'hub.service.signal.cta': 'Открыть чат Signal',
+    'hub.service.kakaotalk.title': 'KakaoTalk без сохранения номера',
+    'hub.service.kakaotalk.desc': 'Откройте чат KakaoTalk без добавления контакта. Использует официальную глубокую ссылку KakaoTalk. Быстро, приватно, бесплатно.',
+    'hub.service.kakaotalk.cta': 'Открыть KakaoTalk',
 
     // Instagram Direct (Hub)
     'sidebar.instagram': 'Instagram',
