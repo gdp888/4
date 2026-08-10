@@ -1,0 +1,1128 @@
+     1→---
+     2→import Layout from '../layouts/Layout.astro';
+     3→import { useTranslations } from '../i18n/utils';
+     4→import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
+     5→import { languages, type Lang } from '../i18n/ui';
+     6→import SiteHeader from './SiteHeader.astro';
+     7→import Breadcrumbs from './Breadcrumbs.astro';
+     8→import SEOHead from './SEOHead.astro';
+     9→import { localeMap } from '../i18n/localeMap';
+    10→
+    11→export interface Props {
+    12→  lang: Lang;
+    13→}
+    14→
+    15→const { lang } = Astro.props;
+    16→const t = useTranslations(lang);
+    17→
+    18→// Schema.org — FAQ data
+    19→const faqItems = [
+    20→  { q: t('tgl.seo.faq.q1'), a: t('tgl.seo.faq.a1') },
+    21→  { q: t('tgl.seo.faq.q2'), a: t('tgl.seo.faq.a2') },
+    22→  { q: t('tgl.seo.faq.q3'), a: t('tgl.seo.faq.a3') },
+    23→  { q: t('tgl.seo.faq.q4'), a: t('tgl.seo.faq.a4') },
+    24→  { q: t('tgl.seo.faq.q5'), a: t('tgl.seo.faq.a5') },
+    25→];
+    26→
+    27→const pageSchema = {
+    28→  "@context": "https://schema.org",
+    29→  "@graph": [
+    30→    {
+    31→      "@type": "WebApplication",
+    32→      "name": "OPN Chat Telegram Link Generator",
+    33→      "url": getAbsoluteLocaleUrl(lang, 'tg-link'),
+    34→      "description": t('tgl.meta.description'),
+    35→      "applicationCategory": "CommunicationApplication",
+    36→      "operatingSystem": "Any",
+    37→      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+    38→      "offers": {
+    39→        "@type": "Offer",
+    40→        "price": "0",
+    41→        "priceCurrency": "USD"
+    42→      },
+    43→      "inLanguage": Object.keys(languages),
+    44→      "featureList": [
+    45→        t('tgl.seo.why.feature1.title') + ': ' + t('tgl.seo.why.feature1.desc'),
+    46→        t('tgl.seo.why.feature2.title') + ': ' + t('tgl.seo.why.feature2.desc'),
+    47→        t('tgl.seo.why.feature3.title') + ': ' + t('tgl.seo.why.feature3.desc'),
+    48→        t('tgl.seo.why.feature4.title') + ': ' + t('tgl.seo.why.feature4.desc'),
+    49→      ],
+    50→    },
+    51→    {
+    52→      "@type": "FAQPage",
+    53→      "mainEntity": faqItems.map(item => ({
+    54→        "@type": "Question",
+    55→        "name": item.q,
+    56→        "acceptedAnswer": {
+    57→          "@type": "Answer",
+    58→          "text": item.a
+    59→        }
+    60→      }))
+    61→    },
+    62→    {
+    63→      "@type": "BreadcrumbList",
+    64→      "itemListElement": [
+    65→        {
+    66→          "@type": "ListItem",
+    67→          "position": 1,
+    68→          "name": "OPN Chat",
+    69→          "item": getAbsoluteLocaleUrl(lang, '')
+    70→        },
+    71→        {
+    72→          "@type": "ListItem",
+    73→          "position": 2,
+    74→          "name": "Telegram Link Generator",
+    75→          "item": getAbsoluteLocaleUrl(lang, 'tg-link')
+    76→        }
+    77→      ]
+    78→    }
+    79→  ]
+    80→};
+    81→---
+    82→
+    83→<Layout title={t('tgl.meta.title')} lang={lang} service="tg-link">
+    84→  <Fragment slot="meta">
+    85→  <SEOHead
+    86→  lang={lang}
+    87→  description={t('tgl.meta.description')}
+    88→  canonicalUrl={getAbsoluteLocaleUrl(lang, 'tg-link')}
+    89→  ogTitle={t('tgl.meta.og.title')}
+    90→  ogDescription={t('tgl.meta.og.description')}
+    91→  ogUrl={getAbsoluteLocaleUrl(lang, 'tg-link')}
+    92→  schema={pageSchema}
+    93→  extraMeta={`<meta name="keywords" content="${t('tgl.meta.keywords')}" /><link rel="dns-prefetch" href="https://t.me" /><link rel="preconnect" href="https://t.me" crossorigin /><meta name="twitter:card" content="summary" /><meta name="twitter:title" content="${t('tgl.meta.twitter.title')}" /><meta name="twitter:description" content="${t('tgl.meta.twitter.description')}" />`}
+    94→/>
+    95→</Fragment>
+    96→
+    97→  <div class="container">
+    98→            <SiteHeader lang={lang} path="tg-link" activeTool="tg-link" />
+    99→
+   100→            <Breadcrumbs lang={lang} items={[{ label: t('bc.home'), href: getRelativeLocaleUrl(lang) }, { label: t('bc.tg-link') }]} />
+   101→
+   102→        <!-- Hero -->
+   103→        <div class="hero">
+   104→          <h1 class="title">{t('tgl.heading')}</h1>
+   105→          <p class="subtitle">{t('tgl.subtitle')}</p></div>
+   106→
+   107→        <!-- Generator Form -->
+   108→        <div class="generator">
+   109→          <!-- Step 1: Telegram Username -->
+   110→          <div class="step-section">
+   111→            <div class="step-number">1</div>
+   112→            <div class="step-content">
+   113→              <label for="tgl-username" class="label">{t('tgl.form.username.label')}</label>
+   114→              <div class="username-input-group">
+   115→                <span class="username-prefix">@</span>
+   116→                <input type="text" id="tgl-username" class="username-input" placeholder={t('tgl.form.username.placeholder')} autocomplete="off" required data-error-empty={t('tgl.form.username.error.empty')} data-error-format={t('tgl.form.username.error.format')} />
+   117→              </div>
+   118→              <span class="hint">{t('tgl.form.username.hint')}</span>
+   119→              <span id="tgl-error" class="error-msg" role="alert"></span>
+   120→            </div>
+   121→          </div>
+   122→
+   123→          <!-- Step 2: Link Type -->
+   124→          <div class="step-section">
+   125→            <div class="step-number">2</div>
+   126→            <div class="step-content">
+   127→              <label class="label">{t('tgl.linktype.label')}</label>
+   128→              <div class="link-type-selector">
+   129→                <div class="link-type-option link-type-option-active" id="tgl-linktype-bot" data-type="bot" role="radio" aria-checked="true" tabindex="0">
+   130→                  <div class="link-type-radio">
+   131→                    <div class="link-type-radio-dot"></div>
+   132→                  </div>
+   133→                  <div class="link-type-info">
+   134→                    <span class="link-type-name">{t('tgl.linktype.bot')}</span>
+   135→                    <span class="link-type-desc">{t('tgl.linktype.bot.desc')}</span>
+   136→                  </div>
+   137→                </div>
+   138→                <div class="link-type-option" id="tgl-linktype-personal" data-type="personal" role="radio" aria-checked="false" tabindex="0">
+   139→                  <div class="link-type-radio">
+   140→                    <div class="link-type-radio-dot"></div>
+   141→                  </div>
+   142→                  <div class="link-type-info">
+   143→                    <span class="link-type-name">{t('tgl.linktype.personal')}</span>
+   144→                    <span class="link-type-desc">{t('tgl.linktype.personal.desc')}</span>
+   145→                  </div>
+   146→                </div>
+   147→              </div>
+   148→            </div>
+   149→          </div>
+   150→
+   151→          <!-- Step 3: Message -->
+   152→          <div class="step-section">
+   153→            <div class="step-number">3</div>
+   154→            <div class="step-content">
+   155→              <label for="tgl-message" class="label" id="tgl-message-label">{t('tgl.form.message.label')}</label>
+   156→              <span class="optional">{t('tgl.form.label.optional')}</span>
+   157→              <textarea id="tgl-message" class="message-input" placeholder={t('tgl.form.message.placeholder')} rows="2" data-placeholder-bot={t('tgl.form.message.placeholder')} data-placeholder-personal={t('tgl.form.message.placeholder.personal')} data-label-bot={t('tgl.form.message.label')} data-label-personal={t('tgl.form.message.label.personal')}></textarea>
+   158→            </div>
+   159→          </div>
+   160→
+   161→          <!-- Step 4: Generate -->
+   162→          <div class="step-section">
+   163→            <div class="step-number">4</div>
+   164→            <div class="step-content">
+   165→              <button type="button" id="tgl-generate" class="submit-btn">
+   166→                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+   167→                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+   168→                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+   169→                </svg>
+   170→                {t('tgl.form.generate')}
+   171→              </button>
+   172→            </div>
+   173→          </div>
+   174→
+   175→          <!-- Result Section (hidden until generated) -->
+   176→          <div id="tgl-result" class="result-section" style="display:none;">
+   177→            <h2 class="result-title">{t('tgl.result.title')}</h2>
+   178→
+   179→            <!-- Generated Link -->
+   180→            <div class="link-box">
+   181→              <code id="tgl-link" class="link-text"></code>
+   182→              <button type="button" id="tgl-copy-link" class="copy-btn" aria-label={t('tgl.copy')} title={t('tgl.copy')}>
+   183→                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="copy-icon">
+   184→                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+   185→                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+   186→                </svg>
+   187→                <span class="copy-label">{t('tgl.copy')}</span>
+   188→              </button>
+   189→            </div>
+   190→
+   191→            <!-- Open in Telegram Button -->
+   192→            <button type="button" id="tgl-open-telegram" class="open-tg-btn">
+   193→              <svg viewBox="0 0 24 24" fill="currentColor" class="open-tg-icon" aria-hidden="true">
+   194→                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+   195→              </svg>
+   196→              {t('tgl.open')}
+   197→            </button>
+   198→
+   199→            <!-- QR Code -->
+   200→            <div class="qr-section">
+   201→              <h3 class="qr-title">{t('tgl.qr.title')}</h3>
+   202→              <div id="tgl-qr-canvas" class="qr-canvas"></div>
+   203→              <button type="button" id="tgl-download-qr" class="download-btn">
+   204→                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+   205→                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+   206→                  <polyline points="7 10 12 15 17 10"/>
+   207→                  <line x1="12" y1="15" x2="12" y2="3"/>
+   208→                </svg>
+   209→                {t('tgl.qr.download')}
+   210→              </button>
+   211→            </div>
+   212→
+   213→            <!-- Share Buttons -->
+   214→            <div class="share-section">
+   215→              <p class="share-label">{t('tgl.share.label')}</p>
+   216→              <div class="share-buttons">
+   217→                <button type="button" id="tgl-share-whatsapp" class="share-btn wa-share">
+   218→                  <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+   219→                </button>
+   220→                <button type="button" id="tgl-share-telegram" class="share-btn tg-share">
+   221→                  <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+   222→                </button>
+   223→                <button type="button" id="tgl-share-copy" class="share-btn copy-share">
+   224→                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+   225→                </button>
+   226→              </div>
+   227→            </div>
+   228→
+   229→            <!-- Preview -->
+   230→            <div class="preview-section">
+   231→              <p class="preview-label">{t('tgl.preview.label')}</p>
+   232→              <div class="preview-card">
+   233→                <div class="preview-bubble">
+   234→                  <div class="preview-message" id="tgl-preview-msg"></div>
+   235→                  <div class="preview-time">10:30</div>
+   236→                </div>
+   237→              </div>
+   238→            </div>
+   239→          </div>
+   240→        </div>
+   241→
+   242→        <!-- SEO Content Section -->
+   243→        <section class="seo-section" aria-label="About Telegram Link Generator">
+   244→          <article class="seo-block">
+   245→            <h2 class="seo-heading">{t('tgl.seo.what.heading')}</h2>
+   246→            <p class="seo-text">{t('tgl.seo.what.text')}</p>
+   247→          </article>
+   248→
+   249→          <article class="seo-block">
+   250→            <h2 class="seo-heading">{t('tgl.seo.why.heading')}</h2>
+   251→            <div class="feature-grid">
+   252→              <div class="feature-card">
+   253→                <div class="feature-icon tg-feature-icon">
+   254→                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+   255→                </div>
+   256→                <h3 class="feature-title">{t('tgl.seo.why.feature1.title')}</h3>
+   257→                <p class="feature-desc">{t('tgl.seo.why.feature1.desc')}</p>
+   258→              </div>
+   259→              <div class="feature-card">
+   260→                <div class="feature-icon tg-feature-icon">
+   261→                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+   262→                </div>
+   263→                <h3 class="feature-title">{t('tgl.seo.why.feature2.title')}</h3>
+   264→                <p class="feature-desc">{t('tgl.seo.why.feature2.desc')}</p>
+   265→              </div>
+   266→              <div class="feature-card">
+   267→                <div class="feature-icon tg-feature-icon">
+   268→                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3" height="3"/></svg>
+   269→                </div>
+   270→                <h3 class="feature-title">{t('tgl.seo.why.feature3.title')}</h3>
+   271→                <p class="feature-desc">{t('tgl.seo.why.feature3.desc')}</p>
+   272→              </div>
+   273→              <div class="feature-card">
+   274→                <div class="feature-icon tg-feature-icon">
+   275→                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+   276→                </div>
+   277→                <h3 class="feature-title">{t('tgl.seo.why.feature4.title')}</h3>
+   278→                <p class="feature-desc">{t('tgl.seo.why.feature4.desc')}</p>
+   279→              </div>
+   280→            </div>
+   281→          </article>
+   282→
+   283→          <article class="seo-block">
+   284→            <h2 class="seo-heading">{t('tgl.seo.how.heading')}</h2>
+   285→            <p class="seo-text">{t('tgl.seo.how.text')}</p>
+   286→          </article>
+   287→
+   288→          <article class="seo-block">
+   289→            <h2 class="seo-heading">{t('tgl.seo.use.heading')}</h2>
+   290→            <p class="seo-text">{t('tgl.seo.use.text')}</p>
+   291→          </article>
+   292→
+   293→          <article class="seo-block">
+   294→            <h2 class="seo-heading">{t('tgl.seo.faq.heading')}</h2>
+   295→            <div class="faq-list">
+   296→              {faqItems.map((item, i) => (
+   297→                <details class="faq-item">
+   298→                  <summary class="faq-q">{item.q}</summary>
+   299→                  <p class="faq-a">{item.a}</p>
+   300→                </details>
+   301→              ))}
+   302→            </div>
+   303→          </article>
+   304→        </section>
+   305→</div>
+   306→</Layout>
+   307→
+   308→<script is:inline>
+   309→  // Telegram Link Generator — client-side logic
+   310→  function initTgLinkGenerator() {
+   311→    var generateBtn = document.getElementById('tgl-generate');
+   312→    var usernameInput = document.getElementById('tgl-username');
+   313→    var messageInput = document.getElementById('tgl-message');
+   314→    var messageLabel = document.getElementById('tgl-message-label');
+   315→    var resultSection = document.getElementById('tgl-result');
+   316→    var linkDisplay = document.getElementById('tgl-link');
+   317→    var errorMsg = document.getElementById('tgl-error');
+   318→    var copyBtn = document.getElementById('tgl-copy-link');
+   319→    var previewMsg = document.getElementById('tgl-preview-msg');
+   320→    var downloadQrBtn = document.getElementById('tgl-download-qr');
+   321→    var shareWhatsAppBtn = document.getElementById('tgl-share-whatsapp');
+   322→    var shareTelegramBtn = document.getElementById('tgl-share-telegram');
+   323→    var shareCopyBtn = document.getElementById('tgl-share-copy');
+   324→    var openTelegramBtn = document.getElementById('tgl-open-telegram');
+   325→
+   326→    var linkTypeBot = document.getElementById('tgl-linktype-bot');
+   327→    var linkTypePersonal = document.getElementById('tgl-linktype-personal');
+   328→
+   329→    var generatedLink = '';
+   330→    var selectedLinkType = 'bot'; // default
+   331→
+   332→    // Link type selection
+   333→    function selectLinkType(type) {
+   334→      selectedLinkType = type;
+   335→      if (type === 'bot') {
+   336→        linkTypeBot.classList.add('link-type-option-active');
+   337→        linkTypeBot.setAttribute('aria-checked', 'true');
+   338→        linkTypePersonal.classList.remove('link-type-option-active');
+   339→        linkTypePersonal.setAttribute('aria-checked', 'false');
+   340→        messageLabel.textContent = messageInput.getAttribute('data-label-bot');
+   341→        messageInput.placeholder = messageInput.getAttribute('data-placeholder-bot');
+   342→      } else {
+   343→        linkTypePersonal.classList.add('link-type-option-active');
+   344→        linkTypePersonal.setAttribute('aria-checked', 'true');
+   345→        linkTypeBot.classList.remove('link-type-option-active');
+   346→        linkTypeBot.setAttribute('aria-checked', 'false');
+   347→        messageLabel.textContent = messageInput.getAttribute('data-label-personal');
+   348→        messageInput.placeholder = messageInput.getAttribute('data-placeholder-personal');
+   349→      }
+   350→    }
+   351→
+   352→    linkTypeBot.addEventListener('click', function() { selectLinkType('bot'); });
+   353→    linkTypePersonal.addEventListener('click', function() { selectLinkType('personal'); });
+   354→    linkTypeBot.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectLinkType('bot'); } });
+   355→    linkTypePersonal.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectLinkType('personal'); } });
+   356→
+   357→    // QR code generation
+   358→    function generateQR(text, container) {
+   359→      if (typeof QRCode !== 'undefined') {
+   360→        container.innerHTML = '';
+   361→        new QRCode(container, {
+   362→          text: text,
+   363→          width: 200,
+   364→          height: 200,
+   365→          colorDark: '#0088cc',
+   366→          colorLight: '#ffffff',
+   367→          correctLevel: QRCode.CorrectLevel.M,
+   368→        });
+   369→        var theme = document.documentElement.getAttribute('data-theme');
+   370→        if (theme === 'light') {
+   371→          container.innerHTML = '';
+   372→          new QRCode(container, {
+   373→            text: text,
+   374→            width: 200,
+   375→            height: 200,
+   376→            colorDark: '#0088cc',
+   377→            colorLight: '#f8fafc',
+   378→            correctLevel: QRCode.CorrectLevel.M,
+   379→          });
+   380→        }
+   381→      } else {
+   382→        container.innerHTML = '<p style="text-align:center;color:var(--text-secondary);padding:1rem;">QR library loading...</p>';
+   383→      }
+   384→    }
+   385→
+   386→    // Generate link
+   387→    function doGenerate() {
+   388→      var username = usernameInput.value.trim().replace(/^@/, '');
+   389→      var message = messageInput.value.trim();
+   390→
+   391→      if (!username) {
+   392→        errorMsg.textContent = usernameInput.getAttribute('data-error-empty');
+   393→        errorMsg.style.display = 'block';
+   394→        return;
+   395→      }
+   396→
+   397→      // Validate username: 5-32 chars, letters, digits, underscores
+   398→      if (!/^[a-zA-Z][a-zA-Z0-9_]{4,31}$/.test(username)) {
+   399→        errorMsg.textContent = usernameInput.getAttribute('data-error-format');
+   400→        errorMsg.style.display = 'block';
+   401→        return;
+   402→      }
+   403→
+   404→      errorMsg.style.display = 'none';
+   405→
+   406→      var link = 'https://t.me/' + username;
+   407→      if (message) {
+   408→        if (selectedLinkType === 'bot') {
+   409→          link += '?start=' + encodeURIComponent(message);
+   410→        } else {
+   411→          link += '?text=' + encodeURIComponent(message);
+   412→        }
+   413→      }
+   414→
+   415→      generatedLink = link;
+   416→      linkDisplay.textContent = link;
+   417→      resultSection.style.display = 'block';
+   418→      previewMsg.textContent = message || '👋';
+   419→      previewMsg.style.display = 'block';
+   420→
+   421→      var qrCanvas = document.getElementById('tgl-qr-canvas');
+   422→      generateQR(link, qrCanvas);
+   423→
+   424→      resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+   425→    }
+   426→
+   427→    // Copy link
+   428→    function doCopy(text) {
+   429→      navigator.clipboard.writeText(text).then(function() {
+   430→        var label = copyBtn.querySelector('.copy-label');
+   431→        var originalText = label.textContent;
+   432→        label.textContent = '✓';
+   433→        setTimeout(function() { label.textContent = originalText; }, 1500);
+   434→      }).catch(function() {
+   435→        var textarea = document.createElement('textarea');
+   436→        textarea.value = text;
+   437→        document.body.appendChild(textarea);
+   438→        textarea.select();
+   439→        document.execCommand('copy');
+   440→        document.body.removeChild(textarea);
+   441→      });
+   442→    }
+   443→
+   444→    // Download QR
+   445→    function doDownloadQR() {
+   446→      var qrCanvas = document.getElementById('tgl-qr-canvas');
+   447→      var canvas = qrCanvas && qrCanvas.querySelector('canvas');
+   448→      if (canvas) {
+   449→        var link = document.createElement('a');
+   450→        link.download = 'telegram-link-qr.png';
+   451→        link.href = canvas.toDataURL('image/png');
+   452→        link.click();
+   453→      } else {
+   454→        var img = qrCanvas && qrCanvas.querySelector('img');
+   455→        if (img) {
+   456→          var link = document.createElement('a');
+   457→          link.download = 'telegram-link-qr.png';
+   458→          link.href = img.src;
+   459→          link.click();
+   460→        }
+   461→      }
+   462→    }
+   463→
+   464→    // Share via WhatsApp
+   465→    function doShareWhatsApp() {
+   466→      if (!generatedLink) return;
+   467→      window.open('https://wa.me/?text=' + encodeURIComponent(generatedLink), '_blank');
+   468→    }
+   469→
+   470→    // Share via Telegram
+   471→    function doShareTelegram() {
+   472→      if (!generatedLink) return;
+   473→      window.open('https://t.me/share/url?url=' + encodeURIComponent(generatedLink), '_blank');
+   474→    }
+   475→
+   476→    // Open in Telegram
+   477→    function doOpenTelegram() {
+   478→      if (!generatedLink) return;
+   479→      window.open(generatedLink, '_blank');
+   480→    }
+   481→
+   482→    // Event listeners
+   483→    generateBtn.addEventListener('click', doGenerate);
+   484→    copyBtn.addEventListener('click', function() { doCopy(generatedLink); });
+   485→    downloadQrBtn.addEventListener('click', doDownloadQR);
+   486→    shareWhatsAppBtn.addEventListener('click', doShareWhatsApp);
+   487→    shareTelegramBtn.addEventListener('click', doShareTelegram);
+   488→    shareCopyBtn.addEventListener('click', function() { doCopy(generatedLink); });
+   489→    openTelegramBtn.addEventListener('click', doOpenTelegram);
+   490→
+   491→    usernameInput.addEventListener('keydown', function(e) {
+   492→      if (e.key === 'Enter') doGenerate();
+   493→    });
+   494→  }
+   495→
+   496→  initTgLinkGenerator();
+   497→</script>
+   498→
+   499→<style>
+   500→  .container {
+   501→    position: relative;
+   502→    z-index: 1;
+   503→    width: 100%;
+   504→    margin: 0 auto;
+   505→    max-width: 640px;
+   506→    padding: 0;
+   507→    display: flex;
+   508→    flex-direction: column;
+   509→    gap: 1.5rem;
+   510→  }
+   511→
+   512→  @media (max-width: 640px) {
+   513→
+   514→  }
+   515→
+   516→  /* Hero */
+   517→  .hero {
+   518→    text-align: center;
+   519→    padding: 0.5rem 0;
+   520→  }
+   521→
+   522→  .title {
+   523→    font-size: 2.25rem;
+   524→    font-weight: 800;
+   525→    letter-spacing: -0.03em;
+   526→    color: var(--text-primary);
+   527→    line-height: 1.2;
+   528→  }
+   529→
+   530→  .subtitle {
+   531→    font-size: 1rem;
+   532→    color: var(--text-secondary);
+   533→    margin-top: 0.5rem;
+   534→    line-height: 1.5;
+   535→  }/* Generator Section */
+   536→  .generator {
+   537→    background: var(--bg-secondary);
+   538→    border-radius: 16px;
+   539→    padding: 1.5rem;
+   540→    display: flex;
+   541→    flex-direction: column;
+   542→    gap: 1rem;
+   543→    box-shadow: var(--card-shadow), 0 4px 24px rgba(0, 0, 0, 0.15);
+   544→    border: 1px solid var(--border-color);
+   545→  }
+   546→
+   547→  /* Step Sections */
+   548→  .step-section {
+   549→    display: flex;
+   550→    align-items: flex-start;
+   551→    gap: 1rem;
+   552→  }
+   553→
+   554→  .step-number {
+   555→    display: flex;
+   556→    align-items: center;
+   557→    justify-content: center;
+   558→    width: 28px;
+   559→    height: 28px;
+   560→    border-radius: 50%;
+   561→    background: #2AABEE;
+   562→    color: #fff;
+   563→    font-weight: 700;
+   564→    font-size: 0.85rem;
+   565→    flex-shrink: 0;
+   566→  }
+   567→
+   568→  .step-content {
+   569→    flex: 1;
+   570→    display: flex;
+   571→    flex-direction: column;
+   572→    gap: 0.4rem;
+   573→  }
+   574→
+   575→  .label {
+   576→    font-size: 0.85rem;
+   577→    font-weight: 600;
+   578→    color: var(--text-primary);
+   579→  }
+   580→
+   581→  .optional {
+   582→    font-size: 0.75rem;
+   583→    color: var(--text-secondary);
+   584→    font-weight: 400;
+   585→  }
+   586→
+   587→  /* Link Type Selector */
+   588→  .link-type-selector {
+   589→    display: flex;
+   590→    flex-direction: column;
+   591→    gap: 0.5rem;
+   592→  }
+   593→
+   594→  .link-type-option {
+   595→    display: flex;
+   596→    align-items: flex-start;
+   597→    gap: 0.75rem;
+   598→    padding: 0.75rem 1rem;
+   599→    border-radius: 12px;
+   600→    background: var(--bg-input);
+   601→    border: 2px solid var(--border-color);
+   602→    cursor: pointer;
+   603→    transition: all 0.2s;
+   604→  }
+   605→
+   606→  .link-type-option:hover {
+   607→    border-color: rgba(42, 171, 238, 0.4);
+   608→  }
+   609→
+   610→  .link-type-option-active {
+   611→    border-color: #2AABEE;
+   612→    background: rgba(42, 171, 238, 0.06);
+   613→  }
+   614→
+   615→  .link-type-radio {
+   616→    display: flex;
+   617→    align-items: center;
+   618→    justify-content: center;
+   619→    width: 20px;
+   620→    height: 20px;
+   621→    border-radius: 50%;
+   622→    border: 2px solid var(--border-color);
+   623→    flex-shrink: 0;
+   624→    margin-top: 2px;
+   625→    transition: border-color 0.2s;
+   626→  }
+   627→
+   628→  .link-type-option-active .link-type-radio {
+   629→    border-color: #2AABEE;
+   630→  }
+   631→
+   632→  .link-type-radio-dot {
+   633→    width: 10px;
+   634→    height: 10px;
+   635→    border-radius: 50%;
+   636→    background: transparent;
+   637→    transition: background 0.2s;
+   638→  }
+   639→
+   640→  .link-type-option-active .link-type-radio-dot {
+   641→    background: #2AABEE;
+   642→  }
+   643→
+   644→  .link-type-info {
+   645→    display: flex;
+   646→    flex-direction: column;
+   647→    gap: 0.15rem;
+   648→  }
+   649→
+   650→  .link-type-name {
+   651→    font-size: 0.85rem;
+   652→    font-weight: 600;
+   653→    color: var(--text-primary);
+   654→  }
+   655→
+   656→  .link-type-desc {
+   657→    font-size: 0.75rem;
+   658→    color: var(--text-secondary);
+   659→    line-height: 1.4;
+   660→  }
+   661→
+   662→  /* Username Input Group */
+   663→  .username-input-group {
+   664→    display: flex;
+   665→    align-items: center;
+   666→    gap: 0;
+   667→    border-radius: 12px;
+   668→    background: var(--bg-input);
+   669→    border: 1.5px solid var(--border-color);
+   670→    transition: border-color 0.15s;
+   671→  }
+   672→
+   673→  .username-input-group:focus-within {
+   674→    border-color: #2AABEE;
+   675→  }
+   676→
+   677→  .username-prefix {
+   678→    display: flex;
+   679→    align-items: center;
+   680→    padding: 0.6rem 0.5rem;
+   681→    font-size: 1rem;
+   682→    font-weight: 600;
+   683→    color: var(--text-secondary);
+   684→  }
+   685→
+   686→  .username-input {
+   687→    flex: 1;
+   688→    background: transparent;
+   689→    border: none;
+   690→    padding: 0.6rem 0.75rem 0.6rem 0;
+   691→    font-size: 1rem;
+   692→    color: var(--text-primary);
+   693→    outline: none;
+   694→    min-width: 0;
+   695→  }
+   696→
+   697→  .username-input::placeholder {
+   698→    color: var(--text-secondary);
+   699→    opacity: 0.6;
+   700→  }
+   701→
+   702→  .hint {
+   703→    font-size: 0.75rem;
+   704→    color: var(--text-secondary);
+   705→    line-height: 1.4;
+   706→  }
+   707→
+   708→  .error-msg {
+   709→    font-size: 0.8rem;
+   710→    color: #ef4444;
+   711→    display: none;
+   712→  }
+   713→
+   714→  /* Message Input */
+   715→  .message-input {
+   716→    background: var(--bg-input);
+   717→    border: 1.5px solid var(--border-color);
+   718→    border-radius: 12px;
+   719→    padding: 0.6rem 0.75rem;
+   720→    font-size: 0.9rem;
+   721→    color: var(--text-primary);
+   722→    outline: none;
+   723→    resize: vertical;
+   724→    min-height: 60px;
+   725→    transition: border-color 0.15s;
+   726→  }
+   727→
+   728→  .message-input:focus {
+   729→    border-color: #2AABEE;
+   730→  }
+   731→
+   732→  .message-input::placeholder {
+   733→    color: var(--text-secondary);
+   734→    opacity: 0.6;
+   735→  }
+   736→
+   737→  /* Submit Button — Telegram blue */
+   738→  .submit-btn {
+   739→    display: inline-flex;
+   740→    align-items: center;
+   741→    justify-content: center;
+   742→    gap: 0.5rem;
+   743→    width: 100%;
+   744→    padding: 0.75rem 1.5rem;
+   745→    border-radius: 12px;
+   746→    background: #2AABEE;
+   747→    color: #fff;
+   748→    font-weight: 700;
+   749→    font-size: 1rem;
+   750→    border: none;
+   751→    cursor: pointer;
+   752→    transition: all 0.15s;
+   753→    box-shadow: 0 4px 14px rgba(42, 171, 238, 0.3);
+   754→  }
+   755→
+   756→  .submit-btn:hover {
+   757→    background: #0088cc;
+   758→    box-shadow: 0 6px 20px rgba(42, 171, 238, 0.4);
+   759→  }
+   760→
+   761→  .submit-btn:active {
+   762→    transform: scale(0.98);
+   763→  }
+   764→
+   765→  .btn-icon {
+   766→    width: 18px;
+   767→    height: 18px;
+   768→  }
+   769→
+   770→  /* Result Section */
+   771→  .result-section {
+   772→    display: flex;
+   773→    flex-direction: column;
+   774→    gap: 1.25rem;
+   775→    padding-top: 1rem;
+   776→    animation: fadeIn 0.3s ease;
+   777→  }
+   778→
+   779→  @keyframes fadeIn {
+   780→    from { opacity: 0; transform: translateY(10px); }
+   781→    to { opacity: 1; transform: translateY(0); }
+   782→  }
+   783→
+   784→  .result-title {
+   785→    font-size: 1.1rem;
+   786→    font-weight: 700;
+   787→    color: #2AABEE;
+   788→  }
+   789→
+   790→  /* Link Box */
+   791→  .link-box {
+   792→    display: flex;
+   793→    align-items: center;
+   794→    gap: 0.5rem;
+   795→    background: var(--bg-input);
+   796→    border: 1.5px solid var(--border-color);
+   797→    border-radius: 12px;
+   798→    padding: 0.75rem 1rem;
+   799→    overflow: hidden;
+   800→  }
+   801→
+   802→  .link-text {
+   803→    flex: 1;
+   804→    font-size: 0.85rem;
+   805→    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+   806→    color: #2AABEE;
+   807→    word-break: break-all;
+   808→    white-space: normal;
+   809→    line-height: 1.4;
+   810→  }
+   811→
+   812→  .copy-btn {
+   813→    display: inline-flex;
+   814→    align-items: center;
+   815→    gap: 0.3rem;
+   816→    padding: 0.4rem 0.6rem;
+   817→    border-radius: 8px;
+   818→    background: #2AABEE;
+   819→    color: #fff;
+   820→    font-size: 0.75rem;
+   821→    font-weight: 600;
+   822→    border: none;
+   823→    cursor: pointer;
+   824→    transition: all 0.15s;
+   825→    flex-shrink: 0;
+   826→  }
+   827→
+   828→  .copy-btn:hover {
+   829→    background: #0088cc;
+   830→  }
+   831→
+   832→  .copy-icon {
+   833→    width: 14px;
+   834→    height: 14px;
+   835→  }
+   836→
+   837→  /* Open in Telegram Button */
+   838→  .open-tg-btn {
+   839→    display: inline-flex;
+   840→    align-items: center;
+   841→    justify-content: center;
+   842→    gap: 0.6rem;
+   843→    width: 100%;
+   844→    padding: 0.8rem 1.5rem;
+   845→    border-radius: 12px;
+   846→    background: #2AABEE;
+   847→    color: #fff;
+   848→    font-weight: 700;
+   849→    font-size: 1rem;
+   850→    border: none;
+   851→    cursor: pointer;
+   852→    transition: all 0.2s;
+   853→    box-shadow: 0 4px 16px rgba(42, 171, 238, 0.35);
+   854→  }
+   855→
+   856→  .open-tg-btn:hover {
+   857→    background: #0088cc;
+   858→    box-shadow: 0 6px 20px rgba(42, 171, 238, 0.45);
+   859→    transform: translateY(-1px);
+   860→  }
+   861→
+   862→  .open-tg-btn:active {
+   863→    transform: translateY(0) scale(0.98);
+   864→  }
+   865→
+   866→  .open-tg-icon {
+   867→    width: 20px;
+   868→    height: 20px;
+   869→  }
+   870→
+   871→  /* QR Code Section */
+   872→  .qr-section {
+   873→    display: flex;
+   874→    flex-direction: column;
+   875→    align-items: center;
+   876→    gap: 0.75rem;
+   877→    padding: 1rem;
+   878→    background: var(--bg-input);
+   879→    border-radius: 12px;
+   880→    border: 1px solid var(--border-color);
+   881→  }
+   882→
+   883→  .qr-title {
+   884→    font-size: 0.9rem;
+   885→    font-weight: 600;
+   886→    color: var(--text-primary);
+   887→  }
+   888→
+   889→  .qr-canvas {
+   890→    display: flex;
+   891→    align-items: center;
+   892→    justify-content: center;
+   893→    padding: 0.5rem;
+   894→  }
+   895→
+   896→  .qr-canvas canvas,
+   897→  .qr-canvas img {
+   898→    border-radius: 8px;
+   899→  }
+   900→
+   901→  .download-btn {
+   902→    display: inline-flex;
+   903→    align-items: center;
+   904→    gap: 0.4rem;
+   905→    padding: 0.5rem 1rem;
+   906→    border-radius: 8px;
+   907→    background: var(--bg-secondary);
+   908→    border: 1.5px solid var(--border-color);
+   909→    color: var(--text-primary);
+   910→    font-size: 0.8rem;
+   911→    font-weight: 600;
+   912→    cursor: pointer;
+   913→    transition: all 0.15s;
+   914→  }
+   915→
+   916→  .download-btn:hover {
+   917→    border-color: #2AABEE;
+   918→    color: #2AABEE;
+   919→  }
+   920→
+   921→  /* Share Buttons */
+   922→  .share-section {
+   923→    display: flex;
+   924→    flex-direction: column;
+   925→    align-items: center;
+   926→    gap: 0.5rem;
+   927→  }
+   928→
+   929→  .share-label {
+   930→    font-size: 0.8rem;
+   931→    color: var(--text-secondary);
+   932→  }
+   933→
+   934→  .share-buttons {
+   935→    display: flex;
+   936→    gap: 0.75rem;
+   937→  }
+   938→
+   939→  .share-btn {
+   940→    display: flex;
+   941→    align-items: center;
+   942→    justify-content: center;
+   943→    width: 40px;
+   944→    height: 40px;
+   945→    border-radius: 50%;
+   946→    border: 1.5px solid var(--border-color);
+   947→    background: var(--bg-secondary);
+   948→    color: var(--text-secondary);
+   949→    cursor: pointer;
+   950→    transition: all 0.15s;
+   951→  }
+   952→
+   953→  .share-btn:hover {
+   954→    transform: scale(1.1);
+   955→  }
+   956→
+   957→  .wa-share:hover {
+   958→    border-color: #25D366;
+   959→    color: #25D366;
+   960→    background: rgba(37, 211, 102, 0.1);
+   961→  }
+   962→
+   963→  .tg-share:hover {
+   964→    border-color: #0088cc;
+   965→    color: #0088cc;
+   966→    background: rgba(0, 136, 204, 0.1);
+   967→  }
+   968→
+   969→  .copy-share:hover {
+   970→    border-color: #2AABEE;
+   971→    color: #2AABEE;
+   972→    background: rgba(42, 171, 238, 0.1);
+   973→  }
+   974→
+   975→  /* Preview Card — Telegram style */
+   976→  .preview-section {
+   977→    display: flex;
+   978→    flex-direction: column;
+   979→    align-items: center;
+   980→    gap: 0.5rem;
+   981→  }
+   982→
+   983→  .preview-label {
+   984→    font-size: 0.8rem;
+   985→    color: var(--text-secondary);
+   986→  }
+   987→
+   988→  .preview-card {
+   989→    width: 100%;
+   990→    max-width: 280px;
+   991→    padding: 0.75rem;
+   992→    background: var(--bg-input);
+   993→    border-radius: 12px;
+   994→  }
+   995→
+   996→  .preview-bubble {
+   997→    display: inline-block;
+   998→    padding: 0.5rem 0.75rem;
+   999→    background: #2AABEE;
+  1000→    color: #fff;
+  1001→    border-radius: 12px 12px 12px 0;
+  1002→    font-size: 0.85rem;
+  1003→    max-width: 85%;
+  1004→    position: relative;
+  1005→  }
+  1006→
+  1007→  .preview-message {
+  1008→    word-break: break-word;
+  1009→  }
+  1010→
+  1011→  .preview-time {
+  1012→    font-size: 0.65rem;
+  1013→    color: rgba(255,255,255,0.7);
+  1014→    text-align: right;
+  1015→    margin-top: 0.2rem;
+  1016→  }
+  1017→
+  1018→  /* SEO Section */
+  1019→  .seo-section {
+  1020→    display: flex;
+  1021→    flex-direction: column;
+  1022→    gap: 1.5rem;
+  1023→  }
+  1024→
+  1025→  .seo-block {
+  1026→    display: flex;
+  1027→    flex-direction: column;
+  1028→    gap: 0.5rem;
+  1029→  }
+  1030→
+  1031→  .seo-heading {
+  1032→    font-size: 1.3rem;
+  1033→    font-weight: 700;
+  1034→    color: var(--text-primary);
+  1035→    letter-spacing: -0.02em;
+  1036→  }
+  1037→
+  1038→  .seo-text {
+  1039→    font-size: 0.9rem;
+  1040→    line-height: 1.6;
+  1041→    color: var(--text-secondary);
+  1042→  }
+  1043→
+  1044→  /* Feature Grid */
+  1045→  .feature-grid {
+  1046→    display: grid;
+  1047→    grid-template-columns: 1fr 1fr;
+  1048→    gap: 1rem;
+  1049→    margin-top: 0.75rem;
+  1050→  }
+  1051→
+  1052→  @media (max-width: 480px) {
+  1053→    .feature-grid {
+  1054→      grid-template-columns: 1fr;
+  1055→    }
+  1056→  }
+  1057→
+  1058→  .feature-card {
+  1059→    display: flex;
+  1060→    flex-direction: column;
+  1061→    gap: 0.5rem;
+  1062→    padding: 1rem;
+  1063→    background: var(--bg-secondary);
+  1064→    border: 1px solid var(--border-color);
+  1065→    border-radius: 12px;
+  1066→  }
+  1067→
+  1068→  .tg-feature-icon {
+  1069→    display: flex;
+  1070→    align-items: center;
+  1071→    justify-content: center;
+  1072→    width: 40px;
+  1073→    height: 40px;
+  1074→    border-radius: 10px;
+  1075→    background: rgba(42, 171, 238, 0.1);
+  1076→    color: #2AABEE;
+  1077→  }
+  1078→
+  1079→  .tg-feature-icon svg {
+  1080→    width: 20px;
+  1081→    height: 20px;
+  1082→  }
+  1083→
+  1084→  .feature-title {
+  1085→    font-size: 0.9rem;
+  1086→    font-weight: 700;
+  1087→    color: var(--text-primary);
+  1088→  }
+  1089→
+  1090→  .feature-desc {
+  1091→    font-size: 0.8rem;
+  1092→    color: var(--text-secondary);
+  1093→    line-height: 1.5;
+  1094→  }
+  1095→
+  1096→  /* FAQ List */
+  1097→  .faq-list {
+  1098→    display: flex;
+  1099→    flex-direction: column;
+  1100→    gap: 0.75rem;
+  1101→  }
+  1102→
+  1103→  .faq-item {
+  1104→    background: var(--bg-secondary);
+  1105→    border: 1px solid var(--border-color);
+  1106→    border-radius: 12px;
+  1107→    overflow: hidden;
+  1108→  }
+  1109→
+  1110→  .faq-q {
+  1111→    font-size: 0.9rem;
+  1112→    font-weight: 600;
+  1113→    color: var(--text-primary);
+  1114→    padding: 0.75rem 1rem;
+  1115→    cursor: pointer;
+  1116→    list-style: none;
+  1117→  }
+  1118→
+  1119→  .faq-q::-webkit-details-marker { display: none; }
+  1120→
+  1121→  .faq-a {
+  1122→    font-size: 0.85rem;
+  1123→    color: var(--text-secondary);
+  1124→    line-height: 1.5;
+  1125→    padding: 0 1rem 0.75rem;
+  1126→  }
+  1127→</style>
+  1128→
