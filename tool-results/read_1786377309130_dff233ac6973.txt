@@ -1,0 +1,700 @@
+     1→---
+     2→import { getRelativeLocaleUrl } from 'astro:i18n';
+     3→import { useTranslations } from '../i18n/utils';
+     4→import LanguageSwitcher from './LanguageSwitcher.astro';
+     5→import { type Lang } from '../i18n/ui';
+     6→
+     7→export interface Props {
+     8→  lang: Lang;
+     9→  /** Service slug for LanguageSwitcher (e.g. 'telegram', 'qr-code'). Empty string = hub. */
+    10→  path?: string;
+    11→  /** Active tool slug for highlighting in the mobile menu (e.g. 'whatsapp', 'telegram') */
+    12→  activeTool?: string;
+    13→}
+    14→
+    15→const { lang, path = '', activeTool = '' } = Astro.props;
+    16→const t = useTranslations(lang);
+    17→
+    18→// Tool categories — same structure as ToolSidebar
+    19→const tools = [
+    20→  { category: 'sidebar.whatsapp', items: [
+    21→    { slug: 'whatsapp', key: 'hub.service.whatsapp.title', icon: 'wa' },
+    22→    { slug: 'wa-link', key: 'hub.service.walink.title', icon: 'wa' },
+    23→    { slug: 'wa-widget', key: 'hub.service.widget.title', icon: 'wa' },
+    24→    { slug: 'whatsapp-text-formatter', key: 'hub.service.formatter.title', icon: 'format' },
+    25→    { slug: 'quick-replies', key: 'hub.service.quickreplies.title', icon: 'reply' },
+    26→    { slug: 'broadcast', key: 'hub.service.broadcast.title', icon: 'broadcast' },
+    27→  ]},
+    28→  { category: 'sidebar.telegram', items: [
+    29→    { slug: 'telegram', key: 'hub.service.telegram.title', icon: 'tg' },
+    30→    { slug: 'tg-link', key: 'hub.service.tglink.title', icon: 'tg' },
+    31→  ]},
+    32→  { category: 'sidebar.viber', items: [
+    33→    { slug: 'viber', key: 'hub.service.viber.title', icon: 'vb' },
+    34→  ]},
+    35→  { category: 'sidebar.signal', items: [
+    36→    { slug: 'signal', key: 'hub.service.signal.title', icon: 'sg' },
+    37→  ]},
+    38→  { category: 'sidebar.kakaotalk', items: [
+    39→    { slug: 'kakaotalk', key: 'hub.service.kakaotalk.title', icon: 'kt' },
+    40→  ]},
+    41→  { category: 'sidebar.instagram', items: [
+    42→    { slug: 'instagram', key: 'hub.service.instagram.title', icon: 'ig' },
+    43→  ]},
+    44→  { category: 'sidebar.texttools', items: [
+    45→    { slug: 'fancy-text', key: 'hub.service.fancytext.title', icon: 'format' },
+    46→    { slug: 'word-counter', key: 'hub.service.wordcounter.title', icon: 'doc' },
+    47→    { slug: 'notepad', key: 'hub.service.notepad.title', icon: 'notepad' },
+    48→  ]},
+    49→  { category: 'sidebar.utilities', items: [
+    50→    { slug: 'qr-code', key: 'hub.service.qr.title', icon: 'qr' },
+    51→    { slug: 'password', key: 'hub.service.password.title', icon: 'lock' },
+    52→    { slug: 'unit-converter', key: 'hub.service.converter.title', icon: 'convert' },
+    53→    { slug: 'emoji-picker', key: 'hub.service.emojipicker.title', icon: 'emoji' },
+    54→    { slug: 'pdf-merger', key: 'hub.service.pdfmerger.title', icon: 'pdf' },
+    55→  ]},
+    56→  { category: 'sidebar.beta', items: [
+    57→    { slug: 'timezone', key: 'hub.service.timezone.title', icon: 'clock' },
+    58→    { slug: 'pomodoro', key: 'hub.service.pomodoro.title', icon: 'pomodoro' },
+    59→    { slug: 'sleep-calculator', key: 'hub.service.sleep.title', icon: 'sleep' },
+    60→  ]},
+    61→];
+    62→
+    63→// SVG icon map (same as ToolSidebar)
+    64→const icons: Record<string, string> = {
+    65→  wa: `<svg viewBox="0 0 24 24" fill="currentColor" class="nav-icon" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`,
+    66→  tg: `<svg viewBox="0 0 24 24" fill="currentColor" class="nav-icon" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>`,
+    67→  vb: `<svg viewBox="0 0 24 24" fill="currentColor" class="nav-icon" aria-hidden="true"><path d="M11.4 0C5.1 0 0 5.1 0 11.4c0 2.4.7 4.6 2 6.5L.1 23.5l5.8-1.9c1.8 1.1 3.9 1.7 6.1 1.7 6.3 0 11.4-5.1 11.4-11.4S17.7 0 11.4 0zm6.7 16.1c-.3.8-1.6 1.6-2.2 1.7-.6.1-1.2.2-4-1.1-3.3-1.5-5.4-4.9-5.6-5.1-.2-.3-1.5-2-1.5-3.8 0-1.8.9-2.7 1.3-3.1.4-.4.8-.5 1.1-.5h.8c.3 0 .6 0 .9.6.3.7 1.1 2.7 1.2 2.9.1.2.1.4 0 .6-.1.2-.1.4-.3.6-.2.2-.4.5-.6.7-.2.2-.4.4-.2.7.2.3.9 1 1.3 1.9 2.2.9.7.1.8.4.6.7-.2.3-.3.5-.5.8-.2.3-.4.6-.2.9.2.3 1 1.1 1.2 2.3 1.8s1.8.8 2.1.9c.3.1.5.1.7-.1.2-.2.8-1 1-1.3.2-.3.4-.3.7-.1.2.1.5.3.7.4.2.1.5.3.7.1.2.1.5 0 .7-.1.3-.6 1.1-1.4 1.9-1.9 1.9z"/></svg>`,
+    68→  sg: `<svg viewBox="0 0 24 24" fill="currentColor" class="nav-icon" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.98 4-3.08 6-3.08 1.99 0 5.97 1.1 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>`,
+    69→  format: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-icon" aria-hidden="true"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>`,
+    70→  doc: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-icon" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>`,
+    71→  notepad: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-icon" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`,
+    72→  qr: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-icon" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3" height="3"/><line x1="21" y1="14" x2="21" y2="14.01"/><line x1="21" y1="21" x2="21" y2="21.01"/><line x1="17" y1="18" x2="17" y2="18.01"/></svg>`,
+    73→  lock: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-icon" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`,
+    74→  convert: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-icon" aria-hidden="true"><path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>`,
+    75→  clock: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-icon" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+    76→  emoji: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-icon" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>`,
+    77→  pdf: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-icon" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 13h1.5a1.5 1.5 0 0 1 0 3H9v-3z"/><path d="M14 13v3"/><path d="M14 13h1.5"/><path d="M14 15h1"/></svg>`,
+    78→  reply: `<svg viewBox="0 0 24 24" fill="currentColor" class="nav-icon" aria-hidden="true"><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></svg>`,
+    79→  calendar: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-icon" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
+    80→  broadcast: `<svg viewBox="0 0 24 24" fill="currentColor" class="nav-icon" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>`,
+    81→  pomodoro: `<svg viewBox="0 0 24 24" fill="currentColor" class="nav-icon" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>`,
+    82→  sleep: `<svg viewBox="0 0 24 24" fill="currentColor" class="nav-icon" aria-hidden="true"><path d="M12.34 2C6.59 2 2 6.59 2 12s4.59 10 10.34 10c1.12 0 2.19-.19 3.19-.53-.79-1.54-1.24-3.28-1.24-5.12 0-5.91 4.8-10.71 10.71-10.71 1.05 0 2.06.15 3.02.42C26.84 3.07 20.14 2 12.34 2zM11 8.5l-1.5 2.5L8 8.5V13h3V8.5zm3.5 0L16 11l-1.5-2.5V13h3V8.5z"/></svg>`,
+    83→  kt: `<svg viewBox="0 0 24 24" fill="currentColor" class="nav-icon" aria-hidden="true"><path d="M12 2C8.5 2 5.4 3.6 3.7 6C2.2 8.1 1.3 10.7 1.3 13.5c0 2.5.8 4.9 2.2 6.8L1.9 23l3.2-.9c2 1.3 4.4 2 6.9 2 6.6 0 12-4.5 12-10.1S18.6 2 12 2zm-1 14h-2v-2h2v2zm0-3.5h-2V7h2v5.5zm4.5 3.5h-2v-2h2v2zm0-3.5h-2V7h2v5.5z"/></svg>`,
+    84→  ig: `<svg viewBox="0 0 24 24" fill="currentColor" class="nav-icon" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>`,
+    85→};
+    86→---
+    87→
+    88→<header class="site-header">
+    89→  <!-- Hamburger button — mobile only -->
+    90→  <button type="button" class="hamburger" id="nav-hamburger" aria-label={t('nav.menu')} aria-expanded="false">
+    91→    <span class="hamburger-line"></span>
+    92→    <span class="hamburger-line"></span>
+    93→    <span class="hamburger-line"></span>
+    94→  </button>
+    95→
+    96→  <a href={getRelativeLocaleUrl(lang)} class="logo" aria-label="OPN Chat — Home">
+    97→    <span class="logo-text">OPN Chat</span>
+    98→    <svg viewBox="0 0 24 24" fill="currentColor" class="logo-icon" aria-hidden="true">
+    99→      <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+   100→    </svg>
+   101→  </a>
+   102→
+   103→  <div class="header-right">
+   104→    <LanguageSwitcher lang={lang} path={path} />
+   105→    <button type="button" class="theme-toggle" aria-label="Toggle theme" id="theme-toggle">
+   106→      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+   107→      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+   108→    </button>
+   109→  </div>
+   110→</header>
+   111→
+   112→<!-- Mobile navigation drawer -->
+   113→<div class="nav-overlay" id="nav-overlay"></div>
+   114→<nav class="nav-drawer" id="nav-drawer" aria-label="Tools navigation">
+   115→  <div class="nav-drawer-header">
+   116→    <a href={getRelativeLocaleUrl(lang)} class="nav-drawer-logo">OPN Chat</a>
+   117→    <button type="button" class="nav-drawer-close" id="nav-drawer-close" aria-label="Close menu">
+   118→      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+   119→    </button>
+   120→  </div>
+   121→
+   122→  <!-- Search input for mobile menu -->
+   123→  <div class="nav-search-wrapper">
+   124→    <svg class="nav-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+   125→      <circle cx="11" cy="11" r="8"/>
+   126→      <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+   127→    </svg>
+   128→    <input
+   129→      type="text"
+   130→      class="nav-search-input"
+   131→      id="nav-search-input"
+   132→      placeholder={t('nav.search.placeholder')}
+   133→      aria-label={t('nav.search.label')}
+   134→    />
+   135→    <button type="button" class="nav-search-clear" id="nav-search-clear" aria-label="Clear search" style="display: none;">
+   136→      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+   137→    </button>
+   138→  </div>
+   139→  <div class="nav-search-results-info" id="nav-search-results-info" style="display: none;"></div>
+   140→
+   141→  <div class="nav-categories-wrapper" id="nav-categories-wrapper">
+   142→    {tools.map((cat) => (
+   143→      <div class="nav-category" data-category>
+   144→        <h3 class="nav-cat-title">{t(cat.category)}</h3>
+   145→        {cat.items.map((item) => (
+   146→          <a
+   147→            href={getRelativeLocaleUrl(lang, item.slug)}
+   148→            class:list={['nav-link', { 'nav-link-active': item.slug === activeTool }]}
+   149→            data-searchable
+   150→            data-search-text={t(item.key).toLowerCase()}
+   151→          >
+   152→            <Fragment set:html={icons[item.icon]} />
+   153→            {t(item.key)}
+   154→          </a>
+   155→        ))}
+   156→      </div>
+   157→    ))}
+   158→  </div>
+   159→  <div class="nav-no-results" id="nav-no-results" style="display: none;">
+   160→    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+   161→      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+   162→    </svg>
+   163→    <span>{t('nav.search.noResults')}</span>
+   164→  </div>
+   165→</nav>
+   166→
+   167→<script is:inline>
+   168→  // Mobile nav drawer toggle
+   169→  // IMPORTANT: Use event delegation on `document` so the listener survives
+   170→  // Astro View Transitions (ClientRouter) DOM swaps. Direct element.addEventListener
+   171→  // dies after the first SPA navigation because the element reference becomes stale.
+   172→  // The lang switcher and theme toggle already use this pattern (see LanguageSwitcher.astro
+   173→  // and Layout.astro) — that's why they work after VT navigation but the burger didn't.
+   174→  (function() {
+   175→    function openDrawer() {
+   176→      var drawer = document.getElementById('nav-drawer');
+   177→      var overlay = document.getElementById('nav-overlay');
+   178→      var hamburger = document.getElementById('nav-hamburger');
+   179→      if (!drawer || !overlay || !hamburger) return;
+   180→      drawer.classList.add('nav-drawer-open');
+   181→      overlay.classList.add('nav-overlay-open');
+   182→      hamburger.setAttribute('aria-expanded', 'true');
+   183→      document.body.style.overflow = 'hidden';
+   184→    }
+   185→
+   186→    function closeDrawer() {
+   187→      var drawer = document.getElementById('nav-drawer');
+   188→      var overlay = document.getElementById('nav-overlay');
+   189→      var hamburger = document.getElementById('nav-hamburger');
+   190→      if (!drawer || !overlay || !hamburger) return;
+   191→      drawer.classList.remove('nav-drawer-open');
+   192→      overlay.classList.remove('nav-overlay-open');
+   193→      hamburger.setAttribute('aria-expanded', 'false');
+   194→      document.body.style.overflow = '';
+   195→    }
+   196→
+   197→    // Single delegated click listener — attached ONCE on document, which persists
+   198→    // across View Transitions swaps. Elements are looked up fresh inside handlers.
+   199→    document.addEventListener('click', function(e) {
+   200→      // Burger toggle
+   201→      if (e.target.closest('#nav-hamburger')) {
+   202→        var drawer = document.getElementById('nav-drawer');
+   203→        var isOpen = drawer && drawer.classList.contains('nav-drawer-open');
+   204→        isOpen ? closeDrawer() : openDrawer();
+   205→        return;
+   206→      }
+   207→      // Close button inside drawer
+   208→      if (e.target.closest('#nav-drawer-close')) {
+   209→        closeDrawer();
+   210→        return;
+   211→      }
+   212→      // Click on overlay (outside drawer) closes
+   213→      if (e.target.closest('#nav-overlay')) {
+   214→        closeDrawer();
+   215→        return;
+   216→      }
+   217→      // Click on a nav link inside drawer closes (before VT navigation)
+   218→      if (e.target.closest('#nav-drawer .nav-link')) {
+   219→        closeDrawer();
+   220→        return;
+   221→      }
+   222→    });
+   223→
+   224→    // Close on Escape — also delegated via document, survives VT swaps
+   225→    document.addEventListener('keydown', function(e) {
+   226→      if (e.key === 'Escape') closeDrawer();
+   227→    });
+   228→
+   229→    // ===== Mobile Nav Search =====
+   230→    (function() {
+   231→      var searchInput = null;
+   232→      var searchClear = null;
+   233→      var categoriesWrapper = null;
+   234→      var noResults = null;
+   235→      var resultsInfo = null;
+   236→
+   237→      function initSearchElements() {
+   238→        searchInput = document.getElementById('nav-search-input');
+   239→        searchClear = document.getElementById('nav-search-clear');
+   240→        categoriesWrapper = document.getElementById('nav-categories-wrapper');
+   241→        noResults = document.getElementById('nav-no-results');
+   242→        resultsInfo = document.getElementById('nav-search-results-info');
+   243→      }
+   244→
+   245→      function filterNav(query) {
+   246→        if (!searchInput || !categoriesWrapper) { initSearchElements(); }
+   247→        if (!categoriesWrapper) return;
+   248→
+   249→        var q = query.toLowerCase().trim();
+   250→        var categories = categoriesWrapper.querySelectorAll('[data-category]');
+   251→        var totalVisible = 0;
+   252→
+   253→        // Show all categories wrapper, hide no-results
+   254→        categoriesWrapper.style.display = '';
+   255→        if (noResults) noResults.style.display = 'none';
+   256→
+   257→        if (!q) {
+   258→          // Reset: show everything
+   259→          categories.forEach(function(cat) {
+   260→            cat.style.display = '';
+   261→            cat.querySelectorAll('.nav-link').forEach(function(link) {
+   262→              link.style.display = '';
+   263→            });
+   264→          });
+   265→          if (searchClear) searchClear.style.display = 'none';
+   266→          if (resultsInfo) resultsInfo.style.display = 'none';
+   267→          return;
+   268→        }
+   269→
+   270→        // Show clear button
+   271→        if (searchClear) searchClear.style.display = 'flex';
+   272→
+   273→        categories.forEach(function(cat) {
+   274→          var links = cat.querySelectorAll('[data-searchable]');
+   275→          var visibleCount = 0;
+   276→
+   277→          links.forEach(function(link) {
+   278→            var text = link.getAttribute('data-search-text') || '';
+   279→            if (text.indexOf(q) !== -1) {
+   280→              link.style.display = '';
+   281→              visibleCount++;
+   282→            } else {
+   283→              link.style.display = 'none';
+   284→            }
+   285→          });
+   286→
+   287→          // Hide category header if no visible links
+   288→          if (visibleCount > 0) {
+   289→            cat.style.display = '';
+   290→            totalVisible += visibleCount;
+   291→          } else {
+   292→            cat.style.display = 'none';
+   293→          }
+   294→        });
+   295→
+   296→        // Show/hide no results message
+   297→        if (totalVisible === 0) {
+   298→          categoriesWrapper.style.display = 'none';
+   299→          if (noResults) noResults.style.display = 'flex';
+   300→        }
+   301→
+   302→        // Show results count
+   303→        if (resultsInfo && totalVisible > 0) {
+   304→          resultsInfo.textContent = totalVisible + ' found';
+   305→          resultsInfo.style.display = '';
+   306→        } else if (resultsInfo) {
+   307→          resultsInfo.style.display = 'none';
+   308→        }
+   309→      }
+   310→
+   311→      // Delegated events for search
+   312→      document.addEventListener('input', function(e) {
+   313→        if (e.target && e.target.id === 'nav-search-input') {
+   314→          filterNav(e.target.value);
+   315→        }
+   316→      });
+   317→
+   318→      document.addEventListener('click', function(e) {
+   319→        // Clear button
+   320→        if (e.target.closest('#nav-search-clear')) {
+   321→          if (!searchInput) initSearchElements();
+   322→          if (searchInput) {
+   323→            searchInput.value = '';
+   324→            filterNav('');
+   325→            searchInput.focus();
+   326→          }
+   327→          return;
+   328→        }
+   329→      });
+   330→
+   331→      // Auto-focus search when drawer opens
+   332→      var originalOpen = openDrawer;
+   333→      openDrawer = function() {
+   334→        originalOpen();
+   335→        setTimeout(function() {
+   336→          if (!searchInput) initSearchElements();
+   337→          if (searchInput) searchInput.focus();
+   338→        }, 300); // After slide-in animation
+   339→      };
+   340→
+   341→      // Clear search when drawer closes
+   342→      var originalClose = closeDrawer;
+   343→      closeClose = function() {
+   344→        if (!searchInput) initSearchElements();
+   345→        if (searchInput) {
+   346→          searchInput.value = '';
+   347→          filterNav('');
+   348→        }
+   349→        originalClose();
+   350→      };
+   351→      
+   352→      // Fix: use the correct function name
+   353→      closeDrawer = function() {
+   354→        if (!searchInput) initSearchElements();
+   355→        if (searchInput) {
+   356→          searchInput.value = '';
+   357→          filterNav('');
+   358→        }
+   359→        originalClose();
+   360→      };
+   361→    })();
+   362→  })();
+   363→</script>
+   364→
+   365→<style>
+   366→  /* ===== Header ===== */
+   367→  .site-header {
+   368→    display: flex;
+   369→    align-items: center;
+   370→    justify-content: space-between;
+   371→    width: 100%;
+   372→    gap: 0.5rem;
+   373→    margin-bottom: 0.5rem;
+   374→  }
+   375→
+   376→  /* Hamburger — hidden on desktop, visible on mobile */
+   377→  .hamburger {
+   378→    display: none;
+   379→    flex-direction: column;
+   380→    justify-content: center;
+   381→    gap: 5px;
+   382→    width: 36px;
+   383→    height: 36px;
+   384→    padding: 7px;
+   385→    border: none;
+   386→    background: transparent;
+   387→    cursor: pointer;
+   388→    flex-shrink: 0;
+   389→    border-radius: 8px;
+   390→    transition: background 0.2s;
+   391→  }
+   392→
+   393→  .hamburger:hover {
+   394→    background: rgba(128, 128, 128, 0.1);
+   395→  }
+   396→
+   397→  .hamburger-line {
+   398→    display: block;
+   399→    width: 100%;
+   400→    height: 2px;
+   401→    background: var(--text-secondary);
+   402→    border-radius: 2px;
+   403→    transition: all 0.3s ease;
+   404→  }
+   405→
+   406→  /* Logo */
+   407→  .logo {
+   408→    display: flex;
+   409→    align-items: center;
+   410→    gap: 0.5rem;
+   411→    text-decoration: none;
+   412→    color: var(--text-primary);
+   413→  }
+   414→
+   415→  .logo-icon {
+   416→    width: 24px;
+   417→    height: 24px;
+   418→    color: var(--opn-primary);
+   419→    flex-shrink: 0;
+   420→  }
+   421→
+   422→  .logo-text {
+   423→    font-size: 1.15rem;
+   424→    font-weight: 700;
+   425→    letter-spacing: -0.02em;
+   426→    color: var(--text-primary);
+   427→  }
+   428→
+   429→  /* Header right cluster */
+   430→  .header-right {
+   431→    display: flex;
+   432→    align-items: center;
+   433→    gap: 0.5rem;
+   434→  }
+   435→
+   436→  /* ===== Mobile Nav Overlay ===== */
+   437→  .nav-overlay {
+   438→    display: none;
+   439→    position: fixed;
+   440→    inset: 0;
+   441→    background: rgba(0, 0, 0, 0.5);
+   442→    z-index: 999;
+   443→    opacity: 0;
+   444→    transition: opacity 0.3s ease;
+   445→    backdrop-filter: blur(2px);
+   446→    -webkit-backdrop-filter: blur(2px);
+   447→  }
+   448→
+   449→  .nav-overlay-open {
+   450→    display: block;
+   451→    opacity: 1;
+   452→  }
+   453→
+   454→  /* ===== Mobile Nav Drawer ===== */
+   455→  .nav-drawer {
+   456→    display: none;
+   457→    position: fixed;
+   458→    top: 0;
+   459→    left: 0;
+   460→    width: 280px;
+   461→    max-width: 85vw;
+   462→    height: 100vh;
+   463→    background: var(--bg-secondary);
+   464→    border-right: 1px solid var(--border-color);
+   465→    z-index: 1000;
+   466→    overflow-y: auto;
+   467→    transform: translateX(-100%);
+   468→    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+   469→    padding: 1rem 0;
+   470→  }
+   471→
+   472→  .nav-drawer-open {
+   473→    transform: translateX(0);
+   474→  }
+   475→
+   476→  .nav-drawer-header {
+   477→    display: flex;
+   478→    align-items: center;
+   479→    justify-content: space-between;
+   480→    padding: 0.5rem 1rem 0.75rem;
+   481→    border-bottom: 1px solid var(--border-color);
+   482→    margin-bottom: 0.5rem;
+   483→  }
+   484→
+   485→  .nav-drawer-logo {
+   486→    font-size: 1rem;
+   487→    font-weight: 700;
+   488→    color: var(--text-primary);
+   489→    text-decoration: none;
+   490→    letter-spacing: -0.02em;
+   491→  }
+   492→
+   493→  .nav-drawer-logo:hover {
+   494→    color: var(--opn-primary);
+   495→  }
+   496→
+   497→  .nav-drawer-close {
+   498→    display: flex;
+   499→    align-items: center;
+   500→    justify-content: center;
+   501→    width: 32px;
+   502→    height: 32px;
+   503→    border: none;
+   504→    background: transparent;
+   505→    color: var(--text-secondary);
+   506→    cursor: pointer;
+   507→    border-radius: 8px;
+   508→    transition: background 0.2s, color 0.2s;
+   509→    padding: 0;
+   510→  }
+   511→
+   512→  .nav-drawer-close:hover {
+   513→    background: rgba(128, 128, 128, 0.15);
+   514→    color: var(--text-primary);
+   515→  }
+   516→
+   517→  .nav-drawer-close svg {
+   518→    width: 20px;
+   519→    height: 20px;
+   520→  }
+   521→
+   522→  /* ===== Nav Search ===== */
+   523→  .nav-search-wrapper {
+   524→    display: flex;
+   525→    align-items: center;
+   526→    gap: 0.5rem;
+   527→    margin: 0 0.75rem 0.5rem;
+   528→    padding: 0 0.6rem;
+   529→    background: var(--bg-input, rgba(128, 128, 128, 0.08));
+   530→    border: 1.5px solid var(--border-color);
+   531→    border-radius: 10px;
+   532→    transition: border-color 0.2s, box-shadow 0.2s;
+   533→  }
+   534→
+   535→  .nav-search-wrapper:focus-within {
+   536→    border-color: var(--opn-primary);
+   537→    box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.1);
+   538→  }
+   539→
+   540→  .nav-search-icon {
+   541→    width: 16px;
+   542→    height: 16px;
+   543→    color: var(--text-secondary);
+   544→    flex-shrink: 0;
+   545→  }
+   546→
+   547→  .nav-search-input {
+   548→    flex: 1;
+   549→    min-width: 0;
+   550→    padding: 0.5rem 0;
+   551→    font-size: 0.85rem;
+   552→    line-height: 1.3;
+   553→    color: var(--text-primary);
+   554→    background: transparent;
+   555→    border: none;
+   556→    outline: none;
+   557→  }
+   558→
+   559→  .nav-search-input::placeholder {
+   560→    color: var(--text-secondary);
+   561→    opacity: 0.7;
+   562→  }
+   563→
+   564→  .nav-search-clear {
+   565→    display: flex;
+   566→    align-items: center;
+   567→    justify-content: center;
+   568→    width: 22px;
+   569→    height: 22px;
+   570→    padding: 0;
+   571→    border: none;
+   572→    border-radius: 50%;
+   573→    background: rgba(128, 128, 128, 0.15);
+   574→    color: var(--text-secondary);
+   575→    cursor: pointer;
+   576→    flex-shrink: 0;
+   577→    transition: background 0.15s, color 0.15s;
+   578→  }
+   579→
+   580→  .nav-search-clear:hover {
+   581→    background: rgba(128, 128, 128, 0.25);
+   582→    color: var(--text-primary);
+   583→  }
+   584→
+   585→  .nav-search-clear svg {
+   586→    width: 12px;
+   587→    height: 12px;
+   588→  }
+   589→
+   590→  .nav-search-results-info {
+   591→    font-size: 0.7rem;
+   592→    color: var(--text-secondary);
+   593→    padding: 0 1rem;
+   594→    text-align: center;
+   595→    opacity: 0.8;
+   596→  }
+   597→
+   598→  .nav-no-results {
+   599→    display: flex;
+   600→    flex-direction: column;
+   601→    align-items: center;
+   602→    gap: 0.75rem;
+   603→    padding: 2rem 1rem;
+   604→    color: var(--text-secondary);
+   605→    text-align: center;
+   606→  }
+   607→
+   608→  .nav-no-results svg {
+   609→    width: 40px;
+   610→    height: 40px;
+   611→    opacity: 0.4;
+   612→  }
+   613→
+   614→  .nav-no-results span {
+   615→    font-size: 0.85rem;
+   616→  }
+   617→
+   618→  /* Nav categories */
+   619→  .nav-category {
+   620→    padding: 0.35rem 0;
+   621→  }
+   622→
+   623→  .nav-cat-title {
+   624→    font-size: 0.68rem;
+   625→    font-weight: 700;
+   626→    color: var(--text-secondary);
+   627→    padding: 0.2rem 1rem;
+   628→    text-transform: uppercase;
+   629→    letter-spacing: 0.05em;
+   630→    margin: 0;
+   631→  }
+   632→
+   633→  .nav-link {
+   634→    display: flex;
+   635→    align-items: center;
+   636→    gap: 0.5rem;
+   637→    padding: 0.5rem 1rem;
+   638→    font-size: 0.85rem;
+   639→    color: var(--text-secondary);
+   640→    text-decoration: none;
+   641→    border-radius: 8px;
+   642→    transition: all 0.15s;
+   643→    margin: 0.05rem 0.5rem;
+   644→    line-height: 1.3;
+   645→  }
+   646→
+   647→  .nav-link:hover {
+   648→    color: var(--text-primary);
+   649→    background: var(--bg-input);
+   650→  }
+   651→
+   652→  .nav-link-active {
+   653→    color: var(--opn-primary);
+   654→    background: rgba(37, 211, 102, 0.1);
+   655→    font-weight: 600;
+   656→  }
+   657→
+   658→  .nav-link-active:hover {
+   659→    background: rgba(37, 211, 102, 0.15);
+   660→  }
+   661→
+   662→  :global(.nav-icon) {
+   663→    width: 18px;
+   664→    height: 18px;
+   665→    flex-shrink: 0;
+   666→  }
+   667→
+   668→  /* ===== Responsive: show hamburger + drawer on mobile ===== */
+   669→  @media (max-width: 900px) {
+   670→    .hamburger {
+   671→      display: flex;
+   672→    }
+   673→
+   674→    /* nav-overlay stays display:none until .nav-overlay-open is added */
+   675→
+   676→    .nav-drawer {
+   677→      display: block;
+   678→    }
+   679→  }
+   680→
+   681→  @media (max-width: 640px) {
+   682→    .logo-text {
+   683→      font-size: 1rem;
+   684→    }
+   685→  }
+   686→
+   687→  /* ===== RTL support ===== */
+   688→  [dir="rtl"] .nav-drawer {
+   689→    left: auto;
+   690→    right: 0;
+   691→    transform: translateX(100%);
+   692→    border-right: none;
+   693→    border-left: 1px solid var(--border-color);
+   694→  }
+   695→
+   696→  [dir="rtl"] .nav-drawer-open {
+   697→    transform: translateX(0);
+   698→  }
+   699→</style>
+   700→
