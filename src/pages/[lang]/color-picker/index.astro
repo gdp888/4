@@ -1,0 +1,16 @@
+---
+import ColorPickerContent from '../../../components/ColorPickerContent.astro';
+import { languages, defaultLang, type Lang } from '../../../i18n/ui';
+
+// Only non-default languages — default (en) lives at root: /color-picker/
+export function getStaticPaths() {
+  return (Object.keys(languages) as Lang[]).filter((lang) => lang !== defaultLang).map((lang) => ({
+    params: { lang },
+    props: { lang },
+  }));
+}
+
+const { lang } = Astro.props;
+---
+
+<ColorPickerContent lang={lang} />

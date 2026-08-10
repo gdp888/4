@@ -1,0 +1,1096 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { useTranslations } from '../i18n/utils';
+import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
+import { languages, type Lang } from '../i18n/ui';
+import SiteHeader from './SiteHeader.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import SEOHead from './SEOHead.astro';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const colorSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": t('cp.heading'),
+      "url": getAbsoluteLocaleUrl(lang, 'color-picker'),
+      "description": t('cp.meta.description'),
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      isPartOf: {
+        "@type": "WebSite",
+        "name": "OPN Chat",
+        "url": "https://opnchat.net/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "OPN Chat",
+          "item": getAbsoluteLocaleUrl(lang, '')
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": t('cp.heading'),
+          "item": getAbsoluteLocaleUrl(lang, 'color-picker')
+        }
+      ]
+    }
+  ]
+};
+---
+
+<!-- Load Coloris CSS from CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/coloris@0.23.0/dist/coloris.min.css" />
+
+<Layout title={t('cp.meta.title')} lang={lang} service="color-picker">
+  <Fragment slot="meta">
+  <SEOHead
+    lang={lang}
+    description={t('cp.meta.description')}
+    canonicalUrl={getAbsoluteLocaleUrl(lang, 'color-picker')}
+    ogTitle={t('cp.meta.og.title')}
+    ogDescription={t('cp.meta.description')}
+    ogUrl={getAbsoluteLocaleUrl(lang, 'color-picker')}
+    schema={colorSchema}
+    extraMeta={`<meta name="keywords" content="${t('cp.meta.keywords')}" /><meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content="${t('cp.meta.og.title')}" /><meta name="twitter:description" content="${t('cp.meta.description')}" />`}
+/>
+</Fragment>
+
+<div class="container">
+  <!-- Header -->
+  <SiteHeader lang={lang} path="color-picker" activeTool="color-picker" />
+
+  <Breadcrumbs lang={lang} items={[{ label: t('bc.home'), href: getRelativeLocaleUrl(lang) }, { label: t('bc.color-picker') }]} />
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1 class="title"><span class="title-full">{t('cp.heading')}</span><span class="title-short">{t('cp.heading.short')}</span></h1>
+    <p class="subtitle">{t('cp.subtitle')}</p>
+    <div class="privacy-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      {t('cp.privacy.badge')}
+    </div>
+    <div class="library-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      Powered by <a href="https://github.com/mdbassit/Coloris" target="_blank" rel="noopener">Coloris</a> library
+    </div>
+  </div>
+
+  <!-- Main Tool Area -->
+  <div class="tool-container">
+    <!-- Color Picker Section -->
+    <div class="picker-section">
+      <h2 class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        {t('cp.picker.title')}
+      </h2>
+      
+      <div class="picker-area">
+        <input type="text" id="color-input" class="coloris-input" data-coloris placeholder="#FF5733" value="#FF5733" />
+        
+        <div class="quick-colors">
+          <span class="quick-label">{t('cp.picker.quickColors')}:</span>
+          <div class="color-swatches">
+            <button class="swatch" style="background: #EF4444;" data-color="#EF4444" title="Red"></button>
+            <button class="swatch" style="background: #F97316;" data-color="#F97316" title="Orange"></button>
+            <button class="swatch" style="background: #EAB308;" data-color="#EAB308" title="Yellow"></button>
+            <button class="swatch" style="background: #22C55E;" data-color="#22C55E" title="Green"></button>
+            <button class="swatch" style="background: #06B6D4;" data-color="#06B6D4" title="Cyan"></button>
+            <button class="swatch" style="background: #3B82F6;" data-color="#3B82F6" title="Blue"></button>
+            <button class="swatch" style="background: #8B5CF6;" data-color="#8B5CF6" title="Purple"></button>
+            <button class="swatch" style="background: #EC4899;" data-color="#EC4899" title="Pink"></button>
+            <button class="swatch" style="background: #000000;" data-color="#000000" title="Black"></button>
+            <button class="swatch" style="background: #FFFFFF; border: 1px solid #ddd;" data-color="#FFFFFF" title="White"></button>
+            <button class="swatch random-swatch" id="random-color" title="{t('cp.picker.random')}">🎲</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Color Values Section -->
+    <div class="values-section">
+      <h2 class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        {t('cp.values.title')}
+      </h2>
+
+      <div class="values-grid">
+        <!-- HEX -->
+        <div class="value-card">
+          <label>{t('cp.values.hex.label')}</label>
+          <div class="value-row">
+            <code id="hex-value">#FF5733</code>
+            <button class="copy-btn" data-target="hex-value" title="{t('cp.copy')}">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- RGB -->
+        <div class="value-card">
+          <label>{t('cp.values.rgb.label')}</label>
+          <div class="value-row">
+            <code id="rgb-value">rgb(255, 87, 51)</code>
+            <button class="copy-btn" data-target="rgb-value" title="{t('cp.copy')}">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- HSL -->
+        <div class="value-card">
+          <label>{t('cp.values.hsl.label')}</label>
+          <div class="value-row">
+            <code id="hsl-value">hsl(11, 100%, 60%)</code>
+            <button class="copy-btn" data-target="hsl-value" title="{t('cp.copy')}">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- HSV/HSB -->
+        <div class="value-card">
+          <label>{t('cp.values.hsv.label')}</label>
+          <div class="value-row">
+            <code id="hsv-value">hsv(11, 80%, 100%)</code>
+            <button class="copy-btn" data-target="hsv-value" title="{t('cp.copy')}">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- CMYK -->
+        <div class="value-card">
+          <label>{t('cp.values.cmyk.label')}</label>
+          <div class="value-row">
+            <code id="cmyk-value">cmyk(0%, 66%, 80%, 0%)</code>
+            <button class="copy-btn" data-target="cmyk-value" title="{t('cp.copy')}">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preview Section -->
+    <div class="preview-section">
+      <h2 class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        {t('cp.preview.title')}
+      </h2>
+
+      <div class="preview-grid">
+        <!-- Color Preview Box -->
+        <div class="preview-box">
+          <div id="color-preview" class="color-display" style="background: #FF5733;"></div>
+          <span class="preview-label">{t('cp.preview.colorPreview')}</span>
+        </div>
+
+        <!-- Text on Color -->
+        <div class="preview-box">
+          <div id="text-on-color" class="text-preview" style="background: #FF5733;">
+            <span>Aa</span>
+          </div>
+          <span class="preview-label">{t('cp.preview.textOnColor')}</span>
+        </div>
+
+        <!-- Contrast Info -->
+        <div class="contrast-info">
+          <div class="contrast-item">
+            <span>{t('cp.preview.contrast.white')}:</span>
+            <code id="contrast-white">4.52:1</code>
+            <span class="badge" id="wcag-white">AAA</span>
+          </div>
+          <div class="contrast-item">
+            <span>{t('cp.preview.contrast.black')}:</span>
+            <code id="contrast-black">4.65:1</code>
+            <span class="badge" id="wcag-black">AAA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Color Palette Generator -->
+    <div class="palette-section">
+      <h2 class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 22C6.5 22 2 17.5 2 12S6.5 2 12 2s10 4.5 10 10-4.5 10-10 10z"/></svg>
+        {t('cp.palette.title')}
+      </h2>
+
+      <div class="palette-controls">
+        <button class="palette-btn active" data-type="complementary">{t('cp.palette.complementary')}</button>
+        <button class="palette-btn" data-type="analogous">{t('cp.palette.analogous')}</button>
+        <button class="palette-btn" data-type="triadic">{t('cp.palette.triadic')}</button>
+        <button class="palette-btn" data-type="split-complementary">{t('cp.palette.splitComplementary')}</button>
+        <button class="palette-btn" data-type="monochromatic">{t('cp.palette.monochromatic')}</button>
+      </div>
+
+      <div id="palette-output" class="palette-output">
+        <!-- Generated palettes will appear here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ Section -->
+  <div class="faq-section">
+    <h2 class="faq-title">FAQ</h2>
+    
+    <details class="faq-item">
+      <summary><h3>{t('cp.faq.q1')}</h3></summary>
+      <p>{t('cp.faq.a1')}</p>
+    </details>
+
+    <details class="faq-item">
+      <summary><h3>{t('cp.faq.q2')}</h3></summary>
+      <p>{t('cp.faq.a2')}</p>
+    </details>
+
+    <details class="faq-item">
+      <summary><h3>{t('cp.faq.q3')}</h3></summary>
+      <p>{t('cp.faq.a3')}</p>
+    </details>
+
+    <details class="faq-item">
+      <summary><h3>{t('cp.faq.q4')}</h3></summary>
+      <p>{t('cp.faq.a4')}</p>
+    </details>
+
+    <details class="faq-item">
+      <summary><h3>{t('cp.faq.q5')}</h3></summary>
+      <p>{t('cp.faq.a5')}</p>
+    </details>
+  </div>
+</div>
+
+<!-- Load Coloris JS from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/coloris@0.23.0/dist/coloris.min.js"></script>
+
+<style>
+  :root {
+    --primary-hue: 145;
+    --primary-saturation: 69%;
+    --primary-lightness: 43%;
+    --accent-primary: hsl(var(--primary-hue), var(--primary-saturation), var(--primary-lightness));
+    --bg-primary: #ffffff;
+    --bg-secondary: #f9fafb;
+    --text-primary: #111827;
+    --text-secondary: #6b7280;
+    --border-color: #e5e7eb;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+    --radius-md: 8px;
+    --radius-lg: 12px;
+  }
+
+  [data-theme="dark"] {
+    --bg-primary: #111827;
+    --bg-secondary: #1f2937;
+    --text-primary: #f9fafb;
+    --text-secondary: #9ca3af;
+    --border-color: #374151;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.4);
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .title-full { display: inline; }
+  .title-short { display: none; }
+  
+  @media (max-width: 500px) {
+    .title-full { display: none; }
+    .title-short { display: inline; }
+  }
+
+  .title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+
+  .privacy-badge, .library-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: var(--bg-secondary);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin: 4px;
+  }
+
+  .library-badge a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .library-badge a:hover {
+    text-decoration: underline;
+  }
+
+  /* Tool Container */
+  .tool-container {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-top: 24px;
+  }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+  }
+
+  /* Picker Section */
+  .picker-section {
+    background: var(--bg-secondary);
+    padding: 24px;
+    border-radius: var(--radius-lg);
+  }
+
+  .picker-area {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .coloris-input {
+    width: 100%;
+    padding: 16px;
+    font-size: 1.25rem;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    cursor: pointer;
+  }
+
+  .coloris-input:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+  }
+
+  .quick-colors {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .quick-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .color-swatches {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .swatch {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .swatch:hover {
+    transform: scale(1.15);
+    box-shadow: var(--shadow-md);
+  }
+
+  .random-swatch {
+    background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7, #dfe6e9) !important;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Values Section */
+  .values-section {
+    background: var(--bg-secondary);
+    padding: 24px;
+    border-radius: var(--radius-lg);
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .value-card {
+    background: var(--bg-primary);
+    padding: 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+  }
+
+  .value-card label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .value-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .value-row code {
+    font-family: 'SF Mono', Monaco, monospace;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    word-break: break-all;
+  }
+
+  .copy-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .copy-btn:hover {
+    background: var(--accent-primary);
+    color: white;
+    border-color: var(--accent-primary);
+  }
+
+  /* Preview Section */
+  .preview-section {
+    background: var(--bg-secondary);
+    padding: 24px;
+    border-radius: var(--radius-lg);
+  }
+
+  .preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+
+  .preview-box {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .color-display {
+    width: 100%;
+    height: 120px;
+    border-radius: var(--radius-md);
+    transition: background 0.3s;
+  }
+
+  .text-preview {
+    width: 100%;
+    height: 80px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+  }
+
+  .text-preview span {
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+
+  .preview-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-align: center;
+  }
+
+  .contrast-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    background: var(--bg-primary);
+    border-radius: var(--radius-md);
+  }
+
+  .contrast-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+  }
+
+  .contrast-item code {
+    font-family: monospace;
+    font-weight: 600;
+  }
+
+  .badge {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: #22c55e;
+    color: white;
+  }
+
+  .badge.fail {
+    background: #ef4444;
+  }
+
+  .badge.aa {
+    background: #eab308;
+  }
+
+  /* Palette Section */
+  .palette-section {
+    background: var(--bg-secondary);
+    padding: 24px;
+    border-radius: var(--radius-lg);
+  }
+
+  .palette-controls {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .palette-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-primary);
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+  }
+
+  .palette-btn:hover, .palette-btn.active {
+    background: var(--accent-primary);
+    color: white;
+    border-color: var(--accent-primary);
+  }
+
+  .palette-output {
+    display: flex;
+    gap: 8px;
+    min-height: 60px;
+  }
+
+  .palette-color {
+    flex: 1;
+    height: 60px;
+    border-radius: var(--radius-md);
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .palette-color:hover {
+    transform: translateY(-4px);
+  }
+
+  .palette-color span {
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    font-family: monospace;
+    background: rgba(255,255,255,0.9);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #111;
+  }
+
+  /* FAQ */
+  .faq-section {
+    margin-top: 40px;
+  }
+
+  .faq-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+  }
+
+  .faq-item {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+
+  .faq-item summary {
+    padding: 16px 20px;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary::before {
+    content: '+';
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--accent-primary);
+  }
+
+  .faq-item[open] summary::before {
+    content: '-';
+  }
+
+  .faq-item summary h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .faq-item p {
+    padding: 0 20px 16px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* Toast notification */
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--accent-primary);
+    color: white;
+    padding: 12px 20px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    z-index: 1000;
+    animation: slideIn 0.3s ease;
+  }
+
+  @keyframes slideIn {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  @media (max-width: 640px) {
+    .container { padding: 16px; }
+    .title { font-size: 1.5rem; }
+    .values-grid { grid-template-columns: 1fr; }
+    .palette-controls { overflow-x: auto; flex-wrap: nowrap; }
+  }
+</style>
+
+<script>
+  // ===== COLOR PICKER FUNCTIONALITY =====
+  
+  // Current color state
+  let currentColor = '#FF5733';
+
+  // Initialize when DOM is ready
+  document.addEventListener('DOMContentLoaded', () => {
+    initColoris();
+    initSwatches();
+    initCopyButtons();
+    initPaletteGenerator();
+    updateAllValues(currentColor);
+  });
+
+  // Initialize Coloris picker
+  function initColoris() {
+    if (typeof (window as any).coloris !== 'undefined') {
+      (window as any).coloris({
+        el: '.coloris-input',
+        themeMode: document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light',
+        format: 'hex',
+        alpha: false
+      });
+    }
+
+    // Listen for color changes
+    const input = document.getElementById('color-input');
+    if (input) {
+      input.addEventListener('input', (e) => {
+        const newColor = (e.target as HTMLInputElement).value;
+        if (/^#[0-9A-Fa-f]{6}$/.test(newColor)) {
+          currentColor = newColor;
+          updateAllValues(currentColor);
+        }
+      });
+
+      input.addEventListener('coloris:pick', () => {
+        const val = (input as HTMLInputElement).value;
+        if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
+          currentColor = val;
+          updateAllValues(currentColor);
+        }
+      });
+    }
+  }
+
+  // Initialize quick color swatches
+  function initSwatches() {
+    document.querySelectorAll('.swatch[data-color]').forEach(swatch => {
+      swatch.addEventListener('click', () => {
+        const color = swatch.getAttribute('data-color');
+        if (color) {
+          setColor(color);
+        }
+      });
+    });
+
+    // Random color button
+    const randomBtn = document.getElementById('random-color');
+    if (randomBtn) {
+      randomBtn.addEventListener('click', () => {
+        const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0').toUpperCase();
+        setColor(randomColor);
+      });
+    }
+  }
+
+  // Set color and update UI
+  function setColor(color: string) {
+    currentColor = color;
+    const input = document.getElementById('color-input');
+    if (input) {
+      (input as HTMLInputElement).value = color;
+    }
+    updateAllValues(color);
+  }
+
+  // Update all color values and previews
+  function updateAllValues(hex: string) {
+    const rgb = hexToRgb(hex);
+    if (!rgb) return;
+
+    const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+    const hsv = rgbToHsv(rgb.r, rgb.g, rgb.b);
+    const cmyk = rgbToCmyk(rgb.r, rgb.g, rgb.b);
+
+    // Update value displays
+    setValue('hex-value', hex.toUpperCase());
+    setValue('rgb-value', `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`);
+    setValue('hsl-value', `hsl(${Math.round(hsl.h)}, ${Math.round(hsl.s)}%, ${Math.round(hsl.l)}%)`);
+    setValue('hsv-value', `hsv(${Math.round(hsv.h)}, ${Math.round(hsv.s)}%, ${Math.round(hsv.v)}%)`);
+    setValue('cmyk-value', `cmyk(${Math.round(cmyk.c)}%, ${Math.round(cmyk.m)}%, ${Math.round(cmyk.y)}%, ${Math.round(cmyk.k)}%)`);
+
+    // Update preview
+    const preview = document.getElementById('color-preview');
+    const textPreview = document.getElementById('text-on-color');
+    if (preview) preview.style.background = hex;
+    if (textPreview) textPreview.style.background = hex;
+
+    // Calculate contrast ratios
+    updateContrastInfo(rgb);
+
+    // Generate default palette
+    generatePalette('complementary');
+  }
+
+  function setValue(id: string, value: string) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  }
+
+  // Copy buttons
+  function initCopyButtons() {
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-target');
+        if (!targetId) return;
+
+        const targetEl = document.getElementById(targetId);
+        if (targetEl) {
+          navigator.clipboard.writeText(targetEl.textContent || '').then(() => {
+            showToast('Copied!');
+          });
+        }
+      });
+    });
+  }
+
+  // Show toast notification
+  function showToast(message: string) {
+    const existing = document.querySelector('.toast');
+    if (existing) existing.remove();
+
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    setTimeout(() => toast.remove(), 2000);
+  }
+
+  // Contrast calculation
+  function updateContrastInfo(rgb: {r: number, g: number, b: number}) {
+    const whiteContrast = getLuminanceRatio(rgb, {r: 255, g: 255, b: 255});
+    const blackContrast = getLuminanceRatio(rgb, {r: 0, g: 0, b: 0});
+
+    const whiteEl = document.getElementById('contrast-white');
+    const blackEl = document.getElementById('contrast-black');
+    const wcagWhite = document.getElementById('wcag-white');
+    const wcagBlack = document.getElementById('wcag-black');
+
+    if (whiteEl) whiteEl.textContent = whiteContrast.toFixed(2) + ':1';
+    if (blackEl) blackEl.textContent = blackContrast.toFixed(2) + ':1';
+
+    if (wcagWhite) {
+      wcagWhite.textContent = getWCAGLevel(whiteContrast);
+      wcagWhite.className = 'badge ' + getWCAGClass(whiteContrast);
+    }
+    if (wcagBlack) {
+      wcagBlack.textContent = getWCAGLevel(blackContrast);
+      wcagBlack.className = 'badge ' + getWCAGClass(blackContrast);
+    }
+  }
+
+  function getLuminanceRatio(c1: {r: number, g: number, b: number}, c2: {r: number, g: number, b: number}): number {
+    const l1 = getLuminance(c1);
+    const l2 = getLuminance(c2);
+    return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+  }
+
+  function getLuminance(c: {r: number, g: number, b: number}): number {
+    const [rs, gs, bs] = [c.r / 255, c.g / 255, c.b / 255].map(v => 
+      v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 2.4, 2.4)
+    );
+    return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+  }
+
+  function getWCAGLevel(ratio: number): string {
+    if (ratio >= 7) return 'AAA';
+    if (ratio >= 4.5) return 'AA';
+    return 'Fail';
+  }
+
+  function getWCAGClass(ratio: number): string {
+    if (ratio >= 7) return '';
+    if (ratio >= 4.5) return 'aa';
+    return 'fail';
+  }
+
+  // Palette generator
+  let currentPaletteType = 'complementary';
+
+  function initPaletteGenerator() {
+    document.querySelectorAll('.palette-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.palette-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentPaletteType = btn.getAttribute('data-type') || 'complementary';
+        generatePalette(currentPaletteType);
+      });
+    });
+  }
+
+  function generatePalette(type: string) {
+    const rgb = hexToRgb(currentColor);
+    if (!rgb) return;
+
+    const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+    let colors: Array<{h: number, s: number, l: number}> = [];
+
+    switch (type) {
+      case 'complementary':
+        colors = [
+          {h: hsl.h, s: hsl.s, l: hsl.l},
+          {h: (hsl.h + 180) % 360, s: hsl.s, l: hsl.l}
+        ];
+        break;
+      case 'analogous':
+        colors = [
+          {h: (hsl.h - 30 + 360) % 360, s: hsl.s, l: hsl.l},
+          {h: hsl.h, s: hsl.s, l: hsl.l},
+          {h: (hsl.h + 30) % 360, s: hsl.s, l: hsl.l}
+        ];
+        break;
+      case 'triadic':
+        colors = [
+          {h: hsl.h, s: hsl.s, l: hsl.l},
+          {h: (hsl.h + 120) % 360, s: hsl.s, l: hsl.l},
+          {h: (hsl.h + 240) % 360, s: hsl.s, l: hsl.l}
+        ];
+        break;
+      case 'split-complementary':
+        colors = [
+          {h: hsl.h, s: hsl.s, l: hsl.l},
+          {h: (hsl.h + 150) % 360, s: hsl.s, l: hsl.l},
+          {h: (hsl.h + 210) % 360, s: hsl.s, l: hsl.l}
+        ];
+        break;
+      case 'monochromatic':
+        colors = [
+          {h: hsl.h, s: hsl.s, l: Math.max(10, hsl.l - 30)},
+          {h: hsl.h, s: hsl.s, l: Math.max(10, hsl.l - 15)},
+          {h: hsl.h, s: hsl.s, l: hsl.l},
+          {h: hsl.h, s: hsl.s, l: Math.min(90, hsl.l + 15)},
+          {h: hsl.h, s: hsl.s, l: Math.min(90, hsl.l + 30)}
+        ];
+        break;
+    }
+
+    renderPalette(colors);
+  }
+
+  function renderPalette(colors: Array<{h: number, s: number, l: number}>) {
+    const container = document.getElementById('palette-output');
+    if (!container) return;
+
+    container.innerHTML = '';
+    colors.forEach(c => {
+      const hex = hslToHex(c.h, c.s, c.l);
+      const div = document.createElement('div');
+      div.className = 'palette-color';
+      div.style.background = hex;
+      div.innerHTML = `<span>${hex}</span>`;
+      div.addEventListener('click', () => setColor(hex));
+      container.appendChild(div);
+    });
+  }
+
+  // ===== COLOR CONVERSION UTILITIES =====
+
+  function hexToRgb(hex: string): {r: number, g: number, b: number} | null {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : null;
+  }
+
+  function rgbToHsl(r: number, g: number, b: number): {h: number, s: number, l: number} {
+    r /= 255; g /= 255; b /= 255;
+    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    let h = 0, s = 0;
+    const l = (max + min) / 2;
+
+    if (max !== min) {
+      const d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch (max) {
+        case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+        case g: h = ((b - r) / d + 2) / 6; break;
+        case b: h = ((r - g) / d + 4) / 6; break;
+      }
+    }
+
+    return {h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100)};
+  }
+
+  function rgbToHsv(r: number, g: number, b: number): {h: number, s: number, v: number} {
+    r /= 255; g /= 255; b /= 255;
+    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    let h = 0;
+    const v = max;
+    const d = max - min;
+    const s = max === 0 ? 0 : d / max;
+
+    if (max !== min) {
+      switch (max) {
+        case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+        case g: h = ((b - r) / d + 2) / 6; break;
+        case b: h = ((r - g) / d + 4) / 6; break;
+      }
+    }
+
+    return {h: Math.round(h * 360), s: Math.round(s * 100), v: Math.round(v * 100)};
+  }
+
+  function rgbToCmyk(r: number, g: number, b: number): {c: number, m: number, y: number, k: number} {
+    let c = 1 - (r / 255);
+    let m = 1 - (g / 255);
+    let y = 1 - (b / 255);
+    let k = Math.min(c, m, y);
+
+    if (k === 1) {
+      return {c: 0, m: 0, y: 0, k: 100};
+    }
+
+    c = Math.round(((c - k) / (1 - k)) * 100);
+    m = Math.round(((m - k) / (1 - k)) * 100);
+    y = Math.round(((y - k) / (1 - k)) * 100);
+    k = Math.round(k * 100);
+
+    return {c, m, y, k};
+  }
+
+  function hslToHex(h: number, s: number, l: number): string {
+    s /= 100;
+    l /= 100;
+    const a = s * Math.min(l, 1 - l);
+    const f = (n: number) => {
+      const k = (n + h / 30) % 12;
+      const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+      return Math.round(255 * color).toString(16).padStart(2, '0');
+    };
+    return `#${f(0)}${f(8)}${f(4)}`.toUpperCase();
+  }
+</script>
