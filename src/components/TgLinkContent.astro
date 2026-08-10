@@ -305,6 +305,7 @@ const pageSchema = {
 </div>
 </Layout>
 
+<script is:inline src="/js/easy.qrcode.min.js"></script>
 <script is:inline>
   // Telegram Link Generator — client-side logic
   function initTgLinkGenerator() {
@@ -358,26 +359,16 @@ const pageSchema = {
     function generateQR(text, container) {
       if (typeof QRCode !== 'undefined') {
         container.innerHTML = '';
+        var theme = document.documentElement.getAttribute('data-theme');
+        var colorLight = (theme === 'light') ? '#f8fafc' : '#1a1a2e';
         new QRCode(container, {
           text: text,
           width: 200,
           height: 200,
           colorDark: '#0088cc',
-          colorLight: '#ffffff',
+          colorLight: colorLight,
           correctLevel: QRCode.CorrectLevel.M,
         });
-        var theme = document.documentElement.getAttribute('data-theme');
-        if (theme === 'light') {
-          container.innerHTML = '';
-          new QRCode(container, {
-            text: text,
-            width: 200,
-            height: 200,
-            colorDark: '#0088cc',
-            colorLight: '#f8fafc',
-            correctLevel: QRCode.CorrectLevel.M,
-          });
-        }
       } else {
         container.innerHTML = '<p style="text-align:center;color:var(--text-secondary);padding:1rem;">QR library loading...</p>';
       }
@@ -443,22 +434,50 @@ const pageSchema = {
 
     // Download QR
     function doDownloadQR() {
-      var qrCanvas = document.getElementById('tgl-qr-canvas');
-      var canvas = qrCanvas && qrCanvas.querySelector('canvas');
+      var qrContainer = document.getElementById('tgl-qr-canvas');
+      if (!qrContainer) return;
+      
+      // Try canvas first (easyqrcodejs canvas mode)
+      var canvas = qrContainer.querySelector('canvas');
       if (canvas) {
-        var link = document.createElement('a');
-        link.download = 'telegram-link-qr.png';
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-      } else {
-        var img = qrCanvas && qrCanvas.querySelector('img');
-        if (img) {
-          var link = document.createElement('a');
-          link.download = 'telegram-link-qr.png';
-          link.href = img.src;
-          link.click();
-        }
+        var downloadLink = document.createElement('a');
+        downloadLink.download = 'telegram-link-qr.png';
+        downloadLink.href = canvas.toDataURL('image/png');
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+        return;
       }
+      
+      // Try img element fallback
+      var img = qrContainer.querySelector('img');
+      if (img && img.src) {
+        var downloadLink = document.createElement('a');
+        downloadLink.download = 'telegram-link-qr.png';
+        downloadLink.href = img.src;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+        return;
+      }
+      
+      // Try SVG element fallback
+      var svg = qrContainer.querySelector('svg');
+      if (svg) {
+        var svgData = new XMLSerializer().serializeToString(svg);
+        var svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+        var url = URL.createObjectURL(svgBlob);
+        var downloadLink = document.createElement('a');
+        downloadLink.download = 'telegram-link-qr.svg';
+        downloadLink.href = url;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+        URL.revokeObjectURL(url);
+        return;
+      }
+      
+      alert('QR code not ready. Please generate a link first.');
     }
 
     // Share via WhatsApp
