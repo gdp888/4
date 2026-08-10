@@ -1,0 +1,896 @@
+     1→---
+     2→import Layout from '../layouts/Layout.astro';
+     3→import { useTranslations } from '../i18n/utils';
+     4→import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
+     5→import { languages, type Lang } from '../i18n/ui';
+     6→import SiteHeader from './SiteHeader.astro';
+     7→import Breadcrumbs from './Breadcrumbs.astro';
+     8→import SEOHead from './SEOHead.astro';
+     9→import { timezones } from '../data/timezones';
+    10→
+    11→export interface Props {
+    12→  lang: Lang;
+    13→}
+    14→
+    15→const { lang } = Astro.props;
+    16→const t = useTranslations(lang);
+    17→
+    18→// Localized city name map for client-side JS
+    19→const cityTranslations: Record<string, string> = {};
+    20→timezones.forEach(tz => { cityTranslations[tz.value] = t(tz.cityKey); });
+    21→
+    22→const msSchema = {
+    23→  "@context": "https://schema.org",
+    24→  "@graph": [
+    25→    {
+    26→      "@type": "WebApplication",
+    27→      "name": t('ms.heading'),
+    28→      "url": getAbsoluteLocaleUrl(lang, 'meeting-scheduler'),
+    29→      "description": t('ms.meta.description'),
+    30→      "applicationCategory": "UtilityApplication",
+    31→      "operatingSystem": "Any",
+    32→      "offers": {
+    33→        "@type": "Offer",
+    34→        "price": "0",
+    35→        "priceCurrency": "USD"
+    36→      },
+    37→      "isPartOf": {
+    38→        "@type": "WebSite",
+    39→        "name": "OPN Chat",
+    40→        "url": "https://opnchat.net/"
+    41→      }
+    42→    },
+    43→    {
+    44→      "@type": "BreadcrumbList",
+    45→      "itemListElement": [
+    46→        {
+    47→          "@type": "ListItem",
+    48→          "position": 1,
+    49→          "name": "OPN Chat",
+    50→          "item": getAbsoluteLocaleUrl(lang, '')
+    51→        },
+    52→        {
+    53→          "@type": "ListItem",
+    54→          "position": 2,
+    55→          "name": t('ms.heading'),
+    56→          "item": getAbsoluteLocaleUrl(lang, 'meeting-scheduler')
+    57→        }
+    58→      ]
+    59→    },
+    60→    {
+    61→      "@type": "FAQPage",
+    62→      "mainEntity": [
+    63→        { "@type": "Question", "name": t('ms.faq.q1'), "acceptedAnswer": { "@type": "Answer", "text": t('ms.faq.a1') } },
+    64→        { "@type": "Question", "name": t('ms.faq.q2'), "acceptedAnswer": { "@type": "Answer", "text": t('ms.faq.a2') } },
+    65→        { "@type": "Question", "name": t('ms.faq.q3'), "acceptedAnswer": { "@type": "Answer", "text": t('ms.faq.a3') } },
+    66→        { "@type": "Question", "name": t('ms.faq.q4'), "acceptedAnswer": { "@type": "Answer", "text": t('ms.faq.a4') } },
+    67→        { "@type": "Question", "name": t('ms.faq.q5'), "acceptedAnswer": { "@type": "Answer", "text": t('ms.faq.a5') } },
+    68→      ]
+    69→    }
+    70→  ]
+    71→};
+    72→---
+    73→
+    74→<Layout title={t('ms.meta.title')} lang={lang} service="meeting-scheduler">
+    75→  <Fragment slot="meta">
+    76→  <SEOHead
+    77→    lang={lang}
+    78→    description={t('ms.meta.description')}
+    79→    canonicalUrl={getAbsoluteLocaleUrl(lang, 'meeting-scheduler')}
+    80→    ogTitle={t('ms.meta.og.title')}
+    81→    ogDescription={t('ms.meta.og.description')}
+    82→    ogUrl={getAbsoluteLocaleUrl(lang, 'meeting-scheduler')}
+    83→    schema={msSchema}
+    84→    extraMeta={`<meta name="keywords" content="${t('ms.meta.keywords')}" /><meta name="twitter:card" content="summary" /><meta name="twitter:title" content="${t('ms.meta.twitter.title')}" /><meta name="twitter:description" content="${t('ms.meta.twitter.description')}" />`}
+    85→  />
+    86→  </Fragment>
+    87→
+    88→  <div class="container">
+    89→    <!-- Header -->
+    90→    <SiteHeader lang={lang} path="meeting-scheduler" activeTool="meeting-scheduler" />
+    91→
+    92→    <Breadcrumbs lang={lang} items={[{ label: t('bc.home'), href: getRelativeLocaleUrl(lang) }, { label: t('bc.meetingscheduler') }]} />
+    93→
+    94→    <!-- Hero -->
+    95→    <div class="hero">
+    96→      <h1 class="title">{t('ms.heading')}</h1>
+    97→      <p class="subtitle">{t('ms.subtitle')}</p>
+    98→      <div class="privacy-badge">
+    99→        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+   100→        {t('ms.privacy.badge')}
+   101→      </div>
+   102→    </div>
+   103→
+   104→    <!-- Timezone selectors -->
+   105→      <!-- Pass localized strings to client-side JS -->
+   106→      <div id="ms-city-data" data-cities={JSON.stringify(cityTranslations)} style="display:none"></div>
+   107→      <div id="ms-i18n" data-lang={lang} data-meeting-at={t('ms.result.meeting_at')} data-copied={t('ms.result.copied')} data-copy={t('ms.result.copy')} data-no-overlap={t('ms.result.no_overlap')} data-overlap-text={t('ms.result.overlap_window')} data-no-slots={t('ms.result.no_slots')} style="display:none"></div>
+   108→    <div class="tz-row">
+   109→      <div class="tz-card">
+   110→        <label class="tz-label" for="my-tz">{t('ms.your.tz')}</label>
+   111→        <select id="my-tz" class="tz-select">
+   112→          {timezones.map(tz => (
+   113→            <option value={tz.value}>{t(tz.cityKey)} ({tz.offset})</option>
+   114→          ))}
+   115→        </select>
+   116→        <div class="tz-current-time" id="my-current-time">--:--</div>
+   117→      </div>
+   118→
+   119→      <div class="tz-arrow">
+   120→        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+   121→      </div>
+   122→
+   123→      <div class="tz-card">
+   124→        <label class="tz-label" for="their-tz">{t('ms.their.tz')}</label>
+   125→        <select id="their-tz" class="tz-select">
+   126→          {timezones.map(tz => (
+   127→            <option value={tz.value}>{t(tz.cityKey)} ({tz.offset})</option>
+   128→          ))}
+   129→        </select>
+   130→        <div class="tz-current-time" id="their-current-time">--:--</div>
+   131→      </div>
+   132→    </div>
+   133→
+   134→    <!-- Working hours config -->
+   135→    <div class="work-hours-card">
+   136→      <h3 class="card-title">{t('ms.workhours.title')}</h3>
+   137→      <div class="work-hours-row">
+   138→        <div class="work-hours-field">
+   139→          <label for="work-start">{t('ms.workhours.start')}</label>
+   140→          <input type="time" id="work-start" value="09:00" class="time-input" />
+   141→        </div>
+   142→        <span class="work-hours-dash">&mdash;</span>
+   143→        <div class="work-hours-field">
+   144→          <label for="work-end">{t('ms.workhours.end')}</label>
+   145→          <input type="time" id="work-end" value="18:00" class="time-input" />
+   146→        </div>
+   147→      </div>
+   148→    </div>
+   149→
+   150→    <!-- Visual Timeline -->
+   151→    <div class="timeline-card">
+   152→      <h3 class="card-title">{t('ms.timeline.title')}</h3>
+   153→      <div class="timeline-legend">
+   154→        <span class="legend-item"><span class="legend-swatch legend-work"></span>{t('ms.timeline.work')}</span>
+   155→        <span class="legend-item"><span class="legend-swatch legend-sleep"></span>{t('ms.timeline.sleep')}</span>
+   156→        <span class="legend-item"><span class="legend-swatch legend-overlap"></span>{t('ms.timeline.overlap')}</span>
+   157→      </div>
+   158→      <div class="timeline-container" id="timeline-container">
+   159→        <!-- Rendered by JS -->
+   160→      </div>
+   161→    </div>
+   162→
+   163→    <!-- Best meeting time -->
+   164→    <div class="best-time-card" id="best-time-card">
+   165→      <h3 class="card-title">{t('ms.best.title')}</h3>
+   166→      <div class="best-time-content" id="best-time-content">
+   167→        <!-- Rendered by JS -->
+   168→      </div>
+   169→    </div>
+   170→
+   171→    <!-- Selected meeting time + WhatsApp link -->
+   172→    <div class="meeting-result-card" id="meeting-result-card" style="display:none;">
+   173→      <h3 class="card-title">{t('ms.result.title')}</h3>
+   174→      <div class="meeting-times" id="meeting-times"></div>
+   175→      <div class="meeting-actions">
+   176→        <button class="wa-btn" id="wa-btn" type="button">
+   177→          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+   178→          {t('ms.result.wa')}
+   179→        </button>
+   180→        <button class="copy-btn" id="copy-btn" type="button">
+   181→          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+   182→          {t('ms.result.copy')}
+   183→        </button>
+   184→      </div>
+   185→    </div>
+   186→
+   187→    <!-- Time slot picker -->
+   188→    <div class="slot-picker-card">
+   189→      <h3 class="card-title">{t('ms.picker.title')}</h3>
+   190→      <p class="picker-hint">{t('ms.picker.hint')}</p>
+   191→      <div class="slot-grid" id="slot-grid">
+   192→        <!-- Rendered by JS -->
+   193→      </div>
+   194→    </div>
+   195→
+   196→    <!-- Business Use Case -->
+   197→    <section class="business-section">
+   198→      <h2 class="section-title">{t('ms.business.title')}</h2>
+   199→      <div class="business-grid">
+   200→        <div class="business-card">
+   201→          <div class="business-icon">
+   202→            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+   203→          </div>
+   204→          <h3 class="business-card-title">{t('ms.business.wa.title')}</h3>
+   205→          <p class="business-card-desc">{t('ms.business.wa.desc')}</p>
+   206→        </div>
+   207→        <div class="business-card">
+   208→          <div class="business-icon remote-icon">
+   209→            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+   210→          </div>
+   211→          <h3 class="business-card-title">{t('ms.business.remote.title')}</h3>
+   212→          <p class="business-card-desc">{t('ms.business.remote.desc')}</p>
+   213→        </div>
+   214→        <div class="business-card">
+   215→          <div class="business-icon global-icon">
+   216→            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+   217→          </div>
+   218→          <h3 class="business-card-title">{t('ms.business.global.title')}</h3>
+   219→          <p class="business-card-desc">{t('ms.business.global.desc')}</p>
+   220→        </div>
+   221→      </div>
+   222→    </section>
+   223→
+   224→    <!-- FAQ -->
+   225→    <section class="faq-section">
+   226→      <h2 class="section-title">{t('ms.faq.title')}</h2>
+   227→      {[
+   228→        { q: t('ms.faq.q1'), a: t('ms.faq.a1') },
+   229→        { q: t('ms.faq.q2'), a: t('ms.faq.a2') },
+   230→        { q: t('ms.faq.q3'), a: t('ms.faq.a3') },
+   231→        { q: t('ms.faq.q4'), a: t('ms.faq.a4') },
+   232→        { q: t('ms.faq.q5'), a: t('ms.faq.a5') },
+   233→      ].map((item) => (
+   234→        <details class="faq-item">
+   235→          <summary class="faq-q">{item.q}</summary>
+   236→          <p class="faq-a">{item.a}</p>
+   237→        </details>
+   238→      ))}
+   239→    </section>
+   240→
+   241→    <!-- SEO -->
+   242→    <section class="seo-section">
+   243→      <h2 class="section-title">{t('ms.seo.title')}</h2>
+   244→      <div class="seo-grid">
+   245→        <div class="seo-card">
+   246→          <h3>{t('ms.seo.feature1.title')}</h3>
+   247→          <p>{t('ms.seo.feature1.desc')}</p>
+   248→        </div>
+   249→        <div class="seo-card">
+   250→          <h3>{t('ms.seo.feature2.title')}</h3>
+   251→          <p>{t('ms.seo.feature2.desc')}</p>
+   252→        </div>
+   253→        <div class="seo-card">
+   254→          <h3>{t('ms.seo.feature3.title')}</h3>
+   255→          <p>{t('ms.seo.feature3.desc')}</p>
+   256→        </div>
+   257→        <div class="seo-card">
+   258→          <h3>{t('ms.seo.feature4.title')}</h3>
+   259→          <p>{t('ms.seo.feature4.desc')}</p>
+   260→        </div>
+   261→      </div>
+   262→    </section>
+   263→  </div>
+   264→</Layout>
+   265→
+   266→<script>
+   267→  // ===== Meeting Scheduler Logic =====
+   268→  const myTzSelect = document.getElementById('my-tz') as HTMLSelectElement;
+   269→  const theirTzSelect = document.getElementById('their-tz') as HTMLSelectElement;
+   270→  const myCurrentTime = document.getElementById('my-current-time');
+   271→  const theirCurrentTime = document.getElementById('their-current-time');
+   272→  const workStartInput = document.getElementById('work-start') as HTMLInputElement;
+   273→  const workEndInput = document.getElementById('work-end') as HTMLInputElement;
+   274→  const timelineContainer = document.getElementById('timeline-container');
+   275→  const bestTimeContent = document.getElementById('best-time-content');
+   276→  const slotGrid = document.getElementById('slot-grid');
+   277→  const meetingResultCard = document.getElementById('meeting-result-card');
+   278→  const meetingTimes = document.getElementById('meeting-times');
+   279→  const waBtn = document.getElementById('wa-btn');
+   280→  const copyBtn = document.getElementById('copy-btn');
+   281→
+   282→  // Localized city names (from server-side i18n)
+   283→  const msCityDataEl = document.getElementById('ms-city-data');
+   284→  const cityNames: Record<string, string> = msCityDataEl?.dataset?.cities
+   285→    ? JSON.parse(msCityDataEl.dataset.cities)
+   286→    : {};
+   287→
+   288→  // Localized UI strings (from server-side i18n)
+   289→  const msI18nEl = document.getElementById('ms-i18n');
+   290→  const pageLocale = msI18nEl?.dataset?.lang || 'en';
+   291→  const i18n = {
+   292→    meetingAt: msI18nEl?.dataset?.meetingAt || 'Meeting at',
+   293→    copied: msI18nEl?.dataset?.copied || 'Copied!',
+   294→    copy: msI18nEl?.dataset?.copy || 'Copy',
+   295→    noOverlap: msI18nEl?.dataset?.noOverlap || 'No working hours overlap found. Try adjusting your working hours.',
+   296→    overlapText: msI18nEl?.dataset?.overlapText || 'overlap window',
+   297→    noSlots: msI18nEl?.dataset?.noSlots || 'No overlapping slots available',
+   298→  };
+   299→
+   300→  // Get hour in a timezone (0-23)
+   301→  function getHourInTz(tz: string, date?: Date): number {
+   302→    try {
+   303→      const d = date || new Date();
+   304→      const formatter = new Intl.DateTimeFormat(pageLocale, {
+   305→        timeZone: tz, hour: 'numeric', hour12: false
+   306→      });
+   307→      const hour = parseInt(formatter.format(d));
+   308→      return hour === 24 ? 0 : hour;
+   309→    } catch { return 12; }
+   310→  }
+   311→
+   312→  // Get offset in minutes for a timezone
+   313→  function getOffsetMinutes(tz: string, date?: Date): number {
+   314→    const d = date || new Date();
+   315→    const utcDate = new Date(d.getTime());
+   316→    const tzString = d.toLocaleString(pageLocale, { timeZone: tz });
+   317→    const tzDate = new Date(tzString);
+   318→    return (tzDate.getTime() - utcDate.getTime()) / 60000;
+   319→  }
+   320→
+   321→  // Get offset label
+   322→  function getOffsetLabel(tz: string): string {
+   323→    try {
+   324→      const formatter = new Intl.DateTimeFormat(pageLocale, {
+   325→        timeZone: tz, timeZoneName: 'shortOffset'
+   326→      });
+   327→      const parts = formatter.formatToParts(new Date());
+   328→      const offsetPart = parts.find(p => p.type === 'timeZoneName');
+   329→      return offsetPart?.value || tz;
+   330→    } catch { return tz; }
+   331→  }
+   332→
+   333→  // Format time in timezone
+   334→  function formatTimeInTz(tz: string, date?: Date): string {
+   335→    try {
+   336→      const d = date || new Date();
+   337→      return new Intl.DateTimeFormat(pageLocale, {
+   338→        timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false
+   339→      }).format(d);
+   340→    } catch { return '--:--'; }
+   341→  }
+   342→
+   343→  // Find overlap between two working hour ranges
+   344→  function findOverlap(myTz: string, theirTz: string, workStart: number, workEnd: number): { myStart: number; myEnd: number; theirStart: number; theirEnd: number }[] {
+   345→    const myOffset = getOffsetMinutes(myTz);
+   346→    const theirOffset = getOffsetMinutes(theirTz);
+   347→    const diffHours = (theirOffset - myOffset) / 60;
+   348→
+   349→    // Their working hours in my timezone
+   350→    const theirWorkStartInMy = workStart - diffHours;
+   351→    const theirWorkEndInMy = workEnd - diffHours;
+   352→
+   353→    const overlaps: { myStart: number; myEnd: number; theirStart: number; theirEnd: number }[] = [];
+   354→
+   355→    // Check today and tomorrow (wrap-around)
+   356→    for (let dayOffset = -1; dayOffset <= 1; dayOffset++) {
+   357→      const theirStartAdj = theirWorkStartInMy + dayOffset * 24;
+   358→      const theirEndAdj = theirWorkEndInMy + dayOffset * 24;
+   359→
+   360→      const overlapStart = Math.max(workStart, theirStartAdj);
+   361→      const overlapEnd = Math.min(workEnd, theirEndAdj);
+   362→
+   363→      if (overlapEnd > overlapStart && overlapStart >= 0 && overlapEnd <= 24) {
+   364→        overlaps.push({
+   365→          myStart: overlapStart,
+   366→          myEnd: overlapEnd,
+   367→          theirStart: overlapStart + diffHours,
+   368→          theirEnd: overlapEnd + diffHours,
+   369→        });
+   370→      }
+   371→    }
+   372→
+   373→    return overlaps;
+   374→  }
+   375→
+   376→  // Render timeline
+   377→  function renderTimeline() {
+   378→    if (!timelineContainer) return;
+   379→
+   380→    const myTz = myTzSelect?.value || 'Europe/Moscow';
+   381→    const theirTz = theirTzSelect?.value || 'America/New_York';
+   382→    const workStart = parseInt(workStartInput?.value?.split(':')[0] || '9');
+   383→    const workEnd = parseInt(workEndInput?.value?.split(':')[0] || '18');
+   384→
+   385→    // Update current times
+   386→    if (myCurrentTime) {
+   387→      myCurrentTime.textContent = formatTimeInTz(myTz) + ' ' + getOffsetLabel(myTz);
+   388→    }
+   389→    if (theirCurrentTime) {
+   390→      theirCurrentTime.textContent = formatTimeInTz(theirTz) + ' ' + getOffsetLabel(theirTz);
+   391→    }
+   392→
+   393→    const myName = cityNames[myTz] || myTz.split('/').pop() || myTz;
+   394→    const theirName = cityNames[theirTz] || theirTz.split('/').pop() || theirTz;
+   395→
+   396→    const overlaps = findOverlap(myTz, theirTz, workStart, workEnd);
+   397→
+   398→    // Build timeline HTML
+   399→    let html = '';
+   400→
+   401→    // Build hour markers
+   402→    const hours = Array.from({ length: 24 }, (_, i) => i);
+   403→
+   404→    // My timeline
+   405→    html += '<div class="timeline-row">';
+   406→    html += `<div class="timeline-label">${myName}</div>`;
+   407→    html += '<div class="timeline-bar">';
+   408→    for (let h = 0; h < 24; h++) {
+   409→      const isWork = h >= workStart && h < workEnd;
+   410→      const isOverlap = overlaps.some(o => h >= Math.floor(o.myStart) && h < Math.ceil(o.myEnd));
+   411→      let cls = 'timeline-cell';
+   412→      if (isOverlap) cls += ' overlap';
+   413→      else if (isWork) cls += ' work';
+   414→      else cls += ' sleep';
+   415→      html += `<div class="${cls}" data-hour="${h}" title="${h}:00">${h}</div>`;
+   416→    }
+   417→    html += '</div></div>';
+   418→
+   419→    // Their timeline
+   420→    html += '<div class="timeline-row">';
+   421→    html += `<div class="timeline-label">${theirName}</div>`;
+   422→    html += '<div class="timeline-bar">';
+   423→    const theirOffset = getOffsetMinutes(theirTz);
+   424→    const myOffset = getOffsetMinutes(myTz);
+   425→    const diffHours = (theirOffset - myOffset) / 60;
+   426→    for (let h = 0; h < 24; h++) {
+   427→      const theirHour = h + diffHours;
+   428→      const theirHourNorm = ((theirHour % 24) + 24) % 24;
+   429→      const isWork = theirHourNorm >= workStart && theirHourNorm < workEnd;
+   430→      const isOverlap = overlaps.some(o => h >= Math.floor(o.myStart) && h < Math.ceil(o.myEnd));
+   431→      let cls = 'timeline-cell';
+   432→      if (isOverlap) cls += ' overlap';
+   433→      else if (isWork) cls += ' work';
+   434→      else cls += ' sleep';
+   435→      const displayHour = Math.floor(theirHourNorm);
+   436→      html += `<div class="${cls}" data-hour="${h}" title="${displayHour}:00 ${theirName}">${displayHour}</div>`;
+   437→    }
+   438→    html += '</div></div>';
+   439→
+   440→    timelineContainer.innerHTML = html;
+   441→
+   442→    // Best time
+   443→    renderBestTime(overlaps, myTz, theirTz, workStart, workEnd);
+   444→
+   445→    // Slot picker
+   446→    renderSlotPicker(overlaps, myTz, theirTz);
+   447→  }
+   448→
+   449→  function renderBestTime(overlaps: { myStart: number; myEnd: number; theirStart: number; theirEnd: number }[], myTz: string, theirTz: string, workStart: number, workEnd: number) {
+   450→    if (!bestTimeContent) return;
+   451→
+   452→    const myName = cityNames[myTz] || myTz.split('/').pop() || myTz;
+   453→    const theirName = cityNames[theirTz] || theirTz.split('/').pop() || theirTz;
+   454→
+   455→    if (overlaps.length === 0) {
+   456→      bestTimeContent.innerHTML = `<div class="no-overlap">${i18n.noOverlap}</div>`;
+   457→      return;
+   458→    }
+   459→
+   460→    // Find the longest overlap
+   461→    const longest = overlaps.reduce((a, b) => (b.myEnd - b.myStart) > (a.myEnd - a.myStart) ? b : a);
+   462→    const duration = longest.myEnd - longest.myStart;
+   463→    const midPoint = Math.floor((longest.myStart + longest.myEnd) / 2);
+   464→
+   465→    // Format times
+   466→    const myStartStr = formatHour(longest.myStart);
+   467→    const myEndStr = formatHour(longest.myEnd);
+   468→    const theirStartStr = formatHour(longest.theirStart);
+   469→    const theirEndStr = formatHour(longest.theirEnd);
+   470→
+   471→    bestTimeContent.innerHTML = `
+   472→      <div class="best-time-main">
+   473→        <div class="best-time-label">${myName}</div>
+   474→        <div class="best-time-value">${myStartStr} — ${myEndStr}</div>
+   475→        <div class="best-time-label">${theirName}</div>
+   476→        <div class="best-time-value">${theirStartStr} — ${theirEndStr}</div>
+   477→      </div>
+   478→      <div class="best-time-duration">${duration}h ${i18n.overlapText}</div>
+   479→    `;
+   480→  }
+   481→
+   482→  function formatHour(h: number): string {
+   483→    const normalized = ((h % 24) + 24) % 24;
+   484→    const hours = Math.floor(normalized);
+   485→    const minutes = Math.round((normalized - hours) * 60);
+   486→    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+   487→  }
+   488→
+   489→  // Slot picker
+   490→  let selectedSlot: { myHour: number; theirHour: number } | null = null;
+   491→
+   492→  function renderSlotPicker(overlaps: { myStart: number; myEnd: number; theirStart: number; theirEnd: number }[], myTz: string, theirTz: string) {
+   493→    if (!slotGrid) return;
+   494→
+   495→    const myName = cityNames[myTz] || myTz.split('/').pop() || myTz;
+   496→    const theirName = cityNames[theirTz] || theirTz.split('/').pop() || theirTz;
+   497→
+   498→    if (overlaps.length === 0) {
+   499→      slotGrid.innerHTML = `<div class="no-slots">${i18n.noSlots}</div>`;
+   500→      return;
+   501→    }
+   502→
+   503→    // Generate 1-hour slots from overlaps
+   504→    const slots: { myHour: number; theirHour: number }[] = [];
+   505→    for (const overlap of overlaps) {
+   506→      for (let h = Math.ceil(overlap.myStart); h < Math.floor(overlap.myEnd); h++) {
+   507→        if (h >= 0 && h < 24) {
+   508→          const theirH = h + (getOffsetMinutes(theirTz) - getOffsetMinutes(myTz)) / 60;
+   509→          slots.push({ myHour: h, theirHour: theirH });
+   510→        }
+   511→      }
+   512→    }
+   513→
+   514→    let html = '';
+   515→    slots.forEach((slot, i) => {
+   516→      const myStr = formatHour(slot.myHour);
+   517→      const theirStr = formatHour(slot.theirHour);
+   518→      html += `<button class="slot-btn" data-idx="${i}" data-my-hour="${slot.myHour}" data-their-hour="${slot.theirHour}">
+   519→        <span class="slot-my">${myStr} ${myName}</span>
+   520→        <span class="slot-sep">=</span>
+   521→        <span class="slot-their">${theirStr} ${theirName}</span>
+   522→      </button>`;
+   523→    });
+   524→
+   525→    slotGrid.innerHTML = html;
+   526→
+   527→    // Attach click handlers
+   528→    slotGrid.querySelectorAll('.slot-btn').forEach(btn => {
+   529→      btn.addEventListener('click', () => {
+   530→        slotGrid.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
+   531→        btn.classList.add('selected');
+   532→        const myHour = parseFloat(btn.getAttribute('data-my-hour') || '0');
+   533→        const theirHour = parseFloat(btn.getAttribute('data-their-hour') || '0');
+   534→        selectedSlot = { myHour, theirHour };
+   535→        showMeetingResult(myTz, theirTz, myHour, theirHour);
+   536→      });
+   537→    });
+   538→  }
+   539→
+   540→  function showMeetingResult(myTz: string, theirTz: string, myHour: number, theirHour: number) {
+   541→    if (!meetingResultCard || !meetingTimes) return;
+   542→    const myName = cityNames[myTz] || myTz.split('/').pop() || myTz;
+   543→    const theirName = cityNames[theirTz] || theirTz.split('/').pop() || theirTz;
+   544→
+   545→    const myStr = formatHour(myHour);
+   546→    const theirStr = formatHour(theirHour);
+   547→
+   548→    meetingTimes.innerHTML = `
+   549→      <div class="meeting-time-row">
+   550→        <span class="meeting-time-label">${myName}</span>
+   551→        <span class="meeting-time-value">${myStr}</span>
+   552→      </div>
+   553→      <div class="meeting-time-row">
+   554→        <span class="meeting-time-label">${theirName}</span>
+   555→        <span class="meeting-time-value">${theirStr}</span>
+   556→      </div>
+   557→    `;
+   558→    meetingResultCard.style.display = '';
+   559→
+   560→    // Generate WhatsApp message
+   561→    const message = `${i18n.meetingAt} ${myStr} (${myName}) / ${theirStr} (${theirName})`;
+   562→    if (waBtn) {
+   563→      waBtn.onclick = () => {
+   564→        window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+   565→      };
+   566→    }
+   567→    if (copyBtn) {
+   568→      copyBtn.onclick = () => {
+   569→        navigator.clipboard.writeText(message).then(() => {
+   570→          const original = copyBtn.textContent;
+   571→          copyBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> ${i18n.copied}`;
+   572→          setTimeout(() => {
+   573→            copyBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> ${i18n.copy}`;
+   574→          }, 2000);
+   575→        });
+   576→      };
+   577→    }
+   578→  }
+   579→
+   580→  // Live updates
+   581→  myTzSelect?.addEventListener('change', () => { selectedSlot = null; meetingResultCard && (meetingResultCard.style.display = 'none'); renderTimeline(); });
+   582→  theirTzSelect?.addEventListener('change', () => { selectedSlot = null; meetingResultCard && (meetingResultCard.style.display = 'none'); renderTimeline(); });
+   583→  workStartInput?.addEventListener('change', () => { selectedSlot = null; meetingResultCard && (meetingResultCard.style.display = 'none'); renderTimeline(); });
+   584→  workEndInput?.addEventListener('change', () => { selectedSlot = null; meetingResultCard && (meetingResultCard.style.display = 'none'); renderTimeline(); });
+   585→
+   586→  // Initial render + live clock
+   587→  renderTimeline();
+   588→  setInterval(() => {
+   589→    if (myCurrentTime) myCurrentTime.textContent = formatTimeInTz(myTzSelect?.value || 'Europe/Moscow') + ' ' + getOffsetLabel(myTzSelect?.value || 'Europe/Moscow');
+   590→    if (theirCurrentTime) theirCurrentTime.textContent = formatTimeInTz(theirTzSelect?.value || 'America/New_York') + ' ' + getOffsetLabel(theirTzSelect?.value || 'America/New_York');
+   591→  }, 1000);
+   592→</script>
+   593→
+   594→<style>
+   595→  .container {
+   596→    position: relative; z-index: 1; width: 100%; margin: 0 auto; max-width: 640px;
+   597→    padding: 2rem 1.25rem; display: flex; flex-direction: column; gap: 1.5rem;
+   598→  }
+   599→
+   600→  @media (max-width: 900px) {
+   601→    .container { max-width: 100%; }
+   602→  }
+   603→
+   604→  @media (max-width: 520px) {
+   605→    .container {
+   606→      padding: 1.25rem 0.75rem;
+   607→      gap: 1rem;
+   608→    }
+   609→    .title { font-size: 1.1rem; }
+   610→    .subtitle { font-size: 0.8rem; }
+   611→    .tz-row { flex-direction: column; }
+   612→    .tz-arrow { transform: rotate(90deg); }
+   613→    .timeline-cell { font-size: 0.55rem; }
+   614→    .section-title { font-size: 0.9rem; }
+   615→  }
+   616→
+   617→  /* Hero */
+   618→  .hero { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+   619→  .title {
+   620→    font-size: 1.6rem; font-weight: 800; color: var(--text-primary);
+   621→    letter-spacing: -0.02em; line-height: 1.2;
+   622→  }
+   623→  .subtitle {
+   624→    font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; max-width: 480px;
+   625→  }
+   626→  .privacy-badge {
+   627→    display: inline-flex; align-items: center; gap: 0.35rem;
+   628→    font-size: 0.72rem; color: var(--opn-primary); font-weight: 600;
+   629→    background: rgba(37, 211, 102, 0.1); padding: 0.3rem 0.75rem;
+   630→    border-radius: 20px; border: 1px solid rgba(37, 211, 102, 0.2);
+   631→  }
+   632→
+   633→  /* Timezone row */
+   634→  .tz-row {
+   635→    display: flex; align-items: center; gap: 0.75rem;
+   636→  }
+   637→  .tz-card {
+   638→    flex: 1; background: var(--bg-secondary); border: 1px solid var(--border-color);
+   639→    border-radius: 12px; padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem;
+   640→  }
+   641→  .tz-label {
+   642→    font-size: 0.75rem; font-weight: 600; color: var(--text-secondary);
+   643→  }
+   644→  .tz-select {
+   645→    width: 100%; padding: 0.5rem 0.6rem; font-size: 0.8rem;
+   646→    background: var(--bg-input); border: 1px solid var(--border-color);
+   647→    color: var(--text-primary); border-radius: 8px;
+   648→    appearance: none; cursor: pointer; transition: border 0.15s;
+   649→  }
+   650→  .tz-select:focus { outline: none; border-color: var(--opn-primary); }
+   651→  .tz-current-time {
+   652→    font-size: 1.1rem; font-weight: 700; color: var(--opn-primary);
+   653→    letter-spacing: -0.02em;
+   654→  }
+   655→  .tz-arrow {
+   656→    color: var(--text-secondary); flex-shrink: 0;
+   657→  }
+   658→
+   659→  /* Working hours card */
+   660→  .work-hours-card {
+   661→    background: var(--bg-secondary); border: 1px solid var(--border-color);
+   662→    border-radius: 12px; padding: 1rem 1.25rem; display: flex;
+   663→    flex-direction: column; gap: 0.75rem;
+   664→  }
+   665→  .card-title {
+   666→    font-size: 0.85rem; font-weight: 700; color: var(--text-primary);
+   667→    margin: 0;
+   668→  }
+   669→  .work-hours-row {
+   670→    display: flex; align-items: center; gap: 0.75rem;
+   671→  }
+   672→  .work-hours-field {
+   673→    display: flex; flex-direction: column; gap: 0.25rem;
+   674→  }
+   675→  .work-hours-field label {
+   676→    font-size: 0.7rem; font-weight: 600; color: var(--text-secondary);
+   677→  }
+   678→  .time-input {
+   679→    padding: 0.4rem 0.6rem; font-size: 0.9rem;
+   680→    background: var(--bg-input); border: 1px solid var(--border-color);
+   681→    color: var(--text-primary); border-radius: 8px; transition: border 0.15s;
+   682→  }
+   683→  .time-input:focus { outline: none; border-color: var(--opn-primary); }
+   684→  .work-hours-dash {
+   685→    color: var(--text-secondary); font-size: 1.2rem; margin-top: 1rem;
+   686→  }
+   687→
+   688→  /* Timeline */
+   689→  .timeline-card {
+   690→    background: var(--bg-secondary); border: 1px solid var(--border-color);
+   691→    border-radius: 12px; padding: 1rem 1.25rem; display: flex;
+   692→    flex-direction: column; gap: 0.75rem;
+   693→  }
+   694→  .timeline-legend {
+   695→    display: flex; gap: 1rem; flex-wrap: wrap;
+   696→  }
+   697→  .legend-item {
+   698→    display: flex; align-items: center; gap: 0.3rem;
+   699→    font-size: 0.7rem; color: var(--text-secondary);
+   700→  }
+   701→  .legend-swatch {
+   702→    width: 12px; height: 12px; border-radius: 3px;
+   703→  }
+   704→  .legend-work { background: rgba(37, 211, 102, 0.25); border: 1px solid rgba(37, 211, 102, 0.4); }
+   705→  .legend-sleep { background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(56, 189, 248, 0.15); }
+   706→  .legend-overlap { background: rgba(37, 211, 102, 0.6); border: 1px solid rgba(37, 211, 102, 0.8); }
+   707→
+   708→  .timeline-container {
+   709→    display: flex; flex-direction: column; gap: 0.5rem;
+   710→  }
+   711→  .timeline-row {
+   712→    display: flex; align-items: center; gap: 0.5rem;
+   713→  }
+   714→  .timeline-label {
+   715→    font-size: 0.7rem; font-weight: 700; color: var(--text-primary);
+   716→    width: 70px; flex-shrink: 0; text-align: right;
+   717→  }
+   718→  .timeline-bar {
+   719→    display: flex; flex: 1; gap: 1px; border-radius: 6px; overflow: hidden;
+   720→  }
+   721→  .timeline-cell {
+   722→    flex: 1; text-align: center; padding: 0.3rem 0;
+   723→    font-size: 0.65rem; font-weight: 600; cursor: default;
+   724→    transition: transform 0.1s;
+   725→  }
+   726→  .timeline-cell.work {
+   727→    background: rgba(37, 211, 102, 0.25); color: rgba(37, 211, 102, 0.9);
+   728→  }
+   729→  .timeline-cell.sleep {
+   730→    background: rgba(30, 41, 59, 0.6); color: rgba(148, 163, 184, 0.5);
+   731→  }
+   732→  .timeline-cell.overlap {
+   733→    background: rgba(37, 211, 102, 0.6); color: #fff; font-weight: 700;
+   734→  }
+   735→
+   736→  /* Best time */
+   737→  .best-time-card {
+   738→    background: var(--bg-secondary); border: 1px solid var(--border-color);
+   739→    border-radius: 12px; padding: 1rem 1.25rem; display: flex;
+   740→    flex-direction: column; gap: 0.75rem;
+   741→  }
+   742→  .best-time-main {
+   743→    display: flex; flex-direction: column; gap: 0.25rem;
+   744→  }
+   745→  .best-time-label {
+   746→    font-size: 0.7rem; font-weight: 600; color: var(--text-secondary);
+   747→  }
+   748→  .best-time-value {
+   749→    font-size: 1.1rem; font-weight: 700; color: var(--opn-primary);
+   750→    letter-spacing: -0.02em;
+   751→  }
+   752→  .best-time-duration {
+   753→    font-size: 0.8rem; font-weight: 600; color: #38bdf8;
+   754→    background: rgba(56, 189, 248, 0.08); padding: 0.3rem 0.6rem;
+   755→    border-radius: 6px; display: inline-block; text-align: center;
+   756→  }
+   757→  .no-overlap {
+   758→    font-size: 0.85rem; color: var(--text-secondary); text-align: center;
+   759→    padding: 0.5rem;
+   760→  }
+   761→
+   762→  /* Meeting result */
+   763→  .meeting-result-card {
+   764→    background: var(--bg-secondary); border: 1px solid rgba(37, 211, 102, 0.3);
+   765→    border-radius: 12px; padding: 1rem 1.25rem; display: flex;
+   766→    flex-direction: column; gap: 0.75rem;
+   767→  }
+   768→  .meeting-times {
+   769→    display: flex; flex-direction: column; gap: 0.5rem;
+   770→  }
+   771→  .meeting-time-row {
+   772→    display: flex; justify-content: space-between; align-items: center;
+   773→    padding: 0.4rem 0;
+   774→  }
+   775→  .meeting-time-label {
+   776→    font-size: 0.8rem; font-weight: 600; color: var(--text-secondary);
+   777→  }
+   778→  .meeting-time-value {
+   779→    font-size: 1.2rem; font-weight: 700; color: var(--opn-primary);
+   780→    letter-spacing: -0.02em;
+   781→  }
+   782→  .meeting-actions {
+   783→    display: flex; gap: 0.75rem; margin-top: 0.5rem;
+   784→  }
+   785→  .wa-btn {
+   786→    display: flex; align-items: center; gap: 0.5rem;
+   787→    padding: 0.6rem 1rem; font-size: 0.8rem; font-weight: 600;
+   788→    color: #fff; background: #25D366; border: none;
+   789→    border-radius: 8px; cursor: pointer; transition: opacity 0.15s;
+   790→  }
+   791→  .wa-btn:hover { opacity: 0.85; }
+   792→  .copy-btn {
+   793→    display: flex; align-items: center; gap: 0.5rem;
+   794→    padding: 0.6rem 1rem; font-size: 0.8rem; font-weight: 600;
+   795→    color: var(--text-secondary); background: var(--bg-input);
+   796→    border: 1px solid var(--border-color); border-radius: 8px;
+   797→    cursor: pointer; transition: border-color 0.15s;
+   798→  }
+   799→  .copy-btn:hover { border-color: var(--text-secondary); }
+   800→
+   801→  /* Slot picker */
+   802→  .slot-picker-card {
+   803→    background: var(--bg-secondary); border: 1px solid var(--border-color);
+   804→    border-radius: 12px; padding: 1rem 1.25rem; display: flex;
+   805→    flex-direction: column; gap: 0.75rem;
+   806→  }
+   807→  .picker-hint {
+   808→    font-size: 0.72rem; color: var(--text-secondary); line-height: 1.4; margin: 0;
+   809→  }
+   810→  .slot-grid {
+   811→    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+   812→    gap: 0.5rem;
+   813→  }
+   814→  .slot-btn {
+   815→    display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+   816→    padding: 0.5rem 0.75rem; font-size: 0.75rem; font-weight: 600;
+   817→    color: var(--text-primary); background: var(--bg-input);
+   818→    border: 1px solid var(--border-color); border-radius: 8px;
+   819→    cursor: pointer; transition: all 0.15s;
+   820→  }
+   821→  .slot-btn:hover {
+   822→    border-color: var(--opn-primary); background: rgba(37, 211, 102, 0.05);
+   823→  }
+   824→  .slot-btn.selected {
+   825→    border-color: var(--opn-primary); background: rgba(37, 211, 102, 0.15);
+   826→    color: var(--opn-primary);
+   827→  }
+   828→  .slot-my, .slot-their { white-space: nowrap; }
+   829→  .slot-sep { color: var(--text-secondary); font-size: 0.7rem; }
+   830→  .no-slots {
+   831→    font-size: 0.85rem; color: var(--text-secondary); text-align: center;
+   832→    padding: 0.5rem;
+   833→  }
+   834→
+   835→  /* Business section */
+   836→  .business-section { display: flex; flex-direction: column; gap: 1rem; }
+   837→  .business-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+   838→  @media (max-width: 500px) { .business-grid { grid-template-columns: 1fr; } }
+   839→  .business-card {
+   840→    background: var(--bg-secondary); border: 1px solid var(--border-color);
+   841→    border-radius: 10px; padding: 0.75rem; display: flex;
+   842→    flex-direction: column; gap: 0.4rem;
+   843→  }
+   844→  .business-icon {
+   845→    width: 28px; height: 28px; color: var(--opn-primary); flex-shrink: 0;
+   846→  }
+   847→  .business-icon.remote-icon { color: #38bdf8; }
+   848→  .business-icon.global-icon { color: #f59e0b; }
+   849→  .business-card-title {
+   850→    font-size: 0.8rem; font-weight: 700; color: var(--text-primary);
+   851→  }
+   852→  .business-card-desc {
+   853→    font-size: 0.72rem; color: var(--text-secondary); line-height: 1.45;
+   854→  }
+   855→
+   856→  /* Section title */
+   857→  .section-title {
+   858→    font-size: 1rem; font-weight: 700; color: var(--text-primary);
+   859→    letter-spacing: -0.01em;
+   860→  }
+   861→
+   862→  /* FAQ */
+   863→  .faq-section { display: flex; flex-direction: column; gap: 0.5rem; }
+   864→  .faq-item {
+   865→    background: var(--bg-secondary); border: 1px solid var(--border-color);
+   866→    border-radius: 10px; overflow: hidden;
+   867→  }
+   868→  .faq-q {
+   869→    font-size: 0.82rem; font-weight: 600; color: var(--text-primary);
+   870→    padding: 0.65rem 1rem; cursor: pointer; list-style: none;
+   871→    transition: color 0.15s;
+   872→  }
+   873→  .faq-q::-webkit-details-marker { display: none; }
+   874→  .faq-q::marker { content: ''; }
+   875→  .faq-q:hover { color: var(--opn-primary); }
+   876→  .faq-a {
+   877→    font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5;
+   878→    padding: 0 1rem 0.65rem;
+   879→  }
+   880→
+   881→  /* SEO section */
+   882→  .seo-section { display: flex; flex-direction: column; gap: 0.75rem; }
+   883→  .seo-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+   884→  @media (max-width: 500px) { .seo-grid { grid-template-columns: 1fr; } }
+   885→  .seo-card {
+   886→    background: var(--bg-secondary); border: 1px solid var(--border-color);
+   887→    border-radius: 10px; padding: 0.75rem;
+   888→  }
+   889→  .seo-card h3 {
+   890→    font-size: 0.82rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.3rem;
+   891→  }
+   892→  .seo-card p {
+   893→    font-size: 0.72rem; color: var(--text-secondary); line-height: 1.45;
+   894→  }
+   895→</style>
+   896→
