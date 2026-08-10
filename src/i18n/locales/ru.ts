@@ -1301,13 +1301,6 @@ export default {
     'hub.service.signal.desc': 'Откройте чат Signal без добавления контакта. Использует официальную ссылку signal.me.',
     'hub.service.signal.cta': 'Открыть чат Signal',
 
-    // KakaoTalk
-    'bc.kakaotalk': 'KakaoTalk',
-    'sidebar.kakaotalk': 'KakaoTalk',
-    'hub.service.kakaotalk.title': 'KakaoTalk без сохранения номера',
-    'hub.service.kakaotalk.desc': 'Напишите на любой KakaoTalk ID или номер телефона без сохранения контактов. Генерируйте QR-код для удобного обмена. Быстро, приватно, бесплатно.',
-    'hub.service.kakaotalk.cta': 'Открыть KakaoTalk',
-
     // Instagram Direct (Hub)
     'sidebar.instagram': 'Instagram',
     'hub.service.instagram.title': 'Генератор ссылки на Instagram DM',
