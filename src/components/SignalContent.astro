@@ -169,6 +169,91 @@ const pageSchema = {
       </details>
     </form>
 
+    <!-- Signal QR Code Generator Section -->
+    <div class="qr-section" id="qr-section">
+      <h2 class="section-heading">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="heading-icon">
+          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3" height="3"/>
+          <rect x="18" y="14" width="3" height="3"/><rect x="14" y="18" width="3" height="3"/>
+          <rect x="18" y="18" width="3" height="3"/>
+        </svg>
+        {t('sg.qr.title')}
+      </h2>
+      <p class="section-subtitle">{t('sg.qr.subtitle')}</p>
+
+      <!-- QR Options -->
+      <div class="qr-options">
+        <div class="option-group">
+          <label class="option-label">{t('sg.qr.size.small')}</label>
+          <div class="size-buttons">
+            <button class="size-btn active" data-size="200">S</button>
+            <button class="size-btn" data-size="400">M</button>
+            <button class="size-btn" data-size="600">L</button>
+          </div>
+        </div>
+
+        <div class="option-group colors">
+          <div class="color-option">
+            <label class="option-label">{t('sg.qr.color.foreground')}</label>
+            <input type="color" id="qr-fg-color" value="#1a73e8" class="color-picker" />
+          </div>
+          <div class="color-option">
+            <label class="option-label">{t('sg.qr.color.background')}</label>
+            <input type="color" id="qr-bg-color" value="#ffffff" class="color-picker" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Generate Button -->
+      <button type="button" class="generate-qr-btn" id="generate-qr-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/><path d="M14 14h7v7h-7z"/>
+        </svg>
+        <span id="generate-qr-text">{t('sg.qr.generate')}</span>
+      </button>
+
+      <!-- QR Output -->
+      <div class="qr-output" id="qr-output" style="display:none;">
+        <div class="qr-display">
+          <div id="signal-qr-container" class="qr-container"></div>
+          <p class="qr-instruction">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="13" r="4"/>
+            </svg>
+            {t('sg.qr.instruction')}
+          </p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="qr-actions">
+          <button class="action-btn" id="download-png-qr">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            {t('sg.qr.downloadPng')}
+          </button>
+          <button class="action-btn" id="download-svg-qr">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            {t('sg.qr.downloadSvg')}
+          </button>
+          <button class="action-btn" id="print-qr">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+              <rect x="6" y="14" width="12" height="8"/>
+            </svg>
+            {t('sg.qr.print')}
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- History -->
     <div id="history-section" class="history-section" style="display:none;">
       <div class="history-header">
@@ -843,6 +928,246 @@ const pageSchema = {
       font-size: 0.85rem;
     }
   }
+
+  /* ===== Signal QR Code Generator ===== */
+  .qr-section {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .section-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .heading-icon {
+    color: #3A76F0;
+    flex-shrink: 0;
+  }
+
+  .section-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+  }
+
+  .qr-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    align-items: flex-end;
+    margin-bottom: 1.25rem;
+  }
+
+  .option-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .option-group.colors {
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .option-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .size-buttons {
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  .size-btn {
+    width: 40px;
+    height: 36px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .size-btn:hover {
+    border-color: #3A76F0;
+    color: #3A76F0;
+  }
+
+  .size-btn.active {
+    background: #3A76F0;
+    border-color: #3A76F0;
+    color: white;
+  }
+
+  .color-option {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .color-picker {
+    width: 48px;
+    height: 36px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 2px;
+    background: var(--bg-primary);
+  }
+
+  .color-picker::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+
+  .color-picker::-webkit-color-swatch {
+    border: none;
+    border-radius: 4px;
+  }
+
+  .generate-qr-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.9rem 1.5rem;
+    background: linear-gradient(135deg, #3A76F0 0%, #2563EB 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(58, 118, 240, 0.35);
+  }
+
+  .generate-qr-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(58, 118, 240, 0.45);
+  }
+
+  .generate-qr-btn:active {
+    transform: translateY(0);
+  }
+
+  .generate-qr-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .qr-output {
+    margin-top: 1.5rem;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .qr-display {
+    text-align: center;
+    padding: 1.5rem;
+    background: var(--bg-primary);
+    border-radius: 12px;
+    border: 1px dashed var(--border-color);
+  }
+
+  .qr-container {
+    display: inline-block;
+    padding: 1rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .qr-container :global(canvas) {
+    display: block !important;
+  }
+
+  .qr-instruction {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .qr-instruction svg {
+    color: #3A76F0;
+    flex-shrink: 0;
+  }
+
+  .qr-actions {
+    display: flex;
+    gap: 0.65rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .action-btn {
+    flex: 1;
+    min-width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.7rem 1rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .action-btn:hover {
+    border-color: #3A76F0;
+    color: #3A76F0;
+    background: rgba(58, 118, 240, 0.05);
+  }
+
+  @media (max-width: 480px) {
+    .qr-options {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .option-group.colors {
+      justify-content: space-between;
+    }
+
+    .qr-actions {
+      flex-direction: column;
+    }
+
+    .action-btn {
+      min-width: auto;
+    }
+  }
 </style>
 
 <script define:vars={{ lang }}>
@@ -1000,4 +1325,227 @@ const pageSchema = {
       form.dispatchEvent(new Event('submit', { cancelable: true }));
     }
   });
+
+  // ===== Signal QR Code Generator =====
+  (function() {
+    // i18n texts for QR section
+    const qrTexts = {
+      generate: lang === 'ru' ? 'Сгенерировать QR' : lang === 'es' ? 'Generar QR' : lang === 'pt' ? 'Gerar QR' : lang === 'de' ? 'QR generieren' : lang === 'id' ? 'Buat QR' : lang === 'ar' ? 'إنشاء QR' : 'Generate QR Code',
+      downloading: lang === 'ru' ? 'Генерация...' : lang === 'es' ? 'Generando...' : lang === 'pt' ? 'Gerando...' : lang === 'de' ? 'Generierung...' : lang === 'id' ? 'Membuat...' : lang === 'ar' 'جارٍ الإنشاء...' : 'Generating...',
+      noPhone: lang === 'ru' ? 'Сначала введите номер телефона' : lang === 'es' ? 'Introduce un número de teléfono primero' : lang === 'pt' ? 'Digite um número de telefone primeiro' : lang === 'de' ? 'Bitte geben Sie zuerst eine Telefonnummer ein' : lang === 'id' ? 'Masukkan nomor telepon terlebih dahulu' : lang === 'ar' ? 'أدخل رقم هاتف أولاً' : 'Please enter a phone number first',
+    };
+
+    const generateBtn = document.getElementById('generate-qr-btn');
+    const generateText = document.getElementById('generate-qr-text');
+    const qrOutput = document.getElementById('qr-output');
+    const qrContainer = document.getElementById('signal-qr-container');
+    const fgColorInput = document.getElementById('qr-fg-color');
+    const bgColorInput = document.getElementById('qr-bg-color');
+    const sizeBtns = document.querySelectorAll('.size-btn[data-size]');
+    const downloadPngBtn = document.getElementById('download-png-qr');
+    const downloadSvgBtn = document.getElementById('download-svg-qr');
+    const printBtn = document.getElementById('print-qr');
+
+    let currentSize = 200;
+    let currentQRInstance = null;
+
+    // Size button handlers
+    sizeBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        sizeBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentSize = parseInt(btn.dataset.size) || 200;
+        
+        // Regenerate if QR exists
+        if (currentQRInstance) {
+          generateQR();
+        }
+      });
+    });
+
+    // Generate button handler
+    generateBtn?.addEventListener('click', generateQR);
+
+    async function generateQR() {
+      const rawPhone = phoneInput.value.replace(/\D/g, '');
+
+      if (!rawPhone || rawPhone.length < 7) {
+        alert(qrTexts.noPhone);
+        return;
+      }
+
+      // Update button state
+      if (generateText) generateText.textContent = qrTexts.downloading;
+      if (generateBtn) generateBtn.disabled = true;
+
+      // Signal URL
+      const signalUrl = `https://signal.me/#p/+${rawPhone}`;
+
+      // Clear previous QR
+      qrContainer.innerHTML = '';
+
+      try {
+        // Dynamically import EasyQRCode
+        const EasyQRCodeModule = await import('easyqrcodejs');
+        const EasyQRCode = EasyQRCodeModule.default || EasyQRCodeModule;
+
+        // Create new QR code
+        currentQRInstance = new EasyQRCode(qrContainer, {
+          text: signalUrl,
+          width: currentSize,
+          height: currentSize,
+          colorDark: fgColorInput?.value || '#1a73e8',
+          colorLight: bgColorInput?.value || '#ffffff',
+          correctLevel: EasyQRCode.CorrectLevel.H,
+          quietZone: 15,
+          dotScale: 0.8,
+        });
+
+        // Show output
+        if (qrOutput) qrOutput.style.display = 'block';
+        
+        // Reset button
+        if (generateText) generateText.textContent = qrTexts.generate;
+        if (generateBtn) generateBtn.disabled = false;
+
+      } catch (error) {
+        console.error('QR Generation error:', error);
+        if (generateText) generateText.textContent = qrTexts.generate;
+        if (generateBtn) generateBtn.disabled = false;
+        alert('Failed to generate QR code. Please try again.');
+      }
+    }
+
+    // Color change handlers - regenerate on color change
+    fgColorInput?.addEventListener('input', () => {
+      if (currentQRInstance && qrContainer.innerHTML) {
+        generateQR();
+      }
+    });
+
+    bgColorInput?.addEventListener('input', () => {
+      if (currentQRInstance && qrContainer.innerHTML) {
+        generateQR();
+      }
+    });
+
+    // Download PNG
+    downloadPngBtn?.addEventListener('click', () => {
+      const canvas = qrContainer.querySelector('canvas');
+      if (canvas) {
+        const link = document.createElement('a');
+        link.download = `signal-qr-${Date.now()}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      }
+    });
+
+    // Download SVG
+    downloadSvgBtn?.addEventListener('click', async () => {
+      const rawPhone = phoneInput.value.replace(/\D/g, '');
+      if (!rawPhone) return;
+
+      const signalUrl = `https://signal.me/#p/+${rawPhone}`;
+      
+      try {
+        const EasyQRCodeModule = await import('easyqrcodejs');
+        const EasyQRCode = EasyQRCodeModule.default || EasyQRCodeModule;
+
+        // Create temp container for SVG
+        const tempDiv = document.createElement('div');
+        
+        const svgQR = new EasyQRCode(tempDiv, {
+          text: signalUrl,
+          width: currentSize,
+          height: currentSize,
+          colorDark: fgColorInput?.value || '#1a73e8',
+          colorLight: bgColorInput?.value || '#ffffff',
+          correctLevel: EasyQRCode.CorrectLevel.H,
+          quietZone: 15,
+          dotScale: 0.8,
+          qrMode: 4, // SVG mode
+        });
+
+        // Get SVG and download
+        setTimeout(() => {
+          const svg = tempDiv.querySelector('svg');
+          if (svg) {
+            const svgData = new XMLSerializer().serializeToString(svg);
+            const blob = new Blob([svgData], { type: 'image/svg+xml' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.download = `signal-qr-${Date.now()}.svg`;
+            link.href = url;
+            link.click();
+            URL.revokeObjectURL(url);
+          }
+          tempDiv.remove();
+        }, 100);
+
+      } catch (error) {
+        console.error('SVG download error:', error);
+      }
+    });
+
+    // Print QR
+    printBtn?.addEventListener('click', () => {
+      const rawPhone = phoneInput.value.replace(/\D/g, '');
+      if (!rawPhone) return;
+
+      const printWindow = window.open('', '_blank');
+      if (printWindow) {
+        const signalUrl = `https://signal.me/#p/+${rawPhone}`;
+        printWindow.document.write(`
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Signal QR Code</title>
+            <style>
+              body { 
+                display: flex; 
+                flex-direction: column; 
+                align-items: center; 
+                justify-content: center; 
+                min-height: 100vh; 
+                margin: 0; 
+                padding: 20px; 
+                font-family: system-ui, sans-serif;
+              }
+              h2 { margin-bottom: 10px; color: #333; }
+              p { color: #666; font-size: 14px; }
+              .qr-wrapper { 
+                padding: 20px; 
+                background: white; 
+                border-radius: 12px; 
+                box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+              }
+              @media print {
+                body { -webkit-print-color-adjust: exact; }
+              }
+            </style>
+          </head>
+          <body>
+            <h2>📱 Signal Chat</h2>
+            <div class="qr-wrapper" id="print-qr"></div>
+            <p>Scan to start a chat on Signal</p>
+            <script src="https://cdn.jsdelivr.net/npm/easyqrcodejs@4.6.2/dist/easy.qrcode.min.js"><\/script>
+            <script>
+              new EasyQRCode(document.getElementById('print-qr'), {
+                text: '${signalUrl}',
+                width: ${currentSize * 2},
+                height: ${currentSize * 2},
+                colorDark: '${fgColorInput?.value || '#1a73e8'}',
+                colorLight: '${bgColorInput?.value || '#ffffff'}',
+                correctLevel: H,
+                quietZone: 15
+              });
+              window.onload = function() { window.print(); };
+            <\/script>
+          </body>
+          </html>
+        `);
+        printWindow.document.close();
+      }
+    });
+  })();
 </script>
