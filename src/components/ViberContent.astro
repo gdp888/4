@@ -185,6 +185,40 @@ const pageSchema = {
       </details>
     </form>
 
+    <!-- QR Code Section -->
+    <div class="qr-section" id="viber-qr-section">
+      <h3 class="qr-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="qr-icon">
+          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3" height="3"/>
+          <rect x="18" y="14" width="3" height="3"/><rect x="14" y="18" width="3" height="3"/>
+          <rect x="18" y="18" width="3" height="3"/>
+        </svg>
+        {lang === 'ru' ? 'QR-код Viber' : lang === 'es' ? 'Código QR de Viber' : lang === 'pt' ? 'Código QR Viber' : lang === 'de' ? 'Viber QR-Code' : lang === 'id' ? 'Kode QR Viber' : lang === 'ar' ? 'رمز QR لـ Viber' : 'Viber QR Code'}
+      </h3>
+      <p class="qr-subtitle">{lang === 'ru' ? 'Сканируйте для быстрого начала чата в Viber' : lang === 'es' ? 'Escanea para chatear rápidamente en Viber' : lang === 'pt' ? 'Escaneie para um chat rápido no Viber' : lang === 'de' ? 'Scannen Sie für einen schnellen Chat in Viber' : lang === 'id' ? 'Pindai untuk chat cepat di Viber' : lang === 'ar' ? 'امسح سريعاً للدردشة في Viber' : 'Scan to start a quick chat on Viber'}</p>
+      
+      <div id="viber-qr-canvas" class="qr-canvas"></div>
+      
+      <div class="qr-actions" id="viber-qr-actions" style="display:none;">
+        <button type="button" id="viber-download-qr" class="download-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          {lang === 'ru' ? 'Скачать PNG' : lang === 'es' ? 'Descargar PNG' : lang === 'pt' ? 'Baixar PNG' : lang === 'de' ? 'PNG herunterladen' : lang === 'id' ? 'Unduh PNG' : lang === 'ar' ? 'تحميل PNG' : 'Download PNG'}
+        </button>
+        <button type="button" id="viber-print-qr" class="print-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+            <polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+            <rect x="6" y="14" width="12" height="8"/>
+          </svg>
+          {lang === 'ru' ? 'Печать' : lang === 'es' ? 'Imprimir' : lang === 'pt' ? 'Imprimir' : lang === 'de' ? 'Drucken' : lang === 'id' ? 'Cetak' : lang === 'ar' ? 'طباعة' : 'Print'}
+        </button>
+      </div>
+    </div>
+
     <!-- Favorites Section -->
     <div id="favorites-section" class="favorites-section">
       <div class="favorites-header">
@@ -364,6 +398,8 @@ const pageSchema = {
     </section>
 </div>
 </Layout>
+
+<script is:inline src="/js/easy.qrcode.min.js"></script>
 
 <style>
   .container {
@@ -1416,6 +1452,105 @@ const pageSchema = {
     gap: 0.3rem;
   }
 
+  /* ===== QR Code Section ===== */
+  .qr-section {
+    background: var(--card-bg, rgba(255,255,255,0.05));
+    border: 1px solid var(--border-color, rgba(255,255,255,0.1));
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    backdrop-filter: blur(10px);
+  }
+
+  .qr-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .qr-icon {
+    width: 24px;
+    height: 24px;
+    color: #7360F2;
+  }
+
+  .qr-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin: 0 0 1rem 0;
+  }
+
+  .qr-canvas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    padding: 1rem;
+    background: var(--bg-secondary, rgba(255,255,255,0.02));
+    border-radius: 12px;
+    border: 1px dashed var(--border-color, rgba(255,255,255,0.15));
+  }
+
+  .qr-canvas canvas,
+  .qr-canvas img {
+    max-width: 200px;
+    height: auto !important;
+    border-radius: 8px;
+  }
+
+  .qr-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .download-btn,
+  .print-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .download-btn {
+    background: linear-gradient(135deg, #7360F2 0%, #5b4cc4 100%);
+    color: white;
+  }
+
+  .download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(115, 96, 242, 0.35);
+  }
+
+  .print-btn {
+    background: var(--bg-secondary, rgba(255,255,255,0.08));
+    color: var(--text-primary);
+    border: 1px solid var(--border-color, rgba(255,255,255,0.15));
+  }
+
+  .print-btn:hover {
+    background: var(--bg-hover, rgba(255,255,255,0.12));
+    border-color: #7360F2;
+  }
+
+  .btn-icon {
+    width: 16px;
+    height: 16px;
+    stroke-width: 2.5;
+  }
+
   @media (max-width: 520px) {
     .title {
       font-size: 1.75rem;
@@ -1446,6 +1581,30 @@ const pageSchema = {
     
     .templates-grid {
       grid-template-columns: 1fr;
+    }
+    
+    .qr-section {
+      padding: 1rem;
+    }
+    
+    .qr-canvas {
+      min-height: 160px;
+      padding: 0.75rem;
+    }
+    
+    .qr-canvas canvas,
+    .qr-canvas img {
+      max-width: 160px;
+    }
+    
+    .qr-actions {
+      flex-direction: column;
+    }
+    
+    .download-btn,
+    .print-btn {
+      width: 100%;
+      justify-content: center;
     }
   }
 </style>
@@ -1915,4 +2074,157 @@ const pageSchema = {
 
   // Initial render
   renderTemplates(activeCategory);
+
+  // ==================== QR CODE GENERATOR ====================
+  const qrCanvas = document.getElementById('viber-qr-canvas');
+  const qrActions = document.getElementById('viber-qr-actions');
+  const downloadQrBtn = document.getElementById('viber-download-qr');
+  const printQrBtn = document.getElementById('viber-print-qr');
+
+  let currentQRGenerated = false;
+
+  // Generate QR code for Viber link
+  function generateViberQR(phoneNumber) {
+    if (!phoneNumber || phoneNumber.length < 7) {
+      qrCanvas.innerHTML = '';
+      qrActions.style.display = 'none';
+      currentQRGenerated = false;
+      return;
+    }
+
+    // Use Viber web contact URL for QR (more universal)
+    const viberUrl = `https://www.viber.com/contact/?number=%2B${phoneNumber}`;
+    
+    if (typeof QRCode !== 'undefined') {
+      qrCanvas.innerHTML = '';
+      const theme = document.documentElement.getAttribute('data-theme');
+      const colorLight = (theme === 'light') ? '#f8fafc' : '#1a1a2e';
+      
+      new QRCode(qrCanvas, {
+        text: viberUrl,
+        width: 200,
+        height: 200,
+        colorDark: '#7360F2', // Viber brand purple
+        colorLight: colorLight,
+        correctLevel: QRCode.CorrectLevel.M,
+      });
+      
+      qrActions.style.display = 'flex';
+      currentQRGenerated = true;
+    } else {
+      qrCanvas.innerHTML = '<p style="text-align:center;color:var(--text-secondary);padding:1rem;">QR library loading...</p>';
+    }
+  }
+
+  // Update QR when phone number changes
+  phoneInput.addEventListener('input', () => {
+    const rawPhone = phoneInput.value.replace(/\D/g, '');
+    if (rawPhone.length >= 7) {
+      generateViberQR(rawPhone);
+    } else {
+      qrCanvas.innerHTML = '';
+      qrActions.style.display = 'none';
+      currentQRGenerated = false;
+    }
+  });
+
+  // Download QR as PNG
+  downloadQrBtn?.addEventListener('click', () => {
+    if (!currentQRGenerated) return;
+    
+    const canvas = qrCanvas.querySelector('canvas');
+    if (canvas) {
+      const link = document.createElement('a');
+      link.download = 'viber-qr-code.png';
+      link.href = canvas.toDataURL('image/png');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      return;
+    }
+    
+    const img = qrCanvas.querySelector('img');
+    if (img && img.src) {
+      const link = document.createElement('a');
+      link.download = 'viber-qr-code.png';
+      link.href = img.src;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  });
+
+  // Print QR code
+  printQrBtn?.addEventListener('click', () => {
+    if (!currentQRGenerated) return;
+    
+    const printWindow = window.open('', '_blank');
+    const rawPhone = phoneInput.value.replace(/\D/g, '');
+    
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Viber QR Code</title>
+          <style>
+            body { 
+              display: flex; 
+              flex-direction: column; 
+              align-items: center; 
+              justify-content: center; 
+              min-height: 100vh; 
+              margin: 0; 
+              padding: 20px; 
+              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+              background: #fff;
+            }
+            h2 { 
+              color: #7360F2; 
+              margin-bottom: 10px; 
+              font-size: 24px;
+            }
+            .phone { 
+              font-size: 18px; 
+              color: #333; 
+              margin-bottom: 20px;
+            }
+            .qr-wrapper { 
+              border: 2px solid #7360F2; 
+              padding: 20px; 
+              border-radius: 12px;
+              background: #fff;
+            }
+            .footer {
+              margin-top: 30px;
+              font-size: 14px;
+              color: #666;
+            }
+            @media print {
+              body { padding: 0; }
+              .no-print { display: none; }
+            }
+          </style>
+        </head>
+        <body>
+          <h2>📱 Viber</h2>
+          <p class="phone">+${rawPhone}</p>
+          <div class="qr-wrapper" id="print-qr"></div>
+          <p class="footer">Scan this QR code to start a chat on Viber</p>
+          <script src="https://cdn.jsdelivr.net/npm/easyqrcodejs@4.6.2/dist/easy.qrcode.min.js"><\/script>
+          <script>
+            new EasyQRCode(document.getElementById('print-qr'), {
+              text: 'https://www.viber.com/contact/?number=%2B${rawPhone}',
+              width: 256,
+              height: 256,
+              colorDark: '#7360F2',
+              colorLight: '#ffffff',
+              correctLevel: EasyQRCode.CorrectLevel.M,
+            });
+            window.onload = function() { window.print(); }
+          <\/script>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+  });
 </script>
