@@ -13,7 +13,8 @@
     "@vercel/speed-insights": "^2.0.0",
     "astro": "^5.7.10",
     "easyqrcodejs": "^4.6.2",
-    "jspdf": "^4.2.1"
+    "jspdf": "^4.2.1",
+    "pdf-lib": "^1.17.1"
   },
   "allowScripts": {
     "esbuild@0.27.7": true,

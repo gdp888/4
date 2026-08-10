@@ -452,6 +452,29 @@ const hubSchema = {
             </span>
           </a>
 
+          <!-- PDF Merger Card -->
+          <a href={getRelativeLocaleUrl(lang, 'pdf-merger')} class="service-card pdfmerger-card popular-card">
+            <div class="popular-badge" title={t('hub.popular.title')}>🆕 {t('hub.popular.new')}</div>
+            <div class="card-icon-wrapper pdf-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="card-icon" aria-hidden="true">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <path d="M9 13h1.5a1.5 1.5 0 0 1 0 3H9v-3z"/>
+                <path d="M14 13v3"/>
+                <path d="M14 13h1.5"/>
+                <path d="M14 15h1"/>
+              </svg>
+            </div>
+            <div class="card-content">
+              <h2 class="card-title">{t('hub.service.pdfmerger.title')}</h2>
+              <p class="card-desc">{t('hub.service.pdfmerger.desc')}</p>
+            </div>
+            <span class="card-cta">
+              {t('hub.service.pdfmerger.cta')}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </a>
+
           <!-- Pomodoro Timer Card (NEW!) -->
           <a href={getRelativeLocaleUrl(lang, 'pomodoro')} class="service-card pomodoro-card popular-card">
             <div class="popular-badge" title={t('hub.popular.title')}>🆕 {t('hub.popular.new')}</div>
@@ -801,6 +824,11 @@ const hubSchema = {
   .ep-icon {
     background: rgba(251, 191, 36, 0.12);
     color: #F59E0B;
+  }
+
+  .pdf-icon {
+    background: rgba(239, 68, 68, 0.12);
+    color: #EF4444;
   }
 
   .pomodoro-icon {

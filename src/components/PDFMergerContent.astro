@@ -1,0 +1,712 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { useTranslations } from '../i18n/utils';
+import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
+import { languages, type Lang } from '../i18n/ui';
+import SiteHeader from './SiteHeader.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import SEOHead from './SEOHead.astro';
+import { localeMap } from '../i18n/localeMap';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const pmSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": t('pm.heading'),
+      "url": getAbsoluteLocaleUrl(lang, 'pdf-merger'),
+      "description": t('pm.meta.description'),
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "inLanguage": Object.keys(languages),
+      "featureList": [
+        t('pm.seo.feature1.title') + ': ' + t('pm.seo.feature1.desc'),
+        t('pm.seo.feature2.title') + ': ' + t('pm.seo.feature2.desc'),
+        t('pm.seo.feature3.title') + ': ' + t('pm.seo.feature3.desc'),
+        t('pm.seo.feature4.title') + ': ' + t('pm.seo.feature4.desc'),
+      ],
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "OPN Chat",
+          "item": getAbsoluteLocaleUrl(lang, '')
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": t('pm.heading'),
+          "item": getAbsoluteLocaleUrl(lang, 'pdf-merger')
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": t('pm.faq.q1'), "acceptedAnswer": { "@type": "Answer", "text": t('pm.faq.a1') } },
+        { "@type": "Question", "name": t('pm.faq.q2'), "acceptedAnswer": { "@type": "Answer", "text": t('pm.faq.a2') } },
+        { "@type": "Question", "name": t('pm.faq.q3'), "acceptedAnswer": { "@type": "Answer", "text": t('pm.faq.a3') } },
+        { "@type": "Question", "name": t('pm.faq.q4'), "acceptedAnswer": { "@type": "Answer", "text": t('pm.faq.a4') } },
+      ]
+    }
+  ]
+};
+---
+
+<Layout title={t('pm.meta.title')} lang={lang} service="pdf-merger">
+  <Fragment slot="meta">
+  <SEOHead
+  lang={lang}
+  description={t('pm.meta.description')}
+  canonicalUrl={getAbsoluteLocaleUrl(lang, 'pdf-merger')}
+  ogTitle={t('pm.meta.og.title')}
+  ogDescription={t('pm.meta.og.description')}
+  ogUrl={getAbsoluteLocaleUrl(lang, 'pdf-merger')}
+  schema={pmSchema}
+  extraMeta={`<meta name="keywords" content="${t('pm.meta.keywords')}" /><meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content="${t('pm.meta.twitter.title')}" /><meta name="twitter:description" content="${t('pm.meta.twitter.description')}" />`}
+/>
+</Fragment>
+
+  <div class="container">
+    <SiteHeader lang={lang} path="pdf-merger" activeTool="pdf-merger" />
+
+    <Breadcrumbs lang={lang} items={[{ label: t('bc.home'), href: getRelativeLocaleUrl(lang) }, { label: t('bc.pdfmerger') }]} />
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1 class="title">{t('pm.heading')}</h1>
+      <p class="subtitle">{t('pm.subtitle')}</p>
+    </div>
+
+    <!-- Upload Area -->
+    <div class="upload-area" id="upload-area">
+      <input type="file" id="file-input" accept="application/pdf" multiple style="display:none" />
+      <svg class="upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="17 8 12 3 7 8"/>
+        <line x1="12" y1="3" x2="12" y2="15"/>
+      </svg>
+      <p class="upload-text">{t('pm.upload.text')}</p>
+      <p class="upload-hint">{t('pm.upload.hint')}</p>
+      <button type="button" class="upload-btn" id="upload-btn">{t('pm.upload.button')}</button>
+    </div>
+
+    <!-- File List -->
+    <div class="file-list-section" id="file-list-section" style="display:none">
+      <div class="file-list-header">
+        <h3 class="file-list-title">{t('pm.filelist.title')}</h3>
+        <span class="file-count" id="file-count"></span>
+      </div>
+      <ul class="file-list" id="file-list"></ul>
+      <div class="file-list-actions">
+        <button type="button" class="clear-btn" id="clear-btn">{t('pm.filelist.clear')}</button>
+      </div>
+    </div>
+
+    <!-- Merge Button -->
+    <div class="merge-section" id="merge-section" style="display:none">
+      <button type="button" class="merge-btn" id="merge-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/><path d="M8 8l-4 4 4 4M16 8l4 4-4 4"/></svg>
+        {t('pm.merge.button')}
+      </button>
+      <p class="merge-hint">{t('pm.merge.hint')}</p>
+    </div>
+
+    <!-- Result -->
+    <div class="result-section" id="result-section" style="display:none">
+      <div class="result-card">
+        <div class="result-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15l2 2 4-4"/></svg>
+        </div>
+        <div class="result-info">
+          <h3 class="result-title">{t('pm.result.title')}</h3>
+          <p class="result-size" id="result-size"></p>
+        </div>
+        <button type="button" class="download-btn" id="download-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          {t('pm.result.download')}
+        </button>
+      </div>
+    </div>
+
+    <!-- Error Message -->
+    <div class="error-msg" id="error-msg" style="display:none"></div>
+
+    <!-- SEO Content Section -->
+    <section class="seo-section" aria-label="About PDF Merger">
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('pm.seo.what.heading')}</h2>
+        <p class="seo-text">{t('pm.seo.what.text')}</p>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('pm.seo.why.heading')}</h2>
+        <div class="seo-features">
+          <div class="feature-item">
+            <span class="feature-icon">&#128274;</span>
+            <div>
+              <h3 class="feature-title">{t('pm.seo.feature1.title')}</h3>
+              <p class="feature-desc">{t('pm.seo.feature1.desc')}</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">&#9889;</span>
+            <div>
+              <h3 class="feature-title">{t('pm.seo.feature2.title')}</h3>
+              <p class="feature-desc">{t('pm.seo.feature2.desc')}</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">&#127760;</span>
+            <div>
+              <h3 class="feature-title">{t('pm.seo.feature3.title')}</h3>
+              <p class="feature-desc">{t('pm.seo.feature3.desc')}</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">&#128190;</span>
+            <div>
+              <h3 class="feature-title">{t('pm.seo.feature4.title')}</h3>
+              <p class="feature-desc">{t('pm.seo.feature4.desc')}</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('pm.seo.how.heading')}</h2>
+        <p class="seo-text">{t('pm.seo.how.text')}</p>
+      </article>
+
+      <article class="seo-block">
+        <h2 class="seo-heading">{t('pm.faq.title')}</h2>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary class="faq-question">{t('pm.faq.q1')}</summary>
+            <p class="faq-answer">{t('pm.faq.a1')}</p>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question">{t('pm.faq.q2')}</summary>
+            <p class="faq-answer">{t('pm.faq.a2')}</p>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question">{t('pm.faq.q3')}</summary>
+            <p class="faq-answer">{t('pm.faq.a3')}</p>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question">{t('pm.faq.q4')}</summary>
+            <p class="faq-answer">{t('pm.faq.a4')}</p>
+          </details>
+        </div>
+      </article>
+    </section>
+  </div>
+</Layout>
+
+<script>
+  import { PDFDocument } from 'pdf-lib';
+
+  // ===== PDF Merger Logic =====
+  const uploadArea = document.getElementById('upload-area');
+  const fileInput = document.getElementById('file-input') as HTMLInputElement | null;
+  const uploadBtn = document.getElementById('upload-btn');
+  const fileListSection = document.getElementById('file-list-section');
+  const fileList = document.getElementById('file-list');
+  const fileCount = document.getElementById('file-count');
+  const clearBtn = document.getElementById('clear-btn');
+  const mergeSection = document.getElementById('merge-section');
+  const mergeBtn = document.getElementById('merge-btn');
+  const resultSection = document.getElementById('result-section');
+  const resultSize = document.getElementById('result-size');
+  const downloadBtn = document.getElementById('download-btn');
+  const errorMsg = document.getElementById('error-msg');
+
+  // Track uploaded files (in order)
+  let pdfFiles: File[] = [];
+  let mergedPdfBytes: Uint8Array | null = null;
+
+  // i18n strings (read from data attributes or fall back to English)
+  const i18nEl = document.getElementById('tz-i18n'); // reuse pattern
+  const i18n = {
+    pages: 'pages',
+    remove: 'Remove',
+    moveUp: 'Move up',
+    moveDown: 'Move down',
+    mergeError: 'Failed to merge PDFs. Please make sure all files are valid PDF documents.',
+    noFiles: 'Please add at least 2 PDF files to merge.',
+    merged: 'Merged PDF',
+    emptyList: 'No files added yet.',
+  };
+
+  // Try to read localized strings from the page's script data
+  const pmI18nEl = document.getElementById('pm-i18n');
+  if (pmI18nEl) {
+    const d = pmI18nEl.dataset;
+    i18n.pages = d.pages || i18n.pages;
+    i18n.remove = d.remove || i18n.remove;
+    i18n.moveUp = d.moveUp || i18n.moveUp;
+    i18n.moveDown = d.moveDown || i18n.moveDown;
+    i18n.mergeError = d.mergeError || i18n.mergeError;
+    i18n.noFiles = d.noFiles || i18n.noFiles;
+    i18n.merged = d.merged || i18n.merged;
+    i18n.emptyList = d.emptyList || i18n.emptyList;
+  }
+
+  function formatBytes(bytes: number): string {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+
+  function showError(msg: string) {
+    if (!errorMsg) return;
+    errorMsg.textContent = msg;
+    errorMsg.style.display = 'block';
+    setTimeout(() => { errorMsg.style.display = 'none'; }, 5000);
+  }
+
+  function updateUI() {
+    // File list section
+    if (pdfFiles.length === 0) {
+      if (fileListSection) fileListSection.style.display = 'none';
+      if (mergeSection) mergeSection.style.display = 'none';
+      if (resultSection) resultSection.style.display = 'none';
+      return;
+    }
+
+    if (fileListSection) fileListSection.style.display = 'block';
+    if (mergeSection) mergeSection.style.display = 'block';
+
+    // Render file list
+    if (fileList) {
+      fileList.innerHTML = pdfFiles.map((file, idx) => {
+        const size = formatBytes(file.size);
+        const isLast = idx === pdfFiles.length - 1;
+        return `
+          <li class="file-item" data-idx="${idx}">
+            <div class="file-info">
+              <span class="file-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </span>
+              <div class="file-details">
+                <span class="file-name">${file.name}</span>
+                <span class="file-size">${size}</span>
+              </div>
+            </div>
+            <div class="file-actions">
+              <button type="button" class="file-move-btn" data-action="up" data-idx="${idx}" ${idx === 0 ? 'disabled' : ''} aria-label="${i18n.moveUp}">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+              </button>
+              <button type="button" class="file-move-btn" data-action="down" data-idx="${idx}" ${isLast ? 'disabled' : ''} aria-label="${i18n.moveDown}">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <button type="button" class="file-remove-btn" data-idx="${idx}" aria-label="${i18n.remove}">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+          </li>
+        `;
+      }).join('');
+    }
+
+    if (fileCount) {
+      fileCount.textContent = `${pdfFiles.length} ${pdfFiles.length === 1 ? 'file' : 'files'}`;
+    }
+
+    // Hide result if files changed
+    if (resultSection) resultSection.style.display = 'none';
+    mergedPdfBytes = null;
+  }
+
+  function handleFiles(files: FileList | File[]) {
+    const newPdfs = Array.from(files).filter(f => f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf'));
+    if (newPdfs.length === 0) return;
+    pdfFiles = [...pdfFiles, ...newPdfs];
+    updateUI();
+  }
+
+  // Upload area click → file input
+  uploadBtn?.addEventListener('click', () => fileInput?.click());
+  uploadArea?.addEventListener('click', (e) => {
+    // Only trigger if clicking the area itself, not the button (button has its own handler)
+    if (e.target === uploadArea || (e.target as HTMLElement).classList.contains('upload-text') || (e.target as HTMLElement).classList.contains('upload-hint') || (e.target as HTMLElement).classList.contains('upload-icon')) {
+      fileInput?.click();
+    }
+  });
+
+  fileInput?.addEventListener('change', (e) => {
+    const target = e.target as HTMLInputElement;
+    if (target.files) handleFiles(target.files);
+    target.value = ''; // reset for re-upload
+  });
+
+  // Drag & drop
+  uploadArea?.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadArea.classList.add('drag-over');
+  });
+  uploadArea?.addEventListener('dragleave', () => {
+    uploadArea.classList.remove('drag-over');
+  });
+  uploadArea?.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadArea.classList.remove('drag-over');
+    if (e.dataTransfer?.files) handleFiles(e.dataTransfer.files);
+  });
+
+  // File list actions (delegated)
+  fileList?.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    const btn = target.closest('button') as HTMLElement | null;
+    if (!btn) return;
+    const idx = parseInt(btn.getAttribute('data-idx') || '-1');
+    const action = btn.getAttribute('data-action');
+    if (idx < 0) return;
+
+    if (action === 'up' && idx > 0) {
+      [pdfFiles[idx - 1], pdfFiles[idx]] = [pdfFiles[idx], pdfFiles[idx - 1]];
+      updateUI();
+    } else if (action === 'down' && idx < pdfFiles.length - 1) {
+      [pdfFiles[idx], pdfFiles[idx + 1]] = [pdfFiles[idx + 1], pdfFiles[idx]];
+      updateUI();
+    } else if (btn.classList.contains('file-remove-btn')) {
+      pdfFiles.splice(idx, 1);
+      updateUI();
+    }
+  });
+
+  // Clear all
+  clearBtn?.addEventListener('click', () => {
+    pdfFiles = [];
+    updateUI();
+  });
+
+  // Merge
+  mergeBtn?.addEventListener('click', async () => {
+    if (pdfFiles.length < 2) {
+      showError(i18n.noFiles);
+      return;
+    }
+
+    mergeBtn.classList.add('loading');
+    mergeBtn.setAttribute('disabled', 'true');
+
+    try {
+      const mergedPdf = await PDFDocument.create();
+      for (const file of pdfFiles) {
+        const fileBytes = await file.arrayBuffer();
+        const srcPdf = await PDFDocument.load(fileBytes, { ignoreEncryption: true });
+        const pages = await mergedPdf.copyPages(srcPdf, srcPdf.getPageIndices());
+        pages.forEach(p => mergedPdf.addPage(p));
+      }
+      mergedPdfBytes = await mergedPdf.save();
+
+      // Show result
+      if (resultSection) resultSection.style.display = 'block';
+      if (resultSize) resultSize.textContent = formatBytes(mergedPdfBytes.byteLength);
+
+      // Scroll to result
+      resultSection?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } catch (err) {
+      console.error('Merge error:', err);
+      showError(i18n.mergeError);
+    } finally {
+      mergeBtn.classList.remove('loading');
+      mergeBtn.removeAttribute('disabled');
+    }
+  });
+
+  // Download
+  downloadBtn?.addEventListener('click', () => {
+    if (!mergedPdfBytes) return;
+    const blob = new Blob([mergedPdfBytes as BlobPart], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${i18n.merged}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+</script>
+
+<!-- Pass i18n strings to client-side JS -->
+<div id="pm-i18n" data-pages={t('pm.filelist.pages')} data-remove={t('pm.filelist.remove')} data-move-up={t('pm.filelist.moveUp')} data-move-down={t('pm.filelist.moveDown')} data-merge-error={t('pm.merge.error')} data-no-files={t('pm.merge.noFiles')} data-merged={t('pm.result.filename')} data-empty-list={t('pm.filelist.empty')} style="display:none"></div>
+
+<style>
+  .container {
+    position: relative; z-index: 1; width: 100%; margin: 0 auto; max-width: 640px;
+    padding: 2rem 1.25rem; display: flex; flex-direction: column; gap: 1.5rem;
+  }
+
+  @media (max-width: 900px) { .container { max-width: 100%; } }
+
+  @media (max-width: 520px) {
+    .container { padding: 1.25rem 0.75rem; gap: 1rem; }
+    .title { font-size: 1.4rem; }
+  }
+
+  /* Hero */
+  .hero { text-align: center; display: flex; flex-direction: column; gap: 0.5rem; }
+  .title {
+    font-size: 1.75rem; font-weight: 800; color: var(--text-primary);
+    letter-spacing: -0.03em; line-height: 1.2;
+  }
+  .subtitle {
+    font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* Upload Area */
+  .upload-area {
+    border: 2px dashed var(--border-color); border-radius: 16px;
+    padding: 2.5rem 1.5rem; text-align: center; cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    background: var(--bg-secondary);
+  }
+  .upload-area:hover, .upload-area.drag-over {
+    border-color: var(--opn-primary);
+    background: rgba(37, 211, 102, 0.04);
+  }
+  .upload-icon {
+    color: var(--text-secondary); margin-bottom: 0.75rem;
+  }
+  .upload-area:hover .upload-icon, .upload-area.drag-over .upload-icon {
+    color: var(--opn-primary);
+  }
+  .upload-text {
+    font-size: 0.95rem; font-weight: 600; color: var(--text-primary);
+    margin-bottom: 0.25rem;
+  }
+  .upload-hint {
+    font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem;
+  }
+  .upload-btn {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.6rem 1.25rem; font-size: 0.85rem; font-weight: 600;
+    color: #fff; background: var(--opn-primary); border: none;
+    border-radius: 10px; cursor: pointer; transition: background 0.2s;
+    font-family: inherit;
+  }
+  .upload-btn:hover { background: var(--opn-primary-dark); }
+
+  /* File List */
+  .file-list-section {
+    background: var(--bg-secondary); border: 1px solid var(--border-color);
+    border-radius: 12px; padding: 1.25rem;
+  }
+  .file-list-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+  .file-list-title {
+    font-size: 0.95rem; font-weight: 700; color: var(--text-primary);
+  }
+  .file-count {
+    font-size: 0.75rem; color: var(--text-secondary); font-weight: 500;
+    background: var(--bg-input); padding: 0.2rem 0.5rem; border-radius: 6px;
+  }
+  .file-list {
+    list-style: none; margin: 0; padding: 0;
+    display: flex; flex-direction: column; gap: 0.5rem;
+  }
+  .file-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.6rem 0.75rem; background: var(--bg-input);
+    border: 1px solid var(--border-color); border-radius: 8px;
+    transition: border-color 0.15s;
+  }
+  .file-item:hover { border-color: var(--opn-primary); }
+  .file-info {
+    display: flex; align-items: center; gap: 0.6rem; flex: 1; min-width: 0;
+  }
+  .file-icon {
+    color: var(--opn-primary); flex-shrink: 0;
+  }
+  .file-details {
+    display: flex; flex-direction: column; gap: 1px; min-width: 0;
+  }
+  .file-name {
+    font-size: 0.85rem; font-weight: 600; color: var(--text-primary);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .file-size {
+    font-size: 0.7rem; color: var(--text-secondary);
+  }
+  .file-actions {
+    display: flex; gap: 0.25rem; flex-shrink: 0;
+  }
+  .file-move-btn, .file-remove-btn {
+    display: flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; background: none; border: 1px solid var(--border-color);
+    color: var(--text-secondary); cursor: pointer; border-radius: 6px;
+    transition: all 0.15s; padding: 0;
+  }
+  .file-move-btn:hover:not(:disabled), .file-remove-btn:hover {
+    background: var(--bg-secondary); border-color: var(--text-secondary);
+    color: var(--text-primary);
+  }
+  .file-move-btn:disabled {
+    opacity: 0.3; cursor: not-allowed;
+  }
+  .file-remove-btn:hover {
+    border-color: #ef4444; color: #ef4444;
+  }
+  .file-list-actions {
+    margin-top: 0.75rem; display: flex; justify-content: flex-end;
+  }
+  .clear-btn {
+    padding: 0.4rem 0.85rem; font-size: 0.75rem; font-weight: 600;
+    color: var(--text-secondary); background: var(--bg-input);
+    border: 1px solid var(--border-color); border-radius: 8px;
+    cursor: pointer; transition: all 0.15s; font-family: inherit;
+  }
+  .clear-btn:hover {
+    color: #ef4444; border-color: #ef4444;
+  }
+
+  /* Merge Section */
+  .merge-section {
+    text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  }
+  .merge-btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.85rem 2rem; font-size: 1rem; font-weight: 700;
+    color: #fff; background: var(--opn-primary); border: none;
+    border-radius: 12px; cursor: pointer; transition: all 0.2s;
+    font-family: inherit;
+  }
+  .merge-btn:hover:not(:disabled) {
+    background: var(--opn-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+  }
+  .merge-btn:disabled {
+    opacity: 0.6; cursor: not-allowed;
+  }
+  .merge-btn.loading {
+    pointer-events: none;
+  }
+  .merge-btn.loading::after {
+    content: ''; display: inline-block; width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff;
+    border-radius: 50%; animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .merge-hint {
+    font-size: 0.75rem; color: var(--text-secondary);
+  }
+
+  /* Result */
+  .result-section { animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .result-card {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1.25rem; background: var(--bg-secondary);
+    border: 1px solid rgba(37, 211, 102, 0.3); border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  }
+  .result-icon {
+    width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
+    background: rgba(37, 211, 102, 0.1); border-radius: 12px; color: var(--opn-primary);
+    flex-shrink: 0;
+  }
+  .result-info { flex: 1; min-width: 0; }
+  .result-title {
+    font-size: 0.95rem; font-weight: 700; color: var(--text-primary);
+    margin-bottom: 0.15rem;
+  }
+  .result-size {
+    font-size: 0.78rem; color: var(--text-secondary);
+  }
+  .download-btn {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.6rem 1.1rem; font-size: 0.82rem; font-weight: 700;
+    color: #fff; background: var(--opn-primary); border: none;
+    border-radius: 10px; cursor: pointer; transition: background 0.2s;
+    font-family: inherit; flex-shrink: 0;
+  }
+  .download-btn:hover { background: var(--opn-primary-dark); }
+
+  /* Error */
+  .error-msg {
+    padding: 0.75rem 1rem; background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px;
+    font-size: 0.82rem; color: #ef4444; text-align: center;
+  }
+
+  /* SEO Section */
+  .seo-section { display: flex; flex-direction: column; gap: 2rem; padding-top: 1.5rem; }
+  .seo-block { display: flex; flex-direction: column; gap: 0.75rem; }
+  .seo-heading {
+    font-size: 1.25rem; font-weight: 700; color: var(--text-primary);
+    letter-spacing: -0.01em; line-height: 1.3;
+  }
+  .seo-text {
+    font-size: 0.9rem; line-height: 1.75; color: var(--text-secondary);
+  }
+  .seo-features { display: flex; flex-direction: column; gap: 1rem; }
+  .feature-item { display: flex; gap: 0.75rem; align-items: flex-start; }
+  .feature-icon { font-size: 1.4rem; line-height: 1; flex-shrink: 0; margin-top: 0.15rem; }
+  .feature-title {
+    font-size: 0.9rem; font-weight: 700; color: var(--text-primary);
+    margin-bottom: 0.2rem;
+  }
+  .feature-desc {
+    font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary);
+  }
+
+  /* FAQ */
+  .faq-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .faq-item {
+    background: var(--bg-input); border-radius: 10px; overflow: hidden;
+    border: 1px solid var(--border-color);
+  }
+  .faq-question {
+    display: block; padding: 0.85rem 1rem; font-weight: 600; font-size: 0.9rem;
+    color: var(--text-primary); cursor: pointer; list-style: none;
+    transition: background 0.15s;
+  }
+  .faq-question::-webkit-details-marker { display: none; }
+  .faq-question::after {
+    content: '+'; float: right; font-size: 1.1rem; font-weight: 400;
+    color: var(--text-secondary); transition: transform 0.2s;
+  }
+  .faq-item[open] .faq-question::after { content: '\2212'; }
+  .faq-question:hover { background: var(--border-color); }
+  .faq-answer {
+    padding: 0 1rem 0.85rem; font-size: 0.85rem; line-height: 1.65;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 520px) {
+    .title { font-size: 1.4rem; }
+    .upload-area { padding: 1.75rem 1rem; }
+    .upload-icon { width: 36px; height: 36px; }
+    .upload-text { font-size: 0.85rem; }
+    .upload-hint { font-size: 0.72rem; }
+    .file-item { flex-direction: column; align-items: stretch; gap: 0.5rem; }
+    .file-actions { justify-content: flex-end; }
+    .result-card { flex-direction: column; text-align: center; gap: 0.75rem; }
+    .result-info { text-align: center; }
+    .seo-heading { font-size: 1.1rem; }
+    .seo-text { font-size: 0.85rem; }
+  }
+</style>
