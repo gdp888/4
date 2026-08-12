@@ -1,5 +1,5 @@
 ---
-import { getRelativeLocaleUrl } from 'astro:i18n';
+import { getRelativeLocaleUrl, getAbsoluteLocaleUrl } from 'astro:i18n';
 import { type Lang } from '../i18n/ui';
 
 interface BreadcrumbItem {
@@ -13,17 +13,65 @@ export interface Props {
 }
 
 const { lang, items } = Astro.props;
+
+// Generate JSON-LD structured data for Google
+const baseUrl = 'https://opnchat.net';
+const itemListElement = items.map((item, index) => {
+  const position = index + 1;
+  
+  if (item.href) {
+    // Has link — include item URL
+    const absoluteUrl = item.href.startsWith('http') 
+      ? item.href 
+      : `${baseUrl}${getRelativeLocaleUrl(lang)}${item.href === '/' ? '' : item.href}`;
+    
+    return {
+      '@type': 'ListItem',
+      position: position,
+      name: item.label,
+      item: absoluteUrl,
+    };
+  } else {
+    // Current page — no link, but name is required!
+    return {
+      '@type': 'ListItem',
+      position: position,
+      name: item.label,
+    };
+  }
+});
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: itemListElement,
+};
 ---
 
+<!-- JSON-LD Structured Data for Google -->
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
 <nav class="breadcrumbs" aria-label="Breadcrumb">
-  {items.map((item, i) => (
-    i < items.length - 1 && item.href
-      ? <a href={item.href} class="bc-link">{item.label}</a>
-      : <span class="bc-current">{item.label}</span>
-  ))}
-  {items.map((item, i) => (
-    i < items.length - 1 && <span class="bc-sep">›</span>
-  ))}
+  <ol class="breadcrumbs-list" itemscope itemtype="https://schema.org/BreadcrumbList">
+    {items.map((item, i) => (
+      <li 
+        class="breadcrumb-item"
+        itemprop="itemListElement" 
+        itemscope 
+        itemtype="https://schema.org/ListItem"
+      >
+        {item.href ? (
+          <a href={item.href} class="bc-link" itemprop="item">
+            <span itemprop="name">{item.label}</span>
+          </a>
+        ) : (
+          <span class="bc-current" itemprop="name">{item.label}</span>
+        )}
+        <meta itemprop="position" content={String(i + 1)} />
+        {i < items.length - 1 && <span class="bc-sep" aria-hidden="true">›</span>}
+      </li>
+    ))}
+  </ol>
 </nav>
 
 <style>
@@ -34,6 +82,22 @@ const { lang, items } = Astro.props;
     font-size: 0.75rem;
     color: var(--text-secondary);
     margin-bottom: 0.5rem;
+  }
+
+  .breadcrumbs-list {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+  }
+
+  .breadcrumb-item {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
   }
 
   .bc-link {
@@ -49,6 +113,7 @@ const { lang, items } = Astro.props;
   .bc-sep {
     color: var(--text-secondary);
     opacity: 0.5;
+    margin: 0 0.2rem;
   }
 
   .bc-current {
