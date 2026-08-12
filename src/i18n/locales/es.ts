@@ -46,6 +46,11 @@ export default {
     'bc.blog': 'Blog',
     'bc.formatter': 'Formato de Texto',
     'bc.widget': 'Widget de Chat',
+    'bc.pomodoro': 'Temporizador Pomodoro',
+    'bc.tg-link': 'Generador de Enlaces Telegram',
+    'bc.wa-link': 'Generador de Enlaces WhatsApp',
+    'bc.qr-code': 'Generador de Códigos QR',
+    'bc.pdfmerger': 'Combinar PDF',
 
     // History
     'history.title': 'Números Recientes',

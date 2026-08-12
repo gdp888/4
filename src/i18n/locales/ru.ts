@@ -44,6 +44,11 @@ export default {
     'bc.blog': 'Блог',
     'bc.formatter': 'Форматирование',
     'bc.widget': 'Виджет чата',
+    'bc.pomodoro': 'Таймер Помодоро',
+    'bc.tg-link': 'Генератор ссылки Telegram',
+    'bc.wa-link': 'Генератор ссылки WhatsApp',
+    'bc.qr-code': 'Генератор QR-кодов',
+    'bc.pdfmerger': 'Объединение PDF',
     // History
     'history.title': 'Последние номера',
     'history.clear': 'Очистить',

@@ -43,6 +43,11 @@ export default {
     'bc.blog': 'المدونة',
     'bc.formatter': 'تنسيق النص',
     'bc.widget': 'ودجت الدردشة',
+    'bc.pomodoro': 'مؤقت بومودورو',
+    'bc.tg-link': 'مولد روابط تيليجرام',
+    'bc.wa-link': 'مولد روابط واتساب',
+    'bc.qr-code': 'مولد رموز QR',
+    'bc.pdfmerger': 'دمج ملفات PDF',
     // History
     'history.title': 'سجل الأرقام الأخيرة',
     'history.clear': 'مسح السجل',

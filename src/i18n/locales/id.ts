@@ -46,6 +46,11 @@ export default {
     'bc.blog': 'Blog',
     'bc.formatter': 'Format Teks',
     'bc.widget': 'Widget Chat',
+    'bc.pomodoro': 'Timer Pomodoro',
+    'bc.tg-link': 'Generator Link Telegram',
+    'bc.wa-link': 'Generator Link WhatsApp',
+    'bc.qr-code': 'Generator Kode QR',
+    'bc.pdfmerger': 'Gabung PDF',
 
     // History
     'history.title': 'Nomor Terbaru',
